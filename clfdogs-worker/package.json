@@ -1,5 +1,5 @@
 {
-  "name": "clfdogs-worker",
+  "name": "clf-dogs",
   "version": "0.0.0",
   "private": true,
   "scripts": {
@@ -11,7 +11,9 @@
   },
   "devDependencies": {
     "@cloudflare/vitest-pool-workers": "^0.1.0",
-    "@cloudflare/workers-types": "^4.20240603.0",
+    "@cloudflare/workers-types": "^4.20240605.0",
+    "@typescript-eslint/eslint-plugin": "^7.12.0",
+    "@typescript-eslint/parser": "^7.12.0",
     "typescript": "^5.0.4",
     "vitest": "1.3.0",
     "wrangler": "^3.0.0"
