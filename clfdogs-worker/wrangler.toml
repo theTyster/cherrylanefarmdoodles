@@ -39,7 +39,7 @@ compatibility_flags = ["nodejs_compat"]
 [[d1_databases]]
 binding = "dogsDB"
 database_name = "dogs"
-database_id = "6b42dad6-5c8a-43a6-a95e-7d8d59f92fb1"
+database_id = "4492423c-a6d9-4590-8a0b-4743b9e6c951"
 
 # Bind a dispatch namespace. Use Workers for Platforms to deploy serverless functions programmatically on behalf of your customers.
 # Docs: https://developers.cloudflare.com/workers/wrangler/configuration/#dispatch-namespace-bindings-workers-for-platforms
