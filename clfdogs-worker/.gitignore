@@ -170,3 +170,6 @@ dist
 
 .dev.vars
 .wrangler/
+
+# SQL Formatted file with pg_format
+./schema.sql
