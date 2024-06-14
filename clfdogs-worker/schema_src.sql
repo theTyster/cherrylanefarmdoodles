@@ -37,118 +37,111 @@ pragma table_list;
 -- CREATE TABLES{{{
 -- Image Tables {{{
 CREATE TABLE Group_Photos (
-  ID INTEGER PRIMARY KEY AUTOINCREMENT,
-  URL TEXT UNIQUE NOT NULL CHECK (LENGTH(URL) <= 2000)
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  groupPhoto TEXT UNIQUE NOT NULL CHECK (LENGTH(groupPhoto) <= 2000)
 );
 
 CREATE TABLE Headshots_Sm (
-  ID INTEGER PRIMARY KEY AUTOINCREMENT,
-  URL TEXT UNIQUE NOT NULL CHECK (LENGTH(URL) <= 2000)
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  headshotSmall TEXT UNIQUE NOT NULL CHECK (LENGTH(headshotSmall) <= 2000)
 );
 
 CREATE TABLE Headshots_Lg (
-  ID INTEGER PRIMARY KEY AUTOINCREMENT,
-  URL TEXT UNIQUE NOT NULL CHECK (LENGTH(URL) <= 2000)
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  headshotLarge TEXT UNIQUE NOT NULL CHECK (LENGTH(headshotLarge) <= 2000)
 );
 
 /*}}}*/
--- Pregnancies Table: Data related to all pregnancies {{{
-CREATE TABLE Pregnancies (
-  ID INTEGER PRIMARY KEY AUTOINCREMENT,
-  DUE_DATE DATE,
-  HAS_DELIVERED BOOLEAN CHECK (HAS_DELIVERED IN (0, 1)) NOT NULL DEFAULT 0,
-  BIRTHDAY DATE,
-  CONSTRAINT due_date_before_birthday CHECK (UNIXEPOCH(DUE_DATE) < UNIXEPOCH(BIRTHDAY))
-);
-
-/*}}}*/
--- Litter Table: Collections of Puppies. {{{
+-- Litters Table {{{
 CREATE TABLE Litters (
-  ID INTEGER PRIMARY KEY AUTOINCREMENT
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  dueDate DATE NOT NULL,
+  birthday DATE,
+  goHomeDate DATE,
+  constraint date_orders CHECK (UNIXEPOCH(dueDate) < UNIXEPOCH(birthday) < UNIXEPOCH(goHomeDate))
+  constraint no_birthday_no_go_home CHECK ((birthday IS NULL AND goHomeDate is NULL) OR
+                                           (birthday IS NOT NULL AND goHomeDate IS NOT NULL))
 );
 
 /*}}}*/
 -- Dogs Table: Data relevant to all Dogs. {{{
 CREATE TABLE Dogs (
-  ID INTEGER PRIMARY KEY AUTOINCREMENT,
-  GENDER TEXT NOT NULL CHECK (GENDER IN ('M', 'F')),
-  NOSE_COLOR TEXT NOT NULL CHECK (LENGTH(NOSE_COLOR) <= 16),
-  COAT_COLOR TEXT NOT NULL CHECK (LENGTH(COAT_COLOR) <= 16),
-  PERSONALITY TEXT CHECK (LENGTH(PERSONALITY) <= 140),
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  gender TEXT NOT NULL CHECK (gender IN ('M', 'F')),
+  noseColor TEXT NOT NULL CHECK (LENGTH(noseColor) <= 16),
+  coatColor TEXT NOT NULL CHECK (LENGTH(coatColor) <= 16),
+  personality TEXT CHECK (LENGTH(personality) <= 140),
   --FK
-  HEADSHOT_SMALL INTEGER UNIQUE,
-  HEADSHOT_LARGE INTEGER UNIQUE,
-  CONSTRAINT fk_dogs_headshot_small FOREIGN KEY (HEADSHOT_SMALL) REFERENCES Headshots_Sm (ID) ON DELETE NO ACTION ON UPDATE CASCADE,
-  CONSTRAINT fk_dogs_headshot_large FOREIGN KEY (HEADSHOT_LARGE) REFERENCES Headshots_Lg (ID) ON DELETE NO ACTION ON UPDATE CASCADE
+  headshotSmall INTEGER UNIQUE,
+  headshotLarge INTEGER UNIQUE,
+  constraint fk_dogs_headshot_small FOREIGN KEY (headshotSmall) REFERENCES Headshots_Sm (id) ON DELETE NO ACTION ON UPDATE CASCADE,
+  constraint fk_dogs_headshot_large FOREIGN KEY (headshotLarge) REFERENCES Headshots_Lg (id) ON DELETE NO ACTION ON UPDATE CASCADE
 );
 
-CREATE INDEX idx_dog_gender ON Dogs (GENDER);
+CREATE INDEX idx_dog_gender ON Dogs (gender);
 
 /*}}}*/
 -- Adult Dogs Table: One Adult ID is one Dog. {{{
 CREATE TABLE Adults (
-  ID INTEGER PRIMARY KEY AUTOINCREMENT,
-  DOG_NAME TEXT UNIQUE NOT NULL CHECK (LENGTH(DOG_NAME) <= 16),
-  BREEDER TEXT NOT NULL CHECK (LENGTH(BREEDER) <= 50),
-  BIRTHDAY DATE NOT NULL,
-  EYE_COLOR TEXT NOT NULL CHECK (LENGTH(EYE_COLOR) <= 16),
-  IS_RETIRED BOOLEAN CHECK (IS_RETIRED IN (0, 1)) NOT NULL DEFAULT 0,
-  FAVORITE_ACTIVITIES TEXT CHECK (LENGTH(FAVORITE_ACTIVITIES) <= 140),
-  WEIGHT INTEGER CHECK (WEIGHT > 0),
-  ENERGY_LEVEL TEXT CHECK (ENERGY_LEVEL IN ('Low', 'Medium-low', 'Medium', 'Medium-high', 'High')),
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  dogName TEXT NOT NULL CHECK (LENGTH(dogName) <= 16),
+  breeder TEXT NOT NULL CHECK (LENGTH(breeder) <= 50),
+  birthday DATE NOT NULL,
+  eyeColor TEXT NOT NULL CHECK (LENGTH(eyeColor) <= 16),
+  isRetired BOOLEAN NOT NULL CHECK (isRetired IN (0, 1)) DEFAULT 0,
+  favoriteActivities TEXT CHECK (LENGTH(favoriteActivities) <= 140),
+  weight INTEGER CHECK (weight > 0),
+  energyLevel TEXT CHECK (energyLevel IN ('Low', 'Medium-low', 'Medium', 'Medium-high', 'High')),
   --FK
-  DOG_ID INTEGER,
-  CONSTRAINT fk_adults_dog_id FOREIGN KEY (DOG_ID) REFERENCES Dogs (ID) ON DELETE CASCADE ON UPDATE CASCADE
+  dogId INTEGER,
+  constraint fk_adults_dog_id FOREIGN KEY (dogId) REFERENCES Dogs (id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 /*}}}*/
 -- Puppies Table: All Puppies born. {{{
 CREATE TABLE Puppies (
-  ID INTEGER PRIMARY KEY AUTOINCREMENT,
-  COLLAR_COLOR TEXT NOT NULL CHECK (LENGTH(COLLAR_COLOR) <= 16),
-  IS_AVAILABLE BOOLEAN CHECK (IS_AVAILABLE IN (0, 1)) NOT NULL,
-  GO_HOME_DATE DATE NOT NULL,
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  collarColor TEXT NOT NULL CHECK (LENGTH(collarColor) <= 16),
+  isAvailable BOOLEAN CHECK (isAvailable IN (0, 1)) NOT NULL,
   --FK
-  DOG_ID INTEGER,
-  LITTER_ID INTEGER,
-  CONSTRAINT fk_puppies_litter_id FOREIGN KEY (LITTER_ID) REFERENCES Litters (ID) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT fk_puppies_dog_id FOREIGN KEY (DOG_ID) REFERENCES Dogs (ID) ON DELETE CASCADE ON UPDATE CASCADE
+  dogId INTEGER,
+  litterId INTEGER,
+  constraint fk_puppies_litter_id FOREIGN KEY (litterId) REFERENCES Litters (id) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT fk_puppies_dog_id FOREIGN KEY (dogId) REFERENCES Dogs (id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 /*}}}*/
--- Families Table Relationships between Adults, Litters, and Pregnancies {{{
+-- Families Table Relationships between Adults, and Litters {{{
 CREATE TABLE Families (
-  ID INTEGER PRIMARY KEY AUTOINCREMENT,
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
   --FK
-  GROUP_PHOTO INTEGER,
-  MOTHER INTEGER,
-  FATHER INTEGER,
-  PREGNANCY_ID INTEGER,
-  LITTER_ID INTEGER,
-  CONSTRAINT fk_families_group_photo_id FOREIGN KEY (GROUP_PHOTO) REFERENCES Group_Photos (ID) ON DELETE NO ACTION ON UPDATE CASCADE,
-  CONSTRAINT fk_families_mom_id FOREIGN KEY (MOTHER) REFERENCES Adults (ID) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT fk_families_dad_id FOREIGN KEY (FATHER) REFERENCES Adults (ID) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT fk_families_pregnancy_id FOREIGN KEY (PREGNANCY_ID) REFERENCES Pregnancies (ID) ON DELETE NO ACTION ON UPDATE CASCADE,
-  CONSTRAINT fk_families_litter_id FOREIGN KEY (LITTER_ID) REFERENCES Litters (ID) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT unique_families UNIQUE (GROUP_PHOTO, MOTHER, FATHER, LITTER_ID, PREGNANCY_ID)
+  groupPhoto INTEGER,
+  mother INTEGER,
+  father INTEGER,
+  litterId INTEGER,
+  CONSTRAINT fk_families_group_photo_id FOREIGN KEY (groupPhoto) REFERENCES Group_Photos (id) ON DELETE NO ACTION ON UPDATE CASCADE,
+  CONSTRAINT fk_families_mom_id FOREIGN KEY (mother) REFERENCES Adults (id) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT fk_families_dad_id FOREIGN KEY (father) REFERENCES Adults (id) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT fk_families_litter_id FOREIGN KEY (litterId) REFERENCES Litters (id) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT unique_families UNIQUE (groupPhoto, mother, father, litterId)
 );
 
 /*}}}*/
 -- Dog Group Photos Table{{{
 CREATE TABLE Dog_Group_Photos (
-  ID INTEGER PRIMARY KEY AUTOINCREMENT,
-  GROUP_PHOTO_ID INTEGER,
-  DOG_ID INTEGER,
-  CONSTRAINT fk_di_image_id FOREIGN KEY (GROUP_PHOTO_ID) REFERENCES Group_Photos (ID) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT fk_di_dog_id FOREIGN KEY (DOG_ID) REFERENCES Dogs (ID) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT no_duplicates UNIQUE (GROUP_PHOTO_ID, DOG_ID)
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  groupPhotoId INTEGER,
+  dogId INTEGER,
+  constraint fk_di_image_id FOREIGN KEY (groupPhotoId) REFERENCES Group_Photos (id) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT fk_di_dog_id FOREIGN KEY (dogId) REFERENCES Dogs (id) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT no_duplicates UNIQUE (groupPhotoId, dogId)
 );
 
 /*}}}*/
 /*}}}*/
 -- INSERT STATEMENTS{{{
 -- Image Table Inserts{{{
-INSERT INTO Group_Photos (URL)
+INSERT INTO Group_Photos (groupPhoto)
   VALUES
   ('https://example.com/group_img1.jpg'),
   ('https://example.com/group_img2.jpg'),
@@ -159,7 +152,7 @@ INSERT INTO Group_Photos (URL)
   ('https://example.com/group_img7.jpg'),
   ('https://example.com/group_img8.jpg');
 
-INSERT INTO Headshots_Sm (URL)
+INSERT INTO Headshots_Sm (headshotSmall)
   VALUES
   ('https://example.com/hs_sm_img1.jpg'),
   ('https://example.com/hs_sm_img2.jpg'),
@@ -170,7 +163,7 @@ INSERT INTO Headshots_Sm (URL)
   ('https://example.com/hs_sm_img7.jpg'),
   ('https://example.com/hs_sm_img8.jpg');
 
-INSERT INTO Headshots_Lg (URL)
+INSERT INTO Headshots_Lg (headshotLarge)
   VALUES
   ('https://example.com/hs_lg_img1.jpg'),
   ('https://example.com/hs_lg_img2.jpg'),
@@ -181,23 +174,17 @@ INSERT INTO Headshots_Lg (URL)
   ('https://example.com/hs_lg_img7.jpg'),
   ('https://example.com/hs_lg_img8.jpg');
 /*}}}*/
--- Pregnancies Table{{{
-INSERT INTO Pregnancies (DUE_DATE, HAS_DELIVERED, BIRTHDAY)
+-- Litters Table{{{
+INSERT INTO Litters (dueDate, birthday, goHomeDate)
   VALUES
-  ('2023-03-13', 1, '2024-05-29'),
-  ('2023-01-19', 1, '2024-04-22'),
-  ('2025-06-15', 0, NULL),
-  ('2025-02-15', 0, NULL);
+  ('2023-03-13', '2024-06-01', '2025-05-29'),
+  ('2023-01-19', '2024-06-10', '2025-04-22'),
+  ('2025-06-15', NULL, NULL),
+  ('2025-02-15', NULL, NULL);
 
 /*}}}*/
--- Litters Table {{{
-INSERT INTO Litters DEFAULT VALUES;
-INSERT INTO Litters DEFAULT VALUES;
-INSERT INTO Litters DEFAULT VALUES;
-INSERT INTO Litters DEFAULT VALUES;
-/*}}}*/
 -- Dogs Table{{{
-INSERT INTO Dogs (GENDER, NOSE_COLOR, COAT_COLOR, PERSONALITY, HEADSHOT_SMALL, HEADSHOT_LARGE)
+INSERT INTO Dogs (gender, noseColor, coatColor, personality, headshotSmall, headshotLarge)
   VALUES
   ('M', 'Black', 'Brown', 'Friendly and energetic.', 1, 1),
   ('F', 'Brown', 'White', 'Calm and affectionate.', 2, 2),
@@ -211,7 +198,7 @@ INSERT INTO Dogs (GENDER, NOSE_COLOR, COAT_COLOR, PERSONALITY, HEADSHOT_SMALL, H
 
   /*}}}*/
 -- Adults Table{{{
-INSERT INTO Adults (DOG_NAME, DOG_ID, BREEDER, BIRTHDAY, EYE_COLOR, IS_RETIRED, FAVORITE_ACTIVITIES, WEIGHT, ENERGY_LEVEL)
+INSERT INTO Adults (dogName, dogId, breeder, birthday, eyeColor, isRetired, favoriteActivities, weight, energyLevel)
   VALUES
   ('Max', 1, 'Breeder A', '2018-05-12', 'Brown', 0, 'Playing fetch and running.', 25, 'High'),
   ('Bella', 2, 'Breeder B', '2019-02-28', 'Green', 1, 'Snuggling and sleeping.', 20, 'Medium'),
@@ -220,25 +207,25 @@ INSERT INTO Adults (DOG_NAME, DOG_ID, BREEDER, BIRTHDAY, EYE_COLOR, IS_RETIRED, 
 
 /*}}}*/
 -- Puppies Table{{{
-INSERT INTO Puppies (COLLAR_COLOR, IS_AVAILABLE, GO_HOME_DATE, DOG_ID, LITTER_ID)
+INSERT INTO Puppies (collarColor, isAvailable, dogId, litterId)
   VALUES
-  ('Red', 1, '2025-06-01', 1, 1),
-  ('Blue', 1, '2025-06-10', 1, 2),
-  ('Green', 0, '2025-05-25', 2, 1),
-  ('Yellow', 1, '2025-06-05', 2, 2);
+  ('Red', 1, 1, 1),
+  ('Blue', 1, 1, 2),
+  ('Green', 0, 2, 1),
+  ('Yellow', 1, 2, 2);
 
 /*}}}*/
   -- Families Table{{{
-  INSERT INTO Families (GROUP_PHOTO, MOTHER, FATHER, PREGNANCY_ID, LITTER_ID)
+  INSERT INTO Families (groupPhoto, mother, father, litterId)
     VALUES
-    (1, 2, 1, 1, 1),
-    (2, 2, 1, 2, 2),
-    (3, 4, 3, 3, 3),
-    (4, 4, 3, 4, 4);
+    (1, 2, 1, 1),
+    (2, 2, 1, 2),
+    (3, 4, 3, 3),
+    (4, 4, 3, 4);
 
 /*}}}*/
 -- Dog Group Photos Table{{{
-INSERT INTO Dog_Group_Photos (GROUP_PHOTO_ID, DOG_ID)
+INSERT INTO Dog_Group_Photos (groupPhotoId, dogId)
   VALUES
   (1, 1),
   (2, 2),
