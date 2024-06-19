@@ -1,7 +1,4 @@
-#:schema node_modules/wrangler/config-schema.json
-
-
-name = "cherylanefarmdoodles"
+name = "cherrylanefarmdoodles"
 compatibility_date = "2024-06-05"
 compatibility_flags = ["nodejs_compat"]
 pages_build_output_dir = ".vercel/output/static"
@@ -27,7 +24,7 @@ pages_build_output_dir = ".vercel/output/static"
 ################################################################################
 [env.preview]
   d1_databases = [
-    { binding = "dogsDB", database_id = "0543200f-b691-4f63-b7ce-d576d5c0b1dd" }
+    { binding = "dogsDB", database_id = "f72630ac-2ffe-41bb-a429-ccd67b55aa8f" }
   ]
 
 ################################################################################
