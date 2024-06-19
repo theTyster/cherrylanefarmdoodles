@@ -3,10 +3,10 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "deploystag": "wrangler -e staging    deploy",
-    "deployprod": "wrangler -e production deploy",
-    "devstag": "wrangler -e staging    dev",
-    "devprod": "wrangler -e production dev",
+    "deploy:prev": "wrangler -e preview    deploy",
+    "deploy:prod": "wrangler -e production deploy",
+    "dev:prev": "wrangler -e preview    dev",
+    "dev:prod": "wrangler -e production dev",
     "test": "vitest",
     "cf-typegen": "wrangler types"
   },

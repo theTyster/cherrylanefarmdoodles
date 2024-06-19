@@ -14,7 +14,7 @@
  *
  * To test the integrity of the live data in conjunction with the worker, you
  * would need to create a backup of the data, with:
- * 'npx wrangler d1 export dogs_prod -e staging --local --output remote-backup.sql'
+ * "npx wrangler d1 export dogs_prod -e staging --local --output remote-backup.sql"
  *
  * Then, that backup would need to be run as a migration in miniflare.
  *
@@ -40,18 +40,18 @@ import path from "node:path";
 import { readD1Migrations, defineWorkersConfig } from "@cloudflare/vitest-pool-workers/config";
 
 export default defineWorkersConfig(async () => {
-  const migrationsPath = path.join(__dirname, 'test/migrations');
+  const migrationsPath = path.join(__dirname, "test/migrations");
   const migrations = await readD1Migrations(migrationsPath);
 
   return {
     test: {
-      setupFiles: ['./test/migrateDB.ts'],
+      setupFiles: ["./test/migrateDB.ts"],
       poolOptions: {
         workers: {
           singleWorker: true,
           wrangler: {
-            configPath: './wrangler.toml',
-            environment: 'staging',
+            configPath: "./wrangler.toml",
+            environment: "preview",
           },
           miniflare: {
             bindings: { TEST_MIGRATIONS: migrations },

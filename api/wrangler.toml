@@ -13,7 +13,7 @@ compatibility_flags = ["nodejs_compat"]
 ################################################################################
 [env.production]
   d1_databases = [
-    { binding = "dogsDB_prod", database_name = "dogs_prod", database_id = "4492423c-a6d9-4590-8a0b-4743b9e6c951" }
+    { binding = "dogsDB", database_name = "dogs", database_id = "4492423c-a6d9-4590-8a0b-4743b9e6c951" }
   ]
 
 ################################################################################
@@ -23,11 +23,11 @@ compatibility_flags = ["nodejs_compat"]
 
 
 ################################################################################
-################################### Staging ####################################
+################################### Preview ####################################
 ################################################################################
-[env.staging]
+[env.preview]
   d1_databases = [
-    { binding = "dogsDB", database_name = "dogs_staging", database_id = "0543200f-b691-4f63-b7ce-d576d5c0b1dd" }
+    { binding = "dogsDB", database_name = "dogs_prev", database_id = "f72630ac-2ffe-41bb-a429-ccd67b55aa8f" }
   ]
 
 ################################################################################
