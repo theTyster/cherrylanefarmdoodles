@@ -1,4 +1,3 @@
-// test/env.spec.ts
 import { env } from "cloudflare:test";
 import { describe, test, expect } from "vitest";
 

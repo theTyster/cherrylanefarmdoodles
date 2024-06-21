@@ -1,4 +1,0 @@
-[sqlfluff]
-dialect = sqlite
-exclude_rules = L003, L004, L010, L014, L016
-rules = core
