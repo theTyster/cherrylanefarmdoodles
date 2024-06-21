@@ -10,15 +10,17 @@
     "pages:build": "npx @cloudflare/next-on-pages",
     "preview": "npm run pages:build && wrangler pages dev",
     "deploy": "npm run pages:build && wrangler pages deploy",
-    "cf-typegen": "wrangler -e preview types --env-interface CloudflareEnv env.d.ts"
+    "cf-typegen": "wrangler types --env-interface CloudflareEnv env.d.ts"
   },
   "dependencies": {
-    "next": "^14.2.4",
+    "eslint-plugin-react-hooks": "^4.6.2",
+    "next": "14.1.0",
     "react": "^18",
     "react-dom": "^18"
   },
   "devDependencies": {
     "@cloudflare/next-on-pages": "^1.11.3",
+    "@cloudflare/vitest-pool-workers": "^0.4.5",
     "@cloudflare/workers-types": "^4.20240614.0",
     "@svgr/cli": "^8.1.0",
     "@types/node": "^20",
@@ -27,15 +29,12 @@
     "@typescript-eslint/eslint-plugin": "^7.13.1",
     "@typescript-eslint/parser": "^7.13.1",
     "eslint": "^8",
-    "eslint-import-resolver-alias": "^1.1.2",
-    "eslint-plugin-import": "^2.29.1",
-    "eslint-plugin-jsx-a11y": "^6.8.0",
+    "eslint-config-next": "14.1.0",
     "eslint-plugin-next-on-pages": "^1.11.3",
-    "eslint-plugin-react": "^7.34.3",
-    "eslint-plugin-react-hooks": "^4.6.2",
     "sass": "^1.77.6",
     "typescript": "^5",
-    "vercel": "^32.3.0",
+    "vercel": "^34.2.7",
+    "vitest": "1.5.0",
     "wrangler": "^3.61.0"
   }
 }
