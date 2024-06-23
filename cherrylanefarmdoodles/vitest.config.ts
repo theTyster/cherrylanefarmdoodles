@@ -37,7 +37,10 @@
  * viewed in the tets/migrations directory.
 }*/
 import path from "node:path";
-import { readD1Migrations, defineWorkersConfig } from "@cloudflare/vitest-pool-workers/config";
+import {
+  readD1Migrations,
+  defineWorkersConfig,
+} from "@cloudflare/vitest-pool-workers/config";
 
 export default defineWorkersConfig(async () => {
   const migrationsPath = path.join(__dirname, "test/migrations");
@@ -51,7 +54,6 @@ export default defineWorkersConfig(async () => {
           singleWorker: true,
           wrangler: {
             configPath: "./wrangler.toml",
-            environment: "preview",
           },
           miniflare: {
             bindings: { TEST_MIGRATIONS: migrations },
