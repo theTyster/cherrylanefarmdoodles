@@ -6,15 +6,14 @@
     "dev": "rm -dr .next/ && next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "next lint --no-cache ",
     "test": "vitest",
     "pages:build": "npx @cloudflare/next-on-pages --outdir .vercel/output/static",
-    "preview": "npm run pages:build && wrangler pages dev",
-    "deploy": "npm run pages:build && wrangler pages deploy",
+    "preview": "npm run pages:build && npx wrangler pages dev .vercel/output/static",
+    "deploy": "npm run pages:build && npx wrangler pages deploy .vercel/output/static",
     "cf-typegen": "wrangler types --env-interface CloudflareEnv env.d.ts"
   },
   "dependencies": {
-    "eslint-plugin-react-hooks": "^4.6.2",
     "next": "14.1.0",
     "react": "^18",
     "react-dom": "^18"
