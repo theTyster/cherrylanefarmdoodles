@@ -1,0 +1,14 @@
+@use "@/styles/colors.module.scss" as colors;
+
+.white-layout {
+  background-color: white;
+}
+
+.wood-layout {
+  background: url("../../public/woodgrain.svg");
+  background-color: colors.$darkPrimary;
+}
+
+.tan-layout {
+  background-color: colors.$lightPrimary;
+}
