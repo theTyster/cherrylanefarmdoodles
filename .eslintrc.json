@@ -7,5 +7,10 @@
   "plugins": [
     "eslint-plugin-next-on-pages"
   ],
-  "parser": "@typescript-eslint/parser"
+  "parser": "@typescript-eslint/parser",
+  "ignorePatterns": ["src/!**/*"],
+  "rules": {
+    // Disable this rule after integrating with Cloudflare R2.
+    "@next/next/no-img-element": "off"
+  }
 }
