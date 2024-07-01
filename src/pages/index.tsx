@@ -1,14 +1,20 @@
-import { WhiteLayout, WoodLayout, TanLayout } from "./sections";
-import { type Sections } from "@/types";
+import Theme from "@/styles/theme.module.scss";
+import WhiteWoodTanStyler from "@/components/white-wood-tan-styler";
+import ConstructionPlaceholder from "@/components/construction-placeholder";
 
-export default function Home({ section }: { section: Sections }) {
-  if (section === "white") {
-    return <WhiteLayout />;
-  }
-  if (section === "wood") {
-    return <WoodLayout />;
-  }
-  if (section === "tan") {
-    return <TanLayout />;
-  }
+// "white"
+function WhiteLayout(): React.JSX.Element | null {
+  return <ConstructionPlaceholder />;
+}
+// "wood"
+function WoodLayout(): React.JSX.Element | null {
+  return <ConstructionPlaceholder dogFill={Theme.lightPrimary}/>;
+}
+// "tan"
+function TanLayout(): React.JSX.Element | null {
+  return <ConstructionPlaceholder />;
+}
+
+export default function Home(): React.JSX.Element {
+  return <>{WhiteWoodTanStyler(WhiteLayout, WoodLayout, TanLayout)}</>;
 }

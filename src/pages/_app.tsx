@@ -1,7 +1,12 @@
+// Types
+import Head from "next/head";
 import { type Metadata } from "next"; // {
-import { font } from "@/styles/global";
-import Theme from "@/styles/theme";
 import { type AppProps } from "next/app"; // }
+// Styles
+import "@/styles/reset.scss";
+import "@/pages/global.scss";
+import { font } from "@/styles/font";
+// Components
 
 export const metadata: Metadata = {
   title: "Cherry Lane Farm Doodles",
@@ -10,38 +15,17 @@ export const metadata: Metadata = {
 
 export const sections = ["white", "wood", "tan"] as const;
 
-export default function CLFMain({ Component }: AppProps): React.JSX.Element {
+export default function CLFMain({ Component, pageProps }: AppProps): React.JSX.Element {
   return (
     <>
+      <Head>
+          <title>Welcome to Cherry Lane Farms</title>
+      </Head>
       <main className={font.className}>
-        <section>
-          <style jsx>{`
-            section {
-              background-color: white;
-            }
-          `}</style>
-          <Component section={sections[0]} />
-        </section>
-        <section>
-          <style jsx>{`
-            section {
-              background: url("woodgrain.svg");
-              background-color: ${Theme.colors.darkPrimary};
-            }
-          `}</style>
-          <Component section={sections[1]} />
-        </section>
-        <section>
-          <style jsx>{`
-            section {
-              background-color: ${Theme.colors.lightPrimary};
-            }
-          `}</style>
-          <Component section={sections[2]} />
-        </section>
+          <Component {...pageProps} />
       </main>
       <footer>
-        <p>&copy; {new Date().getFullYear()} Cherry Lane Farm Doodles</p>
+        <p className={font.className}>&copy; {new Date().getFullYear()} Cherry Lane Farm Doodles</p>
       </footer>
     </>
   );

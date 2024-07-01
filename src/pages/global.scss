@@ -1,0 +1,208 @@
+@use "../styles/theme.module.scss" as Theme;
+@use "../styles/mixins.scss" as Mixins;
+
+// Globals{
+@include Mixins.setTextValues() {
+  color: Theme.$black;
+}
+
+html * {
+  box-sizing: border-box; // who knows. It might be a good practice.
+}
+
+html {
+  width: fit-content;
+  height: fit-content;
+}
+
+p {
+  font-size: 18px;
+  line-height: 1.5;
+  font-weight: 400;
+}
+
+h1 {
+  resize: auto;
+  text-align: center;
+  font-size: 51px;
+  font-weight: 700;
+}
+h2 {
+  text-align: center;
+  font-size: 41px;
+  font-weight: 700;
+}
+h3 {
+  text-align: center;
+  font-size: 31px;
+  font-weight: 700;
+}
+h4 {
+  text-align: left;
+  font-size: 21px;
+  font-weight: 700;
+}
+h1.title {
+  font-size: 40px;
+}
+
+a {
+  text-decoration: none;
+  &:hover {
+    text-decoration: underline;
+  }
+  &:visited {
+    color: Theme.$tertiaryCherry;
+  }
+}
+
+footer {
+  background-color: Theme.$secondaryGreen;
+  p {
+    color: Theme.$lightSecondaryGreen;
+    text-align: center;
+  }
+}
+
+// }
+
+// Nav{
+// Transition rules:
+// 1. img positon: absolute -> relative
+// 2. menu display: none -> flex
+// 3. logo link flex: 1 -> 0
+// 4. menu flex: 0 -> 1
+main {
+  nav {
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    button#title-menu-button {
+      background-color: white;
+      height: 59px;
+      border-top: 3px solid white;
+      border-bottom: none;
+      border-left: none;
+      border-right: none;
+      svg#hamSVG {
+        /* flex: 0; */
+        color: Theme.$tertiaryCherry;
+        line-height: 1.5rem;
+        /* position: absolute; */
+        padding-left: 1rem;
+        /* position: absolute; */
+        background-color: white;
+        /* height: 62px; */
+      }
+    }
+    menu {
+      flex: 0;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      background-color: Theme.$tertiaryCherry;
+      height: 62px;
+      font-size: 31px;
+      transition: flex 0.5s;
+      a {
+        flex: 1;
+        text-align: justify;
+        text-decoration: none;
+        margin: 1rem;
+        color: Theme.$lightTertiaryCherry;
+        white-space: nowrap;
+        min-height: 100%;
+        &:hover {
+          border-radius: 14px;
+        }
+      }
+    }
+    a.home-button {
+      margin: 0 auto;
+      display: inline-flex;
+      justify-content: space-around;
+      .site-name {
+        text-align: center;
+      }
+      img.logo {
+        margin: 0 auto;
+        display: block;
+      }
+    }
+  }
+}
+// }
+
+// Layout Sections{
+main {
+  min-height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+}
+
+// All layouts
+div[class$="-layout"] {
+  display: flex;
+  flex-basis: 0;
+  div.right-flex,
+  div.left-flex {
+    flex: 1 1 0;
+  }
+  div.content-box {
+    flex: 1 0 Theme.$desktop-viewport;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    // Do not Add:
+    // padding;
+    // margin;
+  }
+  @include Mixins.mediaQuery(Theme.$desktop-viewport) {
+    div.content-box {
+      flex: 1 0 Theme.$tablet-viewport;
+    }
+  }
+
+  @include Mixins.mediaQuery(Theme.$tablet-viewport) {
+    div.content-box {
+      flex: 1 0 Theme.$mobile-viewport;
+    }
+  }
+
+  @include Mixins.mediaQuery(Theme.$mobile-viewport) {
+    display: block;
+    @include Mixins.setTextValues() {
+      word-break: break-word;
+    }
+    @include Mixins.setImageValues() {
+      width: 100%;
+      height: auto;
+    }
+    width: fit-content;
+  }
+}
+
+div.white-layout {
+  flex: 1 1;
+  padding: 100px 0;
+  background-color: white;
+}
+
+div.wood-layout {
+  flex: 2 2;
+  padding: 100px 0;
+  background-color: Theme.$darkPrimary;
+  @include Mixins.setTextValues() {
+    color: Theme.$lightPrimary;
+  }
+}
+
+div.tan-layout {
+  flex: 1 1;
+  padding: 100px 0;
+  background-color: Theme.$lightPrimary;
+}
+
+// }
+// vim: foldmethod=marker foldmarker={,}
