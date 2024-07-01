@@ -1,5 +1,6 @@
 reference/
 .viminfo
+.vim/
 
 # dependencies
 /node_modules
