@@ -1,0 +1,32 @@
+@use "../styles/theme.module.scss" as Theme;
+
+@mixin setTextValues() {
+  p,
+  h1,
+  h2,
+  h3,
+  h4 {
+    @content;
+  }
+}
+
+@mixin setImageValues() {
+  img,
+  svg,
+  video {
+    @content;
+  }
+}
+
+@mixin mediaQuery($breakpoint) {
+  @media (max-width: $breakpoint) {
+    @content;
+  }
+}
+
+@mixin setFlex($direction: row, $justify: center, $align: center) {
+  display: flex;
+  flex-direction: $direction;
+  justify-content: $justify;
+  align-items: $align;
+}

@@ -1,0 +1,38 @@
+// Colors
+$lightPrimary: #E8D8CA;
+$primary: #875122;
+$darkPrimary: #5E3918;
+
+$lightSecondaryGreen: #D3E8CA;
+$secondaryGreen: #426932;
+$darkSecondaryGreen: #2E4922;
+
+$lightTertiaryCherry: #FFC9D8;
+$tertiaryCherry: #B81641;
+$darkTertiaryCherry: #850829;
+
+$black: #333;
+
+
+// Sizing
+$desktop-viewport: 1200px;
+$tablet-viewport: 600px;
+$mobile-viewport: 300px;
+
+//Etc
+$button-radius: 14px;
+
+
+:export {
+  lightPrimary: $lightPrimary;
+  primary: $primary;
+  darkPrimary: $darkPrimary;
+  lightSecondaryGreen: $lightSecondaryGreen;
+  secondaryGreen: $secondaryGreen;
+  darkSecondaryGreen: $darkSecondaryGreen;
+  lightTertiaryCherry: $lightTertiaryCherry;
+  tertiaryCherry: $tertiaryCherry;
+  darkTertiaryCherry: $darkTertiaryCherry;
+
+  buttonRadius: $button-radius;
+}
