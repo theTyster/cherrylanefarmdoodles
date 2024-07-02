@@ -53,6 +53,7 @@ export default function CLFMain({
           &copy; {new Date().getFullYear()} Cherry Lane Farm Doodles
         </p>
       </footer>
+      {/*This button script should only be loaded for mobile. As with the hamburger menu.*/}
       <Script
         id="gsap"
         src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"
@@ -62,8 +63,8 @@ export default function CLFMain({
             //defaults: { ease: "elastic.inOut(1, .3)" },
           });
           hamTlOpen
-            .to("#ham-top", { y: 40, ease: "back.out" })
-            .to("#ham-mid", { y: 20, ease: "back.out" }, "<")
+            .to("#ham-top", { y: 40, ease: "back.inOut" })
+            .to("#ham-mid", { y: 20, ease: "back.inOut" }, "<")
             .to("#ham-top, #ham-bot", { x: "+=3",y: "-=20", fill: "#FFC9D8", transformOrigin: "left", rotation: -20 })
             .to("#ham-mid", { x: "+=2.5", y: "-=22.5", fill: "#FFC9D8", transformOrigin: "left", rotation: 20 }, "<")
             .reverse();
