@@ -1,6 +1,8 @@
 import { sections } from "./pages/_app";
 
-export type Sections = (typeof sections)[number];
+type sections = readonly ["white", "wood", "tan"];
+
+export type Sections = (sections)[number];
 
 export type WhiteWoodTanLayout = [
   WhiteLayoutType: () => React.JSX.Element | null,

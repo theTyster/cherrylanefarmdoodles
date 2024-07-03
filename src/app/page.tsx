@@ -2,6 +2,8 @@ import Theme from "@/styles/theme.module.scss";
 import WhiteWoodTanStyler from "@/components/white-wood-tan-styler";
 import ConstructionPlaceholder from "@/components/construction-placeholder";
 
+export const runtime = 'edge';
+
 // "white"
 function WhiteLayout(): React.JSX.Element | null {
   return <ConstructionPlaceholder />;

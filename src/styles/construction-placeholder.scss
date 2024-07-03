@@ -1,0 +1,27 @@
+@use "../styles/theme.module.scss" as Theme;
+p {
+  margin: 2rem 0;
+}
+a {
+  text-align: center;
+  box-sizing: content-box;
+  background-color: Theme.$tertiaryCherry;
+  border: 5px solid Theme.$tertiaryCherry;
+  border-radius: Theme.$button-radius;
+  text-decoration: none;
+  color: white;
+  cursor: pointer;
+  font-size: 1rem;
+  margin: 1rem;
+  padding: 1.5rem 2rem;
+}
+a:hover {
+  background-color: Theme.$lightTertiaryCherry;
+  border: 5px solid Theme.$tertiaryCherry;
+  color: Theme.$darkTertiaryCherry;
+  a:active {
+    background-color: Theme.$darkTertiaryCherry;
+    border: 5px solid Theme.$tertiaryCherry;
+    color: Theme.$lightTertiaryCherry;
+  }
+}

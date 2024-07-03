@@ -1,27 +1,25 @@
 // Colors
-$lightPrimary: #E8D8CA;
+$lightPrimary: #e8d8ca;
 $primary: #875122;
-$darkPrimary: #5E3918;
+$darkPrimary: #5e3918;
 
-$lightSecondaryGreen: #D3E8CA;
+$lightSecondaryGreen: #d3e8ca;
 $secondaryGreen: #426932;
-$darkSecondaryGreen: #2E4922;
+$darkSecondaryGreen: #2e4922;
 
-$lightTertiaryCherry: #FFC9D8;
-$tertiaryCherry: #B81641;
+$lightTertiaryCherry: #ffc9d8;
+$tertiaryCherry: #b81641;
 $darkTertiaryCherry: #850829;
 
 $black: #333;
 
-
 // Sizing
-$desktop-viewport: 1200px;
-$tablet-viewport: 600px;
-$mobile-viewport: 300px;
+$desktopViewport: 1200px;
+$tabletViewport: 600px;
+$mobileViewport: 300px;
 
 //Etc
-$button-radius: 14px;
-
+$buttonRadius: 14px;
 
 :export {
   lightPrimary: $lightPrimary;
@@ -34,5 +32,5 @@ $button-radius: 14px;
   tertiaryCherry: $tertiaryCherry;
   darkTertiaryCherry: $darkTertiaryCherry;
 
-  buttonRadius: $button-radius;
+  buttonRadius: $buttonRadius;
 }
