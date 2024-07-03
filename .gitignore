@@ -5,6 +5,9 @@ reference/
 .viminfo
 .vim/
 
+# backup files
+*.bak
+
 # dependencies
 /node_modules
 /.pnp
