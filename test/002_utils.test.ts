@@ -8,7 +8,7 @@ import Utils, {
   getLanguage,
   sleep,
   normalizeEpochDate,
-} from "../src/components/utils";
+} from "@/components/_utils";
 
 describe("Utils", () => {
   test("should be defined", () => {
