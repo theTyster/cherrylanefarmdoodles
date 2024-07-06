@@ -150,7 +150,7 @@ div[class$="-layout"] {
     flex: 1 1 0;
   }
   div.content-box {
-    flex: 1 0 Theme.$desktop-viewport;
+    flex: 1 0 Theme.$desktopViewport;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -158,19 +158,19 @@ div[class$="-layout"] {
     // padding;
     // margin;
   }
-  @include Mixins.mediaQuery(Theme.$desktop-viewport) {
+  @include Mixins.mediaQuery(Theme.$desktopViewport) {
     div.content-box {
-      flex: 1 0 Theme.$tablet-viewport;
+      flex: 1 0 Theme.$tabletViewport;
     }
   }
 
-  @include Mixins.mediaQuery(Theme.$tablet-viewport) {
+  @include Mixins.mediaQuery(Theme.$tabletViewport) {
     div.content-box {
-      flex: 1 0 Theme.$mobile-viewport;
+      flex: 1 0 Theme.$mobileViewport;
     }
   }
 
-  @include Mixins.mediaQuery(Theme.$mobile-viewport) {
+  @include Mixins.mediaQuery(Theme.$mobileViewport) {
     display: block;
     @include Mixins.setTextValues() {
       word-break: break-word;
