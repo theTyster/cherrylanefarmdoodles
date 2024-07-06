@@ -1,8 +1,9 @@
 @use "../styles/theme.module.scss" as Theme;
-p {
+
+p.construction-doodle {
   margin: 2rem 0;
 }
-a {
+a.construction-doodle {
   text-align: center;
   box-sizing: content-box;
   background-color: Theme.$tertiaryCherry;

@@ -1,0 +1,47 @@
+@use "../styles/mixins" as Mixins;
+@use "../styles/variables" as v;
+
+div.tabmenu{
+	menu, menu *{padding: 0}
+	>menu{
+		display: flex;
+		@include Mixins.medium-media-query(){flex-direction: column}
+		button{
+			h2[class^=tabmenu-item-title]{font: v.$h3-font}
+			flex: auto;
+			//box-sizing: border-box;
+			border-top: 7px solid white;
+			border-bottom: 7px solid white;
+			border-left: none;
+			border-right: none;
+			background-color: v.$desertsand;
+			cursor: pointer;
+			border-radius: unset;
+			color: black;
+			&:hover {
+				border-top: 7px solid white;
+				border-bottom: 7px solid white;
+				background-color: v.$lightdesertsand;
+				&:active {
+					border-top: 7px solid v.$darkcitron;
+					border-bottom: 7px solid v.$darkcitron;
+					background-color: v.$darkcitron;
+					color: white;
+				}
+			}
+			&:focus-visible {
+				outline: 9px double black;
+				box-shadow: 0 0 0 6px white;
+				margin: 9px;
+				border:none !important;
+			}
+			&.selected{
+				background-color: v.$lightcharcoal;
+				border-top: 7px solid v.$lightcharcoal;
+				border-bottom: 7px solid v.$lightcharcoal;
+				cursor: unset;
+				color: white;
+			}
+		}
+	}
+}
