@@ -18,6 +18,9 @@ $desktopViewport: 1200px;
 $tabletViewport: 600px;
 $mobileViewport: 300px;
 
+// Spacing
+$spaceBetweenElements: 30px;
+
 //Etc
 $buttonRadius: 14px;
 
@@ -33,4 +36,5 @@ $buttonRadius: 14px;
   darkTertiaryCherry: $darkTertiaryCherry;
 
   buttonRadius: $buttonRadius;
+  spaceBetweenElements: $spaceBetweenElements;
 }

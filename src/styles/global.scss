@@ -46,6 +46,13 @@ h1.title {
   font-size: 40px;
 }
 
+img.headshot {
+  max-width: 292px;
+  aspect-ratio: 1/1;
+  border-radius: 100%;
+  object-fit: cover;
+}
+
 a {
   text-decoration: none;
   &:hover {
