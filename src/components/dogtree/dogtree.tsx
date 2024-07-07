@@ -19,7 +19,7 @@ export default function DogTree() {
         <img className="dogtree-dad headshot" src="./images/Knox.jpeg" alt="Dune" />
       </div>
       <div className="dogtree-bottom">
-        <img className="dogtree-puppy-group" src="https://placehold.co/615x433" alt="Puppies" />
+        <img className="dogtree-puppy-group" src="./images/PipersLitter_07_2024.jpeg" alt="Puppies" />
         <FormLink>
           <img src="./images/adoption-banner.svg" alt="" />
         </FormLink>
