@@ -1,73 +1,29 @@
-//"use client";
-//import { getRequestContext } from "@cloudflare/next-on-pages";
-//import TabMenu, { type PseudoSQLDataMap }from "@/components/tab-menu/tab-menu";
-//
-export function dogTreeDeconstructor(data: DogTreeData[]) {
-  return data.reduce(
-    (acc, cv, index) => {
-      acc.keys().next().value[cv.mother] = index;
-      acc.keys().next().value[index] = cv.mother;
-      acc
-        .values()
-        .next()
-        .value.push({
-          groupPhoto: new URL(cv.groupPhoto),
-          mother: cv.mother,
-          father: cv.father,
-          dueDate: new Date(cv.dueDate),
-        });
-      return acc;
-    },
-    new Map([
-      [
-        {
-          /* Object: Mother Names to index of the family in values */
-        },
-        [
-          /* Array: Objects containing DogTreeData */
-        ],
-      ],
-    ])
-  ) as unknown as DogTreeDataMap;
+import FormLink from "@/components/formlink";
+import "@/styles/dogtree.scss";
+export default function DogTree() {
+  /* Props:
+   *
+   * - images (x3)
+   * - dueDate
+   * - mother name
+   *
+   */
+  return (
+    <>
+      <div className="dogtree-top">
+        <img className="dogtree-mom headshot" src="./images/Piper.jpeg" alt="Hailee" />
+        <h1>
+          <div className="dogtree-going-home">Going Home</div>
+          August 16th
+        </h1>
+        <img className="dogtree-dad headshot" src="./images/Knox.jpeg" alt="Dune" />
+      </div>
+      <div className="dogtree-bottom">
+        <img className="dogtree-puppy-group" src="https://placehold.co/615x433" alt="Puppies" />
+        <FormLink>
+          <img src="./images/adoption-banner.svg" alt="" />
+        </FormLink>
+      </div>
+    </>
+  );
 }
-//
-//async function DogTree() {
-//  const db = getRequestContext().env.dogsDB;
-//  const { results } = await db
-//    .prepare(
-//      `
-//      SELECT
-//       I.groupPhoto,
-//       AM.dogName as mother,
-//       AF.dogName as father,
-//       L.dueDate,
-//       L.birthday
-//      FROM
-//      Families AS F
-//      LEFT JOIN Group_Photos AS I ON F.groupPhoto = I.ID
-//      LEFT JOIN Adults AS AM ON F.mother = AM.ID
-//      LEFT JOIN Adults AS AF ON F.father = AF.ID
-//      LEFT JOIN Litters AS L ON F.litterId = L.ID
-//
-//      `
-//    )
-//    .bind()
-//    .all<DogTreeData>();
-//
-//  const dogTreeData = dogTreeDeconstructor(results);
-//
-//  const menuItems: PseudoSQLDataMap = new Map([
-//    dogTreeData.keys().next().value,
-//    {
-//      id: "Bella",
-//      component: <p>test</p>,
-//      title: "Job History",
-//    }
-//
-//  ])
-//
-//  //return <p>hi</p>
-//  return <TabMenu menuItems={menuItems} initial="Bella" />;
-//}
-//
-//export default DogTree;
