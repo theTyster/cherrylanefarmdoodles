@@ -31,37 +31,37 @@ export default function CLFMain({
   tan: React.ReactNode;
 }): React.JSX.Element {
   return (
-    <>
-      <Head>
-        <title>Welcome to Cherry Lane Farms</title>
-      </Head>
-      <main className={font.className}>
-        <div className="white-layout">
-          <div className="left-flex" />
-          <div className="content-box">
-            {children}
+    <html lang="en">
+      <body className={font.className}>
+        <Head>
+          <title>Welcome to Cherry Lane Farms</title>
+        </Head>
+        <main>
+          <div className="white-layout">
+            <div className="left-flex" />
+            <div className="content-box">{children}</div>
+            <div className="right-flex" />
           </div>
-          <div className="right-flex" />
-        </div>
-        <div
-          style={{ backgroundImage: "url('images/woodgrain.svg')" }}
-          className="wood-layout"
-        >
-          <div className="left-flex" />
-          <div className="content-box">{wood}</div>
-          <div className="right-flex" />
-        </div>
-        <div className="tan-layout">
-          <div className="left-flex" />
-          <div className="content-box">{tan}</div>
-          <div className="right-flex" />
-        </div>
-      </main>
-      <footer>
-        <p style={{margin: "unset"}} className={font.className}>
-          &copy; {new Date().getFullYear()} Cherry Lane Farm Doodles
-        </p>
-      </footer>
-    </>
+          <div
+            style={{ backgroundImage: "url('images/woodgrain.svg')" }}
+            className="wood-layout"
+          >
+            <div className="left-flex" />
+            <div className="content-box">{wood}</div>
+            <div className="right-flex" />
+          </div>
+          <div className="tan-layout">
+            <div className="left-flex" />
+            <div className="content-box">{tan}</div>
+            <div className="right-flex" />
+          </div>
+        </main>
+        <footer>
+          <p style={{ margin: "unset" }}>
+            &copy; {new Date().getFullYear()} Cherry Lane Farm Doodles
+          </p>
+        </footer>
+      </body>
+    </html>
   );
 }
