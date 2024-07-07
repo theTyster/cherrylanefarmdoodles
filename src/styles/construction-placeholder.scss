@@ -15,14 +15,14 @@ a.construction-doodle {
   font-size: 1rem;
   margin: 1rem;
   padding: 1.5rem 2rem;
-}
-a:hover {
-  background-color: Theme.$lightTertiaryCherry;
-  border: 5px solid Theme.$tertiaryCherry;
-  color: Theme.$darkTertiaryCherry;
-  a:active {
-    background-color: Theme.$darkTertiaryCherry;
+  &:hover {
+    background-color: Theme.$lightTertiaryCherry;
     border: 5px solid Theme.$tertiaryCherry;
-    color: Theme.$lightTertiaryCherry;
+    color: Theme.$darkTertiaryCherry;
+    &:active {
+      background-color: Theme.$darkTertiaryCherry;
+      border: 5px solid Theme.$tertiaryCherry;
+      color: Theme.$lightTertiaryCherry;
+    }
   }
 }
