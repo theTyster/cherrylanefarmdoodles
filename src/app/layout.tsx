@@ -44,7 +44,7 @@ export default function CLFMain({
           </div>
           <div
             style={{ backgroundImage: "url('images/woodgrain.svg')" }}
-            className="wood-layout"
+            className="wood-background wood-layout"
           >
             <div className="left-flex" />
             <div className="content-box">{wood}</div>
