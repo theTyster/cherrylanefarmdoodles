@@ -1,4 +1,5 @@
 "use client";
+import FormLink from "@/components/formlink";
 import "@/styles/construction-placeholder.scss";
 import SvgConstructionDoodle from "@/components/svg/construction-doodle.svg";
 
@@ -21,12 +22,9 @@ export default function ConstructionPlaceholder({
         <SvgConstructionDoodle />
       )}
       <p className="construction-doodle">Interested in applying for a puppy?</p>
-      <a
-        className="construction-doodle"
-        href="https://forms.zohopublic.com/cherrylanefarmsdoodles/form/Application/formperma/c1uNLpvyuDl0TdUvp1InSoINH1G-84Ugqyq-vBjiItk"
-      >
-        Fill out the Application
-      </a>
+      <FormLink classnames={["construction-doodle"]}>
+        Fill Out the Application Today
+      </FormLink>
     </>
   );
 }

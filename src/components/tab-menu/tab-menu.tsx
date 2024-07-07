@@ -3,30 +3,10 @@ import { useState } from "react";
 //CSS
 // FIXME: import "./tab-menu.scss";
 
-/*{ Note:
- * Use an object to define the different states of the TabMenu.
- *
- * example:
- * const MenuNames = {
- *   jobHistory: 0,
- *   [0]: "jobHistory",
- *   initial: 1,
- *   [1]: "initial",
- *   contributions: 2,
- *   [2]: "contributions",
- *   hobbies: 3,
- *   [3]: "hobbies"
- * }
- *
- * } */
-
-//export type MenuNamesObj = Record<string, number> | Record<number, string>;
 export type MenuNamesObj = {
   [key: string]: number;
 };
-//  | {
-//      [key: number]: string;
-//    };
+
 export type MenuDataArr = Array<{
   id: string;
   title: string;
@@ -38,18 +18,20 @@ function TabMenu({
   menuDataArr,
   menuNamesObj,
   initial,
-}: {
+}:
+{
   menuDataArr: MenuDataArr;
   menuNamesObj: MenuNamesObj;
   initial: string;
 }): JSX.Element {
   const [menuState, setMenuState] = useState(initial);
-  const currentSelected = menuDataArr[0];
+  const currentSelected = menuDataArr[menuNamesObj[menuState]];
 
   const handleTabMenuClick: React.MouseEventHandler = (event) => {
     console.log(event.target);
+    console.log(event.target instanceof HTMLElement);
     if (
-      event.target instanceof HTMLDataElement &&
+      event.target instanceof HTMLElement &&
       event.target.dataset instanceof DOMStringMap &&
       event.target.dataset &&
       event.target.dataset.tabmenuItemId
@@ -59,7 +41,7 @@ function TabMenu({
       setMenuState(state);
     }
     if (
-      event.target instanceof HTMLDataElement &&
+      event.target instanceof HTMLElement &&
       event.target.parentElement &&
       event.target.parentElement.dataset instanceof DOMStringMap &&
       event.target.parentElement.dataset.tabmenuItemId
@@ -69,9 +51,6 @@ function TabMenu({
           menuNamesObj[event.target.parentElement.dataset.tabmenuItemId]
         ].id;
       setMenuState(state);
-    }
-    else { 
-      setMenuState("lucy")
     }
   };
 
