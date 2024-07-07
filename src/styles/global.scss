@@ -200,6 +200,10 @@ div.wood-layout {
   flex: 2 2;
   padding: 100px 0;
   background-color: Theme.$darkPrimary;
+  &.wood-layout{
+    background-position: center;
+    background-size: cover;
+  }
   @include Mixins.setTextValues() {
     color: Theme.$lightPrimary;
   }
