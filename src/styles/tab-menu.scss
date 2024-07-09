@@ -1,11 +1,11 @@
 @use "../styles/mixins" as Mixins;
-@use "../styles/variables" as v;
+@use "../styles/theme.module.scss" as Theme;
 
 div.tabmenu{
 	menu, menu *{padding: 0}
 	>menu{
 		display: flex;
-		@include Mixins.medium-media-query(){flex-direction: column}
+		@include Mixins.mediaQuery(Theme.$tabletViewport){flex-direction: column}
 		button{
 			h2[class^=tabmenu-item-title]{font: v.$h3-font}
 			flex: auto;

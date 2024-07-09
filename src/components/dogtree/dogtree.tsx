@@ -1,5 +1,6 @@
 import FormLink from "@/components/formlink";
-import "@/styles/dogtree.scss";
+import Theme from "@/styles/theme.module.scss";
+import dt from "@/styles/dogtree.module.scss";
 export default function DogTree() {
   /* Props:
    *
@@ -8,18 +9,35 @@ export default function DogTree() {
    * - mother name
    *
    */
+
   return (
     <>
-      <div className="dogtree-top">
-        <img className="dogtree-mom headshot" src="./images/Piper.jpeg" alt="Hailee" />
-        <h1>
-          <div className="dogtree-going-home">Going Home</div>
+      <div className={dt.top}>
+        <img
+          className={`${dt.mom} ${Theme.headshot}`}
+          src="./images/Piper.jpeg"
+          alt="Hailee"
+        />
+        <h1 className={Theme.desktopOnly}>
+          <div className={dt.goingHome}>Going Home</div>
           August 16th
         </h1>
-        <img className="dogtree-dad headshot" src="./images/Knox.jpeg" alt="Dune" />
+        <img
+          className={`${dt.dad} ${Theme.headshot}`}
+          src="./images/Knox.jpeg"
+          alt="Dune"
+        />
       </div>
-      <div className="dogtree-bottom">
-        <img className="dogtree-puppy-group" src="./images/PipersLitter_07_2024.jpeg" alt="Puppies" />
+      <h1 className={Theme.mobileOnly}>
+        <div className={dt.goingHome}>Going Home</div>
+        August 16th
+      </h1>
+      <div className={dt.bottom}>
+        <img
+          className={dt.puppyGroup}
+          src="./images/PipersLitter_07_2024.jpeg"
+          alt="Puppies"
+        />
         <FormLink>
           <img src="./images/adoption-banner.svg" alt="" />
         </FormLink>

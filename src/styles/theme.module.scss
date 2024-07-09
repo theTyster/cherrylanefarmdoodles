@@ -1,3 +1,5 @@
+@use "../styles/mixins.scss" as Mixins;
+
 // Colors
 $lightPrimary: #e8d8ca;
 $primary: #875122;
@@ -14,15 +16,79 @@ $darkTertiaryCherry: #850829;
 $black: #333;
 
 // Sizing
-$desktopViewport: 1200px;
-$tabletViewport: 600px;
-$mobileViewport: 300px;
+$tabletViewport: 1200px;
+$phoneViewport: 650px;
+$microViewport: 300px;
 
 // Spacing
 $spaceBetweenElements: 30px;
 
 //Etc
 $buttonRadius: 14px;
+
+.headshot {
+  max-width: 292px;
+  aspect-ratio: 1/1;
+  border-radius: 100%;
+  object-fit: cover;
+}
+
+@include Mixins.mediaQuery($tabletViewport, min) {
+  .desktopOnly {
+    display: block;
+  }
+  .tabletOnly {
+    display: none;
+  }
+  .phoneOnly {
+    display: none;
+  }
+  .mobileOnly {
+    display: none;
+  }
+}
+@include Mixins.mediaQuery($tabletViewport) {
+  .desktopOnly {
+    display: none;
+  }
+  .tabletOnly {
+    display: block;
+  }
+  .phoneOnly {
+    display: none;
+  }
+  .mobileOnly {
+    display: block;
+  }
+}
+@include Mixins.mediaQuery($phoneViewport) {
+  .desktopOnly {
+    display: none;
+  }
+  .tabletOnly {
+    display: none;
+  }
+  .phoneOnly {
+    display: block;
+  }
+  .mobileOnly {
+    display: block;
+  }
+}
+@include Mixins.mediaQuery($microViewport) {
+  .desktopOnly {
+    display: none;
+  }
+  .tabletOnly {
+    display: none;
+  }
+  .phoneOnly {
+    display: block;
+  }
+  .mobileOnly {
+    display: block;
+  }
+}
 
 :export {
   lightPrimary: $lightPrimary;

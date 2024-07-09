@@ -1,0 +1,57 @@
+@use "../styles/theme.module.scss" as Theme;
+@use "../styles/mixins.scss" as Mixins;
+
+div.top {
+  display: flex;
+  & * {
+    margin: Theme.$spaceBetweenElements;
+  }
+  img {
+    /* width: 100%; */
+    align-self: center;
+    &.mom {
+      border: 7px solid hotpink;
+    }
+    &.dad {
+      border: 7px solid skyblue;
+    }
+  }
+}
+div.goingHome {
+  font-weight: 400;
+}
+div.bottom {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  & * {
+    margin: Theme.$spaceBetweenElements;
+  }
+  img.puppyGroup {
+    width: 600px;
+    height: auto;
+    border-radius: 51pt;
+    object-fit: cover;
+  }
+  a {
+    width: 100%;
+  }
+}
+@include Mixins.mediaQuery(Theme.$tabletViewport) {
+  div.top * {
+    margin: Theme.$spaceBetweenElements / 10;
+  }
+    img.puppyGroup {
+      width: 100%;
+  }
+}
+@include Mixins.mediaQuery(Theme.$phoneViewport) {
+  div.top {
+    flex-direction: column;
+  }
+    img.puppyGroup {
+      width: 100% !important;
+  }
+}

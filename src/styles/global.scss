@@ -46,13 +46,6 @@ h1.title {
   font-size: 40px;
 }
 
-img.headshot {
-  max-width: 292px;
-  aspect-ratio: 1/1;
-  border-radius: 100%;
-  object-fit: cover;
-}
-
 a {
   text-decoration: none;
   &:hover {
@@ -61,6 +54,10 @@ a {
   &:visited {
     color: Theme.$tertiaryCherry;
   }
+}
+
+@include Mixins.setTextValues() {
+  word-break: break-word;
 }
 
 footer {
@@ -157,7 +154,7 @@ div[class$="-layout"] {
     flex: 1 1 0;
   }
   div.content-box {
-    flex: 1 0 Theme.$desktopViewport;
+    flex: 0 1 Theme.$tabletViewport;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -165,28 +162,25 @@ div[class$="-layout"] {
     // padding;
     // margin;
   }
-  @include Mixins.mediaQuery(Theme.$desktopViewport) {
-    div.content-box {
-      flex: 1 0 Theme.$tabletViewport;
-    }
-  }
-
   @include Mixins.mediaQuery(Theme.$tabletViewport) {
     div.content-box {
-      flex: 1 0 Theme.$mobileViewport;
+      flex: 0 1 Theme.$phoneViewport;
     }
   }
 
-  @include Mixins.mediaQuery(Theme.$mobileViewport) {
-    display: block;
-    @include Mixins.setTextValues() {
-      word-break: break-word;
+  @include Mixins.mediaQuery(Theme.$phoneViewport) {
+    div.content-box {
+      flex: 0 1 Theme.$microViewport;
     }
+  }
+
+  @include Mixins.mediaQuery(Theme.$microViewport) {
+    display: block;
+    width: fit-content;
     @include Mixins.setImageValues() {
       width: 100%;
       height: auto;
     }
-    width: fit-content;
   }
 }
 
@@ -200,7 +194,7 @@ div.wood-layout {
   flex: 2 2;
   padding: 100px 0;
   background-color: Theme.$darkPrimary;
-  &.wood-layout{
+  &.wood-layout {
     background-position: center;
     background-size: cover;
   }

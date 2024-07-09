@@ -1,5 +1,3 @@
-@use "../styles/theme.module.scss" as Theme;
-
 @mixin setTextValues() {
   p,
   h1,
@@ -18,9 +16,15 @@
   }
 }
 
-@mixin mediaQuery($breakpoint) {
-  @media (max-width: $breakpoint) {
-    @content;
+@mixin mediaQuery($breakpoint, $w: null) {
+  @if ($w) {
+    @media screen and (#{$w}-width: $breakpoint) {
+      @content;
+    }
+  } @else {
+    @media screen and (max-width: $breakpoint) {
+      @content;
+    }
   }
 }
 
