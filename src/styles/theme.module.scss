@@ -17,14 +17,15 @@ $black: #333;
 
 // Sizing
 $tabletViewport: 1200px;
-$phoneViewport: 650px;
+$phoneViewport: 750px;
 $microViewport: 300px;
 
 // Spacing
 $spaceBetweenElements: 30px;
 
 //Etc
-$buttonRadius: 14px;
+$buttonRadius: 0.875rem; // 14px
+$bigButtonRadius: 2rem; // 32px
 
 .headshot {
   max-width: 292px;
