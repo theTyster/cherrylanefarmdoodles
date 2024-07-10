@@ -1,0 +1,90 @@
+@use "../styles/theme.module.scss" as Theme;
+@use "../styles/mixins.scss" as Mixins;
+
+.adoptionBanner {
+  width: 80%;
+  background-color: Theme.$lightSecondaryGreen;
+  border-radius: calc(Theme.$buttonRadius + 10px);
+  a {
+    color: Theme.$darkSecondaryGreen;
+    &:hover {
+      text-decoration: none;
+    }
+  }
+  div.eventHandlerDiv {
+    text-align: center;
+    font-size: 3.4rem;
+    text-decoration: none;
+    display: flex;
+    margin: 0;
+    align-items: center;
+    justify-content: center;
+    div.snaps {
+      opacity: 0;
+      position: absolute;
+      height: 0;
+      width: 100%;
+      top: 0;
+      svg.snapLeft,
+      svg.snapRight {
+        position: absolute;
+        $dimensions: 35px;
+        height: $dimensions;
+        width: $dimensions;
+        margin: 0;
+        bottom: 0px;
+      }
+      svg.snapRight {
+        right: 100%;
+      }
+      svg.snapLeft {
+        left: 100%;
+      }
+    }
+    div.shine {
+      opacity: 1;
+      visibility: hidden;
+      position: absolute;
+      height: 102%;  // accounts for shadow
+      width: 10%;
+      transform: skewX(-15deg);
+      top: -2%; // accounts for shadow
+      left: 40px;
+      background: linear-gradient(
+        to right,
+        rgba(255, 255, 255, 0.7),
+        rgba(255, 255, 255, 0.5),
+        rgba(255, 255, 255, 1.0)
+      );
+    }
+    svg.doodlePuppy {
+      $dimensions: 100px;
+      position: relative;
+      height: $dimensions;
+      width: $dimensions;
+      margin: 0 Theme.$spaceBetweenElements;
+    }
+  }
+}
+
+@include Mixins.mediaQuery(Theme.$tabletViewport) {
+  .adoptionBanner {
+    div.eventHandlerDiv {
+      font-size: 2.5rem;
+      margin: 0 calc(Theme.$spaceBetweenElements - 7%);
+    }
+  }
+}
+
+@include Mixins.mediaQuery(Theme.$phoneViewport) {
+  .adoptionBanner {
+    div.eventHandlerDiv {
+      font-size: 1.6rem;
+      padding: 1rem;
+    }
+    svg.doodlePuppy {
+      min-width: 80px;
+      display: none;
+    }
+  }
+}
