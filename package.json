@@ -22,6 +22,7 @@
     "@cloudflare/next-on-pages": "^1.11.3",
     "@cloudflare/vitest-pool-workers": "^0.4.5",
     "@cloudflare/workers-types": "^4.20240614.0",
+    "@gsap/react": "^2.1.1",
     "@svgr/cli": "^8.1.0",
     "@types/node": "^20",
     "@types/react": "^18",
