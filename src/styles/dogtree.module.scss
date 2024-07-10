@@ -3,7 +3,7 @@
 
 div.top {
   display: flex;
-  & * {
+  & > * {
     margin: Theme.$spaceBetweenElements;
   }
   img {
@@ -17,8 +17,11 @@ div.top {
     }
   }
 }
-div.goingHome {
-  font-weight: 400;
+h1.heading {
+  margin: Theme.$spaceBetweenElements / 10;
+  div.goingHome {
+    font-weight: 400;
+  }
 }
 div.bottom {
   display: flex;
@@ -26,32 +29,29 @@ div.bottom {
   justify-content: center;
   align-items: center;
   width: 100%;
-  & * {
+  & > * {
     margin: Theme.$spaceBetweenElements;
   }
   img.puppyGroup {
     width: 600px;
     height: auto;
-    border-radius: 51pt;
+    border-radius: Theme.$bigButtonRadius;
     object-fit: cover;
-  }
-  a {
-    width: 100%;
   }
 }
 @include Mixins.mediaQuery(Theme.$tabletViewport) {
-  div.top * {
+  div.top > * {
     margin: Theme.$spaceBetweenElements / 10;
   }
-    img.puppyGroup {
-      width: 100%;
+  img.puppyGroup {
+    width: 100%;
   }
 }
 @include Mixins.mediaQuery(Theme.$phoneViewport) {
   div.top {
     flex-direction: column;
   }
-    img.puppyGroup {
-      width: 100% !important;
+  img.puppyGroup {
+    width: 100% !important;
   }
 }
