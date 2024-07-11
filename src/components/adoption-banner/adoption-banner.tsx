@@ -8,100 +8,151 @@ import Theme from "@/styles/theme.module.scss";
 import gsap from "gsap";
 import { useRef } from "react";
 
-import { useGSAP } from "@gsap/react";
+import { useGSAP, type ContextSafeFunc } from "@gsap/react";
 
 function AdoptionBanner() {
-  // Animations {
   const bannerRef = useRef() as React.MutableRefObject<HTMLDivElement>;
-  const snapsRef = useRef() as React.MutableRefObject<HTMLDivElement>;
-  const shineRef = useRef() as React.MutableRefObject<HTMLDivElement>;
-  let hoverTL: gsap.core.Timeline | null = gsap.timeline();
-  let clickTL: gsap.core.Timeline | null = gsap.timeline();
 
-  useGSAP(() => {
-    gsap.to(bannerRef.current, {
-      boxShadow: `9px 12px 15px 5px ${Theme.darkSecondaryGreen}`,
-    });
-  });
+  useGSAP(
+    (context, contextSafe) => {
+      //prettier-ignore
+      const cSafe = contextSafe as ContextSafeFunc,
+      initialTL:    gsap.core.Timeline | null = gsap.timeline(),
+      shineTL:      gsap.core.Timeline | null = gsap.timeline({ defaults: { duration: 0.7 }});
 
-  useGSAP(() => {
-    (clickTL as gsap.core.Timeline)
-      .to(shineRef.current, {opacity: 0, duration: 0})
-      .to(bannerRef.current, {
-        scale: 0.8,
-        duration: 0.4,
-        ease: "back.out(3)",
-        boxShadow: "0px 0px 0px 0px transparent",
-      })
-      .to(snapsRef.current, { opacity: 1, duration: 0.1 }, "-=0.225")
-      .to(snapsRef.current, { opacity: 0, duration: 0.1 })
-      .pause();
-  });
-  // }
+      const gsapScopedSelect = gsap.utils.selector(bannerRef.current);
 
-  // Event handlers {
-  function handleMouseEnter() {
-    if (hoverTL instanceof gsap.core.Timeline) {
-      hoverTL.clear();
-      hoverTL
-      .to(shineRef.current, { opacity: 1, visibility: "visible", duration: 0, delay: 0 })
-        .to(
-          shineRef.current,
-          { left: "100%", duration: 2, ease: "power4.out(3)" },
-          "<"
-        )
-        .to(
-          bannerRef.current,
-          {
-            scale: 0.9,
-            duration: 0.7,
-            ease: "back.out(3)",
-          },
-          "0"
-        )
-        .to(shineRef.current, { opacity: 0, duration: 0.7 }, "<")
-        .play();
-    }
-  }
-  function handleMouseLeave() {
-    if (hoverTL instanceof gsap.core.Timeline) {
-      hoverTL.clear();
-      hoverTL
-        .to(bannerRef.current, {
-          scale: 1,
-          duration: 0.5,
-          ease: "power4.out(3)",
+      initialTL.to(gsapScopedSelect(`.${css.eventHandlerDiv}`), {
+        boxShadow: `9px 12px 15px 5px ${Theme.darkSecondaryGreen}`,
+        scale: 1,
+        ease: "power4.out(3)",
+      });
+
+      shineTL
+        .to(gsapScopedSelect(`.${css.shine}`), {
+          opacity: 1,
+          duration: 0,
+          delay: 0,
+          position: "absolute",
+          height: "102%", // accounts for shadow
+          width: "10%",
+          transform: "skewX(-15deg)",
+          top: "-2%", // accounts for shadow
+          left: 40,
+          background: `linear-gradient(
+            to right,
+            rgba(255, 255, 255, 0.7),
+            rgba(255, 255, 255, 0.5),
+            rgba(255, 255, 255, 1)
+          )`,
         })
-        .to(shineRef.current, { opacity: 0, visibility: "hidden", left: "-15px", duration: 0 }, "<")
-        .play();
-    }
-  }
-  function handleClick(e: React.MouseEvent<HTMLDivElement>) {
-    e.preventDefault();
-    if (
-      hoverTL instanceof gsap.core.Timeline &&
-      clickTL instanceof gsap.core.Timeline
-    ) {
-      hoverTL.clear();
-      clickTL.play();
-      hoverTL = null;
-      clickTL = null;
-    }
-  }
-  // }
+        .to(gsapScopedSelect(`.${css.shine}`), {
+          left: "80%",
+          ease: "power.out(3)",
+          opacity: 0,
+        });
+
+      const handleMouseEnter = cSafe(function () {
+        bannerRef.current.addEventListener("click", handleClick, {
+          once: true,
+        });
+        bannerRef.current.addEventListener("mouseleave", handleMouseLeave, {
+          once: true,
+        });
+        gsap
+          .timeline()
+          .to(
+            gsapScopedSelect(`.${css.eventHandlerDiv}`),
+            {
+              scale: 0.9,
+              duration: 0.4,
+              ease: "back.out(3)",
+            },
+            "0"
+          )
+          .call(
+            function () {
+              shineTL.isActive() ? undefined : shineTL.play(0);
+            },
+            undefined,
+            0
+          );
+        bannerRef.current.addEventListener("mouseenter", handleMouseEnter, {
+          once: true,
+        });
+      });
+
+      const handleClick = cSafe(async function (e: MouseEvent) {
+        e.preventDefault();
+        bannerRef.current.removeEventListener("mouseleave", handleMouseLeave);
+        bannerRef.current.removeEventListener("mouseenter", handleMouseEnter);
+
+        await gsap
+          .timeline()
+          .to(
+            gsapScopedSelect(`.${css.eventHandlerDiv}`),
+            {
+              scale: 0.8,
+              boxShadow: `0px 0px 0px 0px transparent`,
+              ease: "back.out(4)",
+            },
+            "<"
+          )
+          .to(
+            gsapScopedSelect(`.${css.snaps}`),
+            { opacity: 1, duration: 0 },
+            "-=0.265"
+          )
+          .to(gsapScopedSelect(`.${css.snaps}`), {
+            opacity: 0,
+            duration: 0,
+          })
+          .call(function () {
+            window.open(
+              "https://forms.zohopublic.com/cherrylanefarmsdoodles/form/Application/formperma/c1uNLpvyuDl0TdUvp1InSoINH1G-84Ugqyq-vBjiItk",
+              "_blank",
+              "noopener"
+            );
+          })
+          .call(
+            function () {
+              shineTL.isActive() ? undefined : shineTL.play(0);
+            },
+            undefined,
+            0
+          )
+          .add(initialTL.invalidate());
+
+        bannerRef.current.addEventListener("mouseenter", handleMouseEnter, {
+          once: true,
+        });
+      });
+
+      const handleMouseLeave = cSafe(function () {
+        bannerRef.current.removeEventListener("click", handleClick);
+        gsap.timeline().add(initialTL.invalidate());
+      });
+
+      bannerRef.current.addEventListener("mouseenter", handleMouseEnter, {
+        once: true,
+      });
+
+      return function cleanUp() {
+        bannerRef.current.removeEventListener("mouseenter", handleMouseEnter);
+        bannerRef.current.removeEventListener("click", handleClick);
+        bannerRef.current.removeEventListener("mouseleave", handleMouseLeave);
+      };
+    },
+    { scope: bannerRef.current }
+  );
 
   return (
     <>
       <div className={css.adoptionBanner} ref={bannerRef}>
         <FormLink>
-          <div
-            className={css.eventHandlerDiv}
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
-            onClick={handleClick}
-          >
-            <div className={`${css.snaps} ${css.shine}`} ref={shineRef}></div>
-            <div className={css.snaps} ref={snapsRef}>
+          <div className={css.eventHandlerDiv}>
+            <div className={`${css.snaps} ${css.shine}`}></div>
+            <div className={css.snaps}>
               <svg
                 className={css.snapRight}
                 width="70.648mm"
@@ -114,7 +165,7 @@ function AdoptionBanner() {
                   <g
                     transform="matrix(-1,0,0,1,173.99,-65.38)"
                     fill="none"
-                    stroke="#2e4922"
+                    stroke={Theme.darkSecondaryGreen}
                     strokeWidth="7.9375"
                   >
                     <path d="m87.941 120.2 18.202-45.38" />
@@ -135,7 +186,7 @@ function AdoptionBanner() {
                   <g
                     transform="matrix(-1,0,0,1,173.99,-65.38)"
                     fill="none"
-                    stroke="#2e4922"
+                    stroke={Theme.darkSecondaryGreen}
                     strokeWidth="7.9375"
                   >
                     <path d="m87.941 120.2 18.202-45.38" />
@@ -146,9 +197,11 @@ function AdoptionBanner() {
               </svg>
             </div>
             <SvgDoodlePuppy className={css.doodlePuppy} />
-            <span>
-              Apply for a <b>New Puppy</b> from this litter
-            </span>
+            <div className={css.buttonText}>
+              <div>Apply for a </div>
+              <b>New Puppy</b>
+              <div> from this litter</div>
+            </div>
           </div>
         </FormLink>
       </div>

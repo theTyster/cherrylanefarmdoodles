@@ -2,23 +2,28 @@
 @use "../styles/mixins.scss" as Mixins;
 
 .adoptionBanner {
-  width: 80%;
-  background-color: Theme.$lightSecondaryGreen;
-  border-radius: calc(Theme.$buttonRadius + 10px);
   a {
     color: Theme.$darkSecondaryGreen;
     &:hover {
       text-decoration: none;
     }
   }
+  // Configure most rules from this class
   div.eventHandlerDiv {
-    text-align: center;
-    font-size: 3.4rem;
-    text-decoration: none;
+    background-color: Theme.$lightSecondaryGreen;
+    border-radius: calc(Theme.$buttonRadius + 10px);
+    width: fit-content;
+    cursor: pointer;
+    padding: Theme.$spaceBetweenElements;
     display: flex;
-    margin: 0;
+    //    margin: 0;
     align-items: center;
     justify-content: center;
+    div.buttonText {
+      text-align: center;
+      font-size: 3.4rem;
+      text-decoration: none;
+    }
     div.snaps {
       opacity: 0;
       position: absolute;
@@ -31,7 +36,7 @@
         $dimensions: 35px;
         height: $dimensions;
         width: $dimensions;
-        margin: 0;
+        /* margin: 0; */
         bottom: 0px;
       }
       svg.snapRight {
@@ -41,28 +46,12 @@
         left: 100%;
       }
     }
-    div.shine {
-      opacity: 1;
-      visibility: hidden;
-      position: absolute;
-      height: 102%;  // accounts for shadow
-      width: 10%;
-      transform: skewX(-15deg);
-      top: -2%; // accounts for shadow
-      left: 40px;
-      background: linear-gradient(
-        to right,
-        rgba(255, 255, 255, 0.7),
-        rgba(255, 255, 255, 0.5),
-        rgba(255, 255, 255, 1.0)
-      );
-    }
     svg.doodlePuppy {
       $dimensions: 100px;
       position: relative;
       height: $dimensions;
       width: $dimensions;
-      margin: 0 Theme.$spaceBetweenElements;
+      margin-right: Theme.$spaceBetweenElements;
     }
   }
 }
@@ -71,7 +60,6 @@
   .adoptionBanner {
     div.eventHandlerDiv {
       font-size: 2.5rem;
-      margin: 0 calc(Theme.$spaceBetweenElements - 7%);
     }
   }
 }
@@ -79,11 +67,12 @@
 @include Mixins.mediaQuery(Theme.$phoneViewport) {
   .adoptionBanner {
     div.eventHandlerDiv {
-      font-size: 1.6rem;
-      padding: 1rem;
+      div.buttonText {
+        font-size: 1.8rem;
+        padding: Theme.$spaceBetweenElements / 8;
+      }
     }
     svg.doodlePuppy {
-      min-width: 80px;
       display: none;
     }
   }
