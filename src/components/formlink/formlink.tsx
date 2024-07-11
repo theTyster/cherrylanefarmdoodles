@@ -11,6 +11,8 @@ export default function FormLink({
     <Link
       className={`form-link ${classnames.map((c) => c).join(" ")}`}
       href="https://forms.zohopublic.com/cherrylanefarmsdoodles/form/Application/formperma/c1uNLpvyuDl0TdUvp1InSoINH1G-84Ugqyq-vBjiItk"
+      target="_blank"
+      rel="noreferrer noopener"
     >
       {children}
     </Link>
