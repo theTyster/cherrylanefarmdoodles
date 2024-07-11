@@ -67,6 +67,7 @@
 @include Mixins.mediaQuery(Theme.$phoneViewport) {
   .adoptionBanner {
     div.eventHandlerDiv {
+      overflow: clip;
       div.buttonText {
         font-size: 1.8rem;
         padding: Theme.$spaceBetweenElements / 8;
