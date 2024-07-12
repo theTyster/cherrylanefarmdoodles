@@ -16,7 +16,6 @@
     cursor: pointer;
     padding: Theme.$spaceBetweenElements;
     display: flex;
-    //    margin: 0;
     align-items: center;
     justify-content: center;
     div.buttonText {
@@ -36,7 +35,6 @@
         $dimensions: 35px;
         height: $dimensions;
         width: $dimensions;
-        /* margin: 0; */
         bottom: 0px;
       }
       svg.snapRight {
@@ -67,7 +65,6 @@
 @include Mixins.mediaQuery(Theme.$phoneViewport) {
   .adoptionBanner {
     div.eventHandlerDiv {
-      overflow: clip;
       div.buttonText {
         font-size: 1.8rem;
         padding: Theme.$spaceBetweenElements / 8;
@@ -75,6 +72,15 @@
     }
     svg.doodlePuppy {
       display: none;
+    }
+  }
+}
+
+// Special case for scrollbars showing on very small screens.
+@include Mixins.mediaQuery(333px) {
+  .adoptionBanner {
+    div.eventHandlerDiv {
+      overflow: clip;
     }
   }
 }

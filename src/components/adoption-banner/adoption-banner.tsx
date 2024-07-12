@@ -107,12 +107,8 @@ function AdoptionBanner() {
             opacity: 0,
             duration: 0,
           })
-          .call(function () {
-            window.open(
-              "https://forms.zohopublic.com/cherrylanefarmsdoodles/form/Application/formperma/c1uNLpvyuDl0TdUvp1InSoINH1G-84Ugqyq-vBjiItk",
-              "_blank",
-              "noopener"
-            );
+          .call(function openLinkInAnimation() {
+            window.location.href = "https://forms.zohopublic.com/cherrylanefarmsdoodles/form/Application/formperma/c1uNLpvyuDl0TdUvp1InSoINH1G-84Ugqyq-vBjiItk?selected_litter=Piper's%20Litter%20born%2007-21-2024";
           })
           .call(
             function () {
