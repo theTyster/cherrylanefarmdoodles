@@ -1,10 +1,10 @@
 INSERT INTO Group_Photos (groupPhoto)
   VALUES
-  ('https://example.com/group_img1.jpg'),
-  ('https://example.com/group_img2.jpg'),
-  ('https://example.com/group_img3.jpg'),
-  ('https://example.com/group_img4.jpg'),
-  ('https://example.com/group_img5.jpg'),
-  ('https://example.com/group_img6.jpg'),
-  ('https://example.com/group_img7.jpg'),
-  ('https://example.com/group_img8.jpg');
+  ('group1.svg'),
+  ('group2.svg'),
+  ('group3.svg'),
+  ('group4.svg'),
+  ('group5.svg'),
+  ('group6.svg'),
+  ('group7.svg'),
+  ('group8.svg');
