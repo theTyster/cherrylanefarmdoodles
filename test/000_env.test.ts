@@ -27,18 +27,7 @@ describe("Cloudflare Environment", async () => {
   });
 
   test.each(tables)("D1 should contain %s", (tb) => {
-    const expectedTables = [
-      ["Group_Photos"],
-      ["Headshots_Sm"],
-      ["Headshots_Lg"],
-      ["Litters"],
-      ["Dogs"],
-      ["Adults"],
-      ["Puppies"],
-      ["Families"],
-      ["Dog_Group_Photos"],
-    ];
-    expect(expectedTables).toContainEqual([tb]);
+    expect(tb).toMatchSnapshot();
   });
 });
 
