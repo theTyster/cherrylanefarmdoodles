@@ -7,6 +7,8 @@ account_id = "11384f4c64593ba3cde6e064d5183db5"
 binding = "dogsDB"
 database_name = "dogs_prev"
 database_id = "f7042559-e48e-497c-baa6-2281e1c7c54b"
+migrations_dir = "test/migrations"
+
 
 [[r2_buckets]]
 binding = "dogImages"
