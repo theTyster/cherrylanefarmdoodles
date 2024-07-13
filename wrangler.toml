@@ -1,6 +1,7 @@
 name = "cherrylanefarmdoodles"
 compatibility_date = "2024-06-05"
 compatibility_flags = ["nodejs_compat"]
+account_id = "11384f4c64593ba3cde6e064d5183db5"
 
 [[d1_databases]]
 binding = "dogsDB"
@@ -10,7 +11,6 @@ database_id = "f72630ac-2ffe-41bb-a429-ccd67b55aa8f"
 [[r2_buckets]]
 binding = "dogImages"
 bucket_name = "cherrylanefarmpics"
-preview_bucket_name = "cherrylanefarmpics-preview"
 
 # In-file Documentation{{{
 # Automatically place your workloads in an optimal location to minimize latency.{{{
