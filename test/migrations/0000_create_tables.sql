@@ -38,12 +38,12 @@ CREATE INDEX idx_dog_gender ON Dogs (gender);
 
 CREATE TABLE Adults (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
-  dogName TEXT NOT NULL CHECK (LENGTH(dogName) <= 16),
+  adultName TEXT NOT NULL CHECK (LENGTH(adultName) <= 16),
   breeder TEXT NOT NULL CHECK (LENGTH(breeder) <= 50),
   birthday DATE NOT NULL,
   eyeColor TEXT NOT NULL CHECK (LENGTH(eyeColor) <= 16),
   isRetired BOOLEAN NOT NULL CHECK (isRetired IN (0, 1)) DEFAULT 0,
-  favoriteActivities TEXT CHECK (LENGTH(favoriteActivities) <= 140),
+  about TEXT CHECK (LENGTH(about) <= 140),
   weight INTEGER CHECK (weight > 0),
   energyLevel TEXT CHECK (energyLevel IN ('Low', 'Medium-low', 'Medium', 'Medium-high', 'High')),
   dogId INTEGER,
@@ -52,6 +52,7 @@ CREATE TABLE Adults (
 
 CREATE TABLE Puppies (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
+  puppyName TEXT CHECK (LENGTH(puppyName) <= 16),
   collarColor TEXT NOT NULL CHECK (LENGTH(collarColor) <= 16),
   isAvailable BOOLEAN CHECK (isAvailable IN (0, 1)) NOT NULL,
   dogId INTEGER,
@@ -73,7 +74,7 @@ CREATE TABLE Families (
   CONSTRAINT unique_families UNIQUE (groupPhoto, mother, father, litterId)
 );
 
-CREATE TABLE Dog_Group_Photos (
+CREATE TABLE Dog_To_Group_Photos (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   groupPhotoId INTEGER,
   dogId INTEGER,
