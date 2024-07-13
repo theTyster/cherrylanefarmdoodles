@@ -12,7 +12,7 @@ migrations_dir = "test/migrations"
 
 [[r2_buckets]]
 binding = "dogImages"
-bucket_name = "cherrylanefarmpics"
+bucket_name = "cherrylanefarmpics-prev"
 
 # In-file Documentation{{{
 # Automatically place your workloads in an optimal location to minimize latency.{{{
