@@ -17,9 +17,7 @@ CREATE TABLE Litters (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   dueDate DATE NOT NULL,
   birthday DATE,
-  goHomeDate DATE,
-  CONSTRAINT date_orders CHECK (UNIXEPOCH(dueDate) < UNIXEPOCH(birthday) < UNIXEPOCH(goHomeDate)),
-  CONSTRAINT no_birthday_no_go_home CHECK ((birthday IS NULL AND goHomeDate IS NULL) OR (birthday IS NOT NULL AND goHomeDate IS NOT NULL))
+  applicantsInQueue INTEGER NOT NULL CHECK (applicantsInQueue <= 0) DEFAULT 0
 );
 
 CREATE TABLE Dogs (
@@ -33,8 +31,6 @@ CREATE TABLE Dogs (
   CONSTRAINT fk_dogs_headshot_small FOREIGN KEY (headshotSmall) REFERENCES Headshots_Sm (id) ON DELETE NO ACTION ON UPDATE CASCADE,
   CONSTRAINT fk_dogs_headshot_large FOREIGN KEY (headshotLarge) REFERENCES Headshots_Lg (id) ON DELETE NO ACTION ON UPDATE CASCADE
 );
-
-CREATE INDEX idx_dog_gender ON Dogs (gender);
 
 CREATE TABLE Adults (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -82,3 +78,8 @@ CREATE TABLE Dog_To_Group_Photos (
   CONSTRAINT fk_di_dog_id FOREIGN KEY (dogId) REFERENCES Dogs (id) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT no_duplicates UNIQUE (groupPhotoId, dogId)
 );
+
+CREATE INDEX idx_puppies ON Puppies (litterId);
+
+CREATE INDEX idx_families ON Families (mother, litterId);
+
