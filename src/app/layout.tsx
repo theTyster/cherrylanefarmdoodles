@@ -1,24 +1,54 @@
 // Types
 import Head from "next/head";
-import { type Metadata } from "next"; // {
+import { type Metadata } from "next";
 // Styles
 import "@/styles/reset.scss";
 import "@/styles/global.scss";
 import { font } from "@/styles/font";
 
 export const metadata: Metadata = {
-  title: "Cherry Lane Farm Doodles",
-  description: `Cherry Lane Farm Doodles is a family-owned and operated business that breeds and raises Goldendoodles.`,
-  alternates: {
-    canonical: "/",
+  title: {
+    default: "Cherry Lane Farms | Temperament focused dog breeder",
+    template: "%s | Cherry Lane Farm Doodles",
   },
-// CONFIGURED BY NEXT.JS BY DEFAULT
-//  openGraph: {
-//    images: ['./opengraph-image.png',]
-//  },
-//  twitter: {
-//    images: ['./twitter-image.png',]
-//  }
+  description: `Cherry Lane Farms focuses on temperament, health, and socialization to provide the best possible pet for your family. Located in Murfreesboro TN.`,
+  metadataBase: new URL("https://cherrylanefarmdoodles.com"),
+  generator: "Next.js",
+  applicationName: "Next.js",
+  referrer: "origin-when-cross-origin",
+  category: "pets",
+  keywords: [
+    "dog breeder",
+    "temperament",
+    "Goldendoodles",
+    "puppies",
+    "Murfreesboro TN",
+  ],
+  authors: [
+    { name: "Jenny Moffit" },
+  ],
+  creator: "Tyler Davis",
+  publisher: "Cherry Lane Farms",
+  alternates: {
+    canonical: "https://cherrylanefarmdoodles.com",
+  },
+  //TODO:
+  //verification: {
+  //  google: 'google',
+  //  yandex: 'yandex',
+  //  yahoo: 'yahoo',
+  //  other: {
+  //    me: ['my-email', 'my-link'],
+  //  },
+  //},
+  //}
+  // CONFIGURED BY NEXT.JS BY DEFAULT
+  //  openGraph: {
+  //    images: ['./opengraph-image.png',]
+  //  },
+  //  twitter: {
+  //    images: ['./twitter-image.png',]
+  //  }
 };
 
 export default function CLFMain({
