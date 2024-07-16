@@ -36,15 +36,47 @@
  * Thus, For the purposes of this test suite, the data is all mocked and can be
  * viewed in the tets/migrations directory.
 }*/
-import path from "node:path";
+import { type Dirent } from "node:fs";
+import { readdir, readFile } from "node:fs/promises";
+import { join, resolve } from "node:path";
 import {
   readD1Migrations,
   defineWorkersConfig,
 } from "@cloudflare/vitest-pool-workers/config";
 
+// Only works in Node.js 20^
+const walk = async (dirPath: string): Promise<string[][]> => {
+  return await Promise.all(
+    (await readdir(dirPath, { withFileTypes: true }).then((entries: Dirent[]) =>
+      entries.map((entry: Dirent) => {
+        const childPath = join(dirPath, entry.name);
+        return entry.isDirectory() ? walk(childPath) : childPath;
+      })
+    )) as string[][]
+  );
+};
+
 export default defineWorkersConfig(async () => {
-  const migrationsPath = path.join(__dirname, "test/migrations");
+  const migrationsPath = join(__dirname, "test/migrations");
   const migrations = await readD1Migrations(migrationsPath);
+  const r2TestFilePaths = join(__dirname, "test/placeholders");
+
+  const TwoDimensionalFSArray = await walk(r2TestFilePaths);
+  const r2TestFiles = TwoDimensionalFSArray.flat(
+    Number.POSITIVE_INFINITY
+  ) as string[];
+  const r2TestFileContents = await Promise.all(
+    r2TestFiles.map(
+      async (dirPath: string) =>
+        await readFile(resolve(dirPath), "utf8").then((data) => data)
+    )
+  );
+  const R2Uploads = r2TestFiles.reduce((acc, path, index) => {
+    let keys = path.split("placeholders/")[1];
+    keys = keys.split("/")[1];
+    acc[keys] = r2TestFileContents[index];
+    return acc;
+  }, {} as Record<string, string>);
 
   return {
     test: {
@@ -56,16 +88,20 @@ export default defineWorkersConfig(async () => {
             configPath: "./wrangler.toml",
           },
           miniflare: {
-            bindings: { TEST_MIGRATIONS: migrations },
+            r2Buckets: ["r2TestBucket"],
+            bindings: {
+              TEST_MIGRATIONS: migrations,
+              R2_TEST_FILES: R2Uploads,
+            },
           },
         },
       },
     },
     resolve: {
       alias: {
-        "@": path.resolve(__dirname, "src"),
+        "@": resolve(__dirname, "src"),
         //"@test": path.resolve(__dirname, "test"),
-      }
-    }
+      },
+    },
   };
 });
