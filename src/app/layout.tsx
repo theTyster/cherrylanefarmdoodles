@@ -1,5 +1,4 @@
 // Types
-import Head from "next/head";
 import { type Metadata } from "next";
 // Styles
 import "@/styles/reset.scss";
@@ -63,9 +62,6 @@ export default function CLFMain({
   return (
     <html lang="en">
       <body className={font.className}>
-        <Head>
-          <title>Welcome to Cherry Lane Farms</title>
-        </Head>
         <main>
           <div className="white-layout">
             <div className="left-flex" />
