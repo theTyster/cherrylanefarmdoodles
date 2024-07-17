@@ -32,13 +32,20 @@ describe("Cloudflare Environment", async () => {
 
 describe("Backend Systems", async () => {
   const R2 = {
-    uploads: await Promise.all(
+    uploads: (await Promise.all(
       Object.keys(env.R2_TEST_FILES).map(async (file: string) => {
-        return env.dogImages.put(file, env.R2_TEST_FILES[file]);
+        const res = env.dogImages.put(file, env.R2_TEST_FILES[file]);
+        if (res) return res;
       })
-    ),
+    )) as R2Object[],
     keys: Object.keys(env.R2_TEST_FILES),
   } as const;
+
+  const r2Raw = R2.uploads.reduce((acc: [string, R2Object][], cur) => {
+    const secondDimension:[string, R2Object] = [cur.key, cur];
+    acc.push(secondDimension);
+    return acc;
+  }, []);
 
   type TestR2 = keyof typeof R2;
 
@@ -93,6 +100,10 @@ describe("Backend Systems", async () => {
         );
       });
 
+      //      test("All large headshots should correspond to an adultName", () => {
+      //        console.log(headshotsLG.forEach( photo => photo.split('_')[1] ))
+      //      });
+
       test("All small headshots should be unique.", () => {
         const headshotUrls = headshotsSm.map((photo) => photo[1]);
         const uniquePhotos = new Set(headshotUrls);
@@ -103,7 +114,7 @@ describe("Backend Systems", async () => {
         expect(R2.keys.slice(16, 20)).toMatchObject(
           headshotsSm.map((p) => p[1]).flat(1)
         );
-      })
+      });
     });
 
     describe("Litters Data", async () => {
@@ -168,35 +179,34 @@ describe("Backend Systems", async () => {
   });
 
   describe("R2", async () => {
-    R2.uploads.forEach((upload, index) => {
-      if (upload) {
-        test(`Upload ${upload.key.split("/")[1]}`, () => {
-          expect(upload, "Did not upload").toBeTruthy();
-          expect(upload.key, "Incorrect Key Types").toBeTypeOf("string");
-          expect(R2.keys[index], "Incorrect Keys").toContain(upload.key);
+    describe.each(r2Raw)(`%s`, (key, upload) => {
+
+      if (key && upload) {
+        test(`is uploaded`, () => {
+          expect(key, "Did not upload").toBeTruthy();
+          expect(key, "Incorrect Key Types").toBeTypeOf("string");
+          expect(key, "Incorrect Keys").toContain(upload.key);
         });
-      } else throw new Error(`Upload failed for ${upload}`);
-    });
 
-    R2.keys.forEach((key) => {
-      test(`Read   ${key}`, async () => {
-        const read = await env.dogImages.get(key);
-        const meta = await env.dogImages.head(key);
-        if (!read) throw new Error(`${key} not found in R2 Bucket`);
-        if (!meta) throw new Error(`No meta information found for ${key}`);
+        test(`is readable`, async () => {
+          const read = await env.dogImages.get(key);
+          const meta = await env.dogImages.head(key);
+          if (!read) throw new Error(`${key} not found in R2 Bucket`);
+          if (!meta) throw new Error(`No meta information found for ${key}`);
 
-        const readText = await read.text(); // Must consume the body or the test will hang/fail.
+          const readText = await read.text(); // Must consume the body or the test will hang/fail.
 
-        expect(readText).toBeTruthy();
-        expect(
-          readText,
-          "Files in R2 Bucket do not match the uploads object"
-        ).toBe(env.R2_TEST_FILES[key]);
+          expect(readText).toBeTruthy();
+          expect(
+            readText,
+            "Files in R2 Bucket do not match the uploads object"
+          ).toBe(env.R2_TEST_FILES[key]);
 
-        expect(meta).toBeTruthy();
-        expect(meta.key).toBeTypeOf("string");
-        expect(meta.key).toBe(key);
-      });
+          expect(meta).toBeTruthy();
+          expect(meta.key).toBeTypeOf("string");
+          expect(meta.key).toBe(key);
+        });
+      } else throw new Error(`Upload failed for ${key}`);
     });
 
     test("List all files in R2 Bucket.", async () => {
