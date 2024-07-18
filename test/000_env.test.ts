@@ -225,12 +225,12 @@ describe("Backend Systems", async () => {
           });
         }
       );
-    });
 
-    test("All families should be unique.", () => {
-      const familyUUIDs = D1Families.map((family) => family.join(""));
-      const uniqueFamilies = new Set(familyUUIDs);
-      expect(uniqueFamilies.size).toBe(D1Families.length);
+      test("All families should be unique.", () => {
+        const familyUUIDs = D1Families.map((family) => family.join(""));
+        const uniqueFamilies = new Set(familyUUIDs);
+        expect(uniqueFamilies.size).toBe(D1Families.length);
+      });
     });
   });
 });
