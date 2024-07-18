@@ -38,7 +38,7 @@ type D1RawTable<T = [number, string]> = T extends ArrayOf<
   number | string | boolean
 >
   ? T[]
-  : never;
+  : [T][];
 type D1GroupPhotosRaw = D1RawTable;
 type D1HeadshotsSmRaw = D1RawTable;
 type D1HeadshotsLgRaw = D1RawTable;
