@@ -1,27 +1,27 @@
 CREATE TABLE Group_Photos (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  groupPhoto TEXT UNIQUE NOT NULL CHECK (LENGTH(groupPhoto) <= 2000)
+  id INTEGER PRIMARY KEY,
+  groupPhoto TEXT NOT NULL CHECK (LENGTH(groupPhoto) <= 2000)
 );
 
 CREATE TABLE Headshots_Sm (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  headshotSmall TEXT UNIQUE NOT NULL CHECK (LENGTH(headshotSmall) <= 2000)
+  id INTEGER PRIMARY KEY,
+  headshotSmall TEXT NOT NULL CHECK (LENGTH(headshotSmall) <= 2000)
 );
 
 CREATE TABLE Headshots_Lg (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  headshotLarge TEXT UNIQUE NOT NULL CHECK (LENGTH(headshotLarge) <= 2000)
+  id INTEGER PRIMARY KEY,
+  headshotLarge TEXT NOT NULL CHECK (LENGTH(headshotLarge) <= 2000)
 );
 
 CREATE TABLE Litters (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  id INTEGER PRIMARY KEY,
   dueDate DATE NOT NULL,
   birthday DATE,
   applicantsInQueue INTEGER NOT NULL CHECK (applicantsInQueue <= 0) DEFAULT 0
 );
 
 CREATE TABLE Dogs (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  id INTEGER PRIMARY KEY,
   gender TEXT NOT NULL CHECK (gender IN ('M', 'F')),
   noseColor TEXT NOT NULL CHECK (LENGTH(noseColor) <= 16),
   coatColor TEXT NOT NULL CHECK (LENGTH(coatColor) <= 16),
@@ -33,7 +33,7 @@ CREATE TABLE Dogs (
 );
 
 CREATE TABLE Adults (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  id INTEGER PRIMARY KEY,
   adultName TEXT NOT NULL CHECK (LENGTH(adultName) <= 16),
   breeder TEXT NOT NULL CHECK (LENGTH(breeder) <= 50),
   birthday DATE NOT NULL,
@@ -47,7 +47,7 @@ CREATE TABLE Adults (
 );
 
 CREATE TABLE Puppies (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  id INTEGER PRIMARY KEY,
   puppyName TEXT CHECK (LENGTH(puppyName) <= 16),
   collarColor TEXT NOT NULL CHECK (LENGTH(collarColor) <= 16),
   isAvailable BOOLEAN CHECK (isAvailable IN (0, 1)) NOT NULL,
@@ -58,7 +58,7 @@ CREATE TABLE Puppies (
 );
 
 CREATE TABLE Families (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  id INTEGER PRIMARY KEY,
   groupPhoto INTEGER,
   mother INTEGER,
   father INTEGER,
@@ -71,7 +71,7 @@ CREATE TABLE Families (
 );
 
 CREATE TABLE Dog_To_Group_Photos (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  id INTEGER PRIMARY KEY,
   groupPhotoId INTEGER,
   dogId INTEGER,
   CONSTRAINT fk_di_image_id FOREIGN KEY (groupPhotoId) REFERENCES Group_Photos (id) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -81,5 +81,7 @@ CREATE TABLE Dog_To_Group_Photos (
 
 CREATE INDEX idx_puppies ON Puppies (litterId);
 
-CREATE INDEX idx_families ON Families (mother, litterId);
+CREATE INDEX idx_families ON Families (mother, father, litterId);
+
+CREATE INDEX idx_adults ON Adults (adultName);
 
