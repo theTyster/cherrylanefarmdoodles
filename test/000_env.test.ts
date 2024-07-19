@@ -52,7 +52,7 @@ describe("Backend Systems", async () => {
     describe.each(r2Raw)(`%s`, (key, upload) => {
       test(`is uploaded`, () => {
         expect(key, "Did not upload").toBeTruthy();
-        expect(key, "Incorrect Key Types").toBeTypeOf("string");
+        expect(key, "Incorrect Key Types").toStrictEqual(expect.any(String));
         expect(key, "Incorrect Keys").toContain(upload.key);
       });
 
@@ -71,7 +71,7 @@ describe("Backend Systems", async () => {
         ).toBe(env.R2_TEST_FILES[key]);
 
         expect(meta).toBeTruthy();
-        expect(meta.key).toBeTypeOf("string");
+        expect(meta.key).toStrictEqual(expect.any(String));
         expect(meta.key).toBe(key);
       });
     });
@@ -154,7 +154,7 @@ describe("Backend Systems", async () => {
         "Litter ID: %s",
         (ID, dueDate, birthday, applicantsInQueue) => {
           test(`Row: ${ID}`, () => {
-            expect(ID, "ID not an integer.").toBeTypeOf("number");
+            expect(ID, "ID not an integer.").toStrictEqual(expect.any(Number));
             expect(
               new Date(dueDate),
               "Due date not a valid date."
@@ -204,19 +204,19 @@ describe("Backend Systems", async () => {
             expect(R2.keys).toContain(groupPhoto);
           });
           test(`Row: ${ID}`, () => {
-            expect(ID, "ID should be an integer.").toBeTypeOf("number");
+            expect(ID, "ID should be an integer.").toStrictEqual(expect.any(Number));
             expect(
               groupPhotoID,
               "Group photo should be an integer."
-            ).toBeTypeOf("number");
-            expect(motherID, "Mother should be an integer.").toBeTypeOf(
-              "number"
+            ).toStrictEqual(expect.any(Number));
+            expect(motherID, "Mother should be an integer.").toStrictEqual(
+              expect.any(Number)
             );
-            expect(fatherID, "Father should be an integer.").toBeTypeOf(
-              "number"
+            expect(fatherID, "Father should be an integer.").toStrictEqual(
+              expect.any(Number)
             );
-            expect(litterID, "Litter ID should be an integer.").toBeTypeOf(
-              "number"
+            expect(litterID, "Litter ID should be an integer.").toStrictEqual(
+              expect.any(Number)
             );
             expect(
               D1Litters.some((litter) => litter[0] === litterID),
