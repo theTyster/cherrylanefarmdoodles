@@ -1,6 +1,6 @@
 INSERT INTO Headshots_Sm (headshotSmall)
   VALUES
-  ('smheadshot_bella.svg'),
-  ('smheadshot_charlie.svg'),
-  ('smheadshot_lucy.svg'),
-  ('smheadshot_max.svg');
+  ('smheadshot_bella.jpg'),
+  ('smheadshot_charlie.png'),
+  ('smheadshot_lucy.png'),
+  ('smheadshot_max.png');
