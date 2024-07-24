@@ -19,6 +19,7 @@ describe("Backend Systems", async () => {
     acc.push(secondDimension);
     return acc;
   }, []);
+
   // }
   // D1 Setup {
   // D1QueryAll Function {
@@ -166,6 +167,8 @@ describe("Backend Systems", async () => {
         expect(meta).toBeTruthy();
         expect(meta.key).toStrictEqual(expect.any(String));
         expect(meta.key).toBe(key);
+        expect(meta.etag, "Caching should be strengthened by default.").and.toStrictEqual(expect.any(String));
+        expect(meta.httpEtag, "Caching should be strengthened by default.").and.toStrictEqual(expect.any(String));
       });
     });
 
