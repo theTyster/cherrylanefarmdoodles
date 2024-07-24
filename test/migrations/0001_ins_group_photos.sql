@@ -1,10 +1,10 @@
 INSERT INTO Group_Photos (groupPhoto)
   VALUES
-  ('group.svg'),
-  ('group.svg'),
-  ('group.svg'),
-  ('group.svg'),
-  ('group.svg'),
-  ('group.svg'),
-  ('group.svg'),
-  ('group.svg');
+  ('group.jpg'),
+  ('group.png'),
+  ('group.png'),
+  ('group.png'),
+  ('group.png'),
+  ('group.png'),
+  ('group.png'),
+  ('group.png');
