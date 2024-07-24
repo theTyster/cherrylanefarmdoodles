@@ -36,7 +36,7 @@
  * Thus, For the purposes of this test suite, the data is all mocked and can be
  * viewed in the tets/migrations directory.
 }*/
-import { type Dirent } from "node:fs";
+import { Dirent } from "node:fs";
 import { readdir, readFile } from "node:fs/promises";
 import { join, resolve } from "node:path";
 import {
@@ -44,39 +44,52 @@ import {
   defineWorkersConfig,
 } from "@cloudflare/vitest-pool-workers/config";
 
-// Only works in Node.js 20^
-const walk = async (dirPath: string): Promise<string[][]> => {
-  return await Promise.all(
-    (await readdir(dirPath, { withFileTypes: true }).then((entries: Dirent[]) =>
-      entries.map((entry: Dirent) => {
-        const childPath = join(dirPath, entry.name);
-        return entry.isDirectory() ? walk(childPath) : childPath;
-      })
-    )) as string[][]
-  );
-};
-
 export default defineWorkersConfig(async () => {
   const migrationsPath = join(__dirname, "test/migrations");
   const migrations = await readD1Migrations(migrationsPath);
-  const r2TestFilePaths = join(__dirname, "test/placeholders");
+  const r2TestFileDirectoryPaths = [
+    join(__dirname, "test/placeholders/groupPhotos"),
+    join(__dirname, "test/placeholders/large"),
+    join(__dirname, "test/placeholders/small"),
+  ];
 
-  const TwoDimensionalFSArray = await walk(r2TestFilePaths);
-  const r2TestFiles = TwoDimensionalFSArray.flat(
-    Number.POSITIVE_INFINITY
-  ) as string[];
-  const r2TestFileContents = await Promise.all(
-    r2TestFiles.map(
-      async (dirPath: string) =>
-        await readFile(resolve(dirPath), "utf8").then((data) => data)
-    )
+  const r2TestFilePaths = await Promise.all(
+    r2TestFileDirectoryPaths.map(async (dirPath: string) => {
+      const files = await readdir(dirPath, {
+        withFileTypes: true,
+      });
+      return Promise.all(
+        files.map(async (file: Dirent) => {
+          if (file.isFile()) {
+            const childPath = join(dirPath, file.name);
+            return childPath;
+          }
+        })
+      );
+    })
   );
-  const R2Uploads = r2TestFiles.reduce((acc, path, index) => {
-    let keys = path.split("placeholders/")[1];
-    keys = keys.split("/")[1];
-    acc[keys] = r2TestFileContents[index];
-    return acc;
-  }, {} as Record<string, string>);
+
+  const r2TestFilePathsFlat = r2TestFilePaths.flat();
+
+  const r2TestFileContents = (await Promise.all(
+    r2TestFilePathsFlat.map(async (path) => {
+      if (!path) return;
+      return readFile(resolve(__dirname, path), "base64");
+    })
+  )) as string[];
+
+  const R2Uploads = r2TestFilePathsFlat.reduce(
+    (acc: Record<string, string>, path, index) => {
+      if (!path) return acc; // Skip other directories like Miniflare's node_modules
+      else {
+        let keys = path.split("placeholders/")[1];
+        keys = keys.split("/")[1];
+        acc[keys] = r2TestFileContents[index];
+        return acc;
+      }
+    },
+    {} as Record<string, string>
+  );
 
   return {
     test: {
