@@ -4,13 +4,7 @@
     "plugin:eslint-plugin-next-on-pages/recommended",
     "plugin:@typescript-eslint/recommended"
   ],
-  "plugins": [
-    "eslint-plugin-next-on-pages"
-  ],
+  "plugins": ["eslint-plugin-next-on-pages"],
   "parser": "@typescript-eslint/parser",
-  "ignorePatterns": ["src/!**/*", "/src/components/_utils.ts"],
-  "rules": {
-    // Disable this rule after integrating with Cloudflare R2.
-    "@next/next/no-img-element": "off"
-  }
+  "ignorePatterns": ["src/!**/*", "/src/components/_utils.ts"]
 }
