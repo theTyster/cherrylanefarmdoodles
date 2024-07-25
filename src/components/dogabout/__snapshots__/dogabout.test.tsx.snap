@@ -1,0 +1,12 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`DogAbout Component > data passed into DogAbout component should be consistent 1`] = `
+<DogAbout
+  dogData={
+    {
+      "about": "This is a dog",
+      "adultName": "Dog Name",
+    }
+  }
+/>
+`;
