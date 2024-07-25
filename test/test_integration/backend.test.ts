@@ -48,7 +48,7 @@ describe("Backend Systems", async () => {
   /**
    * [id, headshotSmall]
    */
-  //const D1HeadshotsSm = await D1QueryAll<D1HeadshotsSmRaw[0]>("Headshots_Sm");
+  const D1HeadshotsSm = await D1QueryAll<D1HeadshotsSmRaw[0]>("Headshots_Sm");
   // }
 
   // Headshots_Lg {
@@ -167,8 +167,14 @@ describe("Backend Systems", async () => {
         expect(meta).toBeTruthy();
         expect(meta.key).toStrictEqual(expect.any(String));
         expect(meta.key).toBe(key);
-        expect(meta.etag, "Caching should be strengthened by default.").and.toStrictEqual(expect.any(String));
-        expect(meta.httpEtag, "Caching should be strengthened by default.").and.toStrictEqual(expect.any(String));
+        expect(
+          meta.etag,
+          "Caching should be strengthened by default."
+        ).and.toStrictEqual(expect.any(String));
+        expect(
+          meta.httpEtag,
+          "Caching should be strengthened by default."
+        ).and.toStrictEqual(expect.any(String));
       });
     });
 
@@ -180,6 +186,30 @@ describe("Backend Systems", async () => {
       expect(list.objects.length, "Not listing all uploads").toBe(
         R2.uploads.length
       );
+    });
+
+    describe("Check for extra files.", async () => {
+      const allPhotos = [...D1GroupPhotos, ...D1HeadshotsLg, ...D1HeadshotsSm];
+      let hasExtraFiles = false;
+
+      test("R2 should have the same number of photo entries as D1", () => {
+        expect(R2.keys.length).toEqual(r2Raw.length);
+        expect
+          .soft(
+            r2Raw.length,
+            `R2 has ${r2Raw.length} photos, but D1 has ${allPhotos.length}.`
+          )
+          .toEqual(allPhotos.length);
+        if (r2Raw.length !== allPhotos.length) hasExtraFiles = true;
+      });
+      test
+        .skipIf(!hasExtraFiles)
+        .each([[...allPhotos], [...R2.keys]])(
+          "Checking whether R2 Object %s is in D1",
+          (one, two) => {
+            console.log(one, two);
+          }
+        );
     });
   });
 
@@ -525,7 +555,6 @@ describe("Backend Systems", async () => {
       });
     });
 
-
     describe("D1 Modifications", () => {
       interface D1ChangesType {
         dogsAfterDeleted?: D1DogsRaw;
@@ -573,12 +602,14 @@ describe("Backend Systems", async () => {
             expect(deleted.success, "Delete was unsuccessful.").toBe(true);
             expect(D1Changes.dogsAfterDeleted).not.toMatchObject(D1Dogs);
             expect(D1Changes.dogsAfterDeleted[0][0]).not.toBe(3);
-          expect
-            .soft(D1Changes, "Database structure is unexpected.")
-            .toMatchSnapshot();
+            expect
+              .soft(D1Changes, "Database structure is unexpected.")
+              .toMatchSnapshot();
           });
-          test.todo("Deleting mothers and fathers should also delete Families?")
-          test.todo("Deleting Puppies should not delete Litters?")
+          test.todo(
+            "Deleting mothers and fathers should also delete Families?"
+          );
+          test.todo("Deleting Puppies should not delete Litters?");
         });
       });
       describe("Updates", () => {
@@ -588,8 +619,10 @@ describe("Backend Systems", async () => {
             .bind()
             .all();
 
-            const newHeadshotsLg = await D1QueryAll<D1HeadshotsLgRaw[0]>("Headshots_Lg");
-            const newDogs = await D1QueryAll<D1DogsRaw[0]>("Dogs");
+          const newHeadshotsLg = await D1QueryAll<D1HeadshotsLgRaw[0]>(
+            "Headshots_Lg"
+          );
+          const newDogs = await D1QueryAll<D1DogsRaw[0]>("Dogs");
 
           D1Changes.headshotsAfterUpdated = newHeadshotsLg;
           D1Changes.dogsAfterUpdated = newDogs;
