@@ -3,8 +3,4 @@ INSERT INTO Group_Photos (groupPhoto)
   ('group.jpg'),
   ('group.png'),
   ('group.png'),
-  ('group.png'),
-  ('group.png'),
-  ('group.png'),
-  ('group.png'),
   ('group.png');

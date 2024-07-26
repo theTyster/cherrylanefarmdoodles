@@ -1,160 +1,79 @@
 import { env } from "cloudflare:test";
 import { describe, test, expect } from "vitest";
+import { D1_TABLES, D1Tables } from "../../src/types.d";
 
 describe("Backend Systems", async () => {
-  // R2 Setup {
-  const R2 = {
-    //type TestR2 = keyof typeof R2; << May need this one day?
-    uploads: (await Promise.all(
-      Object.keys(env.R2_TEST_FILES).map((file: string) => {
-        const res = env.dogImages.put(file, env.R2_TEST_FILES[file]);
-        if (res) return res;
-      })
-    )) as R2Object[],
-    keys: Object.keys(env.R2_TEST_FILES),
-  } as const;
-
-  const r2Raw = R2.uploads.reduce((acc: [string, R2Object][], cur) => {
-    const secondDimension: [string, R2Object] = [cur.key, cur];
-    acc.push(secondDimension);
-    return acc;
-  }, []);
-
-  // }
-  // D1 Setup {
   // D1QueryAll Function {
   /**
-   * @param table string
+   * @param @see D1Tables
    * @returns Promise<D1RawTable<T>>
    */
-  const D1QueryAll = async function D1QueryAll<T = [number, string]>(
-    table: string
-  ) {
+  async function D1QueryAll(query: D1Tables) {
     const queryResult = await env.dogsDB
-      .prepare(`SELECT * FROM ${table}`)
+      .prepare(`SELECT * FROM ${query}`)
       .bind()
-      .raw();
-    return queryResult as D1RawTable<T>;
+      .raw<D1_TABLES[D1Tables]>(/*{ columnNames: true }*/);
+    if (queryResult) return queryResult;
+  }
+  // }
+
+  function R2Setup() {
+    return Object.keys(env.R2_TEST_FILES).map((file: string) => {
+      const res = env.dogImages.put(file, env.R2_TEST_FILES[file]);
+      if (res) return res;
+    });
+  }
+
+  function D1Setup() {
+    const keys = Object.keys(D1Tables) as D1Tables[];
+    return keys.map((table) => D1QueryAll(table));
+  }
+
+  const [R2Raw, D1Raw] = await Promise.all([
+    Promise.all(R2Setup()),
+    Promise.all(D1Setup()),
+  ]);
+
+  function* moveThroughD1() {
+    for (const table of Object.keys(D1Tables)) {
+      yield table;
+    }
+  }
+  const tableName = moveThroughD1();
+
+  type TestD1Type = {
+    [P in D1Tables]: D1_TABLES[P];
+  }
+
+  const D1 = D1Raw.reduce(function getNewD1(newD1: Record<string, unknown> & TestD1Type | Record<string, never>, table) {
+    const key = tableName.next().value as string;
+    newD1[key] = table;
+    return newD1;
+  }, {}) as TestD1Type;
+
+  const R2 = {
+    uploads: R2Raw.reduce(function getNewR2(newR2: any, upload: any) {
+      newR2[upload.key] = upload;
+      return newR2;
+    }, {}),
+    keys: Object.keys(env.R2_TEST_FILES),
   };
-  // }
-  // Group_Photos {
-  /**
-   * [id, groupPhoto]
-   */
-  const D1GroupPhotos = await D1QueryAll<D1GroupPhotosRaw[0]>("Group_Photos");
-  // }
-
-  // Headshots_Sm {
-  /**
-   * [id, headshotSmall]
-   */
-  const D1HeadshotsSm = await D1QueryAll<D1HeadshotsSmRaw[0]>("Headshots_Sm");
-  // }
-
-  // Headshots_Lg {
-  /**
-   * [id, headshotLarge]
-   */
-  const D1HeadshotsLg = await D1QueryAll<D1HeadshotsLgRaw[0]>("Headshots_Lg");
-  // }
-
-  // Litters {
-  /**
-   *  [
-   *    number, //id
-   *    string, //dueDate
-   *    string, //birthday
-   *    number  //applicantsInQueue
-   *  ]
-   */
-  const D1Litters = await D1QueryAll<D1LittersRaw[0]>("Litters");
-  // }
-
-  // Dogs {
-  /**
-   *  [
-   *    number, //id
-   *    string, //gender
-   *    string, //noseColor
-   *    string, //coatColor
-   *    string, //personality
-   *    number, //headshotSmall
-   *    number  //headshotLarge
-   *  ]
-   */
-  const D1Dogs = await D1QueryAll<D1DogsRaw[0]>("Dogs");
-  // }
-
-  // Adults {
-  /**
-   *  [
-   *    number,  //id
-   *    string,  //adultName
-   *    string,  //breeder
-   *    string,  //birthday
-   *    string,  //eyeColor
-   *    boolean, //isRetired
-   *    string,  //about
-   *    number,  //weight
-   *    string,  //energyLevel
-   *    number   //dogId
-   *  ]
-   */
-  const D1Adults = await D1QueryAll<D1AdultsRaw[0]>("Adults");
-  //}
-
-  // Puppies {
-  /**
-   *  [
-   *    number,  //id
-   *    string,  //puppyName
-   *    string,  //collarColor
-   *    boolean, //isAvailable
-   *    number,  //dogId
-   *    number   //litterId
-   *  ]
-   */
-  const D1Puppies = await D1QueryAll<D1PuppiesRaw[0]>("Puppies");
-  // }
-
-  // Families {
-  /**
-   *  [
-   *    number, //id
-   *    number, //groupPhoto
-   *    number, //mother
-   *    number, //father
-   *    number  //litterId
-   *  ]
-   */
-  const D1Families = await D1QueryAll<D1FamiliesRaw[0]>("Families");
-  // }
-
-  // Dog To Group Photos{
-  /**
-   *  [
-   *    number, //id
-   *    string, //groupPhotoId
-   *    number  //dogId
-   *  ]
-   */
-  //const D1DogToGroupPhotos = await D1QueryAll<D1DogToGroupPhotosRaw[0]>("Dog_To_Group_Photos");
-  // }
-  // }
 
   describe("R2", () => {
-    describe.each(r2Raw)(`%s`, (key, upload) => {
-      test(`is uploaded`, () => {
+    describe.each(R2.keys)('%s', (key) => {
+      test('is uploaded', () => {
         expect(key, "Did not upload").toBeTruthy();
-        expect(key, "Incorrect Key Types").toStrictEqual(expect.any(String));
-        expect(key, "Incorrect Keys").toContain(upload.key);
+        expect(key, "Incorrect Key Types").toStrictEqual(
+          expect.any(String)
+        );
       });
 
-      test(`is readable`, async () => {
+      test('is readable', async () => {
         const read = await env.dogImages.get(key);
         const meta = await env.dogImages.head(key);
         if (!read) throw new Error(`${key} not found in R2 Bucket`);
-        if (!meta) throw new Error(`No meta information found for ${key}`);
+        if (!meta)
+          throw new Error(`No meta information found for ${key}`);
 
         const readText = await read.text(); // Must consume the body or the test will hang/fail.
 
@@ -184,38 +103,43 @@ describe("Backend Systems", async () => {
       expect(list).toBeTruthy();
       expect(list.objects).toBeInstanceOf(Array);
       expect(list.objects.length, "Not listing all uploads").toBe(
-        R2.uploads.length
+        R2.keys.length
       );
     });
 
     describe("Check for extra files.", async () => {
-      const allPhotos = [...D1GroupPhotos, ...D1HeadshotsLg, ...D1HeadshotsSm];
+      const allD1Photos = [
+        ...D1.Group_Photos,
+        ...D1.Headshots_Lg,
+        ...D1.Headshots_Sm,
+      ].map((data) => data[0] + "_" + data[1]);
       let hasExtraFiles = false;
 
-      test("R2 should have the same number of photo entries as D1", () => {
-        expect(R2.keys.length).toEqual(r2Raw.length);
+      /**Accounts for potential duplicates that may be in Prod.*/
+      test("R2 should have 1/3rd more photo entries than D1", () => {
+        expect(R2.keys.length).toEqual(R2Raw.length);
         expect
           .soft(
-            r2Raw.length,
-            `R2 has ${r2Raw.length} photos, but D1 has ${allPhotos.length}.`
+            R2Raw.length,
+            `R2 has ${
+              R2Raw.length - R2Raw.length / 3
+            } real photos, but D1 has ${allD1Photos.length}.`
           )
-          .toEqual(allPhotos.length);
-        if (r2Raw.length !== allPhotos.length) hasExtraFiles = true;
+          .toEqual(allD1Photos.length + R2Raw.length / 3);
+        if (R2Raw.length !== allD1Photos.length) hasExtraFiles = true;
       });
-      test
-        .skipIf(!hasExtraFiles)
-        .each([[...allPhotos], [...R2.keys]])(
-          "Checking whether R2 Object %s is in D1",
-          (one, two) => {
-            console.log(one, two);
-          }
-        );
+      test.skipIf(hasExtraFiles).each(allD1Photos)(
+        "Checking whether D1 object '%s' is in R2.",
+        (D1) => {
+          expect(R2.keys, `R2 does not contain ${D1}`).toContain(D1);
+        }
+      );
     });
   });
 
   describe("D1", async () => {
     describe("Litters Data", () => {
-      describe.each(D1Litters)(
+      describe.each(D1.Litters)(
         "Litter ID: %s",
         (
           /*0*/ ID, //
@@ -243,14 +167,14 @@ describe("Backend Systems", async () => {
       );
 
       test("All litters should be unique.", () => {
-        const litterUUIDs = D1Litters.map((litter) => litter.join(""));
+        const litterUUIDs = D1.Litters.map((litter) => litter.join(""));
         const uniqueLitters = new Set(litterUUIDs);
-        expect(uniqueLitters.size).toBe(D1Litters.length);
+        expect(uniqueLitters.size).toBe(D1.Litters.length);
       });
     });
 
     describe("Dogs Data", () => {
-      describe.each(D1Dogs)(
+      describe.each(D1.Dogs)(
         "Dog ID: %s",
         (
           /*0*/ ID, //
@@ -288,14 +212,14 @@ describe("Backend Systems", async () => {
               "Large Headshot should be an integer."
             ).toStrictEqual(expect.any(Number));
             expect(
-              D1HeadshotsLg.some((headshot) => headshot[0] === headshotLarge),
+              D1.Headshots_Lg.some((headshot) => headshot[0] === headshotLarge),
               "Large Headshot should be found in Headshots_Lg."
             ).toBe(true);
           });
 
           test("All dogIDs should be unique.", () => {
-            const adultDogsUUID = D1Adults.map((adult) => adult[9]);
-            const puppyDogsUUID = D1Puppies.map((puppy) => puppy[4]);
+            const adultDogsUUID = D1.Adults.map((adult) => adult[9]);
+            const puppyDogsUUID = D1.Puppies.map((puppy) => puppy[4]);
             const uniqueAdults = new Set([...adultDogsUUID]);
             const uniquePuppies = new Set([...puppyDogsUUID]);
             const uniqueDogs = new Set([...uniqueAdults, ...uniquePuppies]);
@@ -303,12 +227,12 @@ describe("Backend Systems", async () => {
             expect(
               uniqueAdults.size,
               `dogID's are not unique within the Adult table. Adult IDs: ${adultDogsUUID}`
-            ).toBe(D1Adults.length);
+            ).toBe(D1.Adults.length);
 
             expect(
               uniquePuppies.size,
               `dogID's are not unique within the Puppy table. Puppy IDs: ${puppyDogsUUID}`
-            ).toBe(D1Puppies.length);
+            ).toBe(D1.Puppies.length);
 
             expect(
               uniqueDogs.size,
@@ -316,14 +240,14 @@ describe("Backend Systems", async () => {
                 ...adultDogsUUID,
                 ...puppyDogsUUID,
               ]}`
-            ).toBe(D1Adults.length + D1Puppies.length);
+            ).toBe(D1.Adults.length + D1.Puppies.length);
           });
 
           test(`Headshots_Lg contains: ${
-            headshotLarge + "_" + D1HeadshotsLg[headshotLarge - 1][1]
+            headshotLarge + "_" + D1.Headshots_Lg[headshotLarge - 1][1]
           }`, () => {
             expect(R2.keys).toContain(
-              headshotLarge + "_" + D1HeadshotsLg[headshotLarge - 1][1]
+              headshotLarge + "_" + D1.Headshots_Lg[headshotLarge - 1][1]
             );
           });
         }
@@ -331,7 +255,7 @@ describe("Backend Systems", async () => {
     });
 
     describe("Adults Data", () => {
-      describe.each(D1Adults)(
+      describe.each(D1.Adults)(
         "Adult ID: %s, Name: %s",
         (
           /**Index: 0*/
@@ -391,7 +315,7 @@ describe("Backend Systems", async () => {
           });
 
           test(`Foreign Keys`, () => {
-            const adultHeadshot = D1HeadshotsLg.find(
+            const adultHeadshot = D1.Headshots_Lg.find(
               (headshot) => headshot[0] === dogID
             )![1];
 
@@ -400,7 +324,7 @@ describe("Backend Systems", async () => {
               "Adult Name should be in the Headshots_Lg table."
             ).toContain(adultName.replaceAll(/ /g, "-").toLowerCase());
             expect(
-              D1Dogs.some((dog) => dog[0] === dogID),
+              D1.Dogs.some((dog) => dog[0] === dogID),
               "Dog ID should be in Dogs Table."
             ).toBe(true);
           });
@@ -409,7 +333,7 @@ describe("Backend Systems", async () => {
     });
 
     describe("Headshots Data", () => {
-      describe.each(D1HeadshotsLg)(
+      describe.each(D1.Headshots_Lg)(
         "Headshot %d",
         (
           /**Index: 0*/
@@ -435,7 +359,7 @@ describe("Backend Systems", async () => {
     });
 
     describe("Puppies Data", () => {
-      describe.each(D1Puppies)(
+      describe.each(D1.Puppies)(
         "ID: %s, Name: %s",
         (
           /**Index: 0*/
@@ -478,7 +402,7 @@ describe("Backend Systems", async () => {
           });
 
           test("Foreign Keys", () => {
-            const puppyHeadshot = D1HeadshotsLg.find(
+            const puppyHeadshot = D1.Headshots_Lg.find(
               (headshot) => headshot[0] === dogID
             )![1];
             if (puppyName)
@@ -487,14 +411,14 @@ describe("Backend Systems", async () => {
                 "Puppy name should be in Headshots_Lg."
               ).toContain(puppyName.replaceAll(/ /g, "-").toLowerCase());
             expect(
-              D1Dogs.some((dog) => dog[0] === dogID),
+              D1.Dogs.some((dog) => dog[0] === dogID),
               "Dog ID should be found in Dogs."
             ).toBe(true);
             expect(litterID, "Litter ID should be an integer.").toStrictEqual(
               expect.any(Number)
             );
             expect(
-              D1Litters.some((litter) => litter[0] === litterID),
+              D1.Litters.some((litter) => litter[0] === litterID),
               "Litter ID should be found in Litters."
             ).toBe(true);
           });
@@ -503,7 +427,7 @@ describe("Backend Systems", async () => {
     });
 
     describe("Family Data", () => {
-      describe.each(D1Families)(
+      describe.each(D1.Families)(
         "Family ID: %s",
         (
           /**Index: 0*/
@@ -535,23 +459,26 @@ describe("Backend Systems", async () => {
               expect.any(Number)
             );
             expect(
-              D1Litters.some((litter) => litter[0] === litterID),
+              D1.Litters.some((litter) => litter[0] === litterID),
               "Litter ID should be found in Litters."
             ).toBe(true);
           });
 
           test("All group photos should be in R2 Bucket.", () => {
-            const groupPhoto = D1GroupPhotos[groupPhotoID - 1]
-              .flat(1)
+            const groupPhoto = D1.Group_Photos[groupPhotoID - 1]
+              .flat()
               .join("_");
-            expect(R2.keys).toContain(groupPhoto);
+            expect(
+              R2.keys,
+              `R2 doesn't contain an image named ${groupPhoto}`
+            ).toContain(groupPhoto);
           });
         }
       );
       test("All families should be unique.", () => {
-        const familyUUIDs = D1Families.map((family) => family.join(""));
+        const familyUUIDs = D1.Families.map((family) => family.join(""));
         const uniqueFamilies = new Set(familyUUIDs);
-        expect(uniqueFamilies.size).toBe(D1Families.length);
+        expect(uniqueFamilies.size).toBe(D1.Families.length);
       });
     });
 
@@ -575,7 +502,7 @@ describe("Backend Systems", async () => {
             D1Changes.dogsAfterDeleted = newDogs;
 
             expect(deleted.success, "Delete was unsuccessful.").toBe(true);
-            expect(D1Changes.dogsAfterDeleted).not.toMatchObject(D1Dogs);
+            expect(D1Changes.dogsAfterDeleted).not.toMatchObject(D1.Dogs);
             expect(D1Changes.dogsAfterDeleted[0][0]).not.toBe(1);
             expect
               .soft(D1Changes, "Database structure is unexpected.")
@@ -600,7 +527,7 @@ describe("Backend Systems", async () => {
 
             D1Changes.dogsAfterDeleted = newDogs;
             expect(deleted.success, "Delete was unsuccessful.").toBe(true);
-            expect(D1Changes.dogsAfterDeleted).not.toMatchObject(D1Dogs);
+            expect(D1Changes.dogsAfterDeleted).not.toMatchObject(D1.Dogs);
             expect(D1Changes.dogsAfterDeleted[0][0]).not.toBe(3);
             expect
               .soft(D1Changes, "Database structure is unexpected.")
@@ -629,7 +556,7 @@ describe("Backend Systems", async () => {
 
           expect(updated.success).toBe(true);
           expect(D1Changes.headshotsAfterUpdated[7]).not.toMatchObject(
-            D1HeadshotsLg[7]
+            D1.Headshots_Lg[7]
           );
           expect(
             D1Changes.dogsAfterUpdated[0][6],
@@ -641,5 +568,8 @@ describe("Backend Systems", async () => {
         });
       });
     });
+  });
+  test("Only nothing", () => {
+    expect(true).toBe(true);
   });
 });

@@ -4,8 +4,8 @@ INSERT INTO Dogs (gender, noseColor, coatColor, personality, headshotSmall, head
 /*2*/  ('F', 'Brown', 'White', 'Calm and affectionate.', 2, 2),
 /*3*/  ('M', 'White', 'Black', 'Playful and loyal.', 3, 3),
 /*4*/  ('F', 'Brown', 'Black', 'Intelligent and curious.', 4, 4),
-/*5*/
-/*6*/  ('F', 'Brown', 'Black', 'Intelligent and curious.', NULL, 8),
-/*7*/  ('M', 'White', 'Black', 'Playful and loyal.', NULL, 5),
-/*8*/  ('F', 'Brown', 'White', 'Calm and affectionate.', NULL, 6),
-/*9*/  ('M', 'White', 'Black', 'Intelligent and loyal.', NULL, 7);
+
+/*5*/  ('F', 'Brown', 'Black', 'Intelligent and curious.', NULL, 8),
+/*6*/  ('M', 'White', 'Black', 'Playful and loyal.', NULL, 5),
+/*7*/  ('F', 'Brown', 'White', 'Calm and affectionate.', NULL, 6),
+/*8*/  ('M', 'White', 'Black', 'Intelligent and loyal.', NULL, 7);
