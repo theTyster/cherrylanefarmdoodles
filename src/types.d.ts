@@ -1,4 +1,4 @@
-// Utility Types {
+
 type ArrayOf<T> = T[];
 // }
 
@@ -33,28 +33,6 @@ type DogTreeDataMapObj = Record<string, number> | Record<number, string>;
 
 type DogTreeDataMap = Map<DogTreeDataMapObj, DogTreeDataDeconstructed>;
 
-type D1TableNames = keyof typeof D1TableNames;
-type D1TablesOnly = keyof typeof D1TablesOnly;
-type D1TablesOnlyNames = keyof typeof D1TablesNamesOnly;
-type D1RawTable<T = [number, string]> = T extends ArrayOf<
-  number | string | boolean
->
-  ? T[]
-  : [T][];
-
-export interface D1_TABLES {
-  Group_Photos: D1GroupPhotosRaw;
-  Headshots_Sm: D1HeadshotsSmRaw;
-  Headshots_Lg: D1HeadshotsLgRaw;
-  Litters: D1LittersRaw;
-  Dogs: D1DogsRaw;
-  Adults: D1AdultsRaw;
-  Puppies: D1PuppiesRaw;
-  Families: D1FamiliesRaw;
-  Dog_To_Group_Photos: D1DogToGroupPhotosRaw;
-}
-
-// TODO: Move to Types {
 export const D1Tables = {
   Group_Photos: "Group_Photos",
   Headshots_Sm: "Headshots_Sm",
@@ -67,7 +45,7 @@ export const D1Tables = {
   Dog_To_Group_Photos: "Dog_To_Group_Photos",
 } as const;
 
-const D1Columns = {
+export const D1Columns = {
   Group_Photos: {
     id: "id",
     groupPhotos: "groupPhotos",
@@ -137,7 +115,28 @@ const D1Columns = {
   },
 } as const;
 
+export interface D1_TABLES {
+  Group_Photos: D1GroupPhotosRaw;
+  Headshots_Sm: D1HeadshotsSmRaw;
+  Headshots_Lg: D1HeadshotsLgRaw;
+  Litters: D1LittersRaw;
+  Dogs: D1DogsRaw;
+  Adults: D1AdultsRaw;
+  Puppies: D1PuppiesRaw;
+  Families: D1FamiliesRaw;
+  Dog_To_Group_Photos: D1DogToGroupPhotosRaw;
+}
+
 type D1Tables = keyof typeof D1Tables;
+
+type D1TableNames = keyof typeof D1TableNames;
+type D1TablesOnly = keyof typeof D1TablesOnly;
+type D1TablesOnlyNames = keyof typeof D1TablesNamesOnly;
+type D1RawTable<T = [number, string]> = T extends ArrayOf<
+  number | string | boolean
+>
+  ? T[]
+  : [T][];
 // }
 
 
