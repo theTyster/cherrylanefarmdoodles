@@ -1,4 +1,4 @@
-
+// Utility Types {
 type ArrayOf<T> = T[];
 // }
 
@@ -18,132 +18,32 @@ interface DogTreeData {
   readonly mother: string;
   readonly father: string;
   readonly dueDate: string;
-  //readonly birthday: string | null;
-}
-
-interface DogTreeDataDeconstructed extends DogTreeData {
-  readonly groupPhoto: URL;
-  readonly mother: string;
-  readonly father: string;
-  readonly dueDate: Date;
-  readonly birthday: Date | null;
 }
 
 type DogTreeDataMapObj = Record<string, number> | Record<number, string>;
 
 type DogTreeDataMap = Map<DogTreeDataMapObj, DogTreeDataDeconstructed>;
+type D1_TABLES<T> = 
+  T extends "Group_Photos" ? D1GroupPhotos :
+  T extends "Headshots_Sm" ? D1HeadshotsSm :
+  T extends "Headshots_Lg" ? D1HeadshotsLg :
+  T extends "Litters" ? D1Litters :
+  T extends "Dogs" ? D1Dogs :
+  T extends "Adults" ? D1Adults :
+  T extends "Puppies" ? D1Puppies :
+  T extends "Families" ? D1Families :
+  T extends "Dog_To_Group_Photos" ? D1DogToGroupPhotos : never;
 
-export const D1Tables = {
-  Group_Photos: "Group_Photos",
-  Headshots_Sm: "Headshots_Sm",
-  Headshots_Lg: "Headshots_Lg",
-  Litters: "Litters",
-  Dogs: "Dogs",
-  Adults: "Adults",
-  Puppies: "Puppies",
-  Families: "Families",
-  Dog_To_Group_Photos: "Dog_To_Group_Photos",
-} as const;
-
-export const D1Columns = {
-  Group_Photos: {
-    id: "id",
-    groupPhotos: "groupPhotos",
-  },
-
-  Headshots_Sm: {
-    id: "id",
-    headshotSmall: "headshotSmall",
-  },
-
-  Headshots_Lg: {
-    id: "id",
-    headshotLarge: "headshotLarge",
-  },
-
-  Litters: {
-    id: "id",
-    dueDate: "dueDate",
-    birthday: "birthday",
-    applicantsInQueue: "applicantsInQueue",
-  },
-
-  Dogs: {
-    id: "id",
-    gender: "gender",
-    noseColor: "noseColor",
-    coatColor: "coatColor",
-    personality: "personality",
-    headshotSmall: "headshotSmall",
-    headshotLarge: "headshotLarge",
-  },
-
-  Adults: {
-    id: "id",
-    adultName: "adultName",
-    breeder: "breeder",
-    birthday: "birthday",
-    eyeColor: "eyeColor",
-    isRetired: "isRetired",
-    about: "about",
-    weight: "weight",
-    energyLevel: "energyLevel",
-    dogId: "dogId",
-  },
-
-  Puppies: {
-    id: "id",
-    puppyName: "puppyName",
-    collarColor: "collarColor",
-    isAvailable: "isAvailable",
-    dogId: "dogId",
-    litterId: "litterId",
-  },
-
-  Families: {
-    id: "id",
-    groupPhoto: "groupPhoto",
-    mother: "mother",
-    father: "father",
-    litterId: "litterId",
-  },
-
-  Dog_To_Group_Photos: {
-    id: "id",
-    groupPhotoId: "groupPhotoId",
-    dogId: "dogId",
-  },
-} as const;
-
-export interface D1_TABLES {
-  Group_Photos: D1GroupPhotosRaw;
-  Headshots_Sm: D1HeadshotsSmRaw;
-  Headshots_Lg: D1HeadshotsLgRaw;
-  Litters: D1LittersRaw;
-  Dogs: D1DogsRaw;
-  Adults: D1AdultsRaw;
-  Puppies: D1PuppiesRaw;
-  Families: D1FamiliesRaw;
-  Dog_To_Group_Photos: D1DogToGroupPhotosRaw;
-}
-
-type D1Tables = keyof typeof D1Tables;
-
-type D1TableNames = keyof typeof D1TableNames;
-type D1TablesOnly = keyof typeof D1TablesOnly;
-type D1TablesOnlyNames = keyof typeof D1TablesNamesOnly;
-type D1RawTable<T = [number, string]> = T extends ArrayOf<
+type D1Table<T = [number, string]> = T extends ArrayOf<
   number | string | boolean
 >
   ? T[]
   : [T][];
-// }
 
-
-type D1GroupPhotosRaw = D1RawTable;
-type D1HeadshotsSmRaw = D1RawTable;
-type D1HeadshotsLgRaw = D1RawTable;
-type D1LittersRaw = D1RawTable<
+type D1GroupPhotos = [number, string];
+type D1HeadshotsSm = [number, string];
+type D1HeadshotsLg = [number, string];
+type D1Litters = 
   /*prettier-ignore*/
   [
     number, //id
@@ -151,8 +51,8 @@ type D1LittersRaw = D1RawTable<
     string, //birthday
     number  //applicantsInQueue
   ]
->;
-type D1DogsRaw = D1RawTable<
+;
+type D1Dogs =
   /*prettier-ignore*/
   [
     number, //id
@@ -163,8 +63,8 @@ type D1DogsRaw = D1RawTable<
     number, //headshotSmall
     number  //headshotLarge
   ]
->;
-type D1AdultsRaw = D1RawTable<
+;
+type D1Adults =
   /*prettier-ignore*/
   [
     number,  //id
@@ -178,8 +78,8 @@ type D1AdultsRaw = D1RawTable<
     string,  //energyLevel
     number   //dogId
   ]
->;
-type D1PuppiesRaw = D1RawTable<
+;
+type D1PuppiesRaw =
   /*prettier-ignore*/
   [
     number,  //id
@@ -189,8 +89,8 @@ type D1PuppiesRaw = D1RawTable<
     number,  //dogId
     number   //litterId
   ]
->;
-type D1FamiliesRaw = D1RawTable<
+;
+type D1FamiliesRaw =
   /*prettier-ignore*/
   [
     number, //id
@@ -199,14 +99,13 @@ type D1FamiliesRaw = D1RawTable<
     number, //father
     number  //litterId
   ]
->;
-type D1DogToGroupPhotosRaw = D1RawTable<
+;
+type D1DogToGroupPhotosRaw =
   /*prettier-ignore*/
   [
     number, //id
     string, //groupPhotoId
     number  //dogId
   ]
->;
-// }
+;
 // }

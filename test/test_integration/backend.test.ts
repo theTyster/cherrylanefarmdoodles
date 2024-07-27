@@ -1,6 +1,7 @@
 import { env } from "cloudflare:test";
 import { describe, test, expect } from "vitest";
-import { D1_TABLES, D1Tables } from "../../src/types.d";
+import { D1Tables } from "../../src/utils";
+
 
 describe("Backend Systems", async () => {
   // D1QueryAll Function {
@@ -8,12 +9,14 @@ describe("Backend Systems", async () => {
    * @param @see D1Tables
    * @returns Promise<D1RawTable<T>>
    */
-  async function D1QueryAll(query: D1Tables) {
+  async function D1QueryAll<T extends D1Tables>(query: T ){
+
     const queryResult = await env.dogsDB
       .prepare(`SELECT * FROM ${query}`)
       .bind()
-      .raw<D1_TABLES[D1Tables]>(/*{ columnNames: true }*/);
+      .raw<D1_TABLES<T>>(/*{ columnNames: true }*/);
     if (queryResult) return queryResult;
+    else return queryResult as D1_TABLES<T>[];
   }
   // }
 
@@ -42,7 +45,7 @@ describe("Backend Systems", async () => {
   const tableName = moveThroughD1();
 
   type TestD1Type = {
-    [P in D1Tables]: D1_TABLES[P];
+    [P in D1Tables]: D1_TABLES<P>[];
   }
 
   const D1 = D1Raw.reduce(function getNewD1(newD1: Record<string, unknown> & TestD1Type | Record<string, never>, table) {
@@ -52,7 +55,7 @@ describe("Backend Systems", async () => {
   }, {}) as TestD1Type;
 
   const R2 = {
-    uploads: R2Raw.reduce(function getNewR2(newR2: any, upload: any) {
+    uploads: R2Raw.reduce(function getNewR2(newR2, upload) {
       newR2[upload.key] = upload;
       return newR2;
     }, {}),
@@ -484,9 +487,9 @@ describe("Backend Systems", async () => {
 
     describe("D1 Modifications", () => {
       interface D1ChangesType {
-        dogsAfterDeleted?: D1DogsRaw;
-        headshotsAfterUpdated?: D1HeadshotsLgRaw;
-        dogsAfterUpdated?: D1DogsRaw;
+        dogsAfterDeleted?: D1Dogs[];
+        headshotsAfterUpdated?: D1HeadshotsLg[];
+        dogsAfterUpdated?: D1Dogs[];
       }
       const D1Changes: D1ChangesType = {};
 
@@ -497,7 +500,7 @@ describe("Backend Systems", async () => {
               .prepare("DELETE FROM Dogs WHERE id = 1") // Bella
               .bind()
               .all();
-            const newDogs = await D1QueryAll<D1DogsRaw[0]>("Dogs");
+            const newDogs = await D1QueryAll("Dogs");
 
             D1Changes.dogsAfterDeleted = newDogs;
 
@@ -509,7 +512,7 @@ describe("Backend Systems", async () => {
               .toMatchSnapshot();
           });
           test("Should also delete Adults.", async () => {
-            const newAdults = await D1QueryAll<D1AdultsRaw[0]>("Adults");
+            const newAdults = await D1QueryAll("Adults");
 
             expect(newAdults[0][9], "Adult should have been deleted.").not.toBe(
               1
@@ -523,7 +526,7 @@ describe("Backend Systems", async () => {
               .prepare("DELETE FROM Dogs WHERE id = 3") // lil-blue
               .bind()
               .all();
-            const newDogs = await D1QueryAll<D1DogsRaw[0]>("Dogs");
+            const newDogs = await D1QueryAll("Dogs");
 
             D1Changes.dogsAfterDeleted = newDogs;
             expect(deleted.success, "Delete was unsuccessful.").toBe(true);
@@ -546,10 +549,10 @@ describe("Backend Systems", async () => {
             .bind()
             .all();
 
-          const newHeadshotsLg = await D1QueryAll<D1HeadshotsLgRaw[0]>(
+          const newHeadshotsLg = await D1QueryAll(
             "Headshots_Lg"
           );
-          const newDogs = await D1QueryAll<D1DogsRaw[0]>("Dogs");
+          const newDogs = await D1QueryAll("Dogs");
 
           D1Changes.headshotsAfterUpdated = newHeadshotsLg;
           D1Changes.dogsAfterUpdated = newDogs;
