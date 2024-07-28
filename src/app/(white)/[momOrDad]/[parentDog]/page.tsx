@@ -34,12 +34,6 @@ export default async function Page({
 }: {
   params: { parentDog: string; momOrDad: string };
 }) {
-//    const R2 = getRequestContext().env.dogImages;
-//    const res = await R2.get("1_group.jpg");
-//    const text = await res!.text();
-//    const base64 = btoa(text);
-//    //const binary = await res!.arrayBuffer()
-//    //const text = URL.createObjectURL(await res!.blob());
   const D1 = getRequestContext().env.dogsDB;
 
   let motherOrFatherQuery = "";

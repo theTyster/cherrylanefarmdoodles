@@ -82,12 +82,15 @@ export class ImageLoader {
   }
 
   makeNormalizedURL() {
-    this.imageURL = `${this.pathname}/${this.imageTable}?r=${this.imageID}`;
+    this.imageURL = `https://cherrlanefarmdoodles.com/${this.pathname}/${this.imageTable}?r=${this.imageID}`;
+    console.log(this.imageURL);
     return this.imageURL;
   }
 
   addTransforms() {
     this.makeNormalizedURL();
+    console.log(this.imageURL);
+    console.log(fetch(this.imageURL!, { cf: { image: this.transforms } }))
     return fetch(this.imageURL!, { cf: { image: this.transforms } });
   }
 }
