@@ -1,4 +1,4 @@
-INSERT INTO Families (groupPhoto, mother, father, litterId)
+INSERT INTO Families (Group_Photos, mother, father, litterId)
   VALUES
   (1, 2, 1, 1),
   (2, 2, 1, 2),

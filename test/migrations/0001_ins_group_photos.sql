@@ -1,4 +1,4 @@
-INSERT INTO Group_Photos (groupPhoto)
+INSERT INTO Group_Photos (imageName)
   VALUES
   ('group.jpg'),
   ('group.png'),

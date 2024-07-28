@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { D1Tables } from "@/utils";
 function DogAbout({
 
   dogData,
@@ -8,13 +9,13 @@ function DogAbout({
   dogData: Record<string, string>;
 
 }) {
-  const headshot = `Headshots_Lg/${dogData.headshotLarge}`;
+  const headshot = `${D1Tables.Headshots_Lg}?r=${dogData[D1Tables.Headshots_Lg]}`;
 
   return (
     <>
       <h1>{dogData.adultName}</h1>
       <p>{dogData.about}</p>
-      <Image src={headshot} alt={headshot} width={30} height={60}/>
+      <Image src={headshot} alt={headshot} width={300} height={400} />
       <p>{JSON.stringify(dogData)}</p>
     </>
   );

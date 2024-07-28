@@ -18,17 +18,17 @@ DROP TABLE IF EXISTS Group_Photos;
 
 CREATE TABLE Group_Photos (
   id INTEGER PRIMARY KEY,
-  groupPhoto TEXT NOT NULL CHECK (LENGTH(groupPhoto) <= 2000)
+  imageName TEXT NOT NULL CHECK (LENGTH(imageName) <= 2000)
 );
 
 CREATE TABLE Headshots_Sm (
   id INTEGER PRIMARY KEY,
-  headshotSmall TEXT NOT NULL CHECK (LENGTH(headshotSmall) <= 2000)
+  imageName TEXT NOT NULL CHECK (LENGTH(imageName) <= 2000)
 );
 
 CREATE TABLE Headshots_Lg (
   id INTEGER PRIMARY KEY,
-  headshotLarge TEXT NOT NULL CHECK (LENGTH(headshotLarge) <= 2000)
+  imageName TEXT NOT NULL CHECK (LENGTH(imageName) <= 2000)
 );
 
 CREATE TABLE Litters (
@@ -44,10 +44,10 @@ CREATE TABLE Dogs (
   noseColor TEXT NOT NULL CHECK (LENGTH(noseColor) <= 16),
   coatColor TEXT NOT NULL CHECK (LENGTH(coatColor) <= 16),
   personality TEXT CHECK (LENGTH(personality) <= 140),
-  headshotSmall INTEGER UNIQUE,
-  headshotLarge INTEGER UNIQUE,
-  CONSTRAINT fk_dogs_headshot_small FOREIGN KEY (headshotSmall) REFERENCES Headshots_Sm (id) ON DELETE NO ACTION ON UPDATE CASCADE,
-  CONSTRAINT fk_dogs_headshot_large FOREIGN KEY (headshotLarge) REFERENCES Headshots_Lg (id) ON DELETE NO ACTION ON UPDATE CASCADE
+  Headshots_Sm INTEGER UNIQUE,
+  Headshots_Lg INTEGER UNIQUE,
+  CONSTRAINT fk_dogs_headshot_small FOREIGN KEY (Headshots_Sm) REFERENCES Headshots_Sm (id) ON DELETE NO ACTION ON UPDATE CASCADE,
+  CONSTRAINT fk_dogs_headshot_large FOREIGN KEY (Headshots_Lg) REFERENCES Headshots_Lg (id) ON DELETE NO ACTION ON UPDATE CASCADE
 );
 
 CREATE TABLE Adults (
@@ -77,24 +77,24 @@ CREATE TABLE Puppies (
 
 CREATE TABLE Families (
   id INTEGER PRIMARY KEY,
-  groupPhoto INTEGER,
+  Group_Photos INTEGER,
   mother INTEGER,
   father INTEGER,
   litterId INTEGER,
-  CONSTRAINT fk_families_group_photo_id FOREIGN KEY (groupPhoto) REFERENCES Group_Photos (id) ON DELETE NO ACTION ON UPDATE CASCADE,
+  CONSTRAINT fk_families_group_photo_id FOREIGN KEY (Group_Photos) REFERENCES Group_Photos (id) ON DELETE NO ACTION ON UPDATE CASCADE,
   CONSTRAINT fk_families_mom_id FOREIGN KEY (mother) REFERENCES Adults (id) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT fk_families_dad_id FOREIGN KEY (father) REFERENCES Adults (id) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT fk_families_litter_id FOREIGN KEY (litterId) REFERENCES Litters (id) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT unique_families UNIQUE (groupPhoto, mother, father, litterId)
+  CONSTRAINT unique_families UNIQUE (Group_Photos, mother, father, litterId)
 );
 
 CREATE TABLE Dog_To_Group_Photos (
   id INTEGER PRIMARY KEY,
-  groupPhotoId INTEGER,
+  Group_Photos INTEGER,
   dogId INTEGER,
-  CONSTRAINT fk_di_image_id FOREIGN KEY (groupPhotoId) REFERENCES Group_Photos (id) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT fk_di_image_id FOREIGN KEY (Group_Photos) REFERENCES Group_Photos (id) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT fk_di_dog_id FOREIGN KEY (dogId) REFERENCES Dogs (id) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT no_duplicates UNIQUE (groupPhotoId, dogId)
+  CONSTRAINT no_duplicates UNIQUE (Group_Photos, dogId)
 );
 
 CREATE INDEX idx_puppies ON Puppies (litterId);

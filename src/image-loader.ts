@@ -1,9 +1,11 @@
 // Loader simply parses a URL and returns a new URL with the desired parameters.
 
+// Must be declared globally in the image-loader file for successful typing.
+
 /**
- * Must be declared globally for successful typing.
+ * The allowed transformations for images should be based on the image type.
  **/
-const ALLOWED_TRANSFORMS = {
+export const ALLOWED_TRANSFORMS = {
   Group_Photos: {
     width: 800,
     quality: 80,
@@ -17,6 +19,7 @@ const ALLOWED_TRANSFORMS = {
     quality: 80,
   },
   withWatermarkTransform: {
+    // This should not be a a query parameter.
     width: 300,
     quality: 80,
   },
@@ -24,9 +27,10 @@ const ALLOWED_TRANSFORMS = {
     width: 300,
     quality: 80,
   },
+  /**@default*/
   default: {
-    width: 300,
-    quality: 80,
+    width: 100,
+    quality: 20,
   },
 } as const;
 
@@ -34,17 +38,11 @@ type CLFAllowedTransformOptsKeys =
   (typeof ALLOWED_TRANSFORMS)[keyof typeof ALLOWED_TRANSFORMS];
 type CLFAllowedTransformOpts = keyof typeof ALLOWED_TRANSFORMS;
 
-export interface ImageLoaderType {
-  imageID: number;
-  imageTable: CLFAllowedTransformOpts;
-  transform?: CLFAllowedTransformOpts;
-}
-
-export class ImageLoader implements ImageLoaderType {
+export class ImageLoader {
   /**
-   * The provided src string
+   * The Image ID as specified in D1.
    **/
-  imageID: number;
+  imageID: string;
 
   /**
    * The Transformations Allowed for a specific image type.
@@ -57,37 +55,44 @@ export class ImageLoader implements ImageLoaderType {
   readonly pathname: "i";
   readonly imageTable: CLFAllowedTransformOpts;
 
-//  /**
-//   * Default Image Transformations.
-//   **/
-//  default: {
-//    readonly width: 300;
-//    readonly quality: 80;
-//  };
-
   /**
    * The normalized URL for the image.
    **/
   imageURL: string | undefined;
 
-  constructor(opts: ImageLoaderType) {
+  /**
+   * The ImageLoader class is responsible for transforming image urls.
+   *
+   * @param src - The URL of the image to be transformed. e.g. "Group_Photos?r=1"
+   * @returns A new ImageLoader instance.
+   * @example const loader = new ImageLoader("Group_Photos?r=1");
+   **/
+  constructor(src: string) {
+    const splitSrc = src.split("?");
+    
+    const transform = "default";
 
-    const { imageID, imageTable, transform } = opts;
-    this.imageTable = imageTable;
+    this.imageTable = splitSrc.shift() as CLFAllowedTransformOpts;
+    const srcAsSearchParam = new URLSearchParams(splitSrc.toString());
+
     this.transforms = ALLOWED_TRANSFORMS[transform ? transform : "default"];
     this.pathname = "i";
-    this.imageID = imageID;
+    this.imageID = srcAsSearchParam.get("r")!;
     this.imageURL = undefined;
   }
-
 
   makeNormalizedURL() {
     this.imageURL = `${this.pathname}/${this.imageTable}?r=${this.imageID}`;
     return this.imageURL;
   }
+
+  addTransforms() {
+    this.makeNormalizedURL();
+    return fetch(this.imageURL!, { cf: { image: this.transforms } });
+  }
 }
 
-export default function CloudflareImageLoader(opts: ImageLoaderType) {
-  const loader = new ImageLoader(opts);
-  return loader.makeNormalizedURL();
+export default function CloudflareImageLoader({ src }: { src: string }) {
+  const loader = new ImageLoader(src);
+  return loader.addTransforms();
 }

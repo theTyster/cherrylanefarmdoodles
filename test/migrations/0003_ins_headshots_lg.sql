@@ -1,4 +1,4 @@
-INSERT INTO Headshots_Lg (headshotLarge)
+INSERT INTO Headshots_Lg (imageName)
   VALUES
 /*1*/  ('lgheadshot_bella.jpg'),
 /*2*/  ('lgheadshot_charlie.png'),

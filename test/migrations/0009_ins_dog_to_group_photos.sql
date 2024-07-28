@@ -1,4 +1,4 @@
-INSERT INTO Dog_To_Group_Photos (groupPhotoId, dogId)
+INSERT INTO Dog_To_Group_Photos (Group_Photos, dogId)
   VALUES
   (1, 1),
   (2, 2),

@@ -83,7 +83,7 @@ export default async function Page({
       Dogs.noseColor,
       Dogs.coatColor,
       Dogs.personality,
-      Dogs.headshotLarge
+      Dogs.Headshots_Lg
        FROM
        Families AS F
        LEFT JOIN Adults AS A ON F.${motherOrFatherQuery} = A.ID
@@ -95,8 +95,6 @@ export default async function Page({
 
   if (query) {
     const dogData = await D1.prepare(query).bind(params.parentDog).first<Record<string, string|number>>() as Record<string, string>;
-
-    console.log(dogData);
 
     return (
     <>
