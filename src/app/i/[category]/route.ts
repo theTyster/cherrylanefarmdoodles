@@ -10,7 +10,7 @@ const R2 = getRequestContext().env.dogImages;
 
 const D1 = getRequestContext().env.dogsDB;
 
-  console.log("👀");
+try{
   // Parse request URL to get access to query string
   const url = new URL(request.url);
   const { searchParams/*, hostname*/ } = url;
@@ -82,4 +82,9 @@ const D1 = getRequestContext().env.dogsDB;
   ///** ↪ RESPONSE*/
   const res = new Response(R2Image.body);
 return res;
+
+}
+catch (e) {
+  return new Response((e as Error).message, { status: 500 });
+}
 }
