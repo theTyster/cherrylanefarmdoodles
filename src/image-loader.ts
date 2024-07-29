@@ -68,8 +68,9 @@ export class ImageLoader {
    * @example const loader = new ImageLoader("Group_Photos?r=1");
    **/
   constructor(src: string) {
+    console.log(src);
     const splitSrc = src.split("?");
-    
+
     const transform = "default";
 
     this.imageTable = splitSrc.shift() as CLFAllowedTransformOpts;
@@ -82,20 +83,23 @@ export class ImageLoader {
   }
 
   makeNormalizedURL() {
-    this.imageURL = `https://cherrlanefarmdoodles.com/${this.pathname}/${this.imageTable}?r=${this.imageID}`;
-    console.log(this.imageURL);
+    //this.imageURL = `https://preview.cherrylanefarmdoodles.pages.dev/${this.pathname}/${this.imageTable}?r=${this.imageID}`;
+    this.imageURL = 'https://morning-cloud-r2.cherrylane-admin.workers.dev';
     return this.imageURL;
   }
 
-  addTransforms() {
+  async addTransforms() {
     this.makeNormalizedURL();
+    const res = await ( fetch(this.imageURL!, { cf: { image: this.transforms } }));
+    const modified = res + " modified";
+    this.imageURL = "hi";
     console.log(this.imageURL);
-    console.log(fetch(this.imageURL!, { cf: { image: this.transforms } }))
-    return fetch(this.imageURL!, { cf: { image: this.transforms } });
+    return modified;
   }
 }
 
 export default function CloudflareImageLoader({ src }: { src: string }) {
   const loader = new ImageLoader(src);
-  return loader.addTransforms();
+  loader.addTransforms();
+  return loader.imageURL;
 }

@@ -80,15 +80,15 @@ export default async function Page({
       Dogs.Headshots_Lg
        FROM
        Families AS F
-       LEFT JOIN Adults AS A ON F.${motherOrFatherQuery} = A.ID
+       LEFT JOIN Adults AS A ON F.father = A.ID
        LEFT JOIN Dogs On A.dogId = Dogs.ID
        LEFT JOIN Litters AS L ON F.litterId = L.ID
-       where A.adultName = ?1
+       where A.adultName = "Max"
        `
     : undefined;
 
   if (query) {
-    const dogData = await D1.prepare(query).bind(params.parentDog).first<Record<string, string|number>>() as Record<string, string>;
+    const dogData = await D1.prepare(query).bind(/*params.parentDog*/).first<Record<string, string|number>>() as Record<string, string>;
 
     return (
     <>

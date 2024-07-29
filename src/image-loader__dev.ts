@@ -9,12 +9,15 @@ export class DevImageLoader extends ImageLoader {
   }
 
   makeNormalizedURL(): string {
-    this.imageURL = `http://localhost:3000/${this.pathname}/${this.imageTable}?r=${this.imageID}`;
+    this.imageURL = `http://localhost:3000/${this.pathname}/${this.imageTable}?r=${this.imageID}`
+    //this.imageURL = 'https://cherrylanefarmdoodles.com/cdn-cgi/image/fit=scale-down,width=100/https://cherrylanefarmdoodles.com/images/Piper.jpeg'
+    //this.imageURL = 'https://morning-cloud-r2.cherrylane-admin.workers.dev';
     return this.imageURL;
   }
 }
 
 export default function CloudflareImageLoader({ src }: { src: string }) {
   const loader = new DevImageLoader(src);
-  return loader.makeNormalizedURL();
+  loader.makeNormalizedURL();
+  return loader.imageURL;
 }

@@ -4,7 +4,43 @@ import { D1Tables } from "@/utils";
 
 export const runtime = "edge";
 
+const ALLOWED_TRANSFORMS = {
+  Group_Photos: {
+    width: 800,
+    quality: 80,
+  },
+  Headshots_Lg: {
+    width: 300,
+    quality: 80,
+  },
+  Headshots_Sm: {
+    width: 100,
+    quality: 80,
+  },
+  withWatermarkTransform: {
+    // This should not be a a query parameter.
+    width: 300,
+    quality: 80,
+  },
+  logoTransform: {
+    width: 300,
+    quality: 80,
+  },
+  /**@default*/
+  default: {
+    width: 1,
+    quality: 10,
+  },
+} as const;
+
+//type CLFAllowedTransformOptsKeys =
+//  (typeof ALLOWED_TRANSFORMS)[keyof typeof ALLOWED_TRANSFORMS];
+//type CLFAllowedTransformOpts = keyof typeof ALLOWED_TRANSFORMS;
+
+
 export async function GET(request: Request) {
+
+ALLOWED_TRANSFORMS;
 
 const R2 = getRequestContext().env.dogImages;
 
@@ -80,8 +116,12 @@ try{
   //const transformedImage = await fetch()
 
   ///** ↪ RESPONSE*/
-  const res = new Response(R2Image.body);
-return res;
+//  const res = new Response(R2Image.body);
+//return res;
+
+const transformedImage = await fetch('https://morning-cloud-r2.cherrylane-admin.workers.dev', { cf: {image: {border: {color: "rgb(256,0,0,0)", top: 5, right: 10, bottom: 5, left: 10}}}})
+
+return transformedImage;
 
 }
 catch (e) {
