@@ -1,4 +1,4 @@
-INSERT INTO Headshots_Sm (headshotSmall)
+INSERT INTO Headshots_Sm (imageName)
   VALUES
   ('smheadshot_bella.jpg'),
   ('smheadshot_charlie.png'),
