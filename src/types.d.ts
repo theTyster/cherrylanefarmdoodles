@@ -40,9 +40,9 @@ type D1Table<T = [number, string]> = T extends ArrayOf<
   ? T[]
   : [T][];
 
-type D1GroupPhotos = [number, string];
-type D1HeadshotsSm = [number, string];
-type D1HeadshotsLg = [number, string];
+type D1GroupPhotos = [string, string];
+type D1HeadshotsSm = [string, string];
+type D1HeadshotsLg = [string, string];
 type D1Litters = 
   /*prettier-ignore*/
   [
@@ -60,8 +60,8 @@ type D1Dogs =
     string, //noseColor
     string, //coatColor
     string, //personality
-    number, //headshotSmall
-    number  //headshotLarge
+    string, //Headshots_Sm
+    string  //Headshots_Lg
   ]
 ;
 type D1Adults =
@@ -94,7 +94,7 @@ type D1FamiliesRaw =
   /*prettier-ignore*/
   [
     number, //id
-    number, //groupPhoto
+    string, //Group_Photos
     number, //mother
     number, //father
     number  //litterId
@@ -104,7 +104,7 @@ type D1DogToGroupPhotosRaw =
   /*prettier-ignore*/
   [
     number, //id
-    string, //groupPhotoId
+    string, //Group_Photos
     number  //dogId
   ]
 ;

@@ -1,21 +1,21 @@
 INSERT INTO Dog_To_Group_Photos (Group_Photos, dogId)
   VALUES
-  (1, 1),
-  (2, 2),
-  (3, 3),
-  (4, 4),
+  ('42243cab932018a754b86dcf435f9c8e186f244779b6f4b6e8b5fdc7959c87f7__1_group.jpg', 1),
+  ('57cd4a40c98d6da4a835796a01e0ed8b6cb2c1c87bac49f971a2c4cdf7572b14__2_group.png', 2),
+  ('6075c2ab9e8105f425a8201a36155a09a74b476149834c0c708dabb39684672d__3_group.png', 3),
+  ('653d875aab9e0eb62875e735f0d79b7054b2cc4a26f3b27e526c3445ee4b66fd__4_group.png', 4),
 
-  (1, 2),
-  (2, 3),
-  (3, 4),
-  (4, 1),
+  ('42243cab932018a754b86dcf435f9c8e186f244779b6f4b6e8b5fdc7959c87f7__1_group.jpg', 2),
+  ('57cd4a40c98d6da4a835796a01e0ed8b6cb2c1c87bac49f971a2c4cdf7572b14__2_group.png', 3),
+  ('6075c2ab9e8105f425a8201a36155a09a74b476149834c0c708dabb39684672d__3_group.png', 4),
+  ('653d875aab9e0eb62875e735f0d79b7054b2cc4a26f3b27e526c3445ee4b66fd__4_group.png', 1),
 
-  (1, 3),
-  (2, 4),
-  (3, 1),
-  (4, 2),
+  ('42243cab932018a754b86dcf435f9c8e186f244779b6f4b6e8b5fdc7959c87f7__1_group.jpg', 3),
+  ('57cd4a40c98d6da4a835796a01e0ed8b6cb2c1c87bac49f971a2c4cdf7572b14__2_group.png', 4),
+  ('6075c2ab9e8105f425a8201a36155a09a74b476149834c0c708dabb39684672d__3_group.png', 1),
+  ('653d875aab9e0eb62875e735f0d79b7054b2cc4a26f3b27e526c3445ee4b66fd__4_group.png', 2),
 
-  (1, 4),
-  (2, 1),
-  (3, 2),
-  (4, 3);
+  ('42243cab932018a754b86dcf435f9c8e186f244779b6f4b6e8b5fdc7959c87f7__1_group.jpg', 4),
+  ('57cd4a40c98d6da4a835796a01e0ed8b6cb2c1c87bac49f971a2c4cdf7572b14__2_group.png', 1),
+  ('6075c2ab9e8105f425a8201a36155a09a74b476149834c0c708dabb39684672d__3_group.png', 2),
+  ('653d875aab9e0eb62875e735f0d79b7054b2cc4a26f3b27e526c3445ee4b66fd__4_group.png', 3);

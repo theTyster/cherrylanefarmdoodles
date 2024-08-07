@@ -4,11 +4,7 @@ import { DevImageLoader as DevCloudflareImageLoader } from "@/image-loader__dev"
 
 describe("CloudflareImageLoader", () => {
   test("should return a new ImageLoader instance", () => {
-    const opts = {
-      imageID: 1,
-      imageTable: "Group_Photos",
-    } as const;
-    const loader = new CloudflareImageLoader(opts);
+    const loader = new CloudflareImageLoader("Group_Photos?r=1");
 
     expect(loader.makeNormalizedURL()).toBe("i/Group_Photos?r=1");
     expect(loader).toMatchSnapshot();
@@ -17,11 +13,7 @@ describe("CloudflareImageLoader", () => {
 
 describe("DevCloudflareImageLoader", () => {
   test("should return a new ImageLoader instance", () => {
-    const opts = {
-      imageID: 1,
-      imageTable: "Group_Photos",
-    } as const;
-    const loader = new DevCloudflareImageLoader(opts);
+    const loader = new DevCloudflareImageLoader("Group_Photos?r=1");
 
     expect(loader.makeNormalizedURL()).toBe("http://localhost:3000/i/Group_Photos?r=1");
     expect(loader).toMatchSnapshot();

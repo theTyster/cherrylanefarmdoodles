@@ -82,8 +82,8 @@ export default defineWorkersConfig(async () => {
     (acc: Record<string, string>, path, index) => {
       if (!path) return acc; // Skip other directories like Miniflare's node_modules
       else {
-        let keys = path.split("placeholders/")[1];
-        keys = keys.split("/")[1];
+        let keys = path.split('/placeholders/')[1];
+        keys = keys.split('/')[1];
         acc[keys] = r2TestFileContents[index];
         return acc;
       }
@@ -104,7 +104,7 @@ export default defineWorkersConfig(async () => {
             r2Buckets: ["r2TestBucket"],
             bindings: {
               TEST_MIGRATIONS: migrations,
-              R2_TEST_FILES: R2Uploads,
+              TEST_IMAGES: R2Uploads,
             },
           },
         },

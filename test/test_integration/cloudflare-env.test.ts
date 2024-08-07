@@ -24,9 +24,9 @@ describe("Cloudflare Environment", async () => {
   test("Should have R2 Bucket.", () => {
     expect(env).toHaveProperty("dogImages");
     expect(
-      Object.values(env.R2_TEST_FILES).length,
+      Object.values(env.TEST_IMAGES).length,
       `R2 Test Files were not read in. Got: ${JSON.stringify(
-        env.R2_TEST_FILES
+        env.TEST_IMAGES
       )}`
     ).toBeGreaterThan(0);
   });
