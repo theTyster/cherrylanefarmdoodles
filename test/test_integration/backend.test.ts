@@ -127,7 +127,7 @@ describe("Backend Systems", async () => {
               R2Raw.length
             } real photos, but D1 has ${allD1Photos.length}.`
           )
-          .toBe(allD1Photos.length);
+          .toEqual(allD1Photos.length);
         if (R2Raw.length !== allD1Photos.length) hasExtraFiles = true;
       });
       test.runIf(hasExtraFiles).each(allD1Photos)(
