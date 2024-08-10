@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+run () {
+  rm ./encryption.mjs;
+  tsc;
+  node encryption.mjs;
+}
+
+run;
