@@ -48,9 +48,9 @@ export default defineWorkersConfig(async () => {
   const migrationsPath = join(__dirname, "test/migrations");
   const migrations = await readD1Migrations(migrationsPath);
   const r2TestFileDirectoryPaths = [
-    join(__dirname, "test/placeholders/groupPhotos"),
-    join(__dirname, "test/placeholders/large"),
-    join(__dirname, "test/placeholders/small"),
+    join(__dirname, "test/placeholders/Group_Photos"),
+    join(__dirname, "test/placeholders/Headshots_Lg"),
+    join(__dirname, "test/placeholders/Headshots_Sm"),
   ];
 
   const r2TestFilePaths = await Promise.all(
