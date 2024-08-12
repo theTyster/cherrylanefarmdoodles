@@ -27,36 +27,41 @@ const r2Paths = await Promise.all(
     });
   })
 );
-  console.log(
-    exec(
-      `
-        echo '' > Group_Photos.sql
-        `
-    ).stdout?.toArray()
-  );
-
-  console.log(
-    exec(
-      `
-        echo '' > Headshots_Lg.sql
-        `
-    ).stdout?.toArray()
-  );
-
-  console.log(
-    exec(
-      `
-        echo '' > Headshots_Sm.sql
-        `
-    ).stdout?.toArray()
-  );
-
+//  console.log(
+//    exec(
+//      `
+//        echo '' > Group_Photos.sql
+//        `
+//    ).stdout?.toArray()
+//  );
+//
+//  console.log(
+//    exec(
+//      `
+//        echo '' > Headshots_Lg.sql
+//        `
+//    ).stdout?.toArray()
+//  );
+//
+//  console.log(
+//    exec(
+//      `
+//        echo '' > Headshots_Sm.sql
+//        `
+//    ).stdout?.toArray()
+//  );
+//
 const r2PathsFlat = r2Paths.flat();
 const encryptedURLs = await Promise.all(
-  r2PathsFlat.map(async (path) => {
+  r2PathsFlat.map(async (path, index) => {
     if (!path) return; // Skip other directories like Miniflare's node_modules
     else {
-      const data = {} as { [key: string]: string };
+      const data = {} as {
+        id: string;
+        table: "Group_Photos" | "Headshots_Sm" | "Headshots_Lg";
+        hash: string;
+        transformUrl: string;
+      };
       const variantMatch = path.match(
         /.*Group_Photos\/|.*Headshots_Sm\/|.*Headshots_Lg\//
       );
@@ -76,7 +81,6 @@ const encryptedURLs = await Promise.all(
 
       const dogId = Number.parseFloat(dogIdMatch as string);
 
-      console.log(dogId);
       data.id = dogId.toString();
 
       data.table = variant;
@@ -93,6 +97,7 @@ const encryptedURLs = await Promise.all(
       const url = new URL("https://media.cherrylanefarmdoodles.com/");
 
       url.search = params.toString();
+      console.log(url.search);
 
       const criptoe = new CripToe(params.toString());
       const { wrappedKey } = await criptoe.wrapKey(
@@ -112,69 +117,80 @@ const encryptedURLs = await Promise.all(
 
       data.transformUrl = url.toString();
 
-      if (data.table === "Group_Photos")
-        console.log(
-          exec(
-            `
-        echo 'INSERT OR REPLACE INTO ${data.table} (hash, transformUrl) VALUES ("${data.hash}", "${data.transformUrl}");' >> Group_Photos.sql
-        echo 'UPDATE Dog_To_Group_Photos SET Group_Photos = "${data.transformUrl}" WHERE dogId = ${data.id};' >> Group_Photos.sql;
-        echo 'UPDATE Families SET Group_Photos = "${data.transformUrl}" WHERE id = ${data.id};' >> Group_Photos.sql;
-       
-        `
-          ).stdout?.toArray()
-        );
+      //console.log(data);
 
-      if (data.table === "Headshots_Lg")
-        console.log(
-          exec(
-            `
-        echo 'INSERT OR REPLACE INTO ${data.table} (hash, transformUrl) VALUES ("${data.hash}", "${data.transformUrl}");' >> Headshots_Lg.sql
-        echo 'UPDATE Dogs SET Headshots_Lg = "${data.transformUrl}" WHERE id = ${data.id};' >> Headshots_Lg.sql
-        `
-          ).stdout?.toArray()
-        );
+      //// Get Script for uploading to R2
+      //  console.log(
+      //    await exec(
+      //      `
+      //    echo 'npx wrangler r2 object put # --local # cherrylanefarmpics-prev/${data.hash} --cl "en-us" --file="${r2PathsFlat[index]}"' >> paths.sh;
+      //  `
+      //    ).stdout?.toArray()
+      //  );
 
-      if (data.table === "Headshots_Sm")
-        console.log(
-          exec(
-            `
-        echo 'INSERT OR REPLACE INTO ${data.table} (hash, transformUrl) VALUES ("${data.hash}", "${data.transformUrl}");' >> Headshots_Sm.sql
-        echo 'UPDATE Dogs SET Headshots_Sm = "${data.transformUrl}" WHERE id = ${data.id};' >> Headshots_Sm.sql
-        `
-          ).stdout?.toArray()
-        );
+      //if (data.table === "Group_Photos")
+      //  console.log(
+      //    exec(
+      //      `
+      //  echo 'INSERT OR REPLACE INTO ${data.table} (hash, transformUrl) VALUES ("${data.hash}", "${data.transformUrl}");' >> Group_Photos.sql
+      //  echo 'UPDATE Dog_To_Group_Photos SET Group_Photos = "${data.transformUrl}" WHERE dogId = ${data.id};' >> Group_Photos.sql;
+      //  echo 'UPDATE Families SET Group_Photos = "${data.transformUrl}" WHERE id = ${data.id};' >> Group_Photos.sql;
+      //
+      //  `
+      //    ).stdout?.toArray()
+      //  );
 
-      console.log(data);
+      //if (data.table === "Headshots_Lg")
+      //  console.log(
+      //    exec(
+      //      `
+      //  echo 'INSERT OR REPLACE INTO ${data.table} (hash, transformUrl) VALUES ("${data.hash}", "${data.transformUrl}");' >> Headshots_Lg.sql
+      //  echo 'UPDATE Dogs SET Headshots_Lg = "${data.transformUrl}" WHERE id = ${data.id};' >> Headshots_Lg.sql
+      //  `
+      //    ).stdout?.toArray()
+      //  );
+
+      //if (data.table === "Headshots_Sm")
+      //  console.log(
+      //    exec(
+      //      `
+      //  echo 'INSERT OR REPLACE INTO ${data.table} (hash, transformUrl) VALUES ("${data.hash}", "${data.transformUrl}");' >> Headshots_Sm.sql
+      //  echo 'UPDATE Dogs SET Headshots_Sm = "${data.transformUrl}" WHERE id = ${data.id};' >> Headshots_Sm.sql
+      //  `
+      //    ).stdout?.toArray()
+      //  );
+
+      //console.log(data);
       return url.toString();
     }
   })
 );
-
-const decryptedURLs = await Promise.all(
-  encryptedURLs.map(async (url) => {
-    if (!url) return;
-
-    const urlObj = new URL(url);
-
-    // GET DATA OUT OF URL
-    const encryptedString = urlObj.pathname.split("/")[1];
-    const iv = urlObj.searchParams.get("iv") as string;
-    const wrappedKey = urlObj.searchParams.get("k") as string;
-
-    // WRAPPED KEY -> BUFFER FOR UNWRAPPING
-    const wrappedBuf = Buffer.from(wrappedKey, "base64url");
-
-    // INJECT DATA INTO CRIPTOE INSTANCE
-    const criptoe = new CripToe(encryptedString);
-
-    // UNWRAP THE KEY
-    await criptoe.unwrapKey(wrappedBuf, secretWrappingKey);
-
-    // GET THE KEY BACK OUT
-    const { key } = await criptoe.encrypt();
-
-    const unencryptedMessage = await criptoe.decrypt(encryptedString, key, iv);
-
-    return unencryptedMessage;
-  })
-);
+//
+//const decryptedURLs = await Promise.all(
+//  encryptedURLs.map(async (url) => {
+//    if (!url) return;
+//
+//    const urlObj = new URL(url);
+//
+//    // GET DATA OUT OF URL
+//    const encryptedString = urlObj.pathname.split("/")[1];
+//    const iv = urlObj.searchParams.get("iv") as string;
+//    const wrappedKey = urlObj.searchParams.get("k") as string;
+//
+//    // WRAPPED KEY -> BUFFER FOR UNWRAPPING
+//    const wrappedBuf = Buffer.from(wrappedKey, "base64url");
+//
+//    // INJECT DATA INTO CRIPTOE INSTANCE
+//    const criptoe = new CripToe(encryptedString);
+//
+//    // UNWRAP THE KEY
+//    await criptoe.unwrapKey(wrappedBuf, secretWrappingKey);
+//
+//    // GET THE KEY BACK OUT
+//    const { key } = await criptoe.encrypt();
+//
+//    const unencryptedMessage = await criptoe.decrypt(encryptedString, key, iv);
+//
+//    return unencryptedMessage;
+//  })
+//);
