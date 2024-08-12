@@ -57,7 +57,7 @@ CREATE TABLE Adults (
     birthday date NOT NULL,
     eyeColor text NOT NULL CHECK (LENGTH(eyeColor) <= 16),
     isRetired boolean NOT NULL CHECK (isRetired IN (0, 1)) DEFAULT 0,
-    about text CHECK (LENGTH(about) <= 140),
+    favActivities text CHECK (LENGTH(favActivities) <= 140),
     weight integer CHECK (weight > 0),
     energyLevel text CHECK (energyLevel IN ('Low', 'Medium-low', 'Medium', 'Medium-high', 'High')),
     dogId integer,

@@ -59,7 +59,7 @@ type D1Adults =
     string,  //birthday
     string,  //eyeColor
     boolean, //isRetired
-    string,  //about
+    string,  //favActivities
     number,  //weight
     string,  //energyLevel
     number   //dogId
