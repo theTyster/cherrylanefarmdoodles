@@ -1,17 +1,3 @@
-// Utility Types {
-type ArrayOf<T> = T[];
-// }
-
-// Layout Types {
-type sections = readonly ["white", "wood", "tan"];
-
-type WhiteWoodTanLayout = [
-  WhiteLayoutType: () => React.JSX.Element | null,
-  WoodLayoutType: () => React.JSX.Element | null,
-  TanLayoutType: () => React.JSX.Element | null
-];
-// }
-
 // Data Types {
 interface DogTreeData {
   readonly groupPhoto: string;
@@ -23,7 +9,7 @@ interface DogTreeData {
 type DogTreeDataMapObj = Record<string, number> | Record<number, string>;
 
 type DogTreeDataMap = Map<DogTreeDataMapObj, DogTreeDataDeconstructed>;
-type D1_TABLES<T> = 
+type D1_TABLES<T> =
   T extends "Group_Photos" ? D1GroupPhotos :
   T extends "Headshots_Sm" ? D1HeadshotsSm :
   T extends "Headshots_Lg" ? D1HeadshotsLg :
@@ -43,8 +29,8 @@ type D1Table<T = [number, string]> = T extends ArrayOf<
 type D1GroupPhotos = [string, string];
 type D1HeadshotsSm = [string, string];
 type D1HeadshotsLg = [string, string];
-type D1Litters = 
-  /*prettier-ignore*/
+type D1Litters =
+  /**prettier-ignore*/
   [
     number, //id
     string, //dueDate
@@ -53,7 +39,7 @@ type D1Litters =
   ]
 ;
 type D1Dogs =
-  /*prettier-ignore*/
+  /**prettier-ignore*/
   [
     number, //id
     string, //gender
@@ -65,7 +51,7 @@ type D1Dogs =
   ]
 ;
 type D1Adults =
-  /*prettier-ignore*/
+  /**prettier-ignore*/
   [
     number,  //id
     string,  //adultName
@@ -79,8 +65,8 @@ type D1Adults =
     number   //dogId
   ]
 ;
-type D1PuppiesRaw =
-  /*prettier-ignore*/
+type D1Puppies =
+  /**prettier-ignore*/
   [
     number,  //id
     string,  //puppyName
@@ -90,8 +76,8 @@ type D1PuppiesRaw =
     number   //litterId
   ]
 ;
-type D1FamiliesRaw =
-  /*prettier-ignore*/
+type D1Families =
+  /**prettier-ignore*/
   [
     number, //id
     string, //Group_Photos
@@ -100,8 +86,8 @@ type D1FamiliesRaw =
     number  //litterId
   ]
 ;
-type D1DogToGroupPhotosRaw =
-  /*prettier-ignore*/
+type D1DogToGroupPhotos =
+  /**prettier-ignore*/
   [
     number, //id
     string, //Group_Photos
