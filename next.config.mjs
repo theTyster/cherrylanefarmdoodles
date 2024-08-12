@@ -9,19 +9,13 @@ let nextConfig;
 
 nextConfig = {
   images: {
-    loader: "custom",
-    loaderFile: "./src/image-loader.ts",
+    remotePatterns: [ { hostname: 'media.cherrylanefarmdoodles.com' } ]
   },
 };
 
 if (process.env.NODE_ENV === "development") {
   await setupDevPlatform();
-  nextConfig = {
-    images: {
-      loader: "custom",
-      loaderFile: "./src/image-loader__dev.ts",
-    },
-  };
+//nextConfig = {};
 }
 
 export default nextConfig;
