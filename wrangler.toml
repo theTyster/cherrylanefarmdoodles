@@ -9,10 +9,13 @@ database_name = "dogs_prev"
 database_id = "becac318-fcf4-4848-9652-fe5dbac09462"
 migrations_dir = "test/migrations"
 
-
 [[r2_buckets]]
 binding = "dogImages"
 bucket_name = "cherrylanefarmpics-prev"
+
+[[r2_buckets]]
+binding = "dogImages_live"
+bucket_name = "cherrylanefarmpics"
 
 # In-file Documentation{{{
 # Automatically place your workloads in an optimal location to minimize latency.{{{
