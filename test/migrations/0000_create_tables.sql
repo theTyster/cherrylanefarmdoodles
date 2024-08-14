@@ -46,7 +46,7 @@ CREATE TABLE Dogs (
     gender text NOT NULL CHECK (gender IN ('M', 'F')),
     noseColor text NOT NULL CHECK (LENGTH(noseColor) <= 16),
     coatColor text NOT NULL CHECK (LENGTH(coatColor) <= 16),
-    personality text CHECK (LENGTH(personality) <= 140),
+    personality text NOT NULL CHECK (LENGTH(personality) <= 140),
     Headshots_Sm text UNIQUE,
     Headshots_Lg text UNIQUE,
     CONSTRAINT fk_dogs_headshot_small FOREIGN KEY (Headshots_Sm) REFERENCES Headshots_Sm (transformUrl) ON DELETE NO ACTION ON UPDATE CASCADE,
@@ -61,8 +61,8 @@ CREATE TABLE Adults (
     eyeColor text NOT NULL CHECK (LENGTH(eyeColor) <= 16),
     isRetired boolean NOT NULL CHECK (isRetired IN (0, 1)) DEFAULT 0,
     favActivities text CHECK (LENGTH(favActivities) <= 140),
-    weight integer CHECK (weight > 0),
-    energyLevel text CHECK (energyLevel IN ('Low', 'Medium-low', 'Medium', 'Medium-high', 'High')),
+    weight integer NOT NULL CHECK (weight > 0),
+    energyLevel text NOT NULL CHECK (energyLevel IN ('Low', 'Medium-low', 'Medium', 'Medium-high', 'High')),
     dogId integer,
     CONSTRAINT fk_adults_dog_id FOREIGN KEY (dogId) REFERENCES Dogs (id) ON DELETE CASCADE ON UPDATE CASCADE
 );
@@ -71,7 +71,7 @@ CREATE TABLE Puppies (
     id integer PRIMARY KEY,
     puppyName text CHECK (LENGTH(puppyName) <= 16),
     collarColor text NOT NULL CHECK (LENGTH(collarColor) <= 16),
-    isAvailable boolean CHECK (isAvailable IN (0, 1)) NOT NULL,
+    isAvailable boolean NOT NULL CHECK (isAvailable IN (0, 1)),
     dogId integer,
     litterId integer,
     CONSTRAINT fk_puppies_litter_id FOREIGN KEY (litterId) REFERENCES Litters (id) ON DELETE CASCADE ON UPDATE CASCADE,
