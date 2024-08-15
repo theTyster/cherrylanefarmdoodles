@@ -1,5 +1,5 @@
 import Theme from "@/styles/theme.module.scss";
-import css from "@/styles/dogtree.module.scss";
+import css from "@/styles/dog-tree.module.scss";
 export default function DogTree() {
   /* Props:
    *
@@ -13,7 +13,7 @@ export default function DogTree() {
     <>
       <div className={css.top}>
         <img
-          className={`${css.mom} ${Theme.headshot}`}
+          className={`${Theme.mom} ${Theme.headshot}`}
           src="./images/Piper.jpeg"
           alt="Mother Dog"
         />
@@ -22,7 +22,7 @@ export default function DogTree() {
           August 16th
         </h1>
         <img
-          className={`${css.dad} ${Theme.headshot}`}
+          className={`${Theme.dad} ${Theme.headshot}`}
           src="./images/Knox.jpeg"
           alt="Father Dog"
         />

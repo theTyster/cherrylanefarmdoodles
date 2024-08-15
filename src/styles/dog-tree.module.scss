@@ -6,16 +6,6 @@ div.top {
   & > * {
     margin: Theme.$spaceBetweenElements;
   }
-  img {
-    /* width: 100%; */
-    align-self: center;
-    &.mom {
-      border: 7px solid hotpink;
-    }
-    &.dad {
-      border: 7px solid skyblue;
-    }
-  }
 }
 h1.heading {
   margin: Theme.$spaceBetweenElements / 10;

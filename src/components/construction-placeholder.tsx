@@ -1,5 +1,5 @@
 "use client";
-import FormLink from "@/components/formlink/formlink";
+import FormLink from "@/components/form-link/form-link";
 import "@/styles/construction-placeholder.scss";
 import SvgConstructionDoodle from "@/components/svg/construction-doodle.svg";
 

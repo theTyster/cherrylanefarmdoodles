@@ -1,5 +1,5 @@
 "use client";
-import FormLink from "@/components/formlink/formlink";
+import FormLink from "@/components/form-link/form-link";
 import SvgDoodlePuppy from "../svg/doodle-puppy.svg";
 
 // Styling and animation

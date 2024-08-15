@@ -1,7 +1,8 @@
-import SvgPuppyCultureCert from "@/components/puppy-culture-cert/puppy-culture-cert.svg";
+import Theme from "@/styles/theme.module.scss";
+import ConstructionPlaceholder from "@/components/construction-placeholder";
 
 export const runtime = 'edge';
 
-export default function TanLayout(): React.JSX.Element | null {
-  return <SvgPuppyCultureCert />;
+export default function WoodLayout(): React.JSX.Element | null {
+  return <ConstructionPlaceholder dogFill={Theme.lightPrimary}/>;
 }

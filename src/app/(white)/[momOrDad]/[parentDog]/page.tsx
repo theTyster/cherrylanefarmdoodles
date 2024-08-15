@@ -1,5 +1,5 @@
 import { getRequestContext } from "@cloudflare/next-on-pages";
-import DogAbout from "@/components/dogabout/dogabout";
+import DogAbout, { dogAboutQuery } from "@/components/dog-about/dog-about";
 import DogAboutError from "./error";
 //{
 //import type { Metadata, ResolvingMetadata } from 'next'

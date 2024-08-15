@@ -1,0 +1,114 @@
+// Class names are based off of an Enum in the DogAbout component.
+@use "../styles/theme.module.scss" as Theme;
+@use "../styles/mixins.scss" as Mixins;
+
+.dogAbout {
+  .dogTitle {
+    font-weight: 700;
+    margin: 1rem 0;
+  }
+  .breeder {
+    font-size: 1.4rem;
+    font-style: italic;
+    font-weight: 400;
+    color: lighten(Theme.$black, 20%);
+  }
+  article.mainDog {
+    display: flex;
+    align-items: center;
+    margin: 0 auto;
+    padding: 1rem;
+    flex-direction: column;
+  }
+
+  .dogInfoList {
+    font-size: Theme.$h4;
+    color: Theme.$darkPrimary;
+    font-size: Theme.$h3;
+    margin-left: Theme.$spaceBetweenElements;
+    li {
+      margin-top: Theme.$spaceBetweenElements;
+    }
+    @include Mixins.mediaQuery(Theme.$tabletViewport) {
+      list-style-type: circle;
+    }
+  }
+
+  .attentionGetter {
+    display: flex;
+    @include Mixins.mediaQuery(Theme.$tabletViewport) {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+
+  /* THESE THREE MAY JUST NEED TO BE TURNED INTO VARIANTS
+   * Consider using a loader or something else?
+   * Maybe configure more with CF?
+   **/
+  #Headshots_Lg {
+  }
+  #Headshots_Sm {
+    @include Mixins.mediaQuery(Theme.$tabletViewport) {
+      margin-top: Theme.$spaceBetweenElements;
+    }
+  }
+
+  #Group_Photos {
+    max-width: Theme.$Group_Photos;
+    aspect-ratio: 4/3;
+    margin-top: Theme.$spaceBetweenElements;
+    margin-right: Theme.$spaceBetweenElements;
+    @include Mixins.mediaQuery(Theme.$tabletViewport) {
+      width: 100%;
+      height: auto;
+      margin-right: unset;
+    }
+  }
+  .partnerData {
+    display: flex;
+    border-radius: Theme.$bigButtonRadius;
+    padding: Theme.$spaceBetweenElements;
+    margin-top: Theme.$spaceBetweenElements;
+    align-items: center;
+    @include Mixins.mediaQuery(Theme.$tabletViewport) {
+      flex-direction: column;
+      align-items: center;
+    }
+    @include Mixins.mediaQuery(Theme.$phoneViewport) {
+      width: 292px;
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+
+  .partneVisuals {
+    display: flex;
+    margin: Theme.$spaceBetweenElements;
+    @include Mixins.mediaQuery(Theme.$phoneViewport) {
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+  }
+
+  .partnerName {
+    color: Theme.$accentBlue;
+  }
+  .partnerLastLitter {
+    color: Theme.$accentBlue;
+    text-align: center;
+    margin-top: calc(Theme.$spaceBetweenElements/2);
+  }
+  .partnerPhoto {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .partnerBreeder {
+    margin-top: Theme.$spaceBetweenElements;
+    color: Theme.$accentBlue;
+    text-align: center;
+  }
+}
