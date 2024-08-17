@@ -1,4 +1,4 @@
-INSERT INTO Litters (dueDate, birthday)
+INSERT INTO Litters (dueDate, litterBirthday)
   VALUES
   ('2023-03-13', '2024-06-01'),
   ('2023-01-19', '2024-06-10'),

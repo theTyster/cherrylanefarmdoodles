@@ -24,20 +24,18 @@ CREATE TABLE Group_Photos (
 
 CREATE TABLE Headshots_Sm (
     transformUrl TEXT PRIMARY KEY CHECK (LENGTH(transformUrl) <= 2000),
-    hash text NOT NULL,
-    alt text CHECK (LENGTH(alt) <= 140)
+    hash text NOT NULL
 );
 
 CREATE TABLE Headshots_Lg (
     transformUrl TEXT PRIMARY KEY CHECK (LENGTH(transformUrl) <= 2000),
-    hash text NOT NULL,
-    alt text CHECK (LENGTH(alt) <= 140)
+    hash text NOT NULL
 );
 
 CREATE TABLE Litters (
     id integer PRIMARY KEY,
     dueDate date NOT NULL,
-    birthday date,
+    litterBirthday date,
     applicantsInQueue integer NOT NULL CHECK (applicantsInQueue <= 0) DEFAULT 0
 );
 
@@ -57,7 +55,7 @@ CREATE TABLE Adults (
     id integer PRIMARY KEY,
     adultName text NOT NULL CHECK (LENGTH(adultName) <= 16),
     breeder text NOT NULL CHECK (LENGTH(breeder) <= 50),
-    birthday date NOT NULL,
+    adultBirthday date NOT NULL,
     eyeColor text NOT NULL CHECK (LENGTH(eyeColor) <= 16),
     isRetired boolean NOT NULL CHECK (isRetired IN (0, 1)) DEFAULT 0,
     favActivities text CHECK (LENGTH(favActivities) <= 140),
@@ -88,7 +86,7 @@ CREATE TABLE Families (
     CONSTRAINT fk_families_mom_id FOREIGN KEY (mother) REFERENCES Adults (id) ON DELETE CASCADE ON UPDATE CASCADE,
     CONSTRAINT fk_families_dad_id FOREIGN KEY (father) REFERENCES Adults (id) ON DELETE CASCADE ON UPDATE CASCADE,
     CONSTRAINT fk_families_litter_id FOREIGN KEY (litterId) REFERENCES Litters (id) ON DELETE CASCADE ON UPDATE CASCADE,
-    CONSTRAINT unique_families UNIQUE (Group_Photos, mother, father, litterId)
+    CONSTRAINT unique_families UNIQUE (mother, father, litterId)
 );
 
 CREATE TABLE Dog_To_Group_Photos (

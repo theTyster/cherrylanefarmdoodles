@@ -65,7 +65,6 @@ img.headshot {
   }
 
   /*Large*/
-  //prettier-ignore
   &Lg {
     aspect-ratio: 3/4        !important;
     max-width: $Headshots_Lg !important;
@@ -85,7 +84,6 @@ img.headshot {
   }
 
   /*Small*/
-  //prettier-ignore
   &Sm {
     aspect-ratio: 1/1        !important;
     max-width: $Headshots_Sm !important;

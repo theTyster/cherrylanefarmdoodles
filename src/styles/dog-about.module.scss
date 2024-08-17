@@ -32,6 +32,9 @@
     @include Mixins.mediaQuery(Theme.$tabletViewport) {
       list-style-type: circle;
     }
+    @include Mixins.mediaQuery(Theme.$microViewport) {
+      line-break:anywhere;
+    }
   }
 
   .attentionGetter {
@@ -42,11 +45,11 @@
     }
   }
 
-  /* THESE THREE MAY JUST NEED TO BE TURNED INTO VARIANTS
-   * Consider using a loader or something else?
-   * Maybe configure more with CF?
-   **/
   #Headshots_Lg {
+    @include Mixins.mediaQuery(Theme.$tabletViewport) {
+      width: auto;
+      height: auto;
+    }
   }
   #Headshots_Sm {
     @include Mixins.mediaQuery(Theme.$tabletViewport) {
@@ -76,7 +79,7 @@
       align-items: center;
     }
     @include Mixins.mediaQuery(Theme.$phoneViewport) {
-      width: 292px;
+      width: 100%;
       flex-direction: column;
       align-items: center;
     }
@@ -92,7 +95,7 @@
     }
   }
 
-  .partnerName {
+  .adultName {
     color: Theme.$accentBlue;
   }
   .partnerLastLitter {
