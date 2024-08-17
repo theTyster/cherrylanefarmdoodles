@@ -30,57 +30,57 @@ export default async function WhiteSection() {
    * All data related to the Dogtree component.
    **/
   const D1Queries = await Promise.all(
-    entryPoint.map(async (data) => {
+    entryPoint.map(async (familyTableData) => {
       return {
-        [G.Group_Photos]: data[G.Group_Photos],
-        [G.litterId]: data[G.litterId],
+        [G.Group_Photos]: familyTableData[G.Group_Photos],
+        [G.litterId]: familyTableData[G.litterId],
         ...(await Promise.all([
           D1.prepare(PQ.adultDogsQuery)
-            .bind(data[G.mother])
+            .bind(familyTableData[G.mother])
             .first<D1Adults>()
             .then(async (res) => {
               if (!res)
                 throw new Error(
-                  "Missing Mother's data in Adult Table for ID: " + data.mother
+                  "Missing Mother's data in Adult Table for ID: " + familyTableData.mother
                 );
               const dogData = await D1.prepare(PQ.dogsQuery)
                 .bind(res[G.dogId])
                 .first<D1Dogs>();
               if (!dogData)
                 throw new Error(
-                  "Missing Mother's data in Dogs Table for ID: " + data.mother
+                  "Missing Mother's data in Dogs Table for ID: " + familyTableData.mother
                 );
               return { ...dogData, ...res };
             }),
           D1.prepare(PQ.adultDogsQuery)
-            .bind(data[G.father])
+            .bind(familyTableData[G.father])
             .first<D1Adults>()
             .then(async (res) => {
               if (!res)
                 throw new Error(
-                  "Missing Father's data in Adult Table for ID: " + data.father
+                  "Missing Father's data in Adult Table for ID: " + familyTableData.father
                 );
               const dogData = await D1.prepare(PQ.dogsQuery)
                 .bind(res[G.dogId])
                 .first<D1Dogs>();
               if (!dogData)
                 throw new Error(
-                  "Missing Father's data in Dogs Table for ID: " + data.father
+                  "Missing Father's data in Dogs Table for ID: " + familyTableData.father
                 );
               return { ...dogData, ...res };
             }),
           D1.prepare(PQ.litterQuery)
-            .bind(data[G.litterId])
+            .bind(familyTableData[G.litterId])
             .first<Omit<D1LittersWithQueue, typeof G.id>>()
             .then((res) => {
               if (!res)
                 throw new Error(
                   "Missing Litter's data in Litters Table for ID: " +
-                    data.litterId
+                    familyTableData.litterId
                 );
               return {
                 [G.dueDate]: new Date(res[G.dueDate]),
-                [G.litterBirthday]: new Date(res[G.litterBirthday]),
+                [G.litterBirthday]: res[G.litterBirthday] ? new Date(res[G.litterBirthday]) : null,
                 [G.applicantsInQueue]: Number.parseFloat(
                   res[G.applicantsInQueue] as unknown as string
                 ),
