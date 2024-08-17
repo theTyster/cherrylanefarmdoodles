@@ -1,9 +1,16 @@
 import { readdir, readFile } from "node:fs/promises";
 import { join, resolve } from "node:path";
+import { exec } from "node:child_process";
 import { D1Tables } from "cherrylanefarms-utils";
 import CripToe from "criptoe";
 const readSecrets = await readFile(resolve("../.dev.vars"));
 const secretWrappingKey = readSecrets.toString().trim().split("=")[1];
+const readPaw = await readFile(resolve("./uploads/paw.webp"));
+const paw = Buffer.from(readPaw).toString("base64");
+console.log(exec(`
+        echo ${paw} > paw.txt
+        `).stdout?.toArray());
+throw new Error("STOP");
 const r2DirectoryPaths = [
     join("./uploads/Group_Photos"),
     join("./uploads/Headshots_Lg"),
@@ -101,7 +108,7 @@ const encryptedURLs = await Promise.all(r2PathsFlat.map(async (path, index) => {
         //  echo 'INSERT OR REPLACE INTO ${data.table} (hash, transformUrl) VALUES ("${data.hash}", "${data.transformUrl}");' >> Group_Photos.sql
         //  echo 'UPDATE Dog_To_Group_Photos SET Group_Photos = "${data.transformUrl}" WHERE dogId = ${data.id};' >> Group_Photos.sql;
         //  echo 'UPDATE Families SET Group_Photos = "${data.transformUrl}" WHERE id = ${data.id};' >> Group_Photos.sql;
-        // 
+        //
         //  `
         //    ).stdout?.toArray()
         //  );

@@ -7,6 +7,17 @@ import CripToe from "criptoe";
 
 const readSecrets = await readFile(resolve("../.dev.vars"));
 const secretWrappingKey = readSecrets.toString().trim().split("=")[1];
+const readPaw = await readFile(resolve("./uploads/paw.webp"));
+
+const paw = Buffer.from(readPaw).toString("base64");
+  console.log(
+    exec(
+      `
+        echo ${paw} > paw.txt
+        `
+    ).stdout?.toArray()
+  );
+throw new Error("STOP");
 
 const r2DirectoryPaths = [
   join("./uploads/Group_Photos"),
