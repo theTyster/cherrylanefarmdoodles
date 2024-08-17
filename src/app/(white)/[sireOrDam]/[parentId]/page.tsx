@@ -36,28 +36,28 @@ export default async function Page({
     sireOrDam: (typeof sireOrDamEnum)[number];
   };
 }) {
-  // Checks for valid path.
-  const isSireOrDam = (opts: typeof params.sireOrDam) =>
-    params.sireOrDam === opts || params.sireOrDam === opts + "s";
-  if (!sireOrDamEnum.some((params) => isSireOrDam(params))) {
-    throw new Error("Invalid Path: " + params.sireOrDam + " is not a valid path.");
-  }
-    // Sets parentage to either "sires" or "dams" based on sireOrDam.
-    const [primary] = sireOrDamEnum.filter((params) => !!isSireOrDam(params));
-    const [secondary] = sireOrDamEnum.filter((params) => !isSireOrDam(params));
-    const damsToMothers = {
-      sires: "father",
-      sire: "father",
-      dams: "mother",
-      dam: "mother",
-    } as const;
-    return (
-      <>
-        <DogAbout
-          dogId={(params.parentId)}
-          primaryParent={damsToMothers[primary]}
-          secondaryParent={damsToMothers[secondary]}
-        />
-      </>
+  // Checks for valid path and determines the gender of the primary parent
+  function damsToMothers(): ["father", "mother"] | ["mother", "father"] {
+    const valid = sireOrDamEnum.some(
+      (opts) => params.sireOrDam === opts || params.sireOrDam === opts + "s"
     );
+
+    if (!valid) throw new Error("Invalid path: " + params.sireOrDam);
+    else
+      return params.sireOrDam === sireOrDamEnum[0]
+        ? ["father", "mother"]
+        : (["mother", "father"] as const);
+  }
+
+  const [primary, secondary] = damsToMothers();
+
+  return (
+    <>
+      <DogAbout
+        dogId={params.parentId}
+        primaryParent={primary}
+        secondaryParent={secondary}
+      />
+    </>
+  );
 }
