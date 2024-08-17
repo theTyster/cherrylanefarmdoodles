@@ -13,6 +13,20 @@ $lightTertiaryCherry: #ffc9d8;
 $tertiaryCherry: #b81641;
 $darkTertiaryCherry: #850829;
 
+$lightAccentBlue: #bbe1f2;
+$accentBlue: #124559;
+
+$lightMom: $lightTertiaryCherry;
+$lightDad: $lightAccentBlue;
+$darkMom: $tertiaryCherry;
+$darkDad: $accentBlue;
+
+$outlineWidth: 9px;
+$momOutline: $outlineWidth solid $lightMom;
+$dadOutline: $outlineWidth solid $lightDad;
+$momShadow: 0 0 0 calc($outlineWidth * 0.667) $lightTertiaryCherry;
+$dadShadow: 0 0 0 calc($outlineWidth * 0.667) $lightAccentBlue;
+
 $black: #333;
 
 // Sizing
@@ -26,12 +40,72 @@ $spaceBetweenElements: 30px;
 //Etc
 $buttonRadius: 0.875rem; // 14px
 $bigButtonRadius: 2rem; // 32px
+$Headshots_LgRadius: 3.1875rem; // 51px
+$Headshots_SmRadius: 100%;
+$Headshots_Sm: 292px;
+$Headshots_Lg: 500px;
+$Group_Photos: 600px;
 
-.headshot {
-  max-width: 292px;
-  aspect-ratio: 1/1;
-  border-radius: 100%;
-  object-fit: cover;
+// Fonts
+$h1: 51px;
+$h2: calc(51px - 10px);
+$h3: calc(51px - 20px);
+$h4: calc(51px - 30px);
+
+img.headshot {
+  @mixin momOrDad {
+    &.mom {
+      outline: $momOutline;
+      margin: $outlineWidth;
+    }
+    &.dad {
+      outline: $dadOutline;
+      margin: $outlineWidth;
+    }
+  }
+
+  /*Large*/
+  //prettier-ignore
+  &Lg {
+    aspect-ratio: 3/4        !important;
+    max-width: $Headshots_Lg !important;
+    width: 500px;
+    height: 666px;
+    object-fit: scale-down;
+    border-radius: $bigButtonRadius;
+    @include momOrDad;
+    @include Mixins.mediaQuery($phoneViewport) {
+      width: 292px;
+      height: auto;
+    }
+    @include Mixins.mediaQuery($microViewport) {
+      width: 100%;
+      height: auto;
+    }
+  }
+
+  /*Small*/
+  //prettier-ignore
+  &Sm {
+    aspect-ratio: 1/1        !important;
+    max-width: $Headshots_Sm !important;
+    object-fit: scale-down;
+    border-radius: $Headshots_SmRadius;
+    transition: all 0.3s;
+    cursor: pointer;
+    &:hover {
+      transform: scale(1.05);
+    }
+    @include momOrDad;
+    @include Mixins.mediaQuery($phoneViewport) {
+      width: 100%;
+      height: auto;
+    }
+    @include Mixins.mediaQuery($microViewport) {
+      width: 100%;
+      height: auto;
+    }
+  }
 }
 
 @include Mixins.mediaQuery($tabletViewport, min) {
@@ -91,6 +165,8 @@ $bigButtonRadius: 2rem; // 32px
   }
 }
 
+// Vim macro for formatting variable names:
+// veyf:lvf;hpj0
 :export {
   lightPrimary: $lightPrimary;
   primary: $primary;
@@ -101,7 +177,30 @@ $bigButtonRadius: 2rem; // 32px
   lightTertiaryCherry: $lightTertiaryCherry;
   tertiaryCherry: $tertiaryCherry;
   darkTertiaryCherry: $darkTertiaryCherry;
-
-  buttonRadius: $buttonRadius;
+  lightAccentBlue: $lightAccentBlue;
+  accentBlue: $accentBlue;
+  lightMom: $lightMom;
+  lightDad: $lightDad;
+  darkMom: $darkMom;
+  darkDad: $darkDad;
+  outlineWidth: $outlineWidth;
+  momOutline: $momOutline;
+  momShadow: $momShadow;
+  dadOutline: $dadOutline;
+  dadShadow: $dadShadow;
+  black: $black;
+  tabletViewport: $tabletViewport;
+  phoneViewport: $phoneViewport;
+  microViewport: $microViewport;
   spaceBetweenElements: $spaceBetweenElements;
+  buttonRadius: $buttonRadius; // 14px
+  bigButtonRadius: $bigButtonRadius; // 32px
+  Headshots_LgRadius: $Headshots_LgRadius; // 51px
+  Headshots_SmRadius: $Headshots_SmRadius;
+  Headshots_Sm: $Headshots_Sm;
+  Headshots_Lg: $Headshots_Lg;
+  h1: $h1;
+  h2: $h2;
+  h3: $h3;
+  h4: $h4;
 }
