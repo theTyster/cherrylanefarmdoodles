@@ -1,0 +1,10 @@
+.breederLine {
+  position: relative;
+  display: inline;
+  .cherry {
+    position: absolute;
+    width: 1em;
+    height: 1.2em;
+    left: -1em;
+  }
+}
