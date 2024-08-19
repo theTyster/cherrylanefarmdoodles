@@ -37,7 +37,7 @@ div.bottom {
     width: 100%;
   }
 }
-@include Mixins.mediaQuery(Theme.$phoneViewport) {
+@include Mixins.mediaQuery(Theme.$LgPhoneViewport) {
   div.top {
     flex-direction: column;
   }

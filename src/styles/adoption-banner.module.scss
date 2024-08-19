@@ -62,7 +62,7 @@
   }
 }
 
-@include Mixins.mediaQuery(Theme.$phoneViewport) {
+@include Mixins.mediaQuery(Theme.$LgPhoneViewport) {
   .adoptionBanner {
     div.eventHandlerDiv {
       div.buttonText {

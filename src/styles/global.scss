@@ -174,22 +174,27 @@ div[class$="-layout"] {
   }
   @include Mixins.mediaQuery(Theme.$tabletViewport) {
     div.content-box {
-      flex: 0 1 Theme.$phoneViewport;
+      flex: 0 1 Theme.$LgPhoneViewport;
     }
   }
 
-  @include Mixins.mediaQuery(Theme.$phoneViewport) {
+  @include Mixins.mediaQuery(Theme.$LgPhoneViewport) {
     div.content-box {
-      flex: 0 1 Theme.$microViewport;
+      flex: 0 1 Theme.$SmPhoneViewport;
     }
-  }
-
-  @include Mixins.mediaQuery(Theme.$microViewport) {
-    display: block;
-    width: fit-content;
     @include Mixins.setImageValues() {
       width: 100%;
       height: auto;
+    }
+  }
+
+  @include Mixins.mediaQuery(Theme.$SmPhoneViewport) {
+    display: block;
+    width: fit-content;
+  }
+  @include Mixins.mediaQuery(Theme.$microViewport) {
+    @include Mixins.setTextValues() {
+      line-break: anywhere;
     }
   }
 }

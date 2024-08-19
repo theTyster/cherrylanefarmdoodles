@@ -8,7 +8,6 @@
     margin: 1rem 0;
   }
   .breeder {
-    font-size: 1.4rem;
     font-style: italic;
     font-weight: 400;
     color: lighten(Theme.$black, 20%);
@@ -45,12 +44,6 @@
     }
   }
 
-  #Headshots_Lg {
-    @include Mixins.mediaQuery(Theme.$tabletViewport) {
-      width: auto;
-      height: auto;
-    }
-  }
   #Headshots_Sm {
     @include Mixins.mediaQuery(Theme.$tabletViewport) {
       margin-top: Theme.$spaceBetweenElements;
@@ -78,7 +71,7 @@
       flex-direction: column;
       align-items: center;
     }
-    @include Mixins.mediaQuery(Theme.$phoneViewport) {
+    @include Mixins.mediaQuery(Theme.$LgPhoneViewport) {
       width: 100%;
       flex-direction: column;
       align-items: center;
@@ -88,7 +81,7 @@
   .partneVisuals {
     display: flex;
     margin: Theme.$spaceBetweenElements;
-    @include Mixins.mediaQuery(Theme.$phoneViewport) {
+    @include Mixins.mediaQuery(Theme.$LgPhoneViewport) {
       align-items: center;
       justify-content: center;
       flex-direction: column;

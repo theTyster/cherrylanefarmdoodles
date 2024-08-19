@@ -31,7 +31,8 @@ $black: #333;
 
 // Sizing
 $tabletViewport: 1200px;
-$phoneViewport: 750px;
+$LgPhoneViewport: 750px;
+$SmPhoneViewport: 385px;
 $microViewport: 300px;
 
 // Spacing
@@ -55,29 +56,28 @@ $h4: calc(51px - 30px);
 img.headshot {
   @mixin momOrDad {
     &.mom {
-      outline: $momOutline;
-      margin: $outlineWidth;
+      border: $momOutline;
     }
     &.dad {
-      outline: $dadOutline;
-      margin: $outlineWidth;
+      border: $dadOutline;
     }
   }
 
   /*Large*/
   &Lg {
-    aspect-ratio: 3/4        !important;
+    aspect-ratio: 3/4 !important;
     max-width: $Headshots_Lg !important;
-    width: 500px;
+    width: $Headshots_Lg;
     height: 666px;
     object-fit: scale-down;
     border-radius: $bigButtonRadius;
+    box-sizing: content-box;
     @include momOrDad;
-    @include Mixins.mediaQuery($phoneViewport) {
-      width: 292px;
+    @include Mixins.mediaQuery($LgPhoneViewport) {
+      width: $Headshots_Sm;
       height: auto;
     }
-    @include Mixins.mediaQuery($microViewport) {
+    @include Mixins.mediaQuery($SmPhoneViewport) {
       width: 100%;
       height: auto;
     }
@@ -85,7 +85,7 @@ img.headshot {
 
   /*Small*/
   &Sm {
-    aspect-ratio: 1/1        !important;
+    aspect-ratio: 1/1 !important;
     max-width: $Headshots_Sm !important;
     object-fit: scale-down;
     border-radius: $Headshots_SmRadius;
@@ -95,11 +95,11 @@ img.headshot {
       transform: scale(1.05);
     }
     @include momOrDad;
-    @include Mixins.mediaQuery($phoneViewport) {
-      width: 100%;
+    @include Mixins.mediaQuery($LgPhoneViewport) {
+      width: $Headshots_Sm;
       height: auto;
     }
-    @include Mixins.mediaQuery($microViewport) {
+    @include Mixins.mediaQuery($SmPhoneViewport) {
       width: 100%;
       height: auto;
     }
@@ -134,7 +134,7 @@ img.headshot {
     display: block;
   }
 }
-@include Mixins.mediaQuery($phoneViewport) {
+@include Mixins.mediaQuery($LgPhoneViewport) {
   .desktopOnly {
     display: none;
   }
@@ -148,7 +148,7 @@ img.headshot {
     display: block;
   }
 }
-@include Mixins.mediaQuery($microViewport) {
+@include Mixins.mediaQuery($SmPhoneViewport) {
   .desktopOnly {
     display: none;
   }
@@ -166,39 +166,41 @@ img.headshot {
 // Vim macro for formatting variable names:
 // veyf:lvf;hpj0
 :export {
-  lightPrimary: $lightPrimary;
-  primary: $primary;
-  darkPrimary: $darkPrimary;
-  lightSecondaryGreen: $lightSecondaryGreen;
-  secondaryGreen: $secondaryGreen;
-  darkSecondaryGreen: $darkSecondaryGreen;
-  lightTertiaryCherry: $lightTertiaryCherry;
-  tertiaryCherry: $tertiaryCherry;
-  darkTertiaryCherry: $darkTertiaryCherry;
-  lightAccentBlue: $lightAccentBlue;
+  Group_Photos: $Group_Photos;
+  Headshots_Lg: $Headshots_Lg;
+  Headshots_LgRadius: $Headshots_LgRadius; // 51px
+  Headshots_Sm: $Headshots_Sm;
+  Headshots_SmRadius: $Headshots_SmRadius;
+  LgPhoneViewport: $LgPhoneViewport;
+  SmPhoneViewport: $SmPhoneViewport;
   accentBlue: $accentBlue;
-  lightMom: $lightMom;
-  lightDad: $lightDad;
-  darkMom: $darkMom;
-  darkDad: $darkDad;
-  outlineWidth: $outlineWidth;
-  momOutline: $momOutline;
-  momShadow: $momShadow;
+  bigButtonRadius: $bigButtonRadius; // 32px
+  black: $black;
+  buttonRadius: $buttonRadius; // 14px
   dadOutline: $dadOutline;
   dadShadow: $dadShadow;
-  black: $black;
-  tabletViewport: $tabletViewport;
-  phoneViewport: $phoneViewport;
-  microViewport: $microViewport;
-  spaceBetweenElements: $spaceBetweenElements;
-  buttonRadius: $buttonRadius; // 14px
-  bigButtonRadius: $bigButtonRadius; // 32px
-  Headshots_LgRadius: $Headshots_LgRadius; // 51px
-  Headshots_SmRadius: $Headshots_SmRadius;
-  Headshots_Sm: $Headshots_Sm;
-  Headshots_Lg: $Headshots_Lg;
+  darkDad: $darkDad;
+  darkMom: $darkMom;
+  darkPrimary: $darkPrimary;
+  darkSecondaryGreen: $darkSecondaryGreen;
+  darkTertiaryCherry: $darkTertiaryCherry;
   h1: $h1;
   h2: $h2;
   h3: $h3;
   h4: $h4;
+  lightAccentBlue: $lightAccentBlue;
+  lightDad: $lightDad;
+  lightMom: $lightMom;
+  lightPrimary: $lightPrimary;
+  lightSecondaryGreen: $lightSecondaryGreen;
+  lightTertiaryCherry: $lightTertiaryCherry;
+  microViewport: $microViewport;
+  momOutline: $momOutline;
+  momShadow: $momShadow;
+  outlineWidth: $outlineWidth;
+  primary: $primary;
+  secondaryGreen: $secondaryGreen;
+  spaceBetweenElements: $spaceBetweenElements;
+  tabletViewport: $tabletViewport;
+  tertiaryCherry: $tertiaryCherry;
 }
