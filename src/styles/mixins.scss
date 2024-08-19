@@ -36,9 +36,8 @@
   align-items: $align;
 }
 
-@mixin setDropShadow($color, $scale:1px) {
+@mixin setDropShadow($color, $scale: 1px) {
   $x: calc(8px + $scale);
   $y: calc(11px + $scale);
   filter: drop-shadow($x $y 15px $color);
 }
-

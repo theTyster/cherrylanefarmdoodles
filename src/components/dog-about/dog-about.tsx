@@ -169,7 +169,7 @@ export default async function DogAbout({
   return (
     <div className={DA.css.dogAbout}>
       <div className={DA.css.dogTitle}>
-        <h1 className={DA.css.adultName + " title"}>
+        <h1 className={DA.css.adultName}>
           Meet {DA.dogData.adultName}
         </h1>
         <hr />
