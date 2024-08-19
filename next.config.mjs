@@ -9,7 +9,10 @@ let nextConfig;
 
 nextConfig = {
   images: {
-    remotePatterns: [ { hostname: 'media.cherrylanefarmdoodles.com' } ]
+    remotePatterns: [ { hostname: 'media.cherrylanefarmdoodles.com' } ],
+    loader: 'custom',
+    loaderFile: 'src/loader.ts',
+    unoptimized: true,
   },
 };
 
