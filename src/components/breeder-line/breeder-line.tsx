@@ -1,16 +1,15 @@
 import Image from "next/image";
 // Static Images
 import cherry from "@pub/images/cherry.svg";
+import css from "@/styles/breeder-line.module.scss";
 
 function BreederLine({ breeder }: { breeder: string }) {
   return breeder.match(/cherrylane|breeder a/gi) ? (
-    <span>
+    <span className={css.breederLine}>
       <Image
-        style={{ display: "inline" }}
+        className={css.cherry}
         src={cherry}
         alt=""
-        width={20}
-        height={20}
       />
       {" " + breeder}
     </span>
