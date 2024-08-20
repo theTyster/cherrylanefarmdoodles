@@ -1,6 +1,18 @@
 import { env } from "cloudflare:test";
 import { describe, test, expect } from "vitest";
-import { D1Tables } from "cherrylanefarms-utils";
+import { D1Tables } from "../../src/constants/data";
+
+type D1_TABLES<T> =
+  T extends typeof D1Tables.Group_Photos ? D1GroupPhotos :
+  T extends typeof D1Tables.Headshots_Sm ? D1HeadshotsSm :
+  T extends typeof D1Tables.Headshots_Lg ? D1HeadshotsLg :
+  T extends typeof D1Tables.Litters ? D1Litters :
+  T extends typeof D1Tables.Dogs ? D1Dogs :
+  T extends typeof D1Tables.Adults ? D1Adults :
+  T extends typeof D1Tables.Puppies ? D1Puppies :
+  T extends typeof D1Tables.Families ? D1Families :
+  T extends typeof D1Tables.Dog_To_Group_Photos ? D1DogToGroupPhotos : never;
+
 
 describe("Backend Systems", async () => {
   // D1QueryAll Function {
@@ -469,7 +481,7 @@ describe("Backend Systems", async () => {
 
             expect(deleted.success, "Delete was unsuccessful.").toBe(true);
             expect(D1Changes.dogsAfterDeleted).not.toMatchObject(D1.Dogs);
-            expect(D1Changes.dogsAfterDeleted[0][0]).not.toBe(1);
+            expect(D1Changes.dogsAfterDeleted[0]).not.toBe(1);
             expect
               .soft(D1Changes, "Database structure is unexpected.")
               .toMatchSnapshot();
@@ -477,7 +489,7 @@ describe("Backend Systems", async () => {
           test("Should also delete Adults.", async () => {
             const newAdults = await D1QueryAll("Adults");
 
-            expect(newAdults[0][9], "Adult should have been deleted.").not.toBe(
+            expect(newAdults[9], "Adult should have been deleted.").not.toBe(
               1
             );
             expect
@@ -494,7 +506,7 @@ describe("Backend Systems", async () => {
             D1Changes.dogsAfterDeleted = newDogs;
             expect(deleted.success, "Delete was unsuccessful.").toBe(true);
             expect(D1Changes.dogsAfterDeleted).not.toMatchObject(D1.Dogs);
-            expect(D1Changes.dogsAfterDeleted[0][0]).not.toBe(3);
+            expect(D1Changes.dogsAfterDeleted[0]).not.toBe(3);
             expect
               .soft(D1Changes, "Database structure is unexpected.")
               .toMatchSnapshot();
