@@ -13,11 +13,6 @@ interface D1Litters {
   readonly applicantsInQueue: number;
 }
 
-interface D1LittersWithQueue extends D1Litters {
-  readonly availablePuppies: number;
-  readonly litterBirthday: string | Date;
-}
-
 interface D1Dogs  {
   readonly id: number;
   readonly gender: "M" | "F";
