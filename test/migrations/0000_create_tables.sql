@@ -17,18 +17,18 @@ DROP TABLE IF EXISTS Headshots_Sm;
 DROP TABLE IF EXISTS Group_Photos;
 
 CREATE TABLE Group_Photos (
-    transformUrl TEXT PRIMARY KEY CHECK (LENGTH(transformUrl) <= 2000),
+    transformUrl text PRIMARY KEY CHECK (LENGTH(transformUrl) <= 2000),
     hash text NOT NULL,
     alt text CHECK (LENGTH(alt) <= 140)
 );
 
 CREATE TABLE Headshots_Sm (
-    transformUrl TEXT PRIMARY KEY CHECK (LENGTH(transformUrl) <= 2000),
+    transformUrl text PRIMARY KEY CHECK (LENGTH(transformUrl) <= 2000),
     hash text NOT NULL
 );
 
 CREATE TABLE Headshots_Lg (
-    transformUrl TEXT PRIMARY KEY CHECK (LENGTH(transformUrl) <= 2000),
+    transformUrl text PRIMARY KEY CHECK (LENGTH(transformUrl) <= 2000),
     hash text NOT NULL
 );
 
@@ -36,7 +36,7 @@ CREATE TABLE Litters (
     id integer PRIMARY KEY,
     dueDate date NOT NULL,
     litterBirthday date,
-    applicantsInQueue integer NOT NULL CHECK (applicantsInQueue <= 0) DEFAULT 0
+    applicantsInQueue integer NOT NULL CHECK (applicantsInQueue >= 0) DEFAULT 0
 );
 
 CREATE TABLE Dogs (

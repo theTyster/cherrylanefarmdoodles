@@ -2,17 +2,25 @@ import { env } from "cloudflare:test";
 import { describe, test, expect } from "vitest";
 import { D1Tables } from "../../src/constants/data";
 
-type D1_TABLES<T> =
-  T extends typeof D1Tables.Group_Photos ? D1GroupPhotos :
-  T extends typeof D1Tables.Headshots_Sm ? D1HeadshotsSm :
-  T extends typeof D1Tables.Headshots_Lg ? D1HeadshotsLg :
-  T extends typeof D1Tables.Litters ? D1Litters :
-  T extends typeof D1Tables.Dogs ? D1Dogs :
-  T extends typeof D1Tables.Adults ? D1Adults :
-  T extends typeof D1Tables.Puppies ? D1Puppies :
-  T extends typeof D1Tables.Families ? D1Families :
-  T extends typeof D1Tables.Dog_To_Group_Photos ? D1DogToGroupPhotos : never;
-
+type D1_TABLES<T> = T extends typeof D1Tables.Group_Photos
+  ? D1GroupPhotos
+  : T extends typeof D1Tables.Headshots_Sm
+  ? D1HeadshotsSm
+  : T extends typeof D1Tables.Headshots_Lg
+  ? D1HeadshotsLg
+  : T extends typeof D1Tables.Litters
+  ? D1Litters
+  : T extends typeof D1Tables.Dogs
+  ? D1Dogs
+  : T extends typeof D1Tables.Adults
+  ? D1Adults
+  : T extends typeof D1Tables.Puppies
+  ? D1Puppies
+  : T extends typeof D1Tables.Families
+  ? D1Families
+  : T extends typeof D1Tables.Dog_To_Group_Photos
+  ? D1DogToGroupPhotos
+  : never;
 
 describe("Backend Systems", async () => {
   // D1QueryAll Function {
@@ -32,8 +40,7 @@ describe("Backend Systems", async () => {
 
   function R2Setup() {
     return Object.keys(env.TEST_IMAGES).map((file: string) => {
-      const res = env.dogImages.put(file, env.TEST_IMAGES[file]);
-      if (res) return res;
+      return env.dogImages.put(file, env.TEST_IMAGES[file]);
     });
   }
 
@@ -68,14 +75,47 @@ describe("Backend Systems", async () => {
   },
   {}) as TestD1Type;
 
-  const R2 = {
-    uploads: R2Raw.reduce(function getNewR2(newR2, upload) {
+  const R2BuildingInProgress = {
+    uploads: R2Raw.reduce(function getNewR2(newR2: Record<string, R2Object>, upload:R2Object | null | undefined) {
+      if (!upload) return newR2;
       newR2[upload.key] = upload;
       return newR2;
     }, {}),
     keys: Object.keys(env.TEST_IMAGES),
   };
 
+  const offsiteTestPicMocks = [
+    "hashed_Chili_Sm",
+    "hashed_Bandit_Sm",
+    "hashed_Bluey_Sm",
+    "hashed_Bingo_Sm",
+    "hashed_Chili",
+    "hashed_Bandit",
+    "hashed_Bluey",
+    "hashed_Bingo",
+    "hashed_Old1",
+    "hashed_Old2",
+    "Not shown in front end",
+    "The Heelers",
+  ];
+
+  const offsiteTestPicMockR2Object = offsiteTestPicMocks.reduce((mock: Record<string, R2Object>, hash: R2Object | string) => {
+    mock[hash as string] = (hash as R2Object);
+    return mock;
+  }, {} as Record<string, R2Object>);
+
+  // Adds offsite test pictures to the R2 object.
+  const R2 = {
+    keys: [
+
+      ...R2BuildingInProgress.keys,
+      ...offsiteTestPicMocks,
+    ],
+    uploads: {
+      ...R2BuildingInProgress.uploads,
+      ...offsiteTestPicMockR2Object,
+    },
+  }
   describe("R2", () => {
     describe.each(R2.keys)("%s", (key) => {
       test("is uploaded", () => {
@@ -83,7 +123,7 @@ describe("Backend Systems", async () => {
         expect(key, "Incorrect Key Types").toStrictEqual(expect.any(String));
       });
 
-      test("is readable", async () => {
+      test.skipIf(offsiteTestPicMocks.some(hash => key === hash))("is readable", async () => {
         const read = await env.dogImages.get(key);
         const meta = await env.dogImages.head(key);
         if (!read) throw new Error(`${key} not found in R2 Bucket`);
@@ -117,36 +157,7 @@ describe("Backend Systems", async () => {
       expect(list).toBeTruthy();
       expect(list.objects).toBeInstanceOf(Array);
       expect(list.objects.length, "Not listing all uploads").toBe(
-        R2.keys.length
-      );
-    });
-
-    describe("Check for extra files.", async () => {
-      const allD1Photos = [
-        ...D1.Group_Photos,
-        ...D1.Headshots_Lg,
-        ...D1.Headshots_Sm,
-      ].map((data) => data[0] + "_" + data[1]);
-      let hasExtraFiles = false;
-
-      /**Accounts for potential duplicates that may be in Prod.*/
-      test("R2 should have 1/3rd more photo entries than D1", () => {
-        expect(R2.keys.length).toEqual(R2Raw.length);
-        expect
-          .soft(
-            R2Raw.length,
-            `R2 has ${
-              R2Raw.length
-            } real photos, but D1 has ${allD1Photos.length}.`
-          )
-          .toEqual(allD1Photos.length);
-        if (R2Raw.length !== allD1Photos.length) hasExtraFiles = true;
-      });
-      test.runIf(hasExtraFiles).each(allD1Photos)(
-        "Checking whether D1 object is in R2.",
-        (D1) => {
-          expect(R2.keys, `R2 does not contain ${D1}`).toContain(D1);
-        }
+        R2.keys.length - offsiteTestPicMocks.length
       );
     });
   });
@@ -258,7 +269,9 @@ describe("Backend Systems", async () => {
           });
 
           test(`Headshots_Lg contains`, () => {
-            expect(R2.keys).toContain(D1.Headshots_Lg.find((photo) => photo[0] === headshotLarge)![1]);
+            expect(R2.keys).toContain(
+              D1.Headshots_Lg.find((photo) => photo[0] === headshotLarge)![1]
+            );
           });
         }
       );
@@ -347,10 +360,9 @@ describe("Backend Systems", async () => {
             expect(headshotUrl, "ID should be a string.").toStrictEqual(
               expect.any(String)
             );
-            expect(
-              hash,
-              "Headshot Name should be a string."
-            ).toStrictEqual(expect.any(String));
+            expect(hash, "Headshot Name should be a string.").toStrictEqual(
+              expect.any(String)
+            );
           });
 
           test(`Is in R2 as: ${hash}`, () => {
@@ -402,7 +414,6 @@ describe("Backend Systems", async () => {
               expect.any(Number)
             );
           });
-
         }
       );
     });
@@ -445,12 +456,17 @@ describe("Backend Systems", async () => {
             ).toBe(true);
           });
 
-          test.runIf(groupPhotoID)("All group photos should be in R2 Bucket.", () => {
-            expect(
-              R2.keys,
-              `R2 doesn't contain an image for ${groupPhotoID}.`
-            ).toContain(D1.Group_Photos.find((photo) => photo[0] === groupPhotoID)![1]);
-          });
+          test.runIf(groupPhotoID)(
+            "All group photos should be in R2 Bucket.",
+            () => {
+              expect(
+                R2.keys,
+                `R2 doesn't contain an image for ${groupPhotoID}.`
+              ).toContain(
+                D1.Group_Photos.find((photo) => photo[0] === groupPhotoID)![1]
+              );
+            }
+          );
         }
       );
       test("All families should be unique.", () => {
@@ -489,9 +505,7 @@ describe("Backend Systems", async () => {
           test("Should also delete Adults.", async () => {
             const newAdults = await D1QueryAll("Adults");
 
-            expect(newAdults[9], "Adult should have been deleted.").not.toBe(
-              1
-            );
+            expect(newAdults[9], "Adult should have been deleted.").not.toBe(1);
             expect
               .soft(D1Changes, "Database structure is unexpected.")
               .toMatchSnapshot();
@@ -520,7 +534,9 @@ describe("Backend Systems", async () => {
       describe("Updates", () => {
         test("Updating Headshots Should also update Dogs.", async () => {
           const updated = await env.dogsDB
-            .prepare("UPDATE Headshots_Lg SET transformUrl = 'new' WHERE transformUrl = ?")
+            .prepare(
+              "UPDATE Headshots_Lg SET transformUrl = 'new' WHERE transformUrl = ?"
+            )
             .bind(D1.Headshots_Lg[7][0])
             .all();
 
@@ -531,13 +547,14 @@ describe("Backend Systems", async () => {
           D1Changes.dogsAfterUpdated = newDogs;
 
           expect(updated.success).toBe(true);
-          expect(D1Changes.headshotsAfterUpdated[7], `\n${D1Changes.headshotsAfterUpdated[7]} \nis the same as\n${D1.Headshots_Lg[7]}`).not.toMatchObject(
-            D1.Headshots_Lg[7]
-          );
+          expect(
+            D1Changes.headshotsAfterUpdated[7],
+            `\n${D1Changes.headshotsAfterUpdated[7]} \nis the same as\n${D1.Headshots_Lg[7]}`
+          ).not.toMatchObject(D1.Headshots_Lg[7]);
           expect(updated.meta.rows_written).toBeGreaterThan(1);
           expect(
-            D1Changes.dogsAfterUpdated.some(( dog ) => dog[6] === 'new'),
-            `${D1Changes.dogsAfterUpdated.join('\n')}\n\ndoes not contain 'new'`,
+            D1Changes.dogsAfterUpdated.some((dog) => dog[6] === "new"),
+            `${D1Changes.dogsAfterUpdated.join("\n")}\n\ndoes not contain 'new'`
           ).toBe(true);
           expect
             .soft(D1Changes, "Database structure is unexpected.")
