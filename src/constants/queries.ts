@@ -5,7 +5,7 @@ import { GlobalNameSpaces as G, D1Tables as D1T } from "@/constants/data";
  * caching.
  **/
 /**Get Dogs with a given ID.*/
-export const dogsQuery = `SELECT 
+export const dogsQuery = `SELECT
   ${G.gender}, gender,
   ${G.noseColor}, nosecolor,
   ${G.coatColor}, coatColor,
@@ -22,7 +22,7 @@ export interface dogsQueryData extends Omit<D1Dogs, D1Dogs[typeof G.id]> {}
  * Get all info about a specified Adult Dog.
  * utilizes indexes. Requires ID.
  **/
-export const adultDogsQuery = `SELECT 
+export const adultDogsQuery = `SELECT
   ${G.adultName} as adultName,
   ${G.breeder} as breeder,
   ${G.adultBirthday} as adultBirthday,
@@ -48,9 +48,7 @@ export const litterQuery = `SELECT
    FROM
      Litters
      LEFT JOIN Puppies AS Pups ON Litters.id = Pups.litterId
-   WHERE Litters.id = ? 
-     AND 
-   Pups.isAvailable = 1` as const;
+   WHERE Litters.id = ?` as const;
 
 export interface litterQueryData extends Omit<D1Litters, typeof G.id | typeof G.litterBirthday | typeof G.applicantsInQueue> {
   readonly applicantsInQueue: string;
