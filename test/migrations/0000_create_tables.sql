@@ -98,9 +98,22 @@ CREATE TABLE Dog_To_Group_Photos (
     CONSTRAINT no_duplicates UNIQUE (Group_Photos, dogId)
 );
 
-CREATE INDEX idx_puppies ON Puppies (litterId);
+-- Commonly Queried
+CREATE INDEX idx_dueDate ON Litters (dueDate);
 
-CREATE INDEX idx_families ON Families (mother, father, litterId);
+CREATE INDEX idx_available_puppies ON Puppies (isAvailable);
 
-CREATE INDEX idx_adults ON Adults (adultName);
+-- All Foreign Keys Except Images since they use a Natural Key.
+CREATE INDEX idx_adults_dog_id ON Adults (dogId);
 
+CREATE INDEX idx_puppies_litter_id ON Puppies (litterId);
+
+CREATE INDEX idx_puppies_dog_id ON Puppies (dogId);
+
+CREATE INDEX idx_families_mom_id ON Families (mother);
+
+CREATE INDEX idx_families_dad_id ON Families (father);
+
+CREATE INDEX idx_families_litter_id ON Families (litterId);
+
+CREATE INDEX idx_di_dog_id ON Dog_To_Group_Photos (dogId);
