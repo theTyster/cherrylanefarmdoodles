@@ -64,11 +64,11 @@ export const css: DogAboutTypes.CSS = {
 } as const;
 
 export default async function DogAbout({
-  dogId,
+  adultId,
   primaryParent,
   secondaryParent,
 }: {
-  dogId: number;
+  adultId: number;
   /**
    * The dog whom this page is about.
    **/
@@ -84,12 +84,12 @@ export default async function DogAbout({
    * The most recent family relationship of the primary dog on this page.
    **/
   const mostRecentFamily = await D1.prepare(familyQuery(primaryParent))
-    .bind(dogId)
-    .first<DogAboutTypes.MostRecentFamily>()
+    .bind(adultId)
+    .first<familyQueryData>()
     .then((familyTableData) => {
       if (!familyTableData)
         throw new Error(
-          "Missing data sourced through the Families Table for ID: " + dogId
+          "Missing data sourced through the Families Table for ID: " + adultId
         );
       return familyTableData;
     });
