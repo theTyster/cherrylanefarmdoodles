@@ -2,27 +2,36 @@ import { getRequestContext } from "@cloudflare/next-on-pages";
 // Components
 import DogTree from "@/components/dog-tree/dog-tree";
 import AdoptionBanner from "@/components/adoption-banner/adoption-banner";
-import DogTreeError from "./error";
+//import DogTreeError from "./error";
 
 // Constants
-import { GlobalNameSpaces as G, D1Tables as D1T } from "@/constants/data";
-import PQ from "@/constants/queries";
+import { GlobalNameSpaces as G } from "@/constants/data";
+import {
+  familyQuery,
+  type familyQueryData,
+  adultDogsQuery,
+  type adultDogsQueryData,
+  dogsQuery,
+  type dogsQueryData,
+  litterQuery,
+  type litterQueryData,
+} from "@/constants/queries";
+
+// Types
+import type { DogData, DogTreeData } from "@/types/dog-tree";
 
 export const runtime = "edge";
 
 export default async function WhiteSection() {
   const D1 = getRequestContext().env.dogsDB;
 
-  const entryPointQuery = `SELECT 
-  Group_Photos,
-  mother,
-  father,
-  litterId
-    FROM Families;`;
-  const entryPoint = await D1.prepare(entryPointQuery)
+  const entryPoint = await D1.prepare(familyQuery())
     .bind()
-    .all<D1Families>()
+    .all<familyQueryData>()
     .then((res) => res.results);
+
+  // Reversed so that the most recent litters are displayed first.
+  entryPoint.reverse();
 
   // Asynchronous loading of all the dogs is probably faster than one big query.
   // https://dba.stackexchange.com/questions/76973/what-is-faster-one-big-query-or-many-small-queries
@@ -35,43 +44,47 @@ export default async function WhiteSection() {
         [G.Group_Photos]: familyTableData[G.Group_Photos],
         [G.litterId]: familyTableData[G.litterId],
         ...(await Promise.all([
-          D1.prepare(PQ.adultDogsQuery)
+          D1.prepare(adultDogsQuery)
             .bind(familyTableData[G.mother])
-            .first<D1Adults>()
+            .first<adultDogsQueryData>()
             .then(async (res) => {
               if (!res)
                 throw new Error(
-                  "Missing Mother's data in Adult Table for ID: " + familyTableData.mother
+                  "Missing Mother's data in Adult Table for ID: " +
+                    familyTableData.mother
                 );
-              const dogData = await D1.prepare(PQ.dogsQuery)
+              const dogData = await D1.prepare(dogsQuery)
                 .bind(res[G.dogId])
-                .first<D1Dogs>();
+                .first<dogsQueryData>();
               if (!dogData)
                 throw new Error(
-                  "Missing Mother's data in Dogs Table for ID: " + familyTableData.mother
+                  "Missing Mother's data in Dogs Table for ID: " +
+                    familyTableData.mother
                 );
               return { ...dogData, ...res };
             }),
-          D1.prepare(PQ.adultDogsQuery)
+          D1.prepare(adultDogsQuery)
             .bind(familyTableData[G.father])
-            .first<D1Adults>()
+            .first<adultDogsQueryData>()
             .then(async (res) => {
               if (!res)
                 throw new Error(
-                  "Missing Father's data in Adult Table for ID: " + familyTableData.father
+                  "Missing Father's data in Adult Table for ID: " +
+                    familyTableData.father
                 );
-              const dogData = await D1.prepare(PQ.dogsQuery)
+              const dogData = await D1.prepare(dogsQuery)
                 .bind(res[G.dogId])
-                .first<D1Dogs>();
+                .first<dogsQueryData>();
               if (!dogData)
                 throw new Error(
-                  "Missing Father's data in Dogs Table for ID: " + familyTableData.father
+                  "Missing Father's data in Dogs Table for ID: " +
+                    familyTableData.father
                 );
               return { ...dogData, ...res };
             }),
-          D1.prepare(PQ.litterQuery)
+          D1.prepare(litterQuery)
             .bind(familyTableData[G.litterId])
-            .first<Omit<D1LittersWithQueue, typeof G.id>>()
+            .first<litterQueryData>()
             .then((res) => {
               if (!res)
                 throw new Error(
@@ -79,12 +92,22 @@ export default async function WhiteSection() {
                     familyTableData.litterId
                 );
               return {
-                [G.dueDate]: new Date(res[G.dueDate]),
-                [G.litterBirthday]: res[G.litterBirthday] ? new Date(res[G.litterBirthday]) : null,
-                [G.applicantsInQueue]: Number.parseFloat(
-                  res[G.applicantsInQueue] as unknown as string
-                ),
-                [G.availablePuppies]: res[G.availablePuppies],
+                litterData: {
+                  [G.dueDate]: new Date(res[G.dueDate]),
+                  [G.litterBirthday]: res[G.litterBirthday]
+                    ? new Date(res[G.litterBirthday])
+                    : null,
+                  [G.applicantsInQueue]: Number.parseFloat(
+                    res[G.applicantsInQueue]
+                  ),
+                  [G.availablePuppies]: res[G.availablePuppies],
+                },
+                ids: {
+                  [G.litterId]: familyTableData[G.litterId],
+                  [G.Group_Photos]: familyTableData[G.Group_Photos],
+                  [G.mother]: familyTableData[G.mother],
+                  [G.father]: familyTableData[G.father],
+                },
               };
             }),
         ])),
@@ -116,33 +139,24 @@ export default async function WhiteSection() {
         "Missing Litter ID from the Families table. litterId === " +
           result[G.litterId]
       );
-
     return {
-      [G.mother]: { ...result[1] },
-      [G.father]: { ...result[0] },
-      [D1T.Litters]: { ...result[2] },
-      [G.Group_Photos]: result[G.Group_Photos],
-    };
+      [G.mother]: { ...result[0] } satisfies DogData,
+      [G.father]: { ...result[1] } satisfies DogData,
+      litterData: { ...result[2] }
+        .litterData satisfies DogTreeData["litterData"],
+      ids: { ...result[2] }.ids satisfies DogTreeData["ids"],
+    } satisfies DogTreeData;
   });
 
-  return (
-    <>
-      {(() => {
-        try {
-          return (
-            <>
-              {families.map((family) => {
-                return (
-                  <DogTree key={JSON.stringify(family)} familyData={family} />
-                );
-              })}
-            </>
-          );
-        } catch {
-          return <DogTreeError />;
-        }
-      })()}
-      <AdoptionBanner />
-    </>
-  );
+  return families.map((family) => {
+    return (
+      <>
+        <DogTree
+          key={JSON.stringify(family.ids[G.litterId])}
+          familyData={family}
+        />
+        <AdoptionBanner />
+      </>
+    );
+  });
 }

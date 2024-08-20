@@ -19,23 +19,14 @@ import Theme from "@/styles/theme.module.scss";
 import type * as DogAboutTypes from "@/types/dog-about";
 
 // Constants
-import PQ from "@/constants/queries";
-
-export const familyQuery = (parentRole: "mother" | "father") =>
-  `SELECT
-  ${G.Group_Photos},
-  ${G.mother} as mother,
-  ${G.father} as father,
-  ${G.dueDate} as dueDate,
-  ${G.litterBirthday} as litterBirthday,
-  ${G.applicantsInQueue} as applicantsInQueue,
-  COUNT(Pups.${G.isAvailable}) as availablePuppies
-  FROM
-    Families
-  Left JOIN Litters ON Families.litterId = Litters.id
-  Left JOIN Puppies AS Pups ON Litters.id = Pups.litterId
-  WHERE ${parentRole} = ?
-  ORDER BY Litters.${G.dueDate} DESC` as const;
+import {
+  familyQuery,
+  type familyQueryData,
+  adultDogsQuery,
+  type adultDogsQueryData,
+  dogsQuery,
+  type dogsQueryData,
+} from "@/constants/queries";
 
 export const css: DogAboutTypes.CSS = {
   Headshots_Lg: sass.Headshots_Lg,
@@ -109,9 +100,9 @@ export default async function DogAbout({
    **/
   const parentData = await Promise.all(
     parents.map(async (role) => {
-      return await D1.prepare(PQ.adultDogsQuery)
+      return await D1.prepare(adultDogsQuery)
         .bind(mostRecentFamily[role])
-        .first<D1Adults>()
+        .first<adultDogsQueryData>()
         .then(async (adultsTableData) => {
           if (!adultsTableData)
             throw new Error(
@@ -120,9 +111,9 @@ export default async function DogAbout({
                 " data in Adult Table for ID: " +
                 mostRecentFamily[role]
             );
-          const completedData = await D1.prepare(PQ.dogsQuery)
+          const completedData = await D1.prepare(dogsQuery)
             .bind(adultsTableData[G.dogId])
-            .first<D1Dogs>()
+            .first<dogsQueryData>()
             .then((dogTableData) => {
               if (!dogTableData)
                 throw new Error(
@@ -169,9 +160,7 @@ export default async function DogAbout({
   return (
     <div className={DA.css.dogAbout}>
       <div className={DA.css.dogTitle}>
-        <h1 className={DA.css.adultName}>
-          Meet {DA.dogData.adultName}
-        </h1>
+        <h1 className={DA.css.adultName}>Meet {DA.dogData.adultName}</h1>
         <hr />
         <h2 className={DA.css.breeder}>
           <BreederLine breeder={DA.dogData.breeder} />
