@@ -44,17 +44,16 @@ export default async function Page({
 
     if (!valid) throw new Error("Invalid path: " + params.sireOrDam);
     else
-      return params.sireOrDam === sireOrDamEnum[0]
-        ? ["father", "mother"]
+      return params.sireOrDam.match(sireOrDamEnum[0])
+        ? (["father", "mother"] as const)
         : (["mother", "father"] as const);
   }
 
   const [primary, secondary] = damsToMothers();
-
   return (
     <>
       <DogAbout
-        dogId={params.parentId}
+        adultId={params.parentId}
         primaryParent={primary}
         secondaryParent={secondary}
       />
