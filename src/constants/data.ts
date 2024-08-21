@@ -80,6 +80,8 @@ export const GlobalNameSpaces = {
 
   /**Calculated value from D1 Puppies and Litters*/
   availablePuppies: "availablePuppies",
+  /**Calculated value from D1 Puppies and Litters*/
+  totalPuppies: "totalPuppies",
 
   /**Used by anything referencing a generic picture of a Dog that is not a
    * headshot. Alias for D1T.Group_Photos*/

@@ -6,20 +6,20 @@ import { GlobalNameSpaces as G } from "@/constants/data";
  * gathered using adultDogsQuery and the dogsQuery queries.
  **/
 export interface DogData {
-  readonly adultName: D1Adults[typeof G.adultName];
-  readonly breeder: D1Adults[typeof G.breeder];
-  readonly adultBirthday: D1Adults[typeof G.adultBirthday];
-  readonly eyeColor: D1Adults[typeof G.eyeColor];
-  readonly isRetired: D1Adults[typeof G.isRetired];
-  readonly favActivities: D1Adults[typeof G.favActivities];
-  readonly weight: D1Adults[typeof G.weight];
-  readonly energyLevel: D1Adults[typeof G.energyLevel];
-  readonly gender: D1Dogs[typeof G.gender];
-  readonly noseColor: D1Dogs[typeof G.noseColor];
-  readonly coatColor: D1Dogs[typeof G.coatColor];
-  readonly personality: D1Dogs[typeof G.personality];
   readonly Headshots_Lg: D1Dogs[typeof G.Headshots_Lg];
   readonly Headshots_Sm: D1Dogs[typeof G.Headshots_Sm];
+  readonly adultBirthday: D1Adults[typeof G.adultBirthday];
+  readonly adultName: D1Adults[typeof G.adultName];
+  readonly breeder: D1Adults[typeof G.breeder];
+  readonly coatColor: D1Dogs[typeof G.coatColor];
+  readonly energyLevel: D1Adults[typeof G.energyLevel];
+  readonly eyeColor: D1Adults[typeof G.eyeColor];
+  readonly favActivities: D1Adults[typeof G.favActivities];
+  readonly gender: D1Dogs[typeof G.gender];
+  readonly isRetired: D1Adults[typeof G.isRetired];
+  readonly noseColor: D1Dogs[typeof G.noseColor];
+  readonly personality: D1Dogs[typeof G.personality];
+  readonly weight: D1Adults[typeof G.weight];
 }
 
 export interface DogTreeData {
@@ -29,7 +29,8 @@ export interface DogTreeData {
     [G.dueDate]: D1Litters[typeof G.dueDate];
     [G.litterBirthday]: D1Litters[typeof G.litterBirthday];
     [G.applicantsInQueue]: D1Litters[typeof G.applicantsInQueue];
-    [G.availablePuppies]: string;
+    [G.availablePuppies]: number;
+    [G.totalPuppies]: number;
   };
   ids: {
     [G.litterId]: D1Families[typeof G.litterId];

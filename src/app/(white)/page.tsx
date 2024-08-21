@@ -113,20 +113,18 @@ export default async function WhiteSection() {
     const familyTableData = entryPoint[D1QueriesIndex];
 
     // Clone items so there is no type conflicts and no exception to using the enum.
-    const litterBirthday = familyTableData[G.litterBirthday];
-    const applicantsInQueue = `${familyTableData[G.applicantsInQueue]}`;
-    const availablePuppies = `${familyTableData[G.availablePuppies]}`;
     return {
       [G.mother]: { ...result[0] } satisfies DogData,
       [G.father]: { ...result[1] } satisfies DogData,
       litterData: {
         [G.dueDate]: new Date(familyTableData[G.dueDate]),
-        [G.litterBirthday]: litterBirthday ? new Date(litterBirthday) : null,
-        [G.applicantsInQueue]: Number.parseFloat(applicantsInQueue),
-        [G.availablePuppies]: Number.parseFloat(availablePuppies),
+        [G.litterBirthday]: familyTableData[G.litterBirthday] ? new Date(familyTableData[G.litterBirthday]) : null,
+        [G.applicantsInQueue]: Number.parseFloat(familyTableData[G.applicantsInQueue]),
+        [G.availablePuppies]: Number.parseFloat(familyTableData[G.availablePuppies]),
+        [G.totalPuppies]: Number.parseFloat(familyTableData[G.totalPuppies]),
       } satisfies DogTreeData["litterData"],
       ids: {
-        [G.litterId]: familyTableData[G.litterId],
+        [G.litterId]: Number.parseFloat(familyTableData[G.litterId]),
         [G.Group_Photos]: familyTableData[G.Group_Photos],
         [G.mother]: familyTableData[G.mother],
         [G.father]: familyTableData[G.father],

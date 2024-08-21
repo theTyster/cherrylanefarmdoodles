@@ -56,7 +56,8 @@ export const familyQuery = (parentRole?: "mother" | "father") =>
   ${G.dueDate} as dueDate,
   ${G.litterBirthday} as litterBirthday,
   ${G.applicantsInQueue} as applicantsInQueue,
-   SUM(Pups.isAvailable) as availablePuppies
+   SUM(Pups.${G.isAvailable}) as availablePuppies,
+   COUNT(Pups.${G.id}) as totalPuppies
   FROM
     ${D1T.Families}
     Left JOIN
@@ -72,14 +73,29 @@ export const familyQuery = (parentRole?: "mother" | "father") =>
   ORDER BY ${D1T.Litters}.${G.dueDate} DESC
   ` as const;
 
+/**
+ * Describes the type of these data points as they are when they are extracted
+ * from D1.
+ **/
 export interface familyQueryData {
-  [D1T.Group_Photos]: D1Families[typeof G.Group_Photos];
+  [D1T.Group_Photos]: string;
   [G.mother]: D1Families[typeof G.mother];
   [G.father]: D1Families[typeof G.father];
-  [G.litterId]: D1Families[typeof G.litterId];
+  [G.litterId]: string;
+  /**Needs to be converted to Date.*/
   [G.dueDate]: Date;
-  [G.applicantsInQueue]: D1Litters[typeof G.applicantsInQueue];
-  [G.litterBirthday]: D1Litters[typeof G.litterBirthday];
-  /**Not in D1. Calculation made in the query.*/
+  /**Needs to be converted to number.*/
+  [G.applicantsInQueue]: string;
+  /**Needs to be converted to Date.*/
+  [G.litterBirthday]: string;
+  /**
+   * Not in D1. Calculation made in the query
+   * Needs to be converted to number
+   **/
   [G.availablePuppies]: string;
+  /**
+   * Not in D1. Calculation made in the query
+   * Needs to be converted to number
+   **/
+  [G.totalPuppies]: string;
 }
