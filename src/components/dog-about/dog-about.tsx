@@ -8,8 +8,9 @@ import { GlobalNameSpaces as G, D1Tables as D1T } from "@/constants/data";
 // Components
 import LargeHeadshot from "@/components/Headshots/Headshots";
 import SmallHeadshot from "@/components/Headshots/Headshots";
-import Image from "next/image";
+import CLFImage from "@/components/CLFImage/CLFImage";
 import BreederLine from "@/components/breeder-line/breeder-line";
+import Link from "next/link";
 
 // Styling
 import sass from "@/styles/dog-about.module.scss";
@@ -214,9 +215,9 @@ export default async function DogAbout({
                   ? `...That's today!!`
                   : undefined}
               </h4>
-              <Image
-                id={DA.css[D1T.Group_Photos]}
-                src={DA.recentLitter[D1T.Group_Photos]}
+              <CLFImage
+                id={css[D1T.Group_Photos]}
+                src={DA.ids[D1T.Group_Photos]}
                 alt={`${DA.dogData.adultName} and ${DA.partnerData.adultName}'s last litter.'`}
                 width={600}
                 height={400}
