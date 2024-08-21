@@ -29,6 +29,11 @@ export default async function DogTree({
     ids,
   } = familyData;
 
+  Object.freeze(mother);
+  Object.freeze(father);
+  Object.freeze(litterData);
+  Object.freeze(ids);
+
   const saveTheDate = () => {
     /**The next relevant day. Either due Date or Birthday.*/
     const specialDay = () =>

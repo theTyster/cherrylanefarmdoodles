@@ -1,53 +1,32 @@
 import { GlobalNameSpaces as G } from "@/constants/data";
-import type { DogData } from "@/types/dog-tree";
-export type { DogData } from "@/types/dog-tree";
-/**
- * Data gathered strictly from values in the D1 Tables.
- * Relevant to the dog matched with the primary dog in the page.
- **/
-export interface PartnerData
-  extends Pick<
-      D1Adults,
-      typeof G.adultName | typeof G.breeder | typeof G.adultBirthday
-    >,
-    Pick<D1Dogs, typeof G.Headshots_Sm> {
-  readonly partnerName: D1Adults[typeof G.adultName];
-  readonly partnerBreeder: D1Adults[typeof G.breeder];
-  readonly partnerBirthday: D1Adults[typeof G.adultBirthday];
-  readonly partnerPhoto: D1Dogs[typeof G.Headshots_Sm];
-}
-/**
- * Any other data that is not strictly a value in the D1 Table.
- * But still relevant to the primary dog in the page.
- **/
-export interface Relevancies {
-}
+import type { DogTreeData } from "@/types/dog-tree";
+export type { DogTreeData } from "@/types/dog-tree";
 
 /**
- * Combined Data from {@see DogData} and {@see PartnerData}
- * As well as any other data that is not strictly a value in the D1 Table.
- * {@see Relevancies}
+ * Modified version of {@see DogTreeData} with better property names for this
+ * component.
  **/
-export interface DogAboutData
-  extends DogData,
-    PartnerData,
-    Pick<D1Families, typeof G.Group_Photos>,
-    Pick<
-      D1Litters,
-      typeof G.applicantsInQueue | typeof G.litterBirthday | typeof G.dueDate
-    >,
-    Relevancies {}
+export interface Data {
+  readonly dogData: DogTreeData[typeof G.father];
+  readonly partnerData: DogTreeData[typeof G.mother];
+  readonly litterData: DogTreeData["litterData"];
+  readonly ids: DogTreeData["ids"];
+}
 
 export type UsedColumns = {
-  readonly [K in keyof DogAboutData]: K;
+  readonly [K in keyof Data]: K;
 };
 
-export interface CSS extends Record<keyof DogAboutData, string> {
+export interface CSS extends Record<keyof Data["dogData"], string>, Record<keyof Data["partnerData"], string>, Record<keyof Data["litterData"], string>, Pick<Data["ids"], typeof G.Group_Photos>{
   readonly dogAbout: string;
   readonly availablePuppies: string;
   readonly partnerData: string;
   readonly partnerBreederPhoto: string;
   readonly partnerLastLitter: string;
+  readonly partnerName: string;
+  readonly partnerBreeder: string;
+  readonly partnerBirthday: string;
+  readonly partnerPhoto: string;
   readonly dogTitle: string;
   readonly mainDog: string;
   readonly dogInfoList: string;
