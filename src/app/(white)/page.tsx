@@ -1,3 +1,4 @@
+import { normalizeEpochDate } from "thetyster-utils";
 import { getRequestContext } from "@cloudflare/next-on-pages";
 // Components
 import DogTree from "@/components/dog-tree/dog-tree";
@@ -91,6 +92,7 @@ export default async function WhiteSection() {
                   "Missing Litter's data in Litters Table for ID: " +
                     familyTableData.litterId
                 );
+
               return {
                 litterData: {
                   [G.dueDate]: new Date(res[G.dueDate]),
