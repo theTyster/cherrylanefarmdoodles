@@ -1,4 +1,3 @@
-import { normalizeEpochDate } from "thetyster-utils";
 import { getRequestContext } from "@cloudflare/next-on-pages";
 // Components
 import DogTree from "@/components/dog-tree/dog-tree";
@@ -14,8 +13,6 @@ import {
   type adultDogsQueryData,
   dogsQuery,
   type dogsQueryData,
-  litterQuery,
-  type litterQueryData,
 } from "@/constants/queries";
 
 // Types
@@ -83,35 +80,6 @@ export default async function WhiteSection() {
                 );
               return { ...dogData, ...res };
             }),
-          D1.prepare(litterQuery)
-            .bind(familyTableData[G.litterId])
-            .first<litterQueryData>()
-            .then((res) => {
-              if (!res)
-                throw new Error(
-                  "Missing Litter's data in Litters Table for ID: " +
-                    familyTableData.litterId
-                );
-
-              return {
-                litterData: {
-                  [G.dueDate]: new Date(res[G.dueDate]),
-                  [G.litterBirthday]: res[G.litterBirthday]
-                    ? new Date(res[G.litterBirthday])
-                    : null,
-                  [G.applicantsInQueue]: Number.parseFloat(
-                    res[G.applicantsInQueue]
-                  ),
-                  [G.availablePuppies]: res[G.availablePuppies],
-                },
-                ids: {
-                  [G.litterId]: familyTableData[G.litterId],
-                  [G.Group_Photos]: familyTableData[G.Group_Photos],
-                  [G.mother]: familyTableData[G.mother],
-                  [G.father]: familyTableData[G.father],
-                },
-              };
-            }),
         ])),
       };
     })
@@ -120,7 +88,7 @@ export default async function WhiteSection() {
   /**
    * All data in D1 regarding families for the Dogtree
    **/
-  const families = D1Queries.map((result) => {
+  const families = D1Queries.map((result, D1QueriesIndex) => {
     if (!result[0])
       throw new Error(
         "Missing Mother's Data from the Adults table. result[0] === " +
@@ -141,12 +109,28 @@ export default async function WhiteSection() {
         "Missing Litter ID from the Families table. litterId === " +
           result[G.litterId]
       );
+
+    const familyTableData = entryPoint[D1QueriesIndex];
+
+    // Clone items so there is no type conflicts and no exception to using the enum.
+    const litterBirthday = familyTableData[G.litterBirthday];
+    const applicantsInQueue = `${familyTableData[G.applicantsInQueue]}`;
+    const availablePuppies = `${familyTableData[G.availablePuppies]}`;
     return {
       [G.mother]: { ...result[0] } satisfies DogData,
       [G.father]: { ...result[1] } satisfies DogData,
-      litterData: { ...result[2] }
-        .litterData satisfies DogTreeData["litterData"],
-      ids: { ...result[2] }.ids satisfies DogTreeData["ids"],
+      litterData: {
+        [G.dueDate]: new Date(familyTableData[G.dueDate]),
+        [G.litterBirthday]: litterBirthday ? new Date(litterBirthday) : null,
+        [G.applicantsInQueue]: Number.parseFloat(applicantsInQueue),
+        [G.availablePuppies]: Number.parseFloat(availablePuppies),
+      } satisfies DogTreeData["litterData"],
+      ids: {
+        [G.litterId]: familyTableData[G.litterId],
+        [G.Group_Photos]: familyTableData[G.Group_Photos],
+        [G.mother]: familyTableData[G.mother],
+        [G.father]: familyTableData[G.father],
+      } satisfies DogTreeData["ids"],
     } satisfies DogTreeData;
   });
 
