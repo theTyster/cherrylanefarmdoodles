@@ -1,5 +1,6 @@
-//import { getRequestContext } from "@cloudflare/next-on-pages";
-import ConstructionPlaceholder from "@/components/construction-placeholder";
+import DogAbout from "@/components/dog-about/dog-about";
+import { GlobalNameSpaces as G } from "@/constants/data";
+export const runtime = "edge";
 //{
 //import type { Metadata, ResolvingMetadata } from 'next'
 //
@@ -26,14 +27,20 @@ import ConstructionPlaceholder from "@/components/construction-placeholder";
 //}
 //}
 
-export const runtime = "edge";
-
-async function DogAbout(/*{ params }: { params: { parentDog: string } }*/) {
+export default async function Page({
+  params,
+}: {
+  params: {
+    parentId: D1Adults[typeof G.id];
+  };
+}) {
   return (
     <>
-      <ConstructionPlaceholder />
+      <DogAbout
+        adultId={params.parentId}
+        primaryParent={"father"}
+        secondaryParent={"mother"}
+      />
     </>
   );
 }
-
-export default DogAbout;

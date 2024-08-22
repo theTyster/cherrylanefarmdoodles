@@ -1,5 +1,5 @@
 "use client";
-function DogAboutError(){
+function DogPageError(){
   return (
     <div>
       <h1>Sorry, we couldn&apos;t find that dog!</h1>
@@ -7,4 +7,4 @@ function DogAboutError(){
   );
 }
 
-export default DogAboutError
+export default DogPageError
