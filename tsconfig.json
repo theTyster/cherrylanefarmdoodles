@@ -22,13 +22,15 @@
         "name": "next"
       }
     ],
+    "baseUrl": ".",
     "paths": {
       "@/*": [
-        "./src/*"
+        "src/*"
       ],
       "@pub/*": [
-        "./public/*"
-      ]
+        "public/*"
+      ],
+      "@styles/*": ["src/styles/*"],
     },
     "types": [
       "@cloudflare/workers-types/2023-07-01"
