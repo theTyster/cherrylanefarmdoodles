@@ -12,7 +12,7 @@ html * {
 
 // Oreo focus for better accessibility
 :focus-visible {
-  outline: 9px double Theme.$darkSecondaryGreen;
+  outline: 9px double Theme.$secondaryGreen;
   box-shadow: 0 0 0 6px Theme.$lightSecondaryGreen;
 }
 html {
