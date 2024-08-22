@@ -36,8 +36,18 @@
   align-items: $align;
 }
 
-@mixin setDropShadow($color, $scale: 1px) {
+@mixin setBoxShadow($color, $scale: 1px) {
   $x: calc(8px + $scale);
   $y: calc(11px + $scale);
-  filter: drop-shadow($x $y 15px $color);
+  box-shadow: $color $x $y 15px 5px;
+}
+
+// This will eventually be replaced by the same GSAP animation being
+// used in the adoption button.
+@mixin temporaryScaleOnHover(){
+      transition: transform 0.1s;
+      &:hover {
+        transform: scale(1.07);
+        @content
+      }
 }

@@ -1,0 +1,45 @@
+@use "../styles/mixins" as Mixins;
+@use "../styles/theme.module.scss" as Theme;
+
+.container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: Theme.$buttonRadius;
+  margin-bottom: Theme.$spaceBetweenElements;
+  @include Mixins.mediaQuery(Theme.$LgPhoneViewport) {
+    flex-direction: column;
+  }
+}
+.selectorButton {
+  @include Mixins.setBoxShadow(Theme.$darkPrimary, 1px);
+  border: none;
+  z-index: 0;
+  width: 100%;
+  flex: auto;
+  background-color: Theme.$primary;
+  cursor: pointer;
+  transition: box-shadow 0.1s;
+  h2 {
+    color: Theme.$lightPrimary;
+    font-weight: 400;
+  }
+  &:hover {
+    background-color: Theme.$primary;
+    &:active {
+      box-shadow: unset;
+    }
+  }
+  &.selected {
+    border: unset;
+    box-shadow: unset;
+    cursor: unset;
+    background-color: Theme.$darkPrimary;
+    z-index: 2;
+    h2 {
+      color: Theme.$lightPrimary;
+    font-weight: 400;
+    }
+  }
+}

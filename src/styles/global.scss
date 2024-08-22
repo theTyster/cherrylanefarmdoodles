@@ -13,7 +13,9 @@ html * {
 // Oreo focus for better accessibility
 :focus-visible {
   outline: 9px double Theme.$secondaryGreen;
-  box-shadow: 0 0 0 6px Theme.$lightSecondaryGreen;
+  box-shadow: 0 0 0 6px Theme.$lightSecondaryGreen !important;
+  border: none !important;
+  z-index: 999 !important; // Focus should be on top of everything.
 }
 html {
   width: fit-content;

@@ -99,10 +99,9 @@ img.headshot {
     max-width: $Headshots_Sm !important;
     object-fit: scale-down;
     border-radius: $Headshots_SmRadius;
-    transition: all 0.3s;
     cursor: pointer;
-    &:hover {
-      transform: scale(1.05);
+    @include Mixins.temporaryScaleOnHover(){
+      // additional rules?
     }
     @include momOrDad;
     @include Mixins.mediaQuery($LgPhoneViewport) {

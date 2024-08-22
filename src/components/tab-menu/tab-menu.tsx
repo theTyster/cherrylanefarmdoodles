@@ -54,6 +54,16 @@ function TabMenu({
     }
   };
 
+  const setBorderRadius = (index: number) =>
+    //Gives the left most button a border-radius on left corners.
+    index === 0
+      ? `${Theme.buttonRadius} 0 0 ${Theme.buttonRadius}`
+      : //Gives the right most button a border-radius on right corners.
+      index === menuDataArr.length - 1
+      ? `0 ${Theme.buttonRadius} ${Theme.buttonRadius} 0`
+      : //Sets other buttons to no border-radius by default.
+        "0 0 0 0";
+
   return (
     <>
       <menu className={css.container} onClick={handleTabMenuClick}>
@@ -87,8 +97,8 @@ function TabMenu({
           </>
         ))}
       </menu>
-      <div className="menu-content">{currentSelected.component}</div>
-    </div>
+      {currentSelected.component}
+    </>
   );
 }
 
