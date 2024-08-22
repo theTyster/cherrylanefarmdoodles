@@ -55,20 +55,32 @@ function TabMenu({
   };
 
   return (
-    <div className="tabmenu">
-      <menu onClick={handleTabMenuClick}>
-        {menuDataArr.map((item) => (
-          <button
-            key={item.id}
-            aria-label={item.title}
-            data-tabmenu-item-id={item.id}
-            className={item === currentSelected ? "selected" : ""}
-            onClick={item.buttonClick ? item.buttonClick : undefined}
-          >
-            <h2
-              className={`tabmenu-item-title${
-                item.title ? `-${item.title}` : ""
+    <>
+      <menu className={css.container} onClick={handleTabMenuClick}>
+        {menuDataArr.map((item, index) => (
+          <>
+            <style jsx>
+              {`
+                button {
+                  border-radius: ${setBorderRadius(index)};
+                }
+                @media screen and (max-width: ${Theme.LgPhoneViewport}) {
+                  button {
+                    border-radius: ${Theme.buttonRadius};
+                  }
+                }
+              `}
+            </style>
+            <button
+              key={item.id}
+              aria-label={item.title}
+              data-tabmenu-item-id={item.id}
+              className={`${css.selectorButton} ${
+                item === currentSelected
+                  ? Theme["woodgrain-light"] + " " + css["selected"]
+                  : Theme["woodgrain"]
               }`}
+              onClick={item.buttonClick ? item.buttonClick : undefined}
             >
               {item.title}
             </h2>

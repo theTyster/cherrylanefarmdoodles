@@ -3,6 +3,7 @@ import { type Metadata } from "next";
 // Styles
 import "@/styles/reset.scss";
 import "@/styles/global.scss";
+import Theme from "@/styles/theme.module.scss";
 import { font } from "@/styles/font";
 
 export const metadata: Metadata = {
@@ -68,10 +69,7 @@ export default function CLFMain({
             <div className="content-box">{children}</div>
             <div className="right-flex" />
           </div>
-          <div
-            style={{ backgroundImage: "url('images/woodgrain.svg')" }}
-            className="wood-background wood-layout"
-          >
+          <div className={`wood-layout ${Theme.woodgrain}`}>
             <div className="left-flex" />
             <div className="content-box">{wood}</div>
             <div className="right-flex" />

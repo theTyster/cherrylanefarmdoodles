@@ -53,6 +53,15 @@ $h2: calc(51px - 10px);
 $h3: calc(51px - 20px);
 $h4: calc(51px - 30px);
 
+.woodgrain {
+  background-size: cover;
+  background-position: center;
+  background-image: url("~/public/images/woodgrain-dark.svg");
+  &-light {
+    background-image: url("~/public/images/woodgrain-light.svg");
+  }
+}
+
 img.headshot {
   @mixin momOrDad {
     &.mom {
