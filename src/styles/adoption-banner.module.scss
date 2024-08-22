@@ -76,11 +76,13 @@
   }
 }
 
-// Special case for scrollbars showing on very small screens.
-@include Mixins.mediaQuery(333px) {
+@include Mixins.mediaQuery(Theme.$microViewport) {
   .adoptionBanner {
     div.eventHandlerDiv {
       overflow: clip;
+      div.buttonText {
+        line-break: anywhere;
+      }
     }
   }
 }
