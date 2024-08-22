@@ -182,10 +182,6 @@ div[class$="-layout"] {
     div.content-box {
       flex: 0 1 Theme.$SmPhoneViewport;
     }
-    @include Mixins.setImageValues() {
-      width: 100%;
-      height: auto;
-    }
   }
 
   @include Mixins.mediaQuery(Theme.$SmPhoneViewport) {
@@ -193,6 +189,10 @@ div[class$="-layout"] {
     width: fit-content;
   }
   @include Mixins.mediaQuery(Theme.$microViewport) {
+    @include Mixins.setImageValues() {
+      width: 100%;
+      height: auto;
+    }
     @include Mixins.setTextValues() {
       line-break: anywhere;
     }
