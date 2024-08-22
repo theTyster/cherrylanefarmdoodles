@@ -1,7 +1,10 @@
 "use client";
 import { useState } from "react";
+
 //CSS
-// FIXME: import "./tab-menu.scss";
+import css from "@styles/tab-menu.module.scss";
+import Theme from "@styles/theme.module.scss";
+import { font } from "@styles/font";
 
 export type MenuNamesObj = {
   [key: string]: number;
@@ -18,8 +21,7 @@ function TabMenu({
   menuDataArr,
   menuNamesObj,
   initial,
-}:
-{
+}: {
   menuDataArr: MenuDataArr;
   menuNamesObj: MenuNamesObj;
   initial: string;
@@ -28,8 +30,6 @@ function TabMenu({
   const currentSelected = menuDataArr[menuNamesObj[menuState]];
 
   const handleTabMenuClick: React.MouseEventHandler = (event) => {
-    console.log(event.target);
-    console.log(event.target instanceof HTMLElement);
     if (
       event.target instanceof HTMLElement &&
       event.target.dataset instanceof DOMStringMap &&
@@ -82,9 +82,9 @@ function TabMenu({
               }`}
               onClick={item.buttonClick ? item.buttonClick : undefined}
             >
-              {item.title}
-            </h2>
-          </button>
+              <h2 className={font.className /**Important*/}>{item.title}</h2>
+            </button>
+          </>
         ))}
       </menu>
       <div className="menu-content">{currentSelected.component}</div>
