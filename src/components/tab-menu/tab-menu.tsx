@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, Fragment } from "react";
 
 //CSS
 import css from "@styles/tab-menu.module.scss";
@@ -54,7 +54,7 @@ function TabMenu({
     }
   };
 
-  const setBorderRadius = (index: number) =>
+  const setBorderRadiusRow = (index: number) =>
     //Gives the left most button a border-radius on left corners.
     index === 0
       ? `${Theme.buttonRadius} 0 0 ${Theme.buttonRadius}`
@@ -64,25 +64,34 @@ function TabMenu({
       : //Sets other buttons to no border-radius by default.
         "0 0 0 0";
 
+   const setBorderRadiusColumn = (index: number) =>
+    //Gives the top most button a border-radius on top corners.
+    index === 0
+      ? `${Theme.buttonRadius} ${Theme.buttonRadius} 0 0`
+      : //Gives the bottom most button a border-radius on bottom corners.
+      index === menuDataArr.length - 1
+      ? `0 0 ${Theme.buttonRadius} ${Theme.buttonRadius}`
+      : //Sets other buttons to no border-radius by default.
+        "0 0 0 0";
+
   return (
     <>
       <menu className={css.container} onClick={handleTabMenuClick}>
         {menuDataArr.map((item, index) => (
-          <>
-            <style jsx key={`${item.id}-styledjsx`}>
+          <Fragment key={`${item.id}`}>
+            <style jsx>
               {`
                 button {
-                  border-radius: ${setBorderRadius(index)};
+                  border-radius: ${setBorderRadiusRow(index)};
                 }
                 @media screen and (max-width: ${Theme.LgPhoneViewport}) {
                   button {
-                    border-radius: ${Theme.buttonRadius};
+                    border-radius: ${setBorderRadiusColumn(index)};
                   }
                 }
               `}
             </style>
             <button
-              key={`${item.id}-button`}
               aria-label={item.title}
               data-tabmenu-item-id={item.id}
               className={`${css.selectorButton} ${
@@ -94,7 +103,7 @@ function TabMenu({
             >
               <h2 className={font.className /**Important*/}>{item.title}</h2>
             </button>
-          </>
+          </Fragment>
         ))}
       </menu>
       {currentSelected.component}
