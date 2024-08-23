@@ -63,58 +63,6 @@ $h4: calc(51px - 30px);
   }
 }
 
-img.headshot {
-  @mixin momOrDad {
-    &.mom {
-      border: $momOutline;
-    }
-    &.dad {
-      border: $dadOutline;
-    }
-  }
-
-  /*Large*/
-  &Lg {
-    aspect-ratio: 3/4 !important;
-    max-width: $Headshots_Lg !important;
-    width: $Headshots_Lg;
-    height: 666px;
-    object-fit: scale-down;
-    border-radius: $bigButtonRadius;
-    box-sizing: content-box;
-    @include momOrDad;
-    @include Mixins.mediaQuery($LgPhoneViewport) {
-      width: $Headshots_Sm;
-      height: auto;
-    }
-    @include Mixins.mediaQuery($SmPhoneViewport) {
-      width: 100%;
-      height: auto;
-    }
-  }
-
-  /*Small*/
-  &Sm {
-    aspect-ratio: 1/1 !important;
-    max-width: $Headshots_Sm !important;
-    object-fit: scale-down;
-    border-radius: $Headshots_SmRadius;
-    cursor: pointer;
-    @include Mixins.temporaryScaleOnHover(){
-      // additional rules?
-    }
-    @include momOrDad;
-    @include Mixins.mediaQuery($LgPhoneViewport) {
-      width: $Headshots_Sm;
-      height: auto;
-    }
-    @include Mixins.mediaQuery($SmPhoneViewport) {
-      width: 100%;
-      height: auto;
-    }
-  }
-}
-
 @include Mixins.mediaQuery($tabletViewport, min) {
   .desktopOnly {
     display: block;

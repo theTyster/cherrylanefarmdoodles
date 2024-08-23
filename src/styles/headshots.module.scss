@@ -1,0 +1,55 @@
+@use "../styles/mixins.scss" as Mixins;
+@use "../styles/theme.module.scss" as Theme;
+
+/*Large*/
+.lg {
+  aspect-ratio: 3/4 !important;
+  max-width: Theme.$Headshots_Lg !important;
+  width: Theme.$Headshots_Lg;
+  height: 666px;
+  object-fit: scale-down;
+  border-radius: Theme.$bigButtonRadius;
+  box-sizing: content-box;
+  &.mom {
+    outline: Theme.$momOutline;
+    outline-offset: -2px;
+  }
+  &.dad {
+    outline: Theme.$dadOutline;
+    outline-offset: -2px;
+  }
+  @include Mixins.mediaQuery(Theme.$LgPhoneViewport) {
+    width: Theme.$Headshots_Sm;
+    height: auto;
+  }
+  @include Mixins.mediaQuery(Theme.$SmPhoneViewport) {
+    width: 100%;
+    height: auto;
+  }
+}
+
+/*Small*/
+.sm {
+  aspect-ratio: 1/1 !important;
+  max-width: Theme.$Headshots_Sm !important;
+  object-fit: scale-down;
+  border-radius: Theme.$Headshots_SmRadius;
+  cursor: pointer;
+  @include Mixins.temporaryScaleOnHover() {
+    // additional rules?
+  }
+  &.mom {
+    border: Theme.$momOutline;
+  }
+  &.dad {
+    border: Theme.$dadOutline;
+  }
+  @include Mixins.mediaQuery(Theme.$LgPhoneViewport) {
+    width: Theme.$Headshots_Sm;
+    height: auto;
+  }
+  @include Mixins.mediaQuery(Theme.$SmPhoneViewport) {
+    width: 100%;
+    height: auto;
+  }
+}

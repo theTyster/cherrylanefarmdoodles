@@ -1,7 +1,9 @@
 import CLFImage from "../CLFImage/CLFImage";
 import { D1Tables as D1T } from "@/constants/data";
-import Theme from "@/styles/theme.module.scss";
 import { VARIANTS, MorF } from "cherrylanefarms-utils";
+
+// CSS
+import css from "@styles/headshots.module.scss";
 
 export const runtime = "edge";
 
@@ -26,13 +28,13 @@ function Headshot({
     largeOrSmall === D1T.Headshots_Lg
       ? {
           ...LG,
-          className: `${morf(Theme.dad, Theme.mom)} ${Theme.headshotLg}`,
+          className: morf(`${css["dad"]} ${css['lg']}`, `${css['mom']} ${css["lg"]}`),
           width: 500,
           height: 666,
         }
       : {
           ...SM,
-          className: `${morf(Theme.dad, Theme.mom)} ${Theme.headshotSm}`,
+          className: morf(`${css["dad"]} ${css['sm']}`, `${css['mom']} ${css["sm"]}`),
           width: 292,
           height: 292,
         };

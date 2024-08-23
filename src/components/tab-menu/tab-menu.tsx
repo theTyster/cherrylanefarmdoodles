@@ -69,7 +69,7 @@ function TabMenu({
       <menu className={css.container} onClick={handleTabMenuClick}>
         {menuDataArr.map((item, index) => (
           <>
-            <style jsx>
+            <style jsx key={`${item.id}-styledjsx`}>
               {`
                 button {
                   border-radius: ${setBorderRadius(index)};
@@ -82,7 +82,7 @@ function TabMenu({
               `}
             </style>
             <button
-              key={item.id}
+              key={`${item.id}-button`}
               aria-label={item.title}
               data-tabmenu-item-id={item.id}
               className={`${css.selectorButton} ${
