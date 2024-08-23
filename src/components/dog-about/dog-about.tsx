@@ -196,10 +196,7 @@ export default async function DogAbout({
           </ul>
           }
         </div>
-        <div
-          className={css.partnerData}
-          style={{ backgroundColor: mainMorf(Theme.lightDad, Theme.lightMom) }}
-        >
+        <div className={css.partnerData}>
           <div className={css.partnerVisuals}>
               <h3 className={css.partnerName}>
                 {DA.litterData.litterBirthday

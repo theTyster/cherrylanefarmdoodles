@@ -54,6 +54,7 @@ article.mainDog {
 
 #Group_Photos {
   max-width: Theme.$Group_Photos;
+  border-radius: Theme.$buttonRadius;
   aspect-ratio: 4/3;
   margin-top: Theme.$spaceBetweenElements;
   margin-right: Theme.$spaceBetweenElements;
@@ -68,7 +69,11 @@ article.mainDog {
   border-radius: Theme.$bigButtonRadius;
   padding: Theme.$spaceBetweenElements;
   margin-top: Theme.$spaceBetweenElements;
+  background-color: Theme.$darkPrimary;
   align-items: center;
+  @include Mixins.setTextValues() {
+    color: Theme.$lightPrimary;
+  }
   @include Mixins.mediaQuery(Theme.$tabletViewport) {
     flex-direction: column;
     align-items: center;
