@@ -1,11 +1,19 @@
-/*import SvgPuppyCultureCert from "@/components/puppy-culture-cert/puppy-culture-cert.svg";*/
+import Image from "next/image";
+import Link from "next/link";
+import PuppyCulture from "@pub/images/puppy-culture-cert.svg";
+import css from "./page.module.scss";
+export const runtime = "edge";
 
-export const runtime = 'edge';
-
-export default function TanLayout(): React.JSX.Element | null {
+export default function WoodLayout(): React.JSX.Element | null {
   return (
     <>
-      <img style={{width: "100%"}}src="/images/puppy-culture-cert.svg" alt="" />
-      </>
-  )
+      <Link href="https://shoppuppyculture.com/pages/about-puppy-culture">
+        <Image
+          className={css["puppy-culture"]}
+          src={PuppyCulture}
+          alt="Raised with Jane Killion's Puppy Culture"
+        />
+      </Link>
+    </>
+  );
 }
