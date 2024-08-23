@@ -14,7 +14,6 @@ import Link from "next/link";
 
 // Styling
 import sass from "@/styles/dog-about.module.scss";
-import Theme from "@/styles/theme.module.scss";
 
 // Types
 import type * as DogAboutTypes from "@/types/dog-about";
@@ -202,7 +201,6 @@ export default async function DogAbout({
           style={{ backgroundColor: mainMorf(Theme.lightDad, Theme.lightMom) }}
         >
           <div className={css.partnerVisuals}>
-            <div>
               <h3 className={css.partnerName}>
                 {DA.litterData.litterBirthday
                   ? `Previously matched with ${DA.partnerData.adultName}.`
@@ -228,7 +226,6 @@ export default async function DogAbout({
                 width={600}
                 height={400}
               />
-            </div>
           </div>
           <div className={css.partnerPhoto}>
             <Link
