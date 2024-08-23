@@ -132,24 +132,27 @@ export default async function DogAbout({
   );
 
   function formatData() {
-
-  return {
-    dogData: parentData[0],
-    partnerData: parentData[1],
-    litterData: {
-      [G.dueDate]: new Date(mostRecentFamily[G.dueDate]),
-      [G.litterBirthday]: new Date(mostRecentFamily[G.litterBirthday]),
-      [G.applicantsInQueue]: Number.parseFloat(mostRecentFamily[G.applicantsInQueue]),
-      [G.availablePuppies]: Number.parseFloat(mostRecentFamily[G.availablePuppies]),
-      [G.totalPuppies]: Number.parseFloat(mostRecentFamily[G.totalPuppies]),
-    },
-    ids: {
-      [G.Group_Photos]: mostRecentFamily[G.Group_Photos],
-      [G.mother]: mostRecentFamily[G.mother],
-      [G.father]: mostRecentFamily[G.father],
-      [G.litterId]: Number.parseFloat(mostRecentFamily[G.litterId]),
-    }
-  } satisfies DogAboutTypes.Data;
+    return {
+      dogData: parentData[0],
+      partnerData: parentData[1],
+      litterData: {
+        [G.dueDate]: new Date(mostRecentFamily[G.dueDate]),
+        [G.litterBirthday]: new Date(mostRecentFamily[G.litterBirthday]),
+        [G.applicantsInQueue]: Number.parseFloat(
+          mostRecentFamily[G.applicantsInQueue]
+        ),
+        [G.availablePuppies]: Number.parseFloat(
+          mostRecentFamily[G.availablePuppies]
+        ),
+        [G.totalPuppies]: Number.parseFloat(mostRecentFamily[G.totalPuppies]),
+      },
+      ids: {
+        [G.Group_Photos]: mostRecentFamily[G.Group_Photos],
+        [G.mother]: mostRecentFamily[G.mother],
+        [G.father]: mostRecentFamily[G.father],
+        [G.litterId]: Number.parseFloat(mostRecentFamily[G.litterId]),
+      },
+    } satisfies DogAboutTypes.Data;
   }
   const DA = formatData();
 
@@ -162,7 +165,7 @@ export default async function DogAbout({
   const partnerMorf = MorF(DA.partnerData.gender);
 
   return (
-    <div className={css.dogAbout}>
+    <>
       <div className={css.dogTitle}>
         <h1 className={css.adultName}>Meet {DA.dogData.adultName}</h1>
         <hr />
@@ -228,14 +231,18 @@ export default async function DogAbout({
             </div>
           </div>
           <div className={css.partnerPhoto}>
-          <Link href={`/${partnerMorf('sires', 'dams')}/${DA.ids[partnerMorf('father', 'mother')]}`}>
-            <SmallHeadshot
-              largeOrSmall={D1T.Headshots_Sm}
-              gender={DA.partnerData.gender}
-              src={DA.partnerData.Headshots_Sm}
-              alt={DA.partnerData.adultName}
-              id={css.Headshots_Sm}
-            />
+            <Link
+              href={`/${partnerMorf("sires", "dams")}/${
+                DA.ids[partnerMorf("father", "mother")]
+              }`}
+            >
+              <SmallHeadshot
+                largeOrSmall={D1T.Headshots_Sm}
+                gender={DA.partnerData.gender}
+                src={DA.partnerData.Headshots_Sm}
+                alt={DA.partnerData.adultName}
+                id={css.Headshots_Sm}
+              />
             </Link>
             <h4 className={css.partnerBreeder}>
               <BreederLine breeder={DA.partnerData.breeder} />
@@ -243,6 +250,6 @@ export default async function DogAbout({
           </div>
         </div>
       </article>
-    </div>
+    </>
   );
 }

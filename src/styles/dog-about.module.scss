@@ -2,109 +2,110 @@
 @use "../styles/theme.module.scss" as Theme;
 @use "../styles/mixins.scss" as Mixins;
 
-.dogAbout {
-  .dogTitle {
-    font-weight: 700;
-    margin: 1rem 0;
-  }
-  .breeder {
-    font-style: italic;
-    font-weight: 400;
-    color: lighten(Theme.$black, 20%);
-  }
-  article.mainDog {
-    display: flex;
-    align-items: center;
-    margin: 0 auto;
-    padding: 1rem;
-    flex-direction: column;
-  }
+.dogTitle {
+  font-weight: 700;
+  margin: 1rem 0;
+}
+.breeder {
+  font-style: italic;
+  font-weight: 400;
+  color: lighten(Theme.$black, 20%);
+}
+article.mainDog {
+  display: flex;
+  align-items: center;
+  margin: 0 auto;
+  padding: 1rem;
+  flex-direction: column;
+}
 
-  .dogInfoList {
-    font-size: Theme.$h4;
-    color: Theme.$darkPrimary;
-    font-size: Theme.$h3;
-    margin-left: Theme.$spaceBetweenElements;
-    li {
-      margin-top: Theme.$spaceBetweenElements;
-    }
-    @include Mixins.mediaQuery(Theme.$tabletViewport) {
-      list-style-type: circle;
-    }
-    @include Mixins.mediaQuery(Theme.$microViewport) {
-      line-break:anywhere;
-    }
-  }
-
-  .attentionGetter {
-    display: flex;
-    @include Mixins.mediaQuery(Theme.$tabletViewport) {
-      flex-direction: column;
-      align-items: center;
-    }
-  }
-
-  #Headshots_Sm {
-    @include Mixins.mediaQuery(Theme.$tabletViewport) {
-      margin-top: Theme.$spaceBetweenElements;
-    }
-  }
-
-  #Group_Photos {
-    max-width: Theme.$Group_Photos;
-    aspect-ratio: 4/3;
+.dogInfoList {
+  font-size: Theme.$h4;
+  color: Theme.$darkPrimary;
+  font-size: Theme.$h3;
+  list-style-type: circle;
+  margin-left: Theme.$spaceBetweenElements;
+  max-width: Theme.$Headshots_Lg;
+  padding: revert;
+  li {
     margin-top: Theme.$spaceBetweenElements;
-    margin-right: Theme.$spaceBetweenElements;
-    @include Mixins.mediaQuery(Theme.$tabletViewport) {
-      width: 100%;
-      height: auto;
-      margin-right: unset;
-    }
   }
-  .partnerData {
-    display: flex;
-    border-radius: Theme.$bigButtonRadius;
-    padding: Theme.$spaceBetweenElements;
-    margin-top: Theme.$spaceBetweenElements;
-    align-items: center;
-    @include Mixins.mediaQuery(Theme.$tabletViewport) {
-      flex-direction: column;
-      align-items: center;
-    }
-    @include Mixins.mediaQuery(Theme.$LgPhoneViewport) {
-      width: 100%;
-      flex-direction: column;
-      align-items: center;
-    }
+  @include Mixins.mediaQuery(Theme.$tabletViewport) {
+    padding: 0;
   }
+  @include Mixins.mediaQuery(Theme.$microViewport) {
+    line-break: anywhere;
+  }
+}
 
-  .partneVisuals {
-    display: flex;
-    margin: Theme.$spaceBetweenElements;
-    @include Mixins.mediaQuery(Theme.$LgPhoneViewport) {
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-    }
-  }
-
-  .adultName {
-    color: Theme.$accentBlue;
-  }
-  .partnerLastLitter {
-    color: Theme.$accentBlue;
-    text-align: center;
-    margin-top: calc(Theme.$spaceBetweenElements/2);
-  }
-  .partnerPhoto {
-    display: flex;
+.attentionGetter {
+  display: flex;
+  @include Mixins.mediaQuery(Theme.$tabletViewport) {
     flex-direction: column;
+    align-items: center;
+  }
+}
+
+#Headshots_Sm {
+  @include Mixins.mediaQuery(Theme.$tabletViewport) {
+    margin-top: Theme.$spaceBetweenElements;
+  }
+}
+
+#Group_Photos {
+  max-width: Theme.$Group_Photos;
+  aspect-ratio: 4/3;
+  margin-top: Theme.$spaceBetweenElements;
+  margin-right: Theme.$spaceBetweenElements;
+  @include Mixins.mediaQuery(Theme.$tabletViewport) {
+    width: 100%;
+    height: auto;
+    margin-right: unset;
+  }
+}
+.partnerData {
+  display: flex;
+  border-radius: Theme.$bigButtonRadius;
+  padding: Theme.$spaceBetweenElements;
+  margin-top: Theme.$spaceBetweenElements;
+  align-items: center;
+  @include Mixins.mediaQuery(Theme.$tabletViewport) {
+    flex-direction: column;
+    align-items: center;
+  }
+  @include Mixins.mediaQuery(Theme.$LgPhoneViewport) {
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+.partneVisuals {
+  display: flex;
+  margin: Theme.$spaceBetweenElements;
+  @include Mixins.mediaQuery(Theme.$LgPhoneViewport) {
     align-items: center;
     justify-content: center;
+    flex-direction: column;
   }
-  .partnerBreeder {
-    margin-top: Theme.$spaceBetweenElements;
-    color: Theme.$accentBlue;
-    text-align: center;
-  }
+}
+
+.adultName {
+  color: Theme.$accentBlue;
+}
+.partnerLastLitter {
+  color: Theme.$accentBlue;
+  text-align: center;
+  margin-top: calc(Theme.$spaceBetweenElements/2);
+}
+.partnerPhoto {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.partnerBreeder {
+  margin-top: Theme.$spaceBetweenElements;
+  color: Theme.$accentBlue;
+  text-align: center;
 }
