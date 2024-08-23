@@ -13,33 +13,48 @@
   }
 }
 .selectorButton {
-  @include Mixins.setBoxShadow(Theme.$darkPrimary, 1px);
+  $darkenedPrimary: darken(Theme.$darkPrimary, 4%);
+  @include Mixins.setBoxShadow($darkenedPrimary, 1px);
   border: none;
-  z-index: 0;
+  z-index: 1;
   width: 100%;
   flex: auto;
   background-color: Theme.$primary;
   cursor: pointer;
   transition: box-shadow 0.1s;
+  transition-property: box-shadow, transform, background-color;
+  outline: 2px solid Theme.$primary;
+  outline-offset: -1px;
   h2 {
     color: Theme.$lightPrimary;
     font-weight: 400;
   }
   &:hover {
-    background-color: Theme.$primary;
+    @include Mixins.temporaryScaleOnHover(1.04);
+    z-index: 2;
     &:active {
       box-shadow: unset;
+      transform: scale(1);
     }
   }
-  &.selected {
-    border: unset;
-    box-shadow: unset;
-    cursor: unset;
-    background-color: Theme.$darkPrimary;
-    z-index: 2;
-    h2 {
-      color: Theme.$lightPrimary;
+}
+.selected {
+  $scale: 0.976;
+  border: unset;
+  box-shadow: unset;
+  outline: 2px solid Theme.$darkPrimary;
+  cursor: unset;
+  background-color: Theme.$darkPrimary;
+  transform: scale($scale) !important;
+  z-index: 0;
+  h2 {
+    color: Theme.$lightPrimary;
     font-weight: 400;
+  }
+  &:hover {
+    transform: scale($scale) !important;
+    &:active {
+      box-shadow: unset;
     }
   }
 }
