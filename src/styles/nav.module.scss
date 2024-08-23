@@ -1,0 +1,83 @@
+@use "../styles/theme.module.scss" as Theme;
+@use "../styles/mixins.scss" as Mixins;
+
+// Nav{
+// Transition rules:
+// 1. img positon: absolute -> relative
+// 2. menu display: none -> flex
+// 3. logo link flex: 1 -> 0
+// 4. menu flex: 0 -> 1
+.sliderMenu {
+  display: flex;
+  .flex {
+    flex: 0 1;
+  }
+  .flex-container {
+    flex: 2 2;
+    display: flex;
+    align-items: center;
+    width: 100%;
+  }
+  button#title-menu-button {
+    background-color: white;
+    height: 59px;
+    border-top: 3px solid white;
+    border-bottom: none;
+    border-left: none;
+    border-right: none;
+    svg#hamSVG {
+      /* flex: 0; */
+      color: Theme.$tertiaryCherry;
+      line-height: 1.5rem;
+      /* position: absolute; */
+      padding-left: 1rem;
+      /* position: absolute; */
+      background-color: white;
+      /* height: 60px; */
+    }
+  }
+  menu {
+    flex: 0;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    background-color: Theme.$tertiaryCherry;
+    height: 60px;
+    font-size: 31px;
+    transition: flex 0.5s;
+    a {
+      flex: 1;
+      text-align: justify;
+      text-decoration: none;
+      margin: 1rem;
+      color: Theme.$lightTertiaryCherry;
+      white-space: nowrap;
+      min-height: 100%;
+      &:hover {
+        border-radius: 14px;
+      }
+    }
+  }
+  a.home-button {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* margin: 0 auto; */
+    /* display: inline-flex; */
+    /* align-items: center; */
+    /* justify-content: space-around; */
+    /* text-decoration: none; */
+    .site-name {
+      height: auto;
+      width: 100%;
+    }
+    @include Mixins.mediaQuery(Theme.$microViewport / 2) { 
+      img {
+        width: 100%;
+        height: auto;
+      }
+    }
+  }
+}
+// }

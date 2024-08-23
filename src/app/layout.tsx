@@ -1,10 +1,14 @@
+// Components
+import Nav from "@/components/nav/nav";
+
 // Types
 import { type Metadata } from "next";
+
 // Styles
-import "@/styles/reset.scss";
-import "@/styles/global.scss";
-import Theme from "@/styles/theme.module.scss";
-import { font } from "@/styles/font";
+import "@styles/reset.scss";
+import "@styles/global.scss";
+import Theme from "@styles/theme.module.scss";
+import { font } from "@styles/font";
 
 export const metadata: Metadata = {
   title: {
@@ -24,9 +28,7 @@ export const metadata: Metadata = {
     "puppies",
     "Murfreesboro TN",
   ],
-  authors: [
-    { name: "Jenny Moffit" },
-  ],
+  authors: [{ name: "Jenny Moffit" }],
   creator: "Tyler Davis",
   publisher: "Cherry Lane Farms",
   alternates: {
@@ -64,6 +66,7 @@ export default function CLFMain({
     <html lang="en">
       <body className={font.className}>
         <main>
+          <Nav />
           <div className="white-layout">
             <div className="left-flex" />
             <div className="content-box">{children}</div>
