@@ -160,7 +160,7 @@ export default async function DogAbout({
   Object.freeze(DA.partnerData);
   Object.freeze(DA.litterData);
 
-  const mainMorf = MorF(DA.dogData.gender);
+//  const mainMorf = MorF(DA.dogData.gender);
   const partnerMorf = MorF(DA.partnerData.gender);
 
   return (
