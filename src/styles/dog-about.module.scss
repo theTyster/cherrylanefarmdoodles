@@ -46,9 +46,17 @@ article.mainDog {
   }
 }
 
+#Headshots_Lg {
+  box-shadow: revert;
+}
+
 #Headshots_Sm {
   @include Mixins.mediaQuery(Theme.$tabletViewport) {
     margin-top: Theme.$spaceBetweenElements;
+  }
+  @include Mixins.setBoxShadow(black);
+  &:active {
+    box-shadow: none;
   }
 }
 

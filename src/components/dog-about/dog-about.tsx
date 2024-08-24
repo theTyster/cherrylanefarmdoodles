@@ -175,7 +175,7 @@ export default async function DogAbout({
       <article className={css.mainDog}>
         <div className={css.attentionGetter}>
           <LargeHeadshot
-            largeOrSmall={G.Headshots_Lg}
+            variant={G.Headshots_Lg}
             id={css.Headshots_Lg}
             src={DA.dogData.Headshots_Lg}
             alt={DA.dogData.adultName}
@@ -231,7 +231,7 @@ export default async function DogAbout({
               }`}
             >
               <SmallHeadshot
-                largeOrSmall={D1T.Headshots_Sm}
+                variant={D1T.Headshots_Sm}
                 gender={DA.partnerData.gender}
                 src={DA.partnerData.Headshots_Sm}
                 alt={DA.partnerData.adultName}

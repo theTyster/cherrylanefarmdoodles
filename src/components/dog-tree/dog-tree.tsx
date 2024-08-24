@@ -114,7 +114,8 @@ export default async function DogTree({
       <div className={css.top}>
         <Link href={"dams/" + ids[G.mother]}>
           <MomHeadshot
-            largeOrSmall={D1T[G.Headshots_Sm]}
+            variant={D1T[G.Headshots_Sm]}
+            className={css.momHeadshot}
             src={mother[G.Headshots_Sm]}
             alt="Mother Dog"
             gender="F"
@@ -125,7 +126,8 @@ export default async function DogTree({
         </h1>
         <Link href={"sires/" + ids[G.father]}>
           <DadHeadshot
-            largeOrSmall={D1T[G.Headshots_Sm]}
+            variant={D1T[G.Headshots_Sm]}
+            className={css.dadHeadshot}
             src={father[G.Headshots_Sm]}
             alt="Father Dog"
             gender="M"

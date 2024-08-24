@@ -11,30 +11,32 @@ const SM = VARIANTS.Headshots_Sm;
 const LG = VARIANTS.Headshots_Lg;
 
 function Headshot({
-  largeOrSmall,
+  variant,
   src,
   alt,
   gender,
   id,
+  className,
 }: {
-  largeOrSmall: typeof D1T.Headshots_Lg | typeof D1T.Headshots_Sm;
+  variant: typeof D1T.Headshots_Lg | typeof D1T.Headshots_Sm;
   src: string | null;
   alt: string;
   gender: "M" | "F";
   id?: string;
+  className?: string;
 }) {
   const morf = MorF(gender);
   const props =
-    largeOrSmall === D1T.Headshots_Lg
+    variant === D1T.Headshots_Lg
       ? {
           ...LG,
-          className: morf(`${css["dad"]} ${css['lg']}`, `${css['mom']} ${css["lg"]}`),
+          className: `${css.lg} ${morf(css.dad, css.mom)} ${className ? className : ""}`,
           width: 500,
           height: 666,
         }
       : {
           ...SM,
-          className: morf(`${css["dad"]} ${css['sm']}`, `${css['mom']} ${css["sm"]}`),
+          className: `${css.sm} ${morf(css.dad, css.mom)} ${className ? className : ""}`,
           width: 292,
           height: 292,
         };

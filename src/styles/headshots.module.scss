@@ -10,13 +10,13 @@
   object-fit: scale-down;
   border-radius: Theme.$bigButtonRadius;
   box-sizing: content-box;
-  &.mom {
+  .mom {
     outline: Theme.$momOutline;
-    outline-offset: -2px;
+    outline-offset: -1px;
   }
-  &.dad {
+  .dad {
     outline: Theme.$dadOutline;
-    outline-offset: -2px;
+    outline-offset: -1px;
   }
   @include Mixins.mediaQuery(Theme.$LgPhoneViewport) {
     width: Theme.$Headshots_Sm;
@@ -38,12 +38,6 @@
   @include Mixins.temporaryScaleOnHover() {
     // additional rules?
   }
-  &.mom {
-    border: Theme.$momOutline;
-  }
-  &.dad {
-    border: Theme.$dadOutline;
-  }
   @include Mixins.mediaQuery(Theme.$LgPhoneViewport) {
     width: Theme.$Headshots_Sm;
     height: auto;
@@ -51,5 +45,25 @@
   @include Mixins.mediaQuery(Theme.$SmPhoneViewport) {
     width: 100%;
     height: auto;
+  }
+}
+
+.mom {
+  outline: Theme.$momOutline;
+  outline-offset: -1px;
+  @include Mixins.setBoxShadow(Theme.$darkMom, 1px);
+  &:active {
+    transform: scale(0.95);
+    box-shadow: none;
+  }
+}
+
+.dad {
+  outline: Theme.$dadOutline;
+  outline-offset: -1px;
+  @include Mixins.setBoxShadow(Theme.$darkDad, 1px);
+  &:active {
+    transform: scale(0.95);
+    box-shadow: none;
   }
 }
