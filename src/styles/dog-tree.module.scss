@@ -3,12 +3,10 @@
 
 div.top {
   display: flex;
-  & > * {
-    margin: Theme.$spaceBetweenElements;
-  }
+  margin: Theme.$spaceBetweenElements 0;
 }
 h1.heading {
-  margin: Theme.$spaceBetweenElements / 10;
+  margin: calc(Theme.$spaceBetweenElements + Theme.$outlineWidth);
   div.goingHome {
     font-weight: 400;
   }
@@ -19,9 +17,7 @@ div.bottom {
   justify-content: center;
   align-items: center;
   width: 100%;
-  & > * {
-    margin: Theme.$spaceBetweenElements;
-  }
+  margin-bottom: Theme.$spaceBetweenElements;
   img.puppyGroup {
     width: 600px;
     height: auto;
@@ -29,19 +25,33 @@ div.bottom {
     object-fit: cover;
   }
 }
+.momHeadshot {
+  margin-bottom: calc(Theme.$spaceBetweenElements + Theme.$outlineWidth);
+}
+
+.dadHeadshot {
+  margin-bottom: calc(Theme.$spaceBetweenElements + Theme.$outlineWidth);
+}
+
 @include Mixins.mediaQuery(Theme.$tabletViewport) {
-  div.top > * {
-    margin: Theme.$spaceBetweenElements / 10;
-  }
   img.puppyGroup {
     width: 100%;
   }
+  .dadHeadshot {
+    margin-left: calc(Theme.$spaceBetweenElements + Theme.$outlineWidth);
+  }
 }
 @include Mixins.mediaQuery(Theme.$LgPhoneViewport) {
+  h1.heading {
+    margin: 0 0 Theme.$spaceBetweenElements 0;
+  }
   div.top {
     flex-direction: column;
   }
   img.puppyGroup {
     width: 100% !important;
+  }
+  .dadHeadshot {
+    margin-left: 0;
   }
 }
