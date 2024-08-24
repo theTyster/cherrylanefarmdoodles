@@ -9,6 +9,12 @@ database_name = "dogs_prev"
 database_id = "becac318-fcf4-4848-9652-fe5dbac09462"
 migrations_dir = "test/migrations"
 
+[[d1_databases]]
+binding = "dogsDB_live"
+database_name = "dogs"
+database_id = "d2d75c27-4175-4ac1-81e4-c6412970e2fb"
+migrations_dir = "migrations"
+
 [[r2_buckets]]
 binding = "dogImages"
 bucket_name = "cherrylanefarmpics-prev"
