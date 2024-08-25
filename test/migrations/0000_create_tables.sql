@@ -18,18 +18,18 @@ DROP TABLE IF EXISTS Group_Photos;
 
 CREATE TABLE Group_Photos (
     transformUrl text PRIMARY KEY CHECK (LENGTH(transformUrl) <= 2000),
-    hash text NOT NULL,
+    hash text NOT NULL UNIQUE,
     alt text CHECK (LENGTH(alt) <= 140)
 );
 
 CREATE TABLE Headshots_Sm (
     transformUrl text PRIMARY KEY CHECK (LENGTH(transformUrl) <= 2000),
-    hash text NOT NULL
+    hash text NOT NULL UNIQUE
 );
 
 CREATE TABLE Headshots_Lg (
     transformUrl text PRIMARY KEY CHECK (LENGTH(transformUrl) <= 2000),
-    hash text NOT NULL
+    hash text NOT NULL UNIQUE
 );
 
 CREATE TABLE Litters (
@@ -42,9 +42,9 @@ CREATE TABLE Litters (
 CREATE TABLE Dogs (
     id integer PRIMARY KEY,
     gender text NOT NULL CHECK (gender IN ('M', 'F')),
-    noseColor text NOT NULL CHECK (LENGTH(noseColor) <= 16),
-    coatColor text NOT NULL CHECK (LENGTH(coatColor) <= 16),
-    personality text NOT NULL CHECK (LENGTH(personality) <= 140),
+    noseColor text NOT NULL CHECK (LENGTH(noseColor) <= 30),
+    coat text NOT NULL CHECK (LENGTH(coat) <= 50),
+    personality text CHECK (LENGTH(personality) <= 140),
     Headshots_Sm text UNIQUE,
     Headshots_Lg text UNIQUE,
     CONSTRAINT fk_dogs_headshot_small FOREIGN KEY (Headshots_Sm) REFERENCES Headshots_Sm (transformUrl) ON DELETE NO ACTION ON UPDATE CASCADE,
@@ -53,15 +53,16 @@ CREATE TABLE Dogs (
 
 CREATE TABLE Adults (
     id integer PRIMARY KEY,
+    dogId integer,
     adultName text NOT NULL CHECK (LENGTH(adultName) <= 16),
     breeder text NOT NULL CHECK (LENGTH(breeder) <= 50),
     adultBirthday date NOT NULL,
     eyeColor text NOT NULL CHECK (LENGTH(eyeColor) <= 16),
-    isRetired boolean NOT NULL CHECK (isRetired IN (0, 1)) DEFAULT 0,
+    activityStatus text NOT NULL CHECK (activityStatus IN ('active', 'retired', 'break')) DEFAULT 'active',
     favActivities text CHECK (LENGTH(favActivities) <= 140),
     weight integer NOT NULL CHECK (weight > 0),
     energyLevel text NOT NULL CHECK (energyLevel IN ('Low', 'Medium-low', 'Medium', 'Medium-high', 'High')),
-    dogId integer,
+    certifications text NOT NULL CHECK (certifications IN ('Embark', 'Embark-equivalent')),
     CONSTRAINT fk_adults_dog_id FOREIGN KEY (dogId) REFERENCES Dogs (id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
@@ -69,7 +70,7 @@ CREATE TABLE Puppies (
     id integer PRIMARY KEY,
     puppyName text CHECK (LENGTH(puppyName) <= 16),
     collarColor text NOT NULL CHECK (LENGTH(collarColor) <= 16),
-    isAvailable boolean NOT NULL CHECK (isAvailable IN (0, 1)),
+    availability text NOT NULL CHECK (availability IN ('Available', 'Picked', 'Adopted', 'Held Back')) DEFAULT 'Available',
     dogId integer,
     litterId integer,
     CONSTRAINT fk_puppies_litter_id FOREIGN KEY (litterId) REFERENCES Litters (id) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -101,7 +102,7 @@ CREATE TABLE Dog_To_Group_Photos (
 -- Commonly Queried
 CREATE INDEX idx_dueDate ON Litters (dueDate);
 
-CREATE INDEX idx_available_puppies ON Puppies (isAvailable);
+CREATE INDEX idx_available_puppies ON Puppies (availability);
 
 -- All Foreign Keys Except Images since they use a Natural Key.
 CREATE INDEX idx_adults_dog_id ON Adults (dogId);
