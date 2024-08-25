@@ -58,7 +58,7 @@ CREATE TABLE Adults (
     breeder text NOT NULL CHECK (LENGTH(breeder) <= 50),
     adultBirthday date NOT NULL,
     eyeColor text NOT NULL CHECK (LENGTH(eyeColor) <= 16),
-    activityStatus text NOT NULL CHECK (activityStatus IN ('active', 'retired', 'break')) DEFAULT 'active',
+    activityStatus text NOT NULL CHECK (activityStatus IN ('Active', 'Retired', 'Break')) DEFAULT 'Active',
     favActivities text CHECK (LENGTH(favActivities) <= 140),
     weight integer NOT NULL CHECK (weight > 0),
     energyLevel text NOT NULL CHECK (energyLevel IN ('Low', 'Medium-low', 'Medium', 'Medium-high', 'High')),
@@ -118,3 +118,4 @@ CREATE INDEX idx_families_dad_id ON Families (father);
 CREATE INDEX idx_families_litter_id ON Families (litterId);
 
 CREATE INDEX idx_di_dog_id ON Dog_To_Group_Photos (dogId);
+
