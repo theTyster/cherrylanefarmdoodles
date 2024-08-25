@@ -7,12 +7,12 @@ import { D1Adults, D1Dogs, D1Families } from "@/types/data";
  **/
 /**Get Dogs with a given ID.*/
 export const dogsQuery = `SELECT
-  ${G.gender}, gender,
-  ${G.noseColor}, nosecolor,
-  ${G.coatColor}, coatColor,
-  ${G.personality}, personality,
-  ${G.Headshots_Sm}, headshots_sm,
-  ${G.Headshots_Lg}, headshots_lg
+  ${G.gender} as ${[G.gender]},
+  ${G.noseColor} as ${[G.noseColor]},
+  ${G.coatColor} as ${[G.coatColor]},
+  ${G.personality} as ${[G.personality]},
+  ${G.Headshots_Sm} as ${[G.Headshots_Sm]},
+  ${G.Headshots_Lg} as ${[G.Headshots_Lg]}
   FROM
     Dogs
   WHERE id = ?` as const;
@@ -24,15 +24,15 @@ export type dogsQueryData = Omit<D1Dogs, typeof G.id>;
  * utilizes indexes. Requires ID.
  **/
 export const adultDogsQuery = `SELECT
-  ${G.adultName} as adultName,
-  ${G.breeder} as breeder,
-  ${G.adultBirthday} as adultBirthday,
-  ${G.eyeColor} as eyeColor,
-  ${G.isRetired} as isRetired,
-  ${G.favActivities} as favActivities,
-  ${G.weight} as weight,
-  ${G.energyLevel} as energyLevel,
-  ${G.dogId} as dogId
+  ${G.adultName} as ${[G.adultName]},
+  ${G.breeder} as ${[G.breeder]},
+  ${G.adultBirthday} as ${[G.adultBirthday]},
+  ${G.eyeColor} as ${[G.eyeColor]},
+  ${G.isRetired} as ${[G.isRetired]},
+  ${G.favActivities} as ${[G.favActivities]},
+  ${G.weight} as ${[G.weight]},
+  ${G.energyLevel} as ${[G.energyLevel]},
+  ${G.dogId} as ${[G.dogId]}
   FROM
     Adults
   WHERE id = ?` as const;
@@ -51,14 +51,15 @@ export type adultDogsQueryData = Omit<D1Adults, typeof G.id>;
 export const familyQuery = (parentRole?: "mother" | "father") =>
   `SELECT
   ${G.Group_Photos},
-  ${G.mother} as mother,
-  ${G.father} as father,
-  ${D1T.Families}.${G.litterId} as litterId,
-  ${G.dueDate} as dueDate,
-  ${G.litterBirthday} as litterBirthday,
-  ${G.applicantsInQueue} as applicantsInQueue,
-   SUM(Pups.${G.isAvailable}) as availablePuppies,
-   COUNT(Pups.${G.id}) as totalPuppies
+  ${G.mother} as ${[G.mother]},
+  ${G.father} as ${[G.father]},
+  ${D1T.Families}.${G.litterId} as ${[G.litterId]},
+  ${G.dueDate} as ${[G.dueDate]},
+  ${G.litterBirthday} as ${[G.litterBirthday]},
+  ${G.applicantsInQueue} as ${[G.applicantsInQueue]},
+  ${G.isAvailable} as availability,
+  SUM(CASE WHEN Pups.${G.isAvailable} = 'Available' THEN 1 ELSE 0 END) AS ${G.availablePuppies},
+   COUNT(Pups.${G.id}) as ${[G.totalPuppies]}
   FROM
     ${D1T.Families}
     Left JOIN

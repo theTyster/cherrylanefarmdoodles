@@ -29,26 +29,26 @@ import {
 } from "@/constants/queries";
 
 export const css: DogAboutTypes.CSS = {
-  [D1T.Group_Photos]: sass[D1T.Group_Photos],
-  [G.Headshots_Lg]: sass[G.Headshots_Lg],
-  [G.Headshots_Sm]: sass[G.Headshots_Sm],
-  [G.adultBirthday]: sass[G.adultBirthday],
-  [G.adultName]: sass[G.adultName],
-  [G.applicantsInQueue]: sass[G.applicantsInQueue],
-  [G.availablePuppies]: sass[G.availablePuppies],
-  [G.breeder]: sass[G.breeder],
-  [G.coatColor]: sass[G.coatColor],
-  [G.dueDate]: sass[G.dueDate],
-  [G.energyLevel]: sass[G.energyLevel],
-  [G.eyeColor]: sass[G.eyeColor],
-  [G.favActivities]: sass[G.favActivities],
-  [G.gender]: sass[G.gender],
-  [G.isRetired]: sass[G.isRetired],
-  [G.litterBirthday]: sass[G.litterBirthday],
-  [G.noseColor]: sass[G.noseColor],
-  [G.personality]: sass[G.personality],
-  [G.totalPuppies]: sass[G.totalPuppies],
-  [G.weight]: sass[G.weight],
+  [G.Group_Photos]: sass.Group_Photos,
+  [G.Headshots_Lg]: sass.Headshots_Lg,
+  [G.Headshots_Sm]: sass.Headshots_Sm,
+  [G.adultBirthday]: sass.adultBirthday,
+  [G.adultName]: sass.adultName,
+  [G.applicantsInQueue]: sass.applicantsInQueue,
+  [G.availablePuppies]: sass.availablePuppies,
+  [G.breeder]: sass.breeder,
+  [G.coatColor]: sass.coatColor,
+  [G.dueDate]: sass.dueDate,
+  [G.energyLevel]: sass.energyLevel,
+  [G.eyeColor]: sass.eyeColor,
+  [G.favActivities]: sass.favActivities,
+  [G.gender]: sass.gender,
+  [G.isRetired]: sass.isRetired,
+  [G.litterBirthday]: sass.litterBirthday,
+  [G.noseColor]: sass.noseColor,
+  [G.personality]: sass.personality,
+  [G.totalPuppies]: sass.totalPuppies,
+  [G.weight]: sass.weight,
   attentionGetter: sass.attentionGetter,
   dogAbout: sass.dogAbout,
   dogInfoList: sass.dogInfoList,
@@ -160,16 +160,16 @@ export default async function DogAbout({
   Object.freeze(DA.partnerData);
   Object.freeze(DA.litterData);
 
-//  const mainMorf = MorF(DA.dogData.gender);
-  const partnerMorf = MorF(DA.partnerData.gender);
+  //  const mainMorf = MorF(DA.dogData.gender);
+  const partnerMorf = MorF(DA.partnerData[G.gender]);
 
   return (
     <>
       <div className={css.dogTitle}>
-        <h1 className={css.adultName}>Meet {DA.dogData.adultName}</h1>
+        <h1 className={css.adultName}>Meet {DA.dogData[G.adultName]}</h1>
         <hr />
         <h2 className={css.breeder}>
-          <BreederLine breeder={DA.dogData.breeder} />
+          <BreederLine breeder={DA.dogData[G.breeder]} />
         </h2>
       </div>
       <article className={css.mainDog}>
@@ -177,52 +177,54 @@ export default async function DogAbout({
           <LargeHeadshot
             variant={G.Headshots_Lg}
             id={css.Headshots_Lg}
-            src={DA.dogData.Headshots_Lg}
-            alt={DA.dogData.adultName}
-            gender={DA.dogData.gender}
+            src={DA.dogData[G.Headshots_Lg]}
+            alt={DA.dogData[G.adultName]}
+            gender={DA.dogData[G.gender]}
           />
           {
             //prettier-ignore
             <ul className={css.dogInfoList}>
-            <li className={css.adultBirthday}>                <b>Age:</b> {calcAge(DA.dogData.adultBirthday.toString())} years old         </li>
-            <li className={css.applicantsInQueue}> <b>Puppies Picked:</b> {DA.litterData.availablePuppies}/{DA.litterData[G.totalPuppies]}</li>
-            <li className={css.favActivities}><b>Favorite Activities:</b> {DA.dogData.favActivities}                                            </li>
-            <li className={css.weight}>                    <b>Weight:</b> {DA.dogData.weight}                                                   </li>
-            <li className={css.energyLevel}>         <b>Energy Level:</b> {DA.dogData.energyLevel}                                              </li>
-            <li className={css.noseColor}>             <b>Nose Color:</b> {DA.dogData.noseColor}                                                </li>
-            <li className={css.eyeColor}>               <b>Eye Color:</b> {DA.dogData.eyeColor}                                                 </li>
-            <li className={css.coatColor}>             <b>Coat Color:</b> {DA.dogData.coatColor}                                                </li>
-            <li className={css.personality}>          <b>Personality:</b> {DA.dogData.personality}                                              </li>
+            <li className={css.adultBirthday}>                <b>Age:</b> {calcAge(DA.dogData[G.adultBirthday].toString())} years old         </li>
+            <li className={css.applicantsInQueue}> <b>Puppies Available:</b> {DA.litterData[G.availablePuppies]}/{DA.litterData[G.totalPuppies]}</li>
+            <li className={css.favActivities}><b>Favorite Activities:</b> {DA.dogData[G.favActivities]}                                            </li>
+            <li className={css.weight}>                    <b>Weight:</b> {DA.dogData[G.weight]}                                                   </li>
+            <li className={css.energyLevel}>         <b>Energy Level:</b> {DA.dogData[G.energyLevel]}                                              </li>
+            <li className={css.noseColor}>             <b>Nose Color:</b> {DA.dogData[G.noseColor]}                                                </li>
+            <li className={css.eyeColor}>               <b>Eye Color:</b> {DA.dogData[G.eyeColor]}                                                 </li>
+            <li className={css[G.coatColor]}>             <b>Coat Color:</b> {DA.dogData[G.coatColor]}                                                </li>
+            <li className={css.personality}>          <b>Personality:</b> {DA.dogData[G.personality]}                                              </li>
           </ul>
           }
         </div>
         <div className={css.partnerData}>
           <div className={css.partnerVisuals}>
-              <h3 className={css.partnerName}>
-                {DA.litterData.litterBirthday
-                  ? `Previously matched with ${DA.partnerData.adultName}.`
-                  : `Currently matched with ${DA.partnerData.adultName}.`}
-              </h3>
-              <h4 className={css.partnerLastLitter}>
-                {DA.litterData.litterBirthday
-                  ? `Last litter born on ${normalizeEpochDate(
-                      DA.litterData.litterBirthday.toLocaleDateString()
-                    ).replace(/.at.*/, "")}`
-                  : `Next litter due on ${normalizeEpochDate(
-                      DA.litterData.dueDate.toLocaleDateString()
-                    ).replace(/.at.*/, "")}`}
-                {DA.litterData.dueDate.toISOString().split("T")[0] ===
-                new Date().toISOString().split("T")[0]
-                  ? `...That's today!!`
-                  : undefined}
-              </h4>
-              <CLFImage
-                id={css[D1T.Group_Photos]}
-                src={DA.ids[D1T.Group_Photos]}
-                alt={`${DA.dogData.adultName} and ${DA.partnerData.adultName}'s last litter.'`}
-                width={600}
-                height={400}
-              />
+            <h3 className={css.partnerName}>
+              {DA.litterData[G.litterBirthday]
+                ? `Previously matched with ${DA.partnerData[G.adultName]}.`
+                : `Currently matched with ${DA.partnerData[G.adultName]}.`}
+            </h3>
+            <h4 className={css.partnerLastLitter}>
+              {DA.litterData[G.litterBirthday]
+                ? `Last litter born on ${normalizeEpochDate(
+                    DA.litterData[G.litterBirthday].toLocaleDateString()
+                  ).replace(/.at.*/, "")}`
+                : `Next litter due on ${normalizeEpochDate(
+                    DA.litterData[G.dueDate].toLocaleDateString()
+                  ).replace(/.at.*/, "")}`}
+              {DA.litterData[G.dueDate].toISOString().split("T")[0] ===
+              new Date().toISOString().split("T")[0]
+                ? `...That's today!!`
+                : undefined}
+            </h4>
+            <CLFImage
+              id={css[D1T.Group_Photos]}
+              src={DA.ids[D1T.Group_Photos]}
+              alt={`${DA.dogData[G.adultName]} and ${
+                DA.partnerData[G.adultName]
+              }'s last litter.'`}
+              width={600}
+              height={400}
+            />
           </div>
           <div className={css.partnerPhoto}>
             <Link
@@ -232,14 +234,14 @@ export default async function DogAbout({
             >
               <SmallHeadshot
                 variant={D1T.Headshots_Sm}
-                gender={DA.partnerData.gender}
-                src={DA.partnerData.Headshots_Sm}
-                alt={DA.partnerData.adultName}
+                gender={DA.partnerData[G.gender]}
+                src={DA.partnerData[G.Headshots_Sm]}
+                alt={DA.partnerData[G.adultName]}
                 id={css.Headshots_Sm}
               />
             </Link>
             <h4 className={css.partnerBreeder}>
-              <BreederLine breeder={DA.partnerData.breeder} />
+              <BreederLine breeder={DA.partnerData[G.breeder]} />
             </h4>
           </div>
         </div>

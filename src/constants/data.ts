@@ -38,7 +38,7 @@ export const GlobalNameSpaces = {
   /**Primarily used in D1 Dogs*/
   gender: "gender",
   noseColor: "noseColor",
-  coatColor: "coatColor",
+  coatColor: "coat",
   personality: "personality",
   /**Alias for D1T.Headshots_Lg*/
   [D1Tables.Headshots_Lg]: D1Tables.Headshots_Lg,
@@ -54,7 +54,7 @@ export const GlobalNameSpaces = {
   /**Primarily used in D1 Adults*/
   eyeColor: "eyeColor",
   /**Primarily used in D1 Adults*/
-  isRetired: "isRetired",
+  isRetired: "activityStatus",
   /**Primarily used in D1 Adults*/
   favActivities: "favActivities",
   /**Primarily used in D1 Adults*/
@@ -63,13 +63,15 @@ export const GlobalNameSpaces = {
   energyLevel: "energyLevel",
   /**Primarily used in D1 Adults*/
   dogId: "dogId",
+  /**Primarily used in D1 Adults*/
+  certifications: "certifications",
 
   /**Primarily used in D1 Puppies*/
   puppyName: "puppyName",
   /**Primarily used in D1 Puppies*/
   collarColor: "collarColor",
   /**Primarily used in D1 Puppies*/
-  isAvailable: "isAvailable",
+  isAvailable: "availability",
   /**Primarily used in D1 Puppies*/
   litterId: "litterId",
 
