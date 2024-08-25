@@ -1,4 +1,4 @@
-import path from 'node:path';
+import path from "node:path";
 // setupDevPlatform uses the @cloudflare/next-on-pages next-dev module to allow
 // us to use bindings during local development (when running the application
 // with `next dev`), for more information see:
@@ -10,14 +10,14 @@ let nextConfig;
 
 nextConfig = {
   images: {
-    remotePatterns: [ { hostname: 'media.cherrylanefarmdoodles.com' } ],
-    loader: 'custom',
-    loaderFile: 'src/loader.ts',
+    remotePatterns: [{ hostname: "media.cherrylanefarmdoodles.com" }],
+    loader: "custom",
+    loaderFile: "src/loader.ts",
     unoptimized: true,
   },
   webpack: (config, { isServer }) => {
     if (!isServer) {
-      config.resolve.alias['@images'] = path.resolve('public/images');
+      config.resolve.alias["@images"] = path.resolve("public/images");
     }
 
     return config;
@@ -26,7 +26,7 @@ nextConfig = {
 
 if (process.env.NODE_ENV === "development") {
   await setupDevPlatform();
-//nextConfig = {};
+  nextConfig.images.loaderFile = "src/loader-dev.ts";
 }
 
 export default nextConfig;
