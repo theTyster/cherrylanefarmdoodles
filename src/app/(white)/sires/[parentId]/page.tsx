@@ -1,5 +1,6 @@
 import DogAbout from "@/components/dog-about/dog-about";
 import { GlobalNameSpaces as G } from "@/constants/data";
+import { D1Adults } from "@/types/data";
 export const runtime = "edge";
 //{
 //import type { Metadata, ResolvingMetadata } from 'next'

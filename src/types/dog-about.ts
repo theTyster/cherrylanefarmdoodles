@@ -17,7 +17,11 @@ export type UsedColumns = {
   readonly [K in keyof Data]: K;
 };
 
-export interface CSS extends Record<keyof Data["dogData"], string>, Record<keyof Data["partnerData"], string>, Record<keyof Data["litterData"], string>, Pick<Data["ids"], typeof G.Group_Photos>{
+export interface CSS
+  extends Record<keyof Data["dogData"], string>,
+    Record<keyof Data["partnerData"], string>,
+    Record<keyof Data["litterData"], string>,
+    Pick<Data["ids"], typeof G.Group_Photos> {
   readonly dogAbout: string;
   readonly availablePuppies: string;
   readonly partnerData: string;

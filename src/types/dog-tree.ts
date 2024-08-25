@@ -1,4 +1,5 @@
 import { GlobalNameSpaces as G } from "@/constants/data";
+import { D1Dogs, D1Adults, D1Litters, D1Families } from "@/types/data";
 
 /**
  * Data gathered strictly from values in the D1 Tables.
@@ -6,20 +7,20 @@ import { GlobalNameSpaces as G } from "@/constants/data";
  * gathered using adultDogsQuery and the dogsQuery queries.
  **/
 export interface DogData {
-  readonly Headshots_Lg: D1Dogs[typeof G.Headshots_Lg];
-  readonly Headshots_Sm: D1Dogs[typeof G.Headshots_Sm];
-  readonly adultBirthday: D1Adults[typeof G.adultBirthday];
-  readonly adultName: D1Adults[typeof G.adultName];
-  readonly breeder: D1Adults[typeof G.breeder];
-  readonly coatColor: D1Dogs[typeof G.coatColor];
-  readonly energyLevel: D1Adults[typeof G.energyLevel];
-  readonly eyeColor: D1Adults[typeof G.eyeColor];
-  readonly favActivities: D1Adults[typeof G.favActivities];
-  readonly gender: D1Dogs[typeof G.gender];
-  readonly isRetired: D1Adults[typeof G.isRetired];
-  readonly noseColor: D1Dogs[typeof G.noseColor];
-  readonly personality: D1Dogs[typeof G.personality];
-  readonly weight: D1Adults[typeof G.weight];
+  readonly [G.Headshots_Lg]: D1Dogs[typeof G.Headshots_Lg];
+  readonly [G.Headshots_Sm]: D1Dogs[typeof G.Headshots_Sm];
+  readonly [G.adultBirthday]: D1Adults[typeof G.adultBirthday];
+  readonly [G.adultName]: D1Adults[typeof G.adultName];
+  readonly [G.breeder]: D1Adults[typeof G.breeder];
+  readonly [G.coatColor]: D1Dogs[typeof G.coatColor];
+  readonly [G.energyLevel]: D1Adults[typeof G.energyLevel];
+  readonly [G.eyeColor]: D1Adults[typeof G.eyeColor];
+  readonly [G.favActivities]: D1Adults[typeof G.favActivities];
+  readonly [G.gender]: D1Dogs[typeof G.gender];
+  readonly [G.isRetired]: D1Adults[typeof G.isRetired];
+  readonly [G.noseColor]: D1Dogs[typeof G.noseColor];
+  readonly [G.personality]: D1Dogs[typeof G.personality];
+  readonly [G.weight]: D1Adults[typeof G.weight];
 }
 
 export interface DogTreeData {

@@ -1,4 +1,5 @@
 import { GlobalNameSpaces as G, D1Tables as D1T } from "@/constants/data";
+import { D1Adults, D1Dogs, D1Families } from "@/types/data";
 /**
  * Frequently used Queries.
  * Where possible try to re-use these as much as you can to help improve
