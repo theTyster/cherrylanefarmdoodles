@@ -4,7 +4,7 @@ import cherry from "@pub/images/cherry.svg";
 import css from "@/styles/breeder-line.module.scss";
 
 function BreederLine({ breeder }: { breeder: string }) {
-  return breeder.match(/cherrylane|breeder a/gi) ? (
+  return breeder.match(/Cherry Lane|breeder a/gi) ? (
     <span className={css.breederLine}>
       <Image
         className={css.cherry}
