@@ -42,8 +42,11 @@ export default async function DogTree({
         : litterData.dueDate;
     const now = new Date();
     /**The date of the next event being reported by this function.*/
-    const nextEvent = (ffw: 49 | 56) =>
-      new Date().setDate((specialDay().getDate() + ffw));
+    const nextEvent = (ffw: 49 | 56) =>{
+      const date = new Date(specialDay());
+      date.setDate(date.getDate() + ffw);
+      return date;
+    }
 
     // Formats the date based on the current date.
     const dateFormat = (date: Date | number) => {
@@ -70,7 +73,7 @@ export default async function DogTree({
       );
     // If the litter is born and the pick date is in the future, it should
     // display the pick date which is 7 weeks after the birthdate.
-    else if (now.getDate() <= nextEvent(49))
+    else if (now.getTime() <= nextEvent(49).getTime())
       return (
         <>
           <div className={css.goingHome}>Pick Day is</div>
@@ -79,7 +82,7 @@ export default async function DogTree({
       );
     // If the litter is born, and the pick date has passed, it should display
     // the going home date which is 8 weeks after the birthdate.
-    else if (now.getDate() <= nextEvent(56))
+    else if (now.getTime() <= nextEvent(56).getTime())
       return (
         <>
           <div className={css.goingHome}>Going Home</div>
