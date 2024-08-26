@@ -13,7 +13,7 @@ import { font } from "@styles/font";
 export const metadata: Metadata = {
   title: {
     default: "Cherry Lane Farm | Temperament Focused Dog Breeding",
-    template: "%s | Cherry Lane Farm Doodles",
+    template: "%s | Cherry Lane Farm",
   },
   description: `Cherry Lane Farms focuses on temperament, health, and socialization to provide the best possible pet for your family. Located in Murfreesboro TN.`,
   metadataBase: new URL("https://cherrylanefarmdoodles.com"),

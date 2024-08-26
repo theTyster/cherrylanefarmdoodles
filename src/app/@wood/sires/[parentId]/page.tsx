@@ -3,6 +3,7 @@ import Link from "next/link";
 import PuppyCulture from "@pub/images/puppy-culture-cert.svg";
 import css from "./page.module.scss";
 export const runtime = "edge";
+export { damsOrSiresMeta as generateMetadata } from "@/metadata-generators/damsOrSires";
 
 export default function WoodLayout(): React.JSX.Element | null {
   return (
