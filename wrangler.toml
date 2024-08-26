@@ -17,10 +17,6 @@ migrations_dir = "migrations"
 
 [[r2_buckets]]
 binding = "dogImages"
-bucket_name = "cherrylanefarmpics-prev"
-
-[[r2_buckets]]
-binding = "dogImages_live"
 bucket_name = "cherrylanefarmpics"
 
 # In-file Documentation{{{
