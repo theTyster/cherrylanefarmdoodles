@@ -76,7 +76,9 @@ export const familyQuery = (parentRole?: "mother" | "father") =>
   ${G.litterBirthday},
   ${G.applicantsInQueue},
   ${G.availability},
-  SUM(CASE WHEN Pups.${G.availability} = 'Available' THEN 1 ELSE 0 END) AS ${G.availablePuppies},
+  SUM(CASE WHEN Pups.${G.availability} = 'Available' THEN 1 ELSE 0 END) AS ${
+    G.availablePuppies
+  },
    COUNT(Pups.${G.id}) as ${[G.totalPuppies]}
   FROM
     ${D1T.Families}
