@@ -15,6 +15,7 @@ export default async function Page({
   return (
     <>
       <DogAbout
+        variant={"adult"}
         adultId={params.parentId}
         primaryParent={"father"}
         secondaryParent={"mother"}

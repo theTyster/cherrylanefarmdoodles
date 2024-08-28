@@ -1,20 +1,15 @@
-import Image from "next/image";
-import Link from "next/link";
-import PuppyCulture from "@pub/images/puppy-culture-cert.svg";
-import css from "./page.module.scss";
+import DamsOrSires from "@/app/@wood/damsOrSires";
 export const runtime = "edge";
 export { damsOrSiresMeta as generateMetadata } from "@/metadata-generators/damsOrSires";
 
-export default function WoodLayout(): React.JSX.Element | null {
+export default function WoodLayout({
+  params,
+}: {
+  params: { parentId: number };
+}): React.JSX.Element | null {
   return (
     <>
-      <Link href="https://shoppuppyculture.com/pages/about-puppy-culture">
-        <Image
-          className={css["puppy-culture"]}
-          src={PuppyCulture}
-          alt="Raised with Jane Killion's Puppy Culture"
-        />
-      </Link>
+      <DamsOrSires adultId={params.parentId} primaryParent="mother" />
     </>
   );
 }
