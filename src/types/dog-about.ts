@@ -47,7 +47,7 @@ export type PuppyData  = {
     readonly [G.Headshots_Sm]: DQ[typeof G.Headshots_Sm];
   }
   readonly litterData: LitterData;
-  ids: Omit<Ids, typeof G.Group_Photos> & {
+  ids: Ids & {
     [G.dogId]: PQ[typeof G.dogId];
   };
 }

@@ -4,6 +4,7 @@ import DogAbout from "@/components/dog-about/dog-about";
 import {
   getPuppyData,
   getMostRecentFamily,
+  formatPupData,
 } from "@/components/dog-about/puppy-constants";
 export const runtime = "edge";
 export { damsOrSiresMeta as generateMetadata } from "@/metadata-generators/damsOrSires";
@@ -24,15 +25,16 @@ export default async function DamsOrSires({
   const puppies = await getPuppyData(D1, mostRecentFamily);
   return (
     <>
-      {puppies.map((puppyData) => (
-        <DogAbout
-          key={puppyData.puppy[G.dogId]}
-          variant={"puppy"}
-          adultId={adultId}
-          primaryParent={primaryParent}
-          pup={puppyData}
-        />
-      ))}
+      {puppies.map((puppyData) => {
+        const formattedPupData = formatPupData(puppyData, mostRecentFamily);
+        return (
+          <DogAbout
+            key={puppyData.puppy[G.dogId]}
+            variant={"puppy"}
+            variantData={formattedPupData}
+          />
+        );
+      })}
     </>
   );
 }

@@ -11,7 +11,7 @@ export const getMostRecentFamily = async (
   D1: D1Database,
   primaryParent: "mother" | "father",
   adultId: number,
-) => {
+): Promise<D1FQ> => {
   return await D1.prepare(familyQuery(primaryParent))
     .bind(adultId)
     .first<D1FQ>()
