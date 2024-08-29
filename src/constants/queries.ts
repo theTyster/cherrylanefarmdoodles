@@ -17,7 +17,7 @@ type QueryStringify<T> = {
  * Where possible try to re-use these as much as you can to help improve
  * caching.
  **/
-/**Get Dogs with a given ID.*/
+/**Get Dogs with a given Dog ID.*/
 export const dogsQuery = `SELECT
   ${G.gender},
   ${G.noseColor},
@@ -36,7 +36,7 @@ export type D1DogsQueryData = QueryStringify<DogsQueryData>;
 
 /**
  * Get all info about a specified Adult Dog.
- * utilizes indexes. Requires ID.
+ * utilizes indexes. Requires Adult ID.
  **/
 export const adultDogsQuery = `SELECT
   ${G.adultName},
@@ -59,7 +59,7 @@ export type D1AdultDogsQueryData = QueryStringify<AdultDogsQueryData>;
 
 /**
  * Gets all information about a grouping of Dogs (a family).
- * Utilizes indexes. Requires ID.
+ * Utilizes indexes. Requires Litter ID.
  *
  * This query is preferred over two asynchonous queries that handle the join
  * in-code because the number of families is not constant and managing the join
@@ -108,7 +108,7 @@ export type D1FamilyQueryData = QueryStringify<FamilyQueryData>
 
 /**
  * Gets all info about a specified Puppy.
- * Utilizes indexes. Requires ID.
+ * Utilizes indexes. Requires Litter ID.
  **/
 export const puppyQuery = `
   SELECT
