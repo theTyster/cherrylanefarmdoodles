@@ -49,7 +49,7 @@ export interface D1Litters {
   readonly [G.applicantsInQueue]: number;
 }
 
-export interface D1Dogs  {
+export interface D1Dogs {
   readonly [G.id]: number;
   readonly [G.gender]: "M" | "F";
   readonly [G.noseColor]: string;
