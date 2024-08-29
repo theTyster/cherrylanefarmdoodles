@@ -3,7 +3,6 @@ export const runtime = "edge";
 
 // Components
 import SmallHeadshot from "@/components/Headshots/Headshots";
-import CLFImage from "@/components/CLFImage/CLFImage";
 import BreederLine from "@/components/breeder-line/breeder-line";
 import Link from "next/link";
 
@@ -16,15 +15,6 @@ import type { PuppyData } from "@/types/dog-about";
 export default function CurrentLitter({ D }: { D: PuppyData }) {
     return (
       <>
-              <CLFImage
-                id={css[D1T.Group_Photos]}
-                src={D.ids[D1T.Group_Photos]}
-                alt={`${
-                  D.dogData[G.puppyName]
-                } and ${"--mother name here--"}'s last litter.'`}
-                width={600}
-                height={400}
-              />
             <div className={css.partnerPhoto}>
               <Link href={`/sires/${"--father id here--"}`}></Link>
               <SmallHeadshot

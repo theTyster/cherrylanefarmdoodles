@@ -1,11 +1,13 @@
+export const runtime = "edge";
 import { getRequestContext } from "@cloudflare/next-on-pages";
 import { GlobalNameSpaces as G } from "@/constants/data";
 import {
   adultDogsQuery,
-  type adultDogsQueryData,
+  type D1AdultDogsQueryData as D1AQ,
   dogsQuery,
-  type dogsQueryData,
+type D1DogsQueryData as D1DQ,
 } from "@/constants/queries";
+import css from "./layout.module.scss";
 import type { Metadata } from "next";
 
 export async function damsOrSiresMeta(
@@ -15,13 +17,13 @@ export async function damsOrSiresMeta(
 
   const adult = await D1.prepare(adultDogsQuery)
     .bind(params.parentId)
-    .first<adultDogsQueryData>();
+    .first<D1AQ>();
 
   if (!adult) throw new Error('Adult not found');
 
   const dog = await D1.prepare(dogsQuery)
     .bind(adult[G.dogId])
-    .first<dogsQueryData>();
+    .first<D1DQ>();
 
   if (!dog) throw new Error(`Dog not found for adult ${adult[G.adultName]}`);
   const dogHeadshotSm = dog[G.Headshots_Sm]!;
@@ -45,3 +47,16 @@ export async function damsOrSiresMeta(
   };
 }
 
+
+
+export default async function DamsOrSires({
+  children,
+}: {
+  children: React.ReactNode;
+}): Promise<React.JSX.Element | null> {
+  return (
+    <div className={css.currentLitter}>
+      {children}
+    </div>
+  );
+}

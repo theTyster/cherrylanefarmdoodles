@@ -7,20 +7,17 @@ import {
   formatPupData,
 } from "@/components/dog-about/constants/puppy-constants";
 export const runtime = "edge";
-export { damsOrSiresMeta as generateMetadata } from "@/metadata-generators/damsOrSires";
 
-export default async function DamsOrSires({
-  adultId,
-  primaryParent,
+export default async function Sires({
+  params,
 }: {
-  adultId: number;
-  primaryParent: "mother" | "father";
+  params: { parentId: number };
 }): Promise<React.JSX.Element | null> {
   const D1 = getRequestContext().env.dogsDB;
   const mostRecentFamily = await getMostRecentFamily(
     D1,
-    primaryParent,
-    adultId
+    'father',
+    params.parentId
   );
   const puppies = await getPuppyData(D1, mostRecentFamily);
   return (
@@ -30,7 +27,7 @@ export default async function DamsOrSires({
         return (
           <DogAbout
             key={puppyData.puppy[G.dogId]}
-            variant={"Puppy"}
+            variant={"CurrentLitter"}
             variantData={formattedPupData}
           />
         );
