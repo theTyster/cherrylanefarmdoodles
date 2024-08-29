@@ -14,10 +14,10 @@ import {
  * Data for both parents. Order is consistent with the {@see parents}
  * First Dog is the primary dog of interest for this page.
  **/
-export async function getPuppyData<F extends FQ>(
+export async function getPuppyData(
   D1: D1Database,
   /**Queries to Obtain this object can be found in adult-constants.*/
-  mostRecentFamily: F
+  mostRecentFamily: FQ
 ) {
   /**A query to the puppy table for every puppy in this litter.*/
   const puppies = await D1.prepare(puppyQuery)
