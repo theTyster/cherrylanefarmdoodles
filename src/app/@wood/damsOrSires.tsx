@@ -30,7 +30,7 @@ export default async function DamsOrSires({
         return (
           <DogAbout
             key={puppyData.puppy[G.dogId]}
-            variant={"puppy"}
+            variant={"Puppy"}
             variantData={formattedPupData}
           />
         );

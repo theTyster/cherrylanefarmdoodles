@@ -40,7 +40,7 @@ export default async function Page({
   return (
     <>
       <DogAbout
-        variant={"adult"}
+        variant={"Adult"}
         variantData={parentData}
       />
     </>
