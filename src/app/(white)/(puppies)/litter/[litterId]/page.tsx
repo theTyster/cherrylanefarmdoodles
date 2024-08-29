@@ -10,9 +10,9 @@ import {
 } from "@/components/dog-about/constants/puppy-constants";
 
 import { connectParentData } from "@/components/dog-about/constants/adult-constants";
-export const runtime = "edge";
+export { puppiesMeta as generateMetadata } from "@/constants/meta-generators/puppies-meta";
 
-export default async function Dams({
+export default async function WhiteSectionLitter({
   params,
 }: {
   params: { litterId: number };

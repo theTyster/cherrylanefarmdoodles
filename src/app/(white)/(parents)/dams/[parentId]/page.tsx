@@ -1,7 +1,8 @@
+export const runtime = "edge";
 import { getRequestContext } from "@cloudflare/next-on-pages";
 import DogAbout from "@/components/dog-about/dog-about";
 import { GlobalNameSpaces as G } from "@/constants/data";
-export const runtime = "edge";
+export { parentsMeta as generateMetadata } from "@/constants/meta-generators/parents-meta";
 
 // Types
 import { D1Adults } from "@/types/data";
