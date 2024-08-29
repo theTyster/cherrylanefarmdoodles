@@ -57,16 +57,23 @@ export default function CLFMain({
   children,
   wood,
   tan,
+  puppyModal,
 }: {
   children: React.ReactNode;
   wood: React.ReactNode;
   tan: React.ReactNode;
+  puppyModal: React.ReactNode;
 }): React.JSX.Element {
   return (
     <html lang="en">
       <body className={font.className}>
         <main>
           <Nav />
+          <div className="white-layout">
+            <div className="left-flex" />
+            <div className="content-box">{puppyModal}</div>
+            <div className="right-flex" />
+          </div>
           <div className="white-layout">
             <div className="left-flex" />
             <div className="content-box">{children}</div>
