@@ -16,11 +16,11 @@ import css from "./page.module.scss";
 import { GlobalNameSpaces as G } from "@/constants/data";
 import {
   familyQuery,
-  type familyQueryData,
+  type D1FamilyQueryData as D1FQ,
   adultDogsQuery,
-  type adultDogsQueryData,
+  type D1AdultDogsQueryData as D1AQ,
   dogsQuery,
-  type dogsQueryData,
+  type D1DogsQueryData as D1DQ,
 } from "@/constants/queries";
 
 // Types
@@ -42,7 +42,7 @@ export default async function WhiteSection() {
 
   const entryPoint = await D1.prepare(familyQuery())
     .bind()
-    .all<familyQueryData>()
+    .all<D1FQ>()
     .then((res) => res.results);
 
   // Reversed so that the most recent litters are displayed first.
@@ -61,7 +61,7 @@ export default async function WhiteSection() {
         ...(await Promise.all([
           D1.prepare(adultDogsQuery)
             .bind(familyTableData[G.mother])
-            .first<adultDogsQueryData>()
+            .first<D1AQ>()
             .then(async (res) => {
               if (!res)
                 throw new Error(
@@ -70,7 +70,7 @@ export default async function WhiteSection() {
                 );
               const dogData = await D1.prepare(dogsQuery)
                 .bind(res[G.dogId])
-                .first<dogsQueryData>();
+                .first<D1DQ>();
               if (!dogData)
                 throw new Error(
                   "Missing Mother's data in Dogs Table for ID: " +
@@ -80,7 +80,7 @@ export default async function WhiteSection() {
             }),
           D1.prepare(adultDogsQuery)
             .bind(familyTableData[G.father])
-            .first<adultDogsQueryData>()
+            .first<D1AQ>()
             .then(async (res) => {
               if (!res)
                 throw new Error(
@@ -89,7 +89,7 @@ export default async function WhiteSection() {
                 );
               const dogData = await D1.prepare(dogsQuery)
                 .bind(res[G.dogId])
-                .first<dogsQueryData>();
+                .first<D1DQ>();
               if (!dogData)
                 throw new Error(
                   "Missing Father's data in Dogs Table for ID: " +
@@ -149,8 +149,8 @@ export default async function WhiteSection() {
       ids: {
         [G.litterId]: Number.parseFloat(familyTableData[G.litterId]),
         [G.Group_Photos]: familyTableData[G.Group_Photos],
-        [G.mother]: familyTableData[G.mother],
-        [G.father]: familyTableData[G.father],
+        [G.mother]: Number.parseFloat(familyTableData[G.mother]),
+        [G.father]: Number.parseFloat(familyTableData[G.father]),
       } satisfies DogTreeData["ids"],
     } satisfies DogTreeData;
   });
