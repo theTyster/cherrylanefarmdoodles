@@ -14,7 +14,7 @@ import {
 /**Connects data for one puppy.*/
 export function connectPuppyData(
   mostRecentFamily: D1FQ,
-  pup?: {
+  pup: {
     puppyDogsTable: D1DQ;
     puppy: D1PQ;
   }
@@ -23,10 +23,6 @@ export function connectPuppyData(
   return formatPupData(pup, mostRecentFamily);
 }
 
-/**
- * Data for both parents. Order is consistent with the {@see parents}
- * First Dog is the primary dog of interest for this page.
- **/
 export async function getPuppyData(
   D1: D1Database,
   /**Queries to Obtain this object can be found in adult-constants.*/

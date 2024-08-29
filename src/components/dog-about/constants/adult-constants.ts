@@ -15,21 +15,21 @@ import {
 type parent = D1DQ & D1AQ;
 type ParentData = readonly [parent, parent];
 
-  export async function connectParentData(
-    D1: D1Database,
-    mostRecentFamily: D1FQ,
-    adultId?: number,
-    primaryParent?: "mother" | "father",
-    secondaryParent?: "mother" | "father"
-  ): Promise<AdultData> {
-    if (!adultId) throw new Error("No adultId provided.");
-    if (!primaryParent) throw new Error("No primaryParent provided.");
-    if (!secondaryParent) throw new Error("No secondaryParent provided.");
-    const parents = [primaryParent, secondaryParent] as const;
-    const parentData = await getParentData(D1, parents, mostRecentFamily);
+export async function connectParentData(
+  D1: D1Database,
+  mostRecentFamily: D1FQ,
+  adultId?: number,
+  primaryParent?: "mother" | "father",
+  secondaryParent?: "mother" | "father"
+): Promise<AdultData> {
+  if (!adultId) throw new Error("No adultId provided.");
+  if (!primaryParent) throw new Error("No primaryParent provided.");
+  if (!secondaryParent) throw new Error("No secondaryParent provided.");
+  const parents = [primaryParent, secondaryParent] as const;
+  const parentData = await getParentData(D1, parents, mostRecentFamily);
 
-    return formatParentData(parentData, mostRecentFamily);
-  }
+  return formatParentData(parentData, mostRecentFamily);
+}
 /**
  * Data for both parents. Order is consistent with the {@see parents}
  * First Dog is the primary dog of interest for this page.
@@ -74,10 +74,7 @@ export async function getParentData(
   return parentData as unknown as ParentData;
 }
 export function formatParentData(
-  parentData: readonly [
-    D1DQ & D1AQ,
-    D1DQ & D1AQ
-  ],
+  parentData: readonly [D1DQ & D1AQ, D1DQ & D1AQ],
   mostRecentFamily: D1FQ
 ): AdultData {
   const convertParent = (i: number) =>
