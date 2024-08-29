@@ -1,5 +1,5 @@
 import { calcAge, normalizeEpochDate } from "thetyster-utils";
-import { MorF } from "cherrylanefarms-utils";
+import { MorF } from "@/constants/Morf";
 import { GlobalNameSpaces as G, D1Tables as D1T } from "@/constants/data";
 export const runtime = "edge";
 
