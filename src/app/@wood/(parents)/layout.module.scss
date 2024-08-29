@@ -5,6 +5,6 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: Theme.$spaceBetweenElements;
-  margin-top: Theme.$spaceBetweenElements;
+  gap: Theme.$spaceBetweenElements + Theme.$outlineWidth;
+  margin-top: Theme.$spaceBetweenElements + Theme.$outlineWidth;
 }
