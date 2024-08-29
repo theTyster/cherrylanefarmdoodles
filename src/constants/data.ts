@@ -20,6 +20,12 @@ export const GlobalNameSpaces = {
   id: "id",
   /**@deprecated use litterBirthday or adultBirthday*/
   birthday: "litterBirthday",
+  /**@deprecated use 'coat'*/
+  coatColor: "coat",
+  /**@deprecated use 'availability'*/
+  isAvailable: "availability",
+  /**@deprecated use 'activityStatus'*/
+  isRetired: "activityStatus",
 
   /**Primarily used in D1 Image Tables*/
   transformUrl: "transformUrl",
@@ -37,8 +43,11 @@ export const GlobalNameSpaces = {
 
   /**Primarily used in D1 Dogs*/
   gender: "gender",
+  /**Primarily used in D1Dogs*/
+  coat: 'coat',
+  /**Primarily used in D1Dogs*/
   noseColor: "noseColor",
-  coatColor: "coat",
+  /**Primarily used in D1Dogs*/
   personality: "personality",
   /**Alias for D1T.Headshots_Lg*/
   [D1Tables.Headshots_Lg]: D1Tables.Headshots_Lg,
@@ -54,7 +63,7 @@ export const GlobalNameSpaces = {
   /**Primarily used in D1 Adults*/
   eyeColor: "eyeColor",
   /**Primarily used in D1 Adults*/
-  isRetired: "activityStatus",
+  activityStatus: "activityStatus",
   /**Primarily used in D1 Adults*/
   favActivities: "favActivities",
   /**Primarily used in D1 Adults*/
@@ -70,8 +79,7 @@ export const GlobalNameSpaces = {
   puppyName: "puppyName",
   /**Primarily used in D1 Puppies*/
   collarColor: "collarColor",
-  /**Primarily used in D1 Puppies*/
-  isAvailable: "availability",
+  availability: "availability",
   /**Primarily used in D1 Puppies*/
   litterId: "litterId",
 

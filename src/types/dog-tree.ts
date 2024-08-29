@@ -12,7 +12,7 @@ export interface DogData {
   readonly [G.adultBirthday]: D1Adults[typeof G.adultBirthday];
   readonly [G.adultName]: D1Adults[typeof G.adultName];
   readonly [G.breeder]: D1Adults[typeof G.breeder];
-  readonly [G.coatColor]: D1Dogs[typeof G.coatColor];
+  readonly [G.coat]: D1Dogs[typeof G.coat];
   readonly [G.energyLevel]: D1Adults[typeof G.energyLevel];
   readonly [G.eyeColor]: D1Adults[typeof G.eyeColor];
   readonly [G.favActivities]: D1Adults[typeof G.favActivities];

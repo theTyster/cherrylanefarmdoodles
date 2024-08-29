@@ -1,4 +1,4 @@
-import { GlobalNameSpaces as G } from "@/constants/data"; 
+import { GlobalNameSpaces as G } from "@/constants/data";
 
 export interface D1GroupPhotos {
   readonly [G.transformUrl]: string;
@@ -19,7 +19,7 @@ export interface D1Dogs  {
   readonly [G.id]: number;
   readonly [G.gender]: "M" | "F";
   readonly [G.noseColor]: string;
-  readonly [G.coatColor]: string;
+  readonly [G.coat]: string;
   readonly [G.personality]: string;
   readonly [G.Headshots_Sm]: string | null;
   readonly [G.Headshots_Lg]: string | null;
@@ -42,7 +42,7 @@ export interface D1Puppies {
   readonly [G.id]: number;
   readonly [G.puppyName]: string | null;
   readonly [G.collarColor]: string;
-  readonly [G.isAvailable]: boolean;
+  readonly [G.availability]: boolean;
   readonly [G.dogId]: number;
   readonly [G.litterId]: number;
 }
