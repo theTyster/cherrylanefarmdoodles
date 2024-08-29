@@ -106,7 +106,7 @@ export default async function DogAbout({
             | "High",
           [G.gender]: parentData[i][G.gender] as "M" | "F",
           [G.noseColor]: parentData[i][G.noseColor],
-          [G.coatColor]: parentData[i][G.coatColor],
+          [G.coat]: parentData[i][G.coat],
           [G.personality]: parentData[i][G.personality],
           [G.Headshots_Lg]: parentData[i][G.Headshots_Lg],
           [G.Headshots_Sm]: parentData[i][G.Headshots_Sm],
@@ -174,7 +174,7 @@ export default async function DogAbout({
             | "Held Back",
           [G.gender]: pup.puppyDogsTable[G.gender] as "M" | "F",
           [G.noseColor]: pup.puppyDogsTable[G.noseColor],
-          [G.coatColor]: pup.puppyDogsTable[G.coatColor],
+          [G.coat]: pup.puppyDogsTable[G.coat],
           [G.personality]: pup.puppyDogsTable[G.personality],
           [G.Headshots_Lg]: pup.puppyDogsTable[G.Headshots_Lg],
           [G.Headshots_Sm]: pup.puppyDogsTable[G.Headshots_Sm],
@@ -275,7 +275,7 @@ export default async function DogAbout({
             <li className={css.energyLevel}>         <b>Energy Level:</b> {D<V['adult']>().dogData[G.energyLevel]}                                              </li>
             <li className={css.noseColor}>             <b>Nose Color:</b> {D<V['adult']>().dogData[G.noseColor]}                                                </li>
             <li className={css.eyeColor}>               <b>Eye Color:</b> {D<V['adult']>().dogData[G.eyeColor]}                                                 </li>
-            <li className={css[G.coatColor]}>             <b>Coat Color:</b> {D<V['adult']>().dogData[G.coatColor]}                                                </li>
+            <li className={css[G.coat]}>             <b>Coat Color:</b> {D<V['adult']>().dogData[G.coat]}                                                </li>
             <li className={css.personality}>          <b>Personality:</b> {D<V['adult']>().dogData[G.personality]}                                              </li>
           </ul>
           }
