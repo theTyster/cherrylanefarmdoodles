@@ -12,7 +12,7 @@ import { D1Adults } from "@/types/data";
 import {
   connectParentData,
   getMostRecentFamily,
-} from "@/components/dog-about/adult-constants";
+} from "@/components/dog-about/constants/adult-constants";
 
 export default async function Page({
   params,

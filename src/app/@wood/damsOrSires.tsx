@@ -5,7 +5,7 @@ import {
   getPuppyData,
   getMostRecentFamily,
   formatPupData,
-} from "@/components/dog-about/puppy-constants";
+} from "@/components/dog-about/constants/puppy-constants";
 export const runtime = "edge";
 export { damsOrSiresMeta as generateMetadata } from "@/metadata-generators/damsOrSires";
 
