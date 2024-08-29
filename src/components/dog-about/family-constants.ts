@@ -1,7 +1,7 @@
 // Constants for the constants
 import {
   familyQuery,
-  type familyQueryData,
+  type D1FamilyQueryData as D1FQ,
 } from "@/constants/queries";
 
 /**
@@ -9,17 +9,12 @@ import {
  **/
 export const getMostRecentFamily = async (
   D1: D1Database,
-  primaryParent?: "mother" | "father",
-  adultId?: number,
+  primaryParent: "mother" | "father",
+  adultId: number,
 ) => {
-  if (!adultId) 
-    throw new Error("No adultId provided.");
-  if (!primaryParent)
-    throw new Error("No primaryParent provided.");
-
   return await D1.prepare(familyQuery(primaryParent))
     .bind(adultId)
-    .first<familyQueryData>()
+    .first<D1FQ>()
     .then((familyTableData) => {
       if (!familyTableData)
         throw new Error(

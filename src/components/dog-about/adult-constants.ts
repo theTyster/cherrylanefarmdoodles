@@ -3,14 +3,14 @@ export { getMostRecentFamily } from "./family-constants";
 
 // Constants for the constants
 import {
-  type familyQueryData,
   adultDogsQuery,
-  type adultDogsQueryData,
   dogsQuery,
-  type dogsQueryData,
+  type D1DogsQueryData as D1DQ,
+  type D1AdultDogsQueryData as D1AQ,
+  type D1FamilyQueryData as FQ,
 } from "@/constants/queries";
-
-type ParentData = readonly [dogsQueryData & adultDogsQueryData, dogsQueryData & adultDogsQueryData];
+type parent = D1DQ & D1AQ;
+type ParentData = readonly [parent, parent];
 
 /**
  * Data for both parents. Order is consistent with the {@see parents}
@@ -19,13 +19,13 @@ type ParentData = readonly [dogsQueryData & adultDogsQueryData, dogsQueryData & 
 export async function getParentData(
   D1: D1Database,
   parents: readonly ["mother" | "father", "mother" | "father"],
-  mostRecentFamily: familyQueryData
+  mostRecentFamily: FQ
 ): Promise<ParentData> {
 const parentData = await Promise.all(
     parents.map(async (role) => {
       return await D1.prepare(adultDogsQuery)
         .bind(mostRecentFamily[role])
-        .first<adultDogsQueryData>()
+        .first<D1AQ>()
         .then(async (adultsTableData) => {
           if (!adultsTableData)
             throw new Error(
@@ -36,7 +36,7 @@ const parentData = await Promise.all(
             );
           const completedData = await D1.prepare(dogsQuery)
             .bind(adultsTableData[G.dogId])
-            .first<dogsQueryData>()
+            .first<D1DQ>()
             .then((dogTableData) => {
               if (!dogTableData)
                 throw new Error(

@@ -1,37 +1,53 @@
 import { GlobalNameSpaces as G } from "@/constants/data";
-import type { dogsQueryData, puppyQueryData } from "@/constants/queries";
-import type { DogTreeData } from "@/types/dog-tree";
-export type { DogTreeData } from "@/types/dog-tree";
+import type {
+  DogsQueryData as DQ,
+  D1DogsQueryData as D1DQ,
+  AdultDogsQueryData as AQ,
+  D1AdultDogsQueryData as D1AQ,
+  PuppyQueryData as PQ,
+  D1PuppyQueryData as D1PQ,
+  FamilyQueryData as FQ,
+  D1FamilyQueryData as D1FQ,
+} from "@/constants/queries";
 
-/**
- * Modified version of {@see DogTreeData} with better property names for this
- * component.
- **/
-export interface AdultData {
-  readonly dogData: DogTreeData[typeof G.father];
-  readonly partnerData: DogTreeData[typeof G.mother];
-  readonly litterData: DogTreeData["litterData"];
-  readonly ids: DogTreeData["ids"];
+export type { DQ, D1DQ, AQ, D1AQ, PQ, D1PQ, FQ, D1FQ };
+
+export type DogData = DQ & AQ;
+
+export type LitterData = {
+  readonly [G.dueDate]: FQ[typeof G.dueDate];
+  readonly [G.litterBirthday]: FQ[typeof G.litterBirthday];
+  readonly [G.applicantsInQueue]: FQ[typeof G.applicantsInQueue];
+  readonly [G.availablePuppies]: FQ[typeof G.availablePuppies];
+  readonly [G.totalPuppies]: FQ[typeof G.totalPuppies];
+};
+export type Ids = {
+  [G.Group_Photos]: FQ[typeof G.Group_Photos];
+  [G.litterId]: FQ[typeof G.litterId];
+  [G.mother]: FQ[typeof G.mother];
+  [G.father]: FQ[typeof G.father];
+};
+export type AdultData = {
+  dogData: DogData;
+  readonly partnerData: DogData;
+  readonly litterData: LitterData;
+  readonly ids: Ids;
 }
 
-export interface PuppyData {
+export type PuppyData  = {
   readonly dogData: {
-    [G.Headshots_Lg]: dogsQueryData[typeof G.Headshots_Lg];
-    [G.Headshots_Sm]: dogsQueryData[typeof G.Headshots_Sm];
-    [G.gender]: dogsQueryData[typeof G.gender];
-    [G.noseColor]: dogsQueryData[typeof G.noseColor];
-    [G.coat]: dogsQueryData[typeof G.coat];
-    [G.personality]: dogsQueryData[typeof G.personality];
-    [G.puppyName]: puppyQueryData[typeof G.puppyName];
-    [G.collarColor]: puppyQueryData[typeof G.collarColor];
-    [G.availability]: puppyQueryData[typeof G.availability];
-  } ;
-  readonly litterData: DogTreeData["litterData"];
-  ids: {
-    [G.litterId]: DogTreeData["ids"][typeof G.litterId];
-    [G.dogId]: DogTreeData["ids"][typeof G.father];
-    [G.mother]: DogTreeData["ids"][typeof G.mother];
-    [G.father]: DogTreeData["ids"][typeof G.father];
+    readonly [G.puppyName]: PQ[typeof G.puppyName];
+    readonly [G.collarColor]: PQ[typeof G.collarColor];
+    readonly [G.availability]: PQ[typeof G.availability];
+    readonly [G.gender]: DQ[typeof G.gender];
+    readonly [G.noseColor]: DQ[typeof G.noseColor];
+    readonly [G.coat]: DQ[typeof G.coat];
+    readonly [G.personality]: DQ[typeof G.personality];
+    readonly [G.Headshots_Lg]: DQ[typeof G.Headshots_Lg];
+    readonly [G.Headshots_Sm]: DQ[typeof G.Headshots_Sm];
   }
+  readonly litterData: LitterData;
+  ids: Omit<Ids, typeof G.Group_Photos> & {
+    [G.dogId]: PQ[typeof G.dogId];
+  };
 }
-

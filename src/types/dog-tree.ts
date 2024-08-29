@@ -1,42 +1,38 @@
 import { GlobalNameSpaces as G } from "@/constants/data";
-import { D1Dogs, D1Adults, D1Litters, D1Families } from "@/types/data";
+import type {
+  DogsQueryData as DQ,
+  D1DogsQueryData as D1DQ,
+  AdultDogsQueryData as AQ,
+  D1AdultDogsQueryData as D1AQ,
+  PuppyQueryData as PQ,
+  D1PuppyQueryData as D1PQ,
+  FamilyQueryData as FQ,
+  D1FamilyQueryData as D1FQ,
+} from "@/constants/queries";
+
+export type { DQ, D1DQ, AQ, D1AQ, PQ, D1PQ, FQ, D1FQ };
 
 /**
  * Data gathered strictly from values in the D1 Tables.
  * Only relevant for the primary dog in the page.
  * gathered using adultDogsQuery and the dogsQuery queries.
  **/
-export interface DogData {
-  readonly [G.Headshots_Lg]: D1Dogs[typeof G.Headshots_Lg];
-  readonly [G.Headshots_Sm]: D1Dogs[typeof G.Headshots_Sm];
-  readonly [G.adultBirthday]: D1Adults[typeof G.adultBirthday];
-  readonly [G.adultName]: D1Adults[typeof G.adultName];
-  readonly [G.breeder]: D1Adults[typeof G.breeder];
-  readonly [G.coat]: D1Dogs[typeof G.coat];
-  readonly [G.energyLevel]: D1Adults[typeof G.energyLevel];
-  readonly [G.eyeColor]: D1Adults[typeof G.eyeColor];
-  readonly [G.favActivities]: D1Adults[typeof G.favActivities];
-  readonly [G.gender]: D1Dogs[typeof G.gender];
-  readonly [G.isRetired]: D1Adults[typeof G.isRetired];
-  readonly [G.noseColor]: D1Dogs[typeof G.noseColor];
-  readonly [G.personality]: D1Dogs[typeof G.personality];
-  readonly [G.weight]: D1Adults[typeof G.weight];
-}
+export type DogData = D1DQ & D1AQ;
 
 export interface DogTreeData {
   mother: DogData;
   father: DogData;
   litterData: {
-    [G.dueDate]: D1Litters[typeof G.dueDate];
-    [G.litterBirthday]: D1Litters[typeof G.litterBirthday];
-    [G.applicantsInQueue]: D1Litters[typeof G.applicantsInQueue];
+    [G.dueDate]: FQ[typeof G.dueDate];
+    [G.litterBirthday]: FQ[typeof G.litterBirthday];
+    [G.applicantsInQueue]: FQ[typeof G.applicantsInQueue];
     [G.availablePuppies]: number;
     [G.totalPuppies]: number;
   };
   ids: {
-    [G.litterId]: D1Families[typeof G.litterId];
-    [G.Group_Photos]: D1Families[typeof G.Group_Photos];
-    [G.mother]: D1Families[typeof G.mother];
-    [G.father]: D1Families[typeof G.father];
+    [G.litterId]: FQ[typeof G.litterId];
+    [G.Group_Photos]: FQ[typeof G.Group_Photos];
+    [G.mother]: FQ[typeof G.mother];
+    [G.father]: FQ[typeof G.father];
   };
 }
