@@ -9,10 +9,10 @@ import {
  **/
 export const getMostRecentFamily = async (
   D1: D1Database,
-  primaryParent: "mother" | "father",
   adultId: number,
+  primaryParent?: "mother" | "father",
 ): Promise<D1FQ> => {
-  return await D1.prepare(familyQuery(primaryParent))
+  return await D1.prepare(primaryParent ? familyQuery(primaryParent) : familyQuery())
     .bind(adultId)
     .first<D1FQ>()
     .then((familyTableData) => {

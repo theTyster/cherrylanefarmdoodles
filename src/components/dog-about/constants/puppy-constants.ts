@@ -26,14 +26,13 @@ export function connectPuppyData(
 export async function getPuppyData(
   D1: D1Database,
   /**Queries to Obtain this object can be found in adult-constants.*/
-  mostRecentFamily: D1FQ
+  litterId: number
 ): Promise<
   readonly {
     puppyDogsTable: D1DQ;
     puppy: D1PQ;
   }[]
 > {
-  const litterId: number = Number.parseFloat(mostRecentFamily[G.litterId]);
   /**A query to the puppy table for every puppy in this litter.*/
   const puppies = await D1.prepare(puppyQuery)
     .bind(litterId)

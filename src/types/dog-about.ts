@@ -22,14 +22,14 @@ export type LitterData = {
   readonly [G.totalPuppies]: FQ[typeof G.totalPuppies];
 };
 export type Ids = {
-  [G.Group_Photos]: FQ[typeof G.Group_Photos];
-  [G.litterId]: FQ[typeof G.litterId];
-  [G.mother]: FQ[typeof G.mother];
-  [G.father]: FQ[typeof G.father];
+  readonly [G.Group_Photos]: FQ[typeof G.Group_Photos];
+  readonly [G.litterId]: FQ[typeof G.litterId];
+  readonly [G.mother]: FQ[typeof G.mother];
+  readonly [G.father]: FQ[typeof G.father];
 };
 export type AdultData = {
-  dogData: DogData;
-  readonly partnerData: DogData;
+  readonly dogData: DogData;
+  partnerData?: DogData;
   readonly litterData: LitterData;
   readonly ids: Ids;
 }
@@ -48,6 +48,6 @@ export type PuppyData  = {
   }
   readonly litterData: LitterData;
   ids: Ids & {
-    [G.dogId]: PQ[typeof G.dogId];
+    readonly [G.dogId]: PQ[typeof G.dogId];
   };
 }

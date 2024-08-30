@@ -12,21 +12,20 @@ import {
   type AdultDogsQueryData as AQ,
   type D1FamilyQueryData as D1FQ,
 } from "@/constants/queries";
-type parent = D1DQ & D1AQ;
-type ParentData = readonly [parent, parent];
+type Parent = D1DQ & D1AQ;
+type ParentData = [Parent] | [Parent, Parent];
 
 export async function connectParentData(
   D1: D1Database,
   mostRecentFamily: D1FQ,
-  adultId?: number,
-  primaryParent?: "mother" | "father",
+  adultId: number[],
+  primaryParent: "mother" | "father",
   secondaryParent?: "mother" | "father"
 ): Promise<AdultData> {
   if (!adultId) throw new Error("No adultId provided.");
   if (!primaryParent) throw new Error("No primaryParent provided.");
-  if (!secondaryParent) throw new Error("No secondaryParent provided.");
-  const parents = [primaryParent, secondaryParent] as const;
-  const parentData = await getParentData(D1, parents, mostRecentFamily);
+  const parents = secondaryParent ? [primaryParent, secondaryParent] : [primaryParent] as const;
+  const parentData = await getParentData(D1, parents, adultId);
 
   return formatParentData(parentData, mostRecentFamily);
 }
@@ -36,13 +35,13 @@ export async function connectParentData(
  **/
 export async function getParentData(
   D1: D1Database,
-  parents: readonly ["mother" | "father", "mother" | "father"],
-  mostRecentFamily: D1FQ
+  parents: readonly ("mother" | "father")[],
+  parentIds: number[]
 ): Promise<ParentData> {
   const parentData = await Promise.all(
-    parents.map(async (role) => {
+    parents.map(async (role, index) => {
       return await D1.prepare(adultDogsQuery)
-        .bind(mostRecentFamily[role])
+        .bind(parentIds[index])
         .first<D1AQ>()
         .then(async (adultsTableData) => {
           if (!adultsTableData)
@@ -50,7 +49,7 @@ export async function getParentData(
               "Missing " +
                 role +
                 " data in Adult Table for ID: " +
-                mostRecentFamily[role]
+                parentIds[index]
             );
           const completedData = await D1.prepare(dogsQuery)
             .bind(adultsTableData[G.dogId])
@@ -74,7 +73,7 @@ export async function getParentData(
   return parentData as unknown as ParentData;
 }
 export function formatParentData(
-  parentData: readonly [D1DQ & D1AQ, D1DQ & D1AQ],
+  parentData: ParentData,
   mostRecentFamily: D1FQ
 ): AdultData {
   const convertParent = (i: number) =>
@@ -107,9 +106,9 @@ export function formatParentData(
         | "Embark-equivalent"
         | null,
     } satisfies DQ & AQ);
-  const dogAboutData = {
+  const dogAboutData: AdultData = {
     dogData: convertParent(0),
-    partnerData: convertParent(1),
+    partnerData:undefined,
     litterData: {
       [G.dueDate]: new Date(mostRecentFamily[G.dueDate]),
       [G.litterBirthday]: new Date(mostRecentFamily[G.litterBirthday]),
@@ -127,7 +126,11 @@ export function formatParentData(
       [G.father]: Number.parseFloat(mostRecentFamily[G.father]),
       [G.litterId]: Number.parseFloat(mostRecentFamily[G.litterId]),
     },
-  } satisfies AdultData;
+  };
+
+  if (parentData.length > 1) dogAboutData.partnerData = convertParent(1);
+  else delete dogAboutData.partnerData;
+
 
   Object.freeze(dogAboutData);
   Object.freeze(dogAboutData.dogData);
