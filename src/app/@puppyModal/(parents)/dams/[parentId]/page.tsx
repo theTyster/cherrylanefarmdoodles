@@ -1,3 +1,4 @@
+export const runtime = "edge";
 import { GlobalNameSpaces as G } from "@/constants/data";
 import { getRequestContext } from "@cloudflare/next-on-pages";
 import DogAbout from "@/components/dog-about/dog-about";

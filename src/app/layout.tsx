@@ -1,3 +1,4 @@
+export const runtime = "edge";
 // Components
 import Nav from "@/components/nav/nav";
 
