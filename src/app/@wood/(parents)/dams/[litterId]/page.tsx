@@ -8,18 +8,17 @@ import {
 } from "@/components/dog-about/constants/puppy-constants";
 export const runtime = "edge";
 
-export default async function Sires({
+export default async function WoodSectionDams({
   params,
 }: {
-  params: { parentId: number };
+  params: { litterId: number };
 }): Promise<React.JSX.Element | null> {
   const D1 = getRequestContext().env.dogsDB;
-  const mostRecentFamily = await getMostRecentFamily(
+  const mostRecentFamily = await getMostRecentFamily<'first'>(
     D1,
-    'father',
-    params.parentId
+    params.litterId,
   );
-  const puppies = await getPuppyData(D1, mostRecentFamily);
+  const puppies = await getPuppyData(D1, params.litterId);
   return (
     <>
       {puppies.map((puppyData) => {

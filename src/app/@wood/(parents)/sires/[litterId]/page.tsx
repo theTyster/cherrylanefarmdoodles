@@ -1,4 +1,3 @@
-export const runtime = "edge";
 import { GlobalNameSpaces as G } from "@/constants/data";
 import { getRequestContext } from "@cloudflare/next-on-pages";
 import DogAbout from "@/components/dog-about/dog-about";
@@ -9,18 +8,17 @@ import {
 } from "@/components/dog-about/constants/puppy-constants";
 export const runtime = "edge";
 
-export default async function Dams({
+export default async function WoodSectionSires({
   params,
 }: {
-  params: { parentId: number };
+  params: { litterId: number };
 }): Promise<React.JSX.Element | null> {
   const D1 = getRequestContext().env.dogsDB;
-  const mostRecentFamily = await getMostRecentFamily(
+  const mostRecentFamily = await getMostRecentFamily<'first'>(
     D1,
-    "mother",
-    params.parentId
+    params.litterId
   );
-  const puppies = await getPuppyData(D1, mostRecentFamily);
+  const puppies = await getPuppyData(D1, params.litterId);
   return (
     <>
       {puppies.map((puppyData) => {
@@ -28,7 +26,7 @@ export default async function Dams({
         return (
           <DogAbout
             key={puppyData.puppy[G.dogId]}
-            variant={"Puppy"}
+            variant={"CurrentLitter"}
             variantData={formattedPupData}
           />
         );

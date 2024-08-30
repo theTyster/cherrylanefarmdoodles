@@ -7,20 +7,19 @@ import {
   getMostRecentFamily,
   formatPupData,
 } from "@/components/dog-about/constants/puppy-constants";
-export const runtime = "edge";
 
-export default async function Dams({
+export default async function DamsPuppyModal({
   params,
 }: {
-  params: { parentId: number };
+  params: { litterId: number };
 }): Promise<React.JSX.Element | null> {
   const D1 = getRequestContext().env.dogsDB;
   const mostRecentFamily = await getMostRecentFamily(
     D1,
-    "father",
-    params.parentId
+    params.litterId,
+    "mother",
   );
-  const puppies = await getPuppyData(D1, mostRecentFamily);
+  const puppies = await getPuppyData(D1, params.litterId);
   return (
     <>
       {puppies.map((puppyData) => {

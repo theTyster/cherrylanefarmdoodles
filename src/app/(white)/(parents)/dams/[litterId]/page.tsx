@@ -13,27 +13,27 @@ import {
   getMostRecentFamily,
 } from "@/components/dog-about/constants/adult-constants";
 
-export default async function Sires({
+export default async function WhiteSectionDams({
   params,
 }: {
   params: {
-    parentId: D1Adults[typeof G.id];
+    litterId: D1Adults[typeof G.id];
   };
 }) {
   const D1 = getRequestContext().env.dogsDB;
   /**Applicable to both adult and puppy variants*/
   const mostRecentFamily = await getMostRecentFamily(
     D1,
-    "father",
-    params.parentId
+    params.litterId,
+    "mother",
   );
 
   const parentData = await connectParentData(
     D1,
     mostRecentFamily,
-    params.parentId,
+    params.litterId,
+    "mother",
     "father",
-    "mother"
   );
 
   return (

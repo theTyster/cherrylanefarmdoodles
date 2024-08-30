@@ -1,25 +1,27 @@
+export const runtime = "edge";
 import { GlobalNameSpaces as G } from "@/constants/data";
 import { getRequestContext } from "@cloudflare/next-on-pages";
 import DogAbout from "@/components/dog-about/dog-about";
 import {
-  getPuppyData,
   getMostRecentFamily,
+  getPuppyData,
   formatPupData,
 } from "@/components/dog-about/constants/puppy-constants";
-export const runtime = "edge";
 
-export default async function Dams({
+export default async function SiresPuppyModal({
   params,
 }: {
-  params: { parentId: number };
+  params: { litterId: number };
 }): Promise<React.JSX.Element | null> {
   const D1 = getRequestContext().env.dogsDB;
+
+  /**Applicable to both adult and puppy variants*/
   const mostRecentFamily = await getMostRecentFamily(
     D1,
-    "mother",
-    params.parentId
+    params.litterId,
+    'father',
   );
-  const puppies = await getPuppyData(D1, mostRecentFamily);
+  const puppies = await getPuppyData(D1, params.litterId);
   return (
     <>
       {puppies.map((puppyData) => {
@@ -27,7 +29,7 @@ export default async function Dams({
         return (
           <DogAbout
             key={puppyData.puppy[G.dogId]}
-            variant={"CurrentLitter"}
+            variant={"Puppy"}
             variantData={formattedPupData}
           />
         );
