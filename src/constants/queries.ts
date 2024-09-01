@@ -29,8 +29,8 @@ export const dogsQuery = `SELECT
     Dogs
   WHERE id = ?` as const;
 
-  /**Describes data in Dogs Table after being converted to a usable type.*/
-export type DogsQueryData = Omit<D1Dogs, typeof G.id>
+/**Describes data in Dogs Table after being converted to a usable type.*/
+export type DogsQueryData = Omit<D1Dogs, typeof G.id>;
 /**Describes data in the Dogs Table as it is when queried from D1.*/
 export type D1DogsQueryData = QueryStringify<DogsQueryData>;
 
@@ -54,19 +54,24 @@ export const adultDogsQuery = `SELECT
 
 /**Describes data in Adults Table after being converted to a usable type.*/
 export type AdultDogsQueryData = Omit<D1Adults, typeof G.id>;
-  /**Describes data in the Adults table as it is when queried from D1.*/
+/**Describes data in the Adults table as it is when queried from D1.*/
 export type D1AdultDogsQueryData = QueryStringify<AdultDogsQueryData>;
 
 /**
  * Gets all information about a grouping of Dogs (a family).
- * Utilizes indexes. Requires Litter ID.
+ * Utilizes indexes. Can use Litter ID.
+ *
+ * This is actually two different queries. One that returns all families and
+ * one that returns a specific family based on litterId.
  *
  * This query is preferred over two asynchonous queries that handle the join
  * in-code because the number of families is not constant and managing the join
  * in-code could eventually become a memory leak. That join would be O(n) as
  * the families table grows. SQL can handle this faster.
  * */
-export const familyQuery = (parentRole?: "mother" | "father") =>
+export const familyQuery = (
+  litterId?: number /**litterId is not used in the actual query.*/
+) =>
   `SELECT
   ${G.Group_Photos},
   ${G.mother},
@@ -90,21 +95,22 @@ export const familyQuery = (parentRole?: "mother" | "father") =>
       ${D1T.Puppies}
       AS Pups ON
       ${D1T.Litters}.${G.id} = Pups.${G.litterId}
-  ${parentRole ? `WHERE ${parentRole} = ?` : ""}
+  ${litterId ? `WHERE ${D1T.Families}.${G.litterId} = ?` : ""}
   GROUP BY ${D1T.Families}.${G.mother}
   ORDER BY ${D1T.Litters}.${G.dueDate} DESC
   ` as const;
 
 /**Describes Data in D1 After being converted to a usable type.*/
-export type FamilyQueryData = Omit<D1Families, typeof G.id> & Omit<D1Litters, typeof G.id> & {
-  readonly [G.availablePuppies]: number;
-  readonly [G.totalPuppies]: number;
-};
+export type FamilyQueryData = Omit<D1Families, typeof G.id> &
+  Omit<D1Litters, typeof G.id> & {
+    readonly [G.availablePuppies]: number;
+    readonly [G.totalPuppies]: number;
+  };
 /**
  * Describes the type of these data points as they are when they are extracted
  * from D1.
  **/
-export type D1FamilyQueryData = QueryStringify<FamilyQueryData>
+export type D1FamilyQueryData = QueryStringify<FamilyQueryData>;
 
 /**
  * Gets all info about a specified Puppy.

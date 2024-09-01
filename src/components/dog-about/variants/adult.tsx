@@ -93,7 +93,7 @@ export default function Adult({D}: {D: AdultData}) {
             <div className={css.partnerPhoto}>
               <Link
                 href={`/${partnerMorf("sires", "dams")}/${
-                  D.ids[partnerMorf("father", "mother")]
+                  D.ids[G.litterId]
                 }`}
               >
                 <SmallHeadshot

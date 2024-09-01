@@ -5,11 +5,10 @@ import { GlobalNameSpaces as G } from "@/constants/data";
 export { parentsMeta as generateMetadata } from "@/constants/meta-generators/parents-meta";
 
 // Types
-import { D1Adults } from "@/types/data";
+import { D1Litters } from "@/types/data";
 
 // Constants
-import {
-  connectParentData,
+import AdultDogData, {
   getMostRecentFamily,
 } from "@/components/dog-about/constants/adult-constants";
 
@@ -17,29 +16,33 @@ export default async function WhiteSectionSires({
   params,
 }: {
   params: {
-    litterId: D1Adults[typeof G.id];
+    litterId: D1Litters[typeof G.id];
   };
 }) {
   const D1 = getRequestContext().env.dogsDB;
   /**Applicable to both adult and puppy variants*/
-  const mostRecentFamily = await getMostRecentFamily(
+  const mostRecentFamily = await getMostRecentFamily<"first">(
     D1,
-    params.litterId,
-    "father",
+    params.litterId
   );
 
-  const parentData = await connectParentData(
+  const adultId = Number.parseFloat(mostRecentFamily[G.father]);
+
+  const parentData = await new AdultDogData(
     D1,
-    mostRecentFamily,
-    params.litterId,
+    adultId,
     "father",
-    "mother"
-  );
+    mostRecentFamily,
+    "mother",
+  ).getParentData();
+
+  if (!parentData) throw new Error("No parent data provided.");
+  console.log(parentData);
 
   return (
     <>
       <DogAbout
-        variant={"Adult"}
+        variant={"Parent"}
         variantData={parentData}
       />
     </>

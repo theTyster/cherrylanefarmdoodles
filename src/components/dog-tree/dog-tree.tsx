@@ -115,7 +115,7 @@ export default async function DogTree({
   return (
     <>
       <div className={css.top}>
-        <Link href={"dams/" + ids[G.mother]}>
+        <Link href={"dams/" + ids[G.litterId]}>
           <MomHeadshot
             variant={D1T[G.Headshots_Sm]}
             className={css.momHeadshot}
@@ -127,7 +127,7 @@ export default async function DogTree({
         <h1 className={`${Theme.desktopOnly} ${css.heading}`}>
           {saveTheDate()}
         </h1>
-        <Link href={"sires/" + ids[G.father]}>
+        <Link href={"sires/" + ids[G.litterId]}>
           <DadHeadshot
             variant={D1T[G.Headshots_Sm]}
             className={css.dadHeadshot}
