@@ -8,6 +8,7 @@ import { type Metadata } from "next";
 // Styles
 import "@styles/reset.scss";
 import "@styles/global.scss";
+import "@styles/root-layout.scss";
 import Theme from "@styles/theme.module.scss";
 import { font } from "@styles/font";
 
@@ -70,7 +71,7 @@ export default function CLFMain({
       <body className={font.className}>
         <main>
           <Nav />
-          <div className="white-layout">
+          <div className="white-layout puppy-modal">
             <div className="left-flex" />
             <div className="content-box">{puppyModal}</div>
             <div className="right-flex" />
