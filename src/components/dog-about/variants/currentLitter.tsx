@@ -3,7 +3,6 @@ export const runtime = "edge";
 
 // Components
 import SmallHeadshot from "@/components/Headshots/Headshots";
-import BreederLine from "@/components/breeder-line/breeder-line";
 import Link from "next/link";
 
 // Css
@@ -29,7 +28,7 @@ export default function CurrentLitter({ D }: { D: PuppyData }) {
                 id={css.Headshots_Sm}
               />
               <h4 className={css.partnerBreeder}>
-                <BreederLine breeder="Cherry Lane Farms" />
+                {D.dogData[G.puppyName]}
               </h4>
             </div>
       </>

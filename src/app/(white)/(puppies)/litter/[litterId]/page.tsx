@@ -3,13 +3,15 @@ import { GlobalNameSpaces as G } from "@/constants/data";
 import { getRequestContext } from "@cloudflare/next-on-pages";
 import DogAbout from "@/components/dog-about/dog-about";
 import Headshot from "@/components/Headshots/Headshots";
-import Link from 'next/link';
+import Link from "next/link";
 import {
   getPuppyData,
   connectPuppyData,
 } from "@/components/dog-about/constants/puppy-constants";
 
-import AdultDogData, { getMostRecentFamily } from "@/components/dog-about/constants/adult-constants";
+import AdultDogData, {
+  getMostRecentFamily,
+} from "@/components/dog-about/constants/adult-constants";
 export { puppiesMeta as generateMetadata } from "@/constants/meta-generators/puppies-meta";
 
 export default async function WhiteSectionLitter({
@@ -19,29 +21,30 @@ export default async function WhiteSectionLitter({
 }): Promise<React.JSX.Element | null> {
   const D1 = getRequestContext().env.dogsDB;
 
-  const mostRecentFamily = await getMostRecentFamily<'first'>(
+  const mostRecentFamily = await getMostRecentFamily<"first">(
     D1,
-    params.litterId,
+    params.litterId
   );
   const mom = await new AdultDogData(
     D1,
     Number.parseFloat(mostRecentFamily[G.mother]),
-    'mother'
+    "mother"
   ).getAdultData();
   const puppies = await getPuppyData(D1, params.litterId);
 
   return (
     <>
       <Link href={`/dams/${params.litterId}`}>
-      <Headshot
-        alt={mom[G.adultName]}
-        variant={G.Headshots_Lg}
-        gender={mom[G.gender]}
-        src={mom[G.Headshots_Lg]}
-      />
+        <Headshot
+          alt={mom[G.adultName]}
+          variant={G.Headshots_Lg}
+          gender={mom[G.gender]}
+          src={mom[G.Headshots_Lg]}
+        />
       </Link>
-      <h1>{mom[G.adultName]}&apos;s Current Litter</h1>
-      <div className="currentLitter">
+      <h1 className="litter-title">{mom[G.adultName]}&apos;s Current Litter</h1>
+      <hr />
+      <div className="litter-currentLitter">
         {puppies.map((puppyData) => {
           const formattedPupData = connectPuppyData(
             mostRecentFamily,

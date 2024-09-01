@@ -1,10 +1,13 @@
 @use "@styles/mixins.scss" as Mixins;
 @use "@styles/theme.module.scss" as Theme;
 
-.currentLitter {
+.litter-currentLitter {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: Theme.$spaceBetweenElements + Theme.$outlineWidth;
   margin-top: Theme.$spaceBetweenElements + Theme.$outlineWidth;
+}
+h1.litter-title {
+  margin: Theme.$spaceBetweenElements;
 }
