@@ -12,7 +12,7 @@ import type * as DogAboutTypes from "@/types/dog-about";
 
 /**All possible variants for this component.*/
 export const V = {
-  Adult: "Adult",
+  Parent: "Parent",
   Puppy: "Puppy",
   CurrentLitter: "CurrentLitter",
 } as const;
@@ -22,7 +22,7 @@ export type V = typeof V;
 export type Variant = (typeof V)[keyof typeof V];
 
 export type VariantTypes = {
-  [V.Adult]: DogAboutTypes.AdultData;
+  [V.Parent]: DogAboutTypes.ParentData;
   [V.Puppy]: DogAboutTypes.PuppyData;
   [V.CurrentLitter]: DogAboutTypes.PuppyData;
 };
@@ -32,7 +32,7 @@ export default async function DogAbout({
   variantData,
 }: {
   variant: Variant;
-  variantData: DogAboutTypes.AdultData | DogAboutTypes.PuppyData;
+  variantData: DogAboutTypes.ParentData | DogAboutTypes.PuppyData;
 }) {
   /**
    * Ultimately determines which variant's data will be used for this
@@ -42,8 +42,8 @@ export default async function DogAbout({
     variantPossibility: PV
   ): Promise<VariantTypes[PV]> {
     switch (variantPossibility) {
-      case V.Adult:
-        return variantData as VariantTypes[typeof V.Adult] as PV extends typeof V.Adult
+      case V.Parent:
+        return variantData as VariantTypes[typeof V.Parent] as PV extends typeof V.Parent
           ? VariantTypes[PV]
           : never;
       case V.Puppy:
@@ -68,9 +68,9 @@ export default async function DogAbout({
   };
 
   const VariantComponents = {
-    [V.Adult]: <Adult D={data<V['Adult']>()}/>,
-    [V.Puppy]: <Puppy D={data<V['Puppy']>()}/>,
-    [V.CurrentLitter]: <CurrentLitter D={data<V['CurrentLitter']>()}/>,
+    [V.Parent]: <Adult D={data<V["Parent"]>()} />,
+    [V.Puppy]: <Puppy D={data<V["Puppy"]>()} />,
+    [V.CurrentLitter]: <CurrentLitter D={data<V["CurrentLitter"]>()} />,
   };
 
   return VariantComponents[variant];

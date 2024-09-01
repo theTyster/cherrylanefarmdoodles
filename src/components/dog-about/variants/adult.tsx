@@ -14,9 +14,10 @@ import Link from "next/link";
 import css from "@/styles/dog-about.module.scss";
 
 // Types
-import type { AdultData } from "@/types/dog-about";
+import type { ParentData } from "@/types/dog-about";
 
-export default function Adult({D}: {D: AdultData}) {
+export default function Adult({D}: {D: ParentData}) {
+    if (!D.partnerData) throw new Error("No partner data provided.");
     const partnerMorf = MorF(D.partnerData[G.gender]);
     return (
       <>

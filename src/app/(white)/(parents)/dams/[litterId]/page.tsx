@@ -42,7 +42,7 @@ export default async function WhiteSectionDams({
   return (
     <>
       <DogAbout
-        variant={"Adult"}
+        variant={"Parent"}
         variantData={parentData}
       />
     </>

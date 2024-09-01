@@ -27,7 +27,7 @@ export type Ids = {
   readonly [G.mother]: FQ[typeof G.mother];
   readonly [G.father]: FQ[typeof G.father];
 };
-export type AdultData = {
+export type ParentData = {
   readonly dogData: DogData;
   partnerData?: DogData;
   readonly litterData: LitterData;
