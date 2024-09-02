@@ -3,7 +3,7 @@ import Theme from "@/styles/theme.module.scss";
 import css from "@/styles/dog-tree.module.scss";
 
 // Components
-import CLFImage from "../CLFImage/CLFImage";
+import GroupPhoto from "../GroupPhoto/GroupPhoto";
 import Link from "next/link";
 import MomHeadshot from "@/components/Headshots/Headshots";
 import DadHeadshot from "@/components/Headshots/Headshots";
@@ -141,12 +141,11 @@ export default async function DogTree({
         {saveTheDate()}
       </h1>
       <div className={css.bottom}>
-        <CLFImage
+        <GroupPhoto
           className={css.puppyGroup}
           src={ids[G.Group_Photos]}
           alt="Puppies"
-          width={600}
-          height={400}
+          litterId={ids[G.litterId]}
         />
       </div>
     </>

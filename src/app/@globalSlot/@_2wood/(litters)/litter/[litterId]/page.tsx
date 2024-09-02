@@ -1,9 +1,8 @@
 export const runtime = "edge";
 import { GlobalNameSpaces as G } from "@/constants/data";
 import { getRequestContext } from "@cloudflare/next-on-pages";
-import CLFImage from "@/components/CLFImage/CLFImage";
+import GroupPhoto from "@/components/GroupPhoto/GroupPhoto";
 import SvgFirstTimeMother from "@/components/svg/first-time-mother.svg";
-import Link from "next/link";
 import {
   previousLittersQuery,
   type PreviousLittersQueryData as PlQ,
@@ -23,7 +22,7 @@ export default async function WoodSectionLitter({
 
   const mostRecentFamily = await getMostRecentFamily<"first">(
     D1,
-    params.litterId,
+    params.litterId
   );
   const motherId = mostRecentFamily[G.mother];
   const mom = await new AdultDogData(D1, motherId, "mother").getAdultData();
@@ -37,23 +36,31 @@ export default async function WoodSectionLitter({
         {previousLitters.map((litter) => {
           const litterId = litter[1];
           const GroupPhoto = litter[0];
-          if (litterId === Number.parseFloat(params.litterId) && previousLitters.length === 1){
+          if (
+            litterId === Number.parseFloat(params.litterId) &&
+            previousLitters.length === 1
+          ) {
             return (
-              <div key={`FTM-${litterId}`} style={{display: 'flex', width: '100%', justifyContent: 'center'}}>
-                <SvgFirstTimeMother style={{maxWidth: "700px"}}/>
+              <div
+                key={`FTM-${litterId}`}
+                style={{
+                  display: "flex",
+                  width: "100%",
+                  justifyContent: "center",
+                }}
+              >
+                <SvgFirstTimeMother style={{ maxWidth: "700px" }} />
               </div>
             );
-          }
-          if (litterId === Number.parseFloat(params.litterId)) return;
+          } else if (litterId === Number.parseFloat(params.litterId)) return;
+          else
             return (
-              <Link href={`/litter/${litterId}`} key={`GP-${litterId}`}>
-                <CLFImage
-                  alt={`${mom.adultName}'s Previous Litter with ID ${litterId}'`}
-                  src={GroupPhoto}
-                  width={400}
-                  height={300}
-                />
-              </Link>
+              <GroupPhoto
+                key={`GP-${litterId}`}
+                alt={`${mom.adultName}'s Previous Litter with ID ${litterId}'`}
+                src={GroupPhoto}
+                litterId={litterId}
+              />
             );
         })}
       </div>

@@ -6,7 +6,7 @@ export const runtime = "edge";
 // Components
 import LargeHeadshot from "@/components/Headshots/Headshots";
 import SmallHeadshot from "@/components/Headshots/Headshots";
-import CLFImage from "@/components/CLFImage/CLFImage";
+import GroupPhoto from "@/components/GroupPhoto/GroupPhoto";
 import BreederLine from "@/components/breeder-line/breeder-line";
 import Link from "next/link";
 
@@ -81,14 +81,13 @@ export default function Adult({D}: {D: ParentData}) {
                   ? `...That's today!!`
                   : undefined}
               </h4>
-              <CLFImage
+              <GroupPhoto
                 id={css[D1T.Group_Photos]}
                 src={D.ids[D1T.Group_Photos]}
                 alt={`${D.dogData[G.adultName]} and ${
                   D.partnerData[G.adultName]
                 }'s last litter.'`}
-                width={600}
-                height={400}
+                litterId={D.ids[G.litterId]}
               />
             </div>
             <div className={css.partnerPhoto}>
