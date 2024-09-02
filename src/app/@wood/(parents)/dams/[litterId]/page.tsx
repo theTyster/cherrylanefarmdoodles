@@ -11,7 +11,7 @@ export const runtime = "edge";
 export default async function WoodSectionDams({
   params,
 }: {
-  params: { litterId: number };
+  params: { litterId: string };
 }): Promise<React.JSX.Element | null> {
   const D1 = getRequestContext().env.dogsDB;
   const mostRecentFamily = await getMostRecentFamily<'first'>(

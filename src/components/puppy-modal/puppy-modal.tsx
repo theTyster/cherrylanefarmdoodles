@@ -9,7 +9,7 @@ import {
 } from "@/components/dog-about/constants/puppy-constants";
 
 export default async function DamsPuppyModal({litterId}: {
-  litterId: number;
+  litterId: string;
 }): Promise<React.JSX.Element | null> {
   const D1 = getRequestContext().env.dogsDB;
   const mostRecentFamily = await getMostRecentFamily<"first">(

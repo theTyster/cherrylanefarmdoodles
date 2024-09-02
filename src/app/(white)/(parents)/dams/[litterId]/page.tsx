@@ -4,9 +4,6 @@ import DogAbout from "@/components/dog-about/dog-about";
 import { GlobalNameSpaces as G } from "@/constants/data";
 export { parentsMeta as generateMetadata } from "@/constants/meta-generators/parents-meta";
 
-// Types
-import { D1Litters } from "@/types/data";
-
 // Constants
 import AdultDogData, {
   getMostRecentFamily,
@@ -16,7 +13,7 @@ export default async function WhiteSectionDams({
   params,
 }: {
   params: {
-    litterId: D1Litters[typeof G.id];
+    litterId: string;
   };
 }) {
   const D1 = getRequestContext().env.dogsDB;

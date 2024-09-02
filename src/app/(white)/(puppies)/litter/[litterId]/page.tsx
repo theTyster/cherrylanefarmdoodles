@@ -17,7 +17,7 @@ export { puppiesMeta as generateMetadata } from "@/constants/meta-generators/pup
 export default async function WhiteSectionLitter({
   params,
 }: {
-  params: { litterId: number };
+  params: { litterId: string };
 }): Promise<React.JSX.Element | null> {
   const D1 = getRequestContext().env.dogsDB;
 

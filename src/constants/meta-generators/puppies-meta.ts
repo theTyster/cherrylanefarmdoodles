@@ -11,7 +11,7 @@ import type { Metadata } from "next";
 export async function puppiesMeta({
   params,
 }: {
-  params: { litterId: number };
+  params: { litterId: string };
 }): Promise<Metadata> {
   const D1 = getRequestContext().env.dogsDB;
 

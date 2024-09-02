@@ -70,7 +70,7 @@ export type D1AdultDogsQueryData = QueryStringify<AdultDogsQueryData>;
  * the families table grows. SQL can handle this faster.
  * */
 export const familyQuery = (
-  litterId?: number /**litterId is not used in the actual query.*/
+  litterId?: string /**litterId is not used in the actual query.*/
 ) =>
   `SELECT
   ${G.Group_Photos},

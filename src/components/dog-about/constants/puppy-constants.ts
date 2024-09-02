@@ -26,7 +26,7 @@ export function connectPuppyData(
 export async function getPuppyData(
   D1: D1Database,
   /**Queries to Obtain this object can be found in adult-constants.*/
-  litterId: number
+  litterId: string
 ): Promise<
   readonly {
     puppyDogsTable: D1DQ;
