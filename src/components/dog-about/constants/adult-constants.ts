@@ -64,7 +64,7 @@ export default class AdultDogData {
         | "Retired"
         | "Break",
       [G.favActivities]: parentDog[G.favActivities],
-      [G.weight]: Number.parseFloat(parentDog[G.weight]),
+      [G.weight]: parentDog[G.weight],
       [G.energyLevel]: parentDog[G.energyLevel] as
         | "Low"
         | "Medium-low"
@@ -77,7 +77,7 @@ export default class AdultDogData {
       [G.personality]: parentDog[G.personality],
       [G.Headshots_Lg]: parentDog[G.Headshots_Lg],
       [G.Headshots_Sm]: parentDog[G.Headshots_Sm],
-      [G.dogId]: Number.parseFloat(parentDog[G.dogId]),
+      [G.dogId]: parentDog[G.dogId],
       [G.certifications]: parentDog[G.certifications] as
         | "Embark"
         | "Embark-equivalent"
@@ -145,7 +145,7 @@ export default class AdultDogData {
                 " data in Adult Table for Litter ID: " +
                 this.adultId
             )
-          : await this.dogsTableQuery(Number.parseFloat(adultTableData[G.dogId])).then(
+          : await this.dogsTableQuery(adultTableData[G.dogId]).then(
               (dogTableData) =>
                 !dogTableData
                   ? Promise.reject(
@@ -175,7 +175,7 @@ export default class AdultDogData {
     if (!mostRecentFamily) throw new Error("No family data provided.");
     if (!primaryParent) throw new Error("No primary parent provided.");
     if (!secondaryParent) throw new Error("No secondary parent provided.");
-    const secondaryParentId = Number.parseFloat(mostRecentFamily[secondaryParent]);
+    const secondaryParentId = mostRecentFamily[secondaryParent];
 
     this.parents = [primaryParent, secondaryParent] as const;
     
@@ -190,21 +190,15 @@ export default class AdultDogData {
       litterData: {
         [G.dueDate]: new Date(mostRecentFamily[G.dueDate]),
         [G.litterBirthday]: new Date(mostRecentFamily[G.litterBirthday]),
-        [G.applicantsInQueue]: Number.parseFloat(
-          mostRecentFamily[G.applicantsInQueue]
-        ),
-        [G.availablePuppies]: Number.parseFloat(
-          mostRecentFamily[G.availablePuppies]
-        ),
-        [G.totalPuppies]: Number.parseFloat(
-          mostRecentFamily[G.totalPuppies]
-        ),
+        [G.applicantsInQueue]: mostRecentFamily[G.applicantsInQueue],
+        [G.availablePuppies]: mostRecentFamily[G.availablePuppies],
+        [G.totalPuppies]: mostRecentFamily[G.totalPuppies],
       },
       ids: {
         [G.Group_Photos]: mostRecentFamily[G.Group_Photos],
-        [G.mother]: Number.parseFloat(mostRecentFamily[G.mother]),
-        [G.father]: Number.parseFloat(mostRecentFamily[G.father]),
-        [G.litterId]: Number.parseFloat(mostRecentFamily[G.litterId]),
+        [G.mother]: mostRecentFamily[G.mother],
+        [G.father]: mostRecentFamily[G.father],
+        [G.litterId]: mostRecentFamily[G.litterId],
       },
     };
 

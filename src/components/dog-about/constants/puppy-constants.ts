@@ -41,7 +41,7 @@ export async function getPuppyData(
 
   return await Promise.all(
     puppies.map(async (puppy) => {
-      const puppyId: number = Number.parseFloat(puppy[G.dogId]);
+      const puppyId: number = puppy[G.dogId];
       return await D1.prepare(dogsQuery)
         .bind(puppyId)
         .first<D1DQ>()
@@ -81,20 +81,16 @@ export function formatPupData(
     litterData: {
       [G.dueDate]: new Date(mostRecentFamily[G.dueDate]),
       [G.litterBirthday]: new Date(mostRecentFamily[G.litterBirthday]),
-      [G.applicantsInQueue]: Number.parseFloat(
-        mostRecentFamily[G.applicantsInQueue]
-      ),
-      [G.availablePuppies]: Number.parseFloat(
-        mostRecentFamily[G.availablePuppies]
-      ),
-      [G.totalPuppies]: Number.parseFloat(mostRecentFamily[G.totalPuppies]),
+      [G.applicantsInQueue]: mostRecentFamily[G.applicantsInQueue],
+      [G.availablePuppies]: mostRecentFamily[G.availablePuppies],
+      [G.totalPuppies]: mostRecentFamily[G.totalPuppies],
     },
     ids: {
       [G.Group_Photos]: mostRecentFamily[G.Group_Photos],
-      [G.dogId]: Number.parseFloat(pup.puppy[G.dogId]),
-      [G.litterId]: Number.parseFloat(mostRecentFamily[G.litterId]),
-      [G.mother]: Number.parseFloat(mostRecentFamily[G.mother]),
-      [G.father]: Number.parseFloat(mostRecentFamily[G.father]),
+      [G.dogId]: pup.puppy[G.dogId],
+      [G.litterId]: mostRecentFamily[G.litterId],
+      [G.mother]: mostRecentFamily[G.mother],
+      [G.father]: mostRecentFamily[G.father],
     },
   } satisfies PuppyData;
 

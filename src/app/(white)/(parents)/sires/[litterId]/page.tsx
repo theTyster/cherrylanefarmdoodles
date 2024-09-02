@@ -23,7 +23,7 @@ export default async function WhiteSectionSires({
     params.litterId
   );
 
-  const adultId = Number.parseFloat(mostRecentFamily[G.father]);
+  const adultId = mostRecentFamily[G.father];
 
   const parentData = await new AdultDogData(
     D1,

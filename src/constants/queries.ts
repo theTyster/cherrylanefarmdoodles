@@ -9,7 +9,7 @@ import {
 
 /**Utility type for this file.*/
 type QueryStringify<T> = {
-  [key in keyof T]: string;
+  [key in keyof T]: T[key] extends number ? number : string;
 };
 
 /**
@@ -130,3 +130,16 @@ export type PuppyQueryData = Omit<D1Puppies, typeof G.id | typeof G.litterId>;
 
 /**Describes the types of data as they are when queried from D1*/
 export type D1PuppyQueryData = QueryStringify<PuppyQueryData>;
+
+/**
+ * Gets all previous litters from a specified dog as a collection of Group_Photos.
+ * Utilizes indexes. Requires a father or mother Id.
+ **/
+export const previousLittersQuery = `SELECT
+  ${G.Group_Photos},
+  ${G.litterId}
+  FROM
+    ${D1T.Families}
+  WHERE ${G.mother} OR ${G.father} = ?` as const;
+/**Describes data in the Families Table after being converted to a usable type.*/
+export type PreviousLittersQueryData = [ D1Families[typeof G.Group_Photos], D1Families[typeof G.litterId] ];

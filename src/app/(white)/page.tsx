@@ -138,19 +138,15 @@ export default async function WhiteSection() {
         [G.litterBirthday]: familyTableData[G.litterBirthday]
           ? new Date(familyTableData[G.litterBirthday])
           : null,
-        [G.applicantsInQueue]: Number.parseFloat(
-          familyTableData[G.applicantsInQueue]
-        ),
-        [G.availablePuppies]: Number.parseFloat(
-          familyTableData[G.availablePuppies]
-        ),
-        [G.totalPuppies]: Number.parseFloat(familyTableData[G.totalPuppies]),
+        [G.applicantsInQueue]: familyTableData[G.applicantsInQueue],
+        [G.availablePuppies]: familyTableData[G.availablePuppies],
+        [G.totalPuppies]: familyTableData[G.totalPuppies],
       } satisfies DogTreeData["litterData"],
       ids: {
-        [G.litterId]: Number.parseFloat(familyTableData[G.litterId]),
+        [G.litterId]: familyTableData[G.litterId],
         [G.Group_Photos]: familyTableData[G.Group_Photos],
-        [G.mother]: Number.parseFloat(familyTableData[G.mother]),
-        [G.father]: Number.parseFloat(familyTableData[G.father]),
+        [G.mother]: familyTableData[G.mother],
+        [G.father]: familyTableData[G.father],
       } satisfies DogTreeData["ids"],
     } satisfies DogTreeData;
   });
