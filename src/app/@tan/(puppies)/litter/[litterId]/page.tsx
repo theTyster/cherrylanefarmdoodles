@@ -3,6 +3,6 @@ import ConstructionPlaceholder from "@/components/construction-placeholder";
 
 export const runtime = 'edge';
 
-export default function TanLayout(): React.JSX.Element | null {
+export default function TanSectionLitter(): React.JSX.Element | null {
   return <ConstructionPlaceholder dogFill={Theme.lightPrimary}/>;
 }
