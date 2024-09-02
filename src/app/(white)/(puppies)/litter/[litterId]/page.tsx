@@ -4,10 +4,7 @@ import { getRequestContext } from "@cloudflare/next-on-pages";
 import DogAbout from "@/components/dog-about/dog-about";
 import Headshot from "@/components/Headshots/Headshots";
 import Link from "next/link";
-import {
-  getPuppyData,
-  connectPuppyData,
-} from "@/components/dog-about/constants/puppy-constants";
+import PuppyData from "@/components/dog-about/constants/puppy-constants";
 
 import AdultDogData, {
   getMostRecentFamily,
@@ -30,7 +27,9 @@ export default async function WhiteSectionLitter({
     mostRecentFamily[G.mother],
     "mother"
   ).getAdultData();
-  const puppies = await getPuppyData(D1, params.litterId);
+
+  const P = new PuppyData(D1, params.litterId, mostRecentFamily);
+  const puppies = await P.getAllPuppies();
 
   return (
     <>
@@ -46,15 +45,11 @@ export default async function WhiteSectionLitter({
       <hr />
       <div className="litter-currentLitter">
         {puppies.map((puppyData) => {
-          const formattedPupData = connectPuppyData(
-            mostRecentFamily,
-            puppyData
-          );
           return (
             <DogAbout
-              key={puppyData.puppy[G.dogId]}
+              key={puppyData.ids[G.dogId]}
               variant={"CurrentLitter"}
-              variantData={formattedPupData}
+              variantData={puppyData}
             />
           );
         })}

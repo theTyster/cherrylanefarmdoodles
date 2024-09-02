@@ -8,15 +8,15 @@ import {
   formatPupData,
 } from "@/components/dog-about/constants/puppy-constants";
 
-export default async function DamsPuppyModal({litterId}: {
-  litterId: string;
+export default async function DamsPuppyModal({puppyId}: {
+  puppyId: string;
 }): Promise<React.JSX.Element | null> {
   const D1 = getRequestContext().env.dogsDB;
   const mostRecentFamily = await getMostRecentFamily<"first">(
     D1,
-    litterId
+    puppyId,
   );
-  const puppies = await getPuppyData(D1, litterId);
+  const puppies = await getPuppyData(D1, puppyId);
   return (
     <>
       {puppies.map((puppyData) => {
