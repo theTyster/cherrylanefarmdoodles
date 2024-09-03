@@ -28,7 +28,7 @@ export default async function WhiteSectionLitter({
     "mother"
   ).getAdultData();
 
-  const P = new PuppyData(D1, params.litterId, mostRecentFamily);
+  const P = new PuppyData(D1, mostRecentFamily);
   const puppies = await P.getAllPuppies();
 
   return (
