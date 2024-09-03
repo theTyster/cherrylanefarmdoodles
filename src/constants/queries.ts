@@ -113,10 +113,10 @@ export type FamilyQueryData = Omit<D1Families, typeof G.id> &
 export type D1FamilyQueryData = QueryStringify<FamilyQueryData>;
 
 /**
- * Gets all info about a specified Puppy.
+ * Gets data for all puppies in a litter.
  * Utilizes indexes. Requires Litter ID.
  **/
-export const puppyQuery = `
+export const litterQuery = `
   SELECT
   ${G.dogId},
   ${G.puppyName},
@@ -126,20 +126,66 @@ export const puppyQuery = `
     Puppies
   WHERE litterId = ?` as const;
 /**Describes data in the Puppies Table afte being converted to a usable type.*/
-export type PuppyQueryData = Omit<D1Puppies, typeof G.id | typeof G.litterId>;
+export type LitterQueryData = Omit<D1Puppies, typeof G.id | typeof G.litterId>;
 
 /**Describes the types of data as they are when queried from D1*/
-export type D1PuppyQueryData = QueryStringify<PuppyQueryData>;
+export type D1LitterQueryData = QueryStringify<PuppyQueryData>;
 
 /**
  * Gets all previous litters from a specified dog as a collection of Group_Photos.
  * Utilizes indexes. Requires a father or mother Id.
  **/
-export const previousLittersQuery = `SELECT
+export const previousLittersQuery = `
+  SELECT
   ${G.Group_Photos},
   ${G.litterId}
   FROM
     ${D1T.Families}
   WHERE ${G.mother} OR ${G.father} = ?` as const;
 /**Describes data in the Families Table after being converted to a usable type.*/
-export type PreviousLittersQueryData = [ D1Families[typeof G.Group_Photos], D1Families[typeof G.litterId] ];
+export type PreviousLittersQueryData = [
+  D1Families[typeof G.Group_Photos],
+  D1Families[typeof G.litterId]
+];
+
+/**
+ * Gets all info about a specified Puppy.
+ * Utilizes indexes. Requires Puppy ID.
+ *
+ * This joined together from the most atomic data in the database. Thus, all
+ * joins for data related to puppies are made in SQL.
+ * Nothing else in the database has as many datapoints as a puppy. This is the
+ * most complex query in the database.
+ * */
+export const puppyQuery = `SELECT 
+  ${G.puppyName},
+  ${G.collarColor},
+  ${G.availability},
+  ${G.gender},
+  ${G.noseColor},
+  ${G.coat},
+  ${G.personality},
+  ${G.Headshots_Lg},
+  ${G.Headshots_Sm},
+  ${G.Group_Photos},
+  ${G.dueDate},
+  ${G.litterBirthday},
+  ${G.applicantsInQueue},
+  ${D1T.Puppies}.${G.dogId} AS ${G.dogId},
+  ${D1T.Families}.${G.litterId} AS ${G.litterId},
+  ${G.mother},
+  ${G.father},
+  SUM(CASE WHEN ${D1T.Puppies}.${G.availability} IS "Available" THEN 1 ELSE 0 END) AS ${G.availablePuppies},
+  COUNT(${D1T.Puppies}.${G.id}) AS ${G.totalPuppies}
+FROM
+${D1T.Puppies}
+  LEFT JOIN ${D1T.Families} ON ${D1T.Families}.${G.litterId} = ${D1T.Puppies}.${G.litterId}
+  LEFT JOIN ${D1T.Litters} ON ${D1T.Litters}.${G.id} = ${D1T.Puppies}.${G.litterId}
+  LEFT JOIN ${D1T.Dogs} ON ${D1T.Dogs}.${G.id} = ${D1T.Puppies}.${G.dogId}
+WHERE
+${D1T.Puppies}.${G.id} = ?
+
+    ` as const;
+
+export type PuppyQueryData = LitterQueryData & FamilyQueryData & DogsQueryData;
+export type D1PuppyQueryData = QueryStringify<PuppyQueryData>;
