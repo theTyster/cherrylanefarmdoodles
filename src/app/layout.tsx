@@ -9,7 +9,6 @@ import { type Metadata } from "next";
 import "@styles/reset.scss";
 import "@styles/global.scss";
 import "@styles/root-layout.scss";
-import Theme from "@styles/theme.module.scss";
 import { font } from "@styles/font";
 
 export const metadata: Metadata = {
@@ -57,40 +56,21 @@ export const metadata: Metadata = {
 
 export default function CLFMain({
   children,
-  wood,
-  tan,
-  puppyModal,
+  globalSlot,
+  modal
 }: {
   children: React.ReactNode;
-  wood: React.ReactNode;
-  tan: React.ReactNode;
-  puppyModal: React.ReactNode;
+  globalSlot: React.ReactNode;
+  modal: React.ReactNode;
 }): React.JSX.Element {
   return (
     <html lang="en">
       <body className={font.className}>
         <main>
           <Nav />
-          <div className="white-layout puppy-modal">
-            <div className="left-flex" />
-            <div className="content-box">{puppyModal}</div>
-            <div className="right-flex" />
-          </div>
-          <div className="white-layout">
-            <div className="left-flex" />
-            <div className="content-box">{children}</div>
-            <div className="right-flex" />
-          </div>
-          <div className={`wood-layout ${Theme.woodgrain}`}>
-            <div className="left-flex" />
-            <div className="content-box">{wood}</div>
-            <div className="right-flex" />
-          </div>
-          <div className="tan-layout">
-            <div className="left-flex" />
-            <div className="content-box">{tan}</div>
-            <div className="right-flex" />
-          </div>
+          {children}
+          {modal}
+          {globalSlot}
         </main>
         <footer>
           <p style={{ margin: "unset" }}>
