@@ -1,7 +1,7 @@
 import { getRequestContext } from "@cloudflare/next-on-pages";
 import { GlobalNameSpaces as G } from "@/constants/data";
 import {
-  puppyQuery,
+  litterQuery,
   type D1PuppyQueryData as D1PQ,
   dogsQuery,
   type D1DogsQueryData as D1DQ,
@@ -15,7 +15,7 @@ export async function puppiesMeta({
 }): Promise<Metadata> {
   const D1 = getRequestContext().env.dogsDB;
 
-  const puppy = await D1.prepare(puppyQuery)
+  const puppy = await D1.prepare(litterQuery)
     .bind(params.litterId)
     .first<D1PQ>();
 

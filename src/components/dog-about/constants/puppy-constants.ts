@@ -4,11 +4,13 @@ export { getMostRecentFamily } from "./family-constants";
 
 // Constants for the constants
 import {
+  litterQuery,
   puppyQuery,
   dogsQuery,
-  type D1DogsQueryData as D1DQ,
+  type D1LitterQueryData as D1LQ,
   type D1PuppyQueryData as D1PQ,
   type D1FamilyQueryData as D1FQ,
+  type D1DogsQueryData as D1DQ,
 } from "@/constants/queries";
 
 export default class PuppyData {
@@ -24,21 +26,21 @@ export default class PuppyData {
     this.mostRecentFamily = mostRecentFamily;
   }
 
-  async getLitterData(): Promise<D1PQ[]> {
-    const puppies = await this.D1.prepare(puppyQuery)
+  async getPuppyFromLitter(): Promise<D1PQ[]> {
+    const puppies = await this.D1.prepare(litterQuery)
       .bind(this.litterId)
-      .all<D1PQ>()
+      .all<D1LQ>()
       .then((res) => res.results);
 
     if (puppies.length > 24)
       throw new Error(
         "This litter has set a world record for the most puppies in a single litter. We can't load that many on a page."
       );
-      return puppies;
+    return puppies;
   }
 
-  async getAllPuppies(): Promise<PuppyDataType[]>{
-    const puppies = await this.getLitterData();
+  async getAllPuppies(): Promise<PuppyDataType[]> {
+    const puppies = await this.getPuppyFromLitter();
     return await Promise.all(puppies.map((pup) => this.mergeData(pup)));
   }
 
@@ -55,13 +57,34 @@ export default class PuppyData {
           throw new Error(
             "Missing data in the Dogs Table for ID: " + puppyData[G.dogId]
           );
-        return this.formatPupData({ ...puppyDogsTable, ...puppyData });
+        return {
+          ...puppyDogsTable,
+          ...puppyData,
+        };
       });
-    return puppyDogDataQuery;
+    return PuppyData.castFromD1({
+      ...puppyDogDataQuery,
+      ...puppyData,
+      ...this.mostRecentFamily,
+    });
+  }
+
+  static async getPuppyFromPuppies(
+    D1: D1Database,
+    puppyId: string
+  ): Promise<PuppyDataType> {
+    return await D1.prepare(puppyQuery)
+      .bind(puppyId)
+      .first<D1PQ>()
+      .then((res) =>
+        res
+          ? PuppyData.castFromD1(res)
+          : Promise.reject("No puppy data found for ID: " + puppyId)
+      );
   }
 
   /**Queries to Obtain this object can be found in adult-constants.*/
-  formatPupData(pup: D1DQ & D1PQ): PuppyDataType{
+  static castFromD1(pup: D1DQ & D1LQ & D1FQ): PuppyDataType {
     const puppyData = {
       dogData: {
         [G.puppyName]: pup[G.puppyName],
@@ -79,18 +102,18 @@ export default class PuppyData {
         [G.Headshots_Sm]: pup[G.Headshots_Sm],
       },
       litterData: {
-        [G.dueDate]: new Date(this.mostRecentFamily[G.dueDate]),
-        [G.litterBirthday]: new Date(this.mostRecentFamily[G.litterBirthday]),
-        [G.applicantsInQueue]: this.mostRecentFamily[G.applicantsInQueue],
-        [G.availablePuppies]: this.mostRecentFamily[G.availablePuppies],
-        [G.totalPuppies]: this.mostRecentFamily[G.totalPuppies],
+        [G.dueDate]: new Date(pup[G.dueDate]),
+        [G.litterBirthday]: new Date(pup[G.litterBirthday]),
+        [G.applicantsInQueue]: pup[G.applicantsInQueue],
+        [G.availablePuppies]: pup[G.availablePuppies],
+        [G.totalPuppies]: pup[G.totalPuppies],
       },
       ids: {
-        [G.Group_Photos]: this.mostRecentFamily[G.Group_Photos],
+        [G.Group_Photos]: pup[G.Group_Photos],
         [G.dogId]: pup[G.dogId],
-        [G.litterId]: this.mostRecentFamily[G.litterId],
-        [G.mother]: this.mostRecentFamily[G.mother],
-        [G.father]: this.mostRecentFamily[G.father],
+        [G.litterId]: pup[G.litterId],
+        [G.mother]: pup[G.mother],
+        [G.father]: pup[G.father],
       },
     } satisfies PuppyDataType;
 
