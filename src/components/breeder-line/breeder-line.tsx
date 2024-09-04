@@ -1,20 +1,42 @@
 import Image from "next/image";
 // Static Images
 import cherry from "@pub/images/cherry.svg";
-import css from "@/styles/breeder-line.module.scss";
+import Theme from "@styles/theme.module.scss";
+import css from "@styles/breeder-line.module.scss";
 
-function BreederLine({ breeder }: { breeder: string }) {
+const variants = {
+  light: "light",
+  dark: "dark",
+} as const;
+
+function BreederLine({
+  breeder,
+  variant,
+}: {
+  breeder: string;
+  variant?: (typeof variants)[keyof typeof variants];
+}) {
+  if (!variant) variant = variants.light;
   return breeder.match(/Cherry Lane|breeder a/gi) ? (
-    <span className={css.breederLine}>
-      <Image
-        className={css.cherry}
-        src={cherry}
-        alt=""
-      />
-      {" " + breeder}
-    </span>
+    <>
+        <span className={css.text}>
+          {breeder + " "}
+          <Image
+            style={
+              variant
+                ? /**Intentionally true. I ended up liking this as the default.*/ {
+                    backgroundColor: Theme.lightPrimary,
+                  }
+                : undefined
+            }
+            className={css.cherry}
+            src={cherry}
+            alt=""
+          />
+        </span>
+    </>
   ) : (
-    breeder
+    <span className={css.text}>{breeder}</span>
   );
 }
 
