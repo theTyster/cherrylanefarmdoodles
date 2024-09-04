@@ -35,7 +35,7 @@
   object-fit: scale-down;
   border-radius: Theme.$Headshots_SmRadius;
   cursor: pointer;
-  @include Mixins.temporaryScaleOnHover() {
+  @include Mixins.scaleOnHover() {
     // additional rules?
   }
   @include Mixins.mediaQuery(Theme.$LgPhoneViewport) {

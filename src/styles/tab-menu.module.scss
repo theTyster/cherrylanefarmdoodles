@@ -30,7 +30,7 @@
     font-weight: 400;
   }
   &:hover {
-    @include Mixins.temporaryScaleOnHover(1.04);
+    @include Mixins.scaleOnHover(1.04);
     z-index: 2;
     &:active {
       box-shadow: unset;

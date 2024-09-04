@@ -42,9 +42,7 @@
   box-shadow: $color $x $y 15px 5px;
 }
 
-// This will eventually be replaced by the same GSAP animation being
-// used in the adoption button.
-@mixin temporaryScaleOnHover($scale: 1.07){
+@mixin scaleOnHover($scale: 1.07){
       transition: transform 0.1s;
       &:hover {
         transform: scale($scale);
