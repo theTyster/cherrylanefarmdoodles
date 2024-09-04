@@ -1,6 +1,7 @@
 import { GlobalNameSpaces as G } from "@/constants/data";
 import { type PuppyData as PuppyDataType } from "@/types/dog-about";
 export { getMostRecentFamily } from "./family-constants";
+import AdultDogData from "./adult-constants";
 
 // Constants for the constants
 import {
@@ -14,19 +15,19 @@ import {
 } from "@/constants/queries";
 
 export default class PuppyData {
-  litterId: number;
+  litterId?: number | string;
   D1: D1Database;
-  mostRecentFamily: D1FQ;
+  mostRecentFamily?: D1FQ;
 
   pup?: PuppyDataType;
 
-  constructor(D1: D1Database, mostRecentFamily: D1FQ) {
+  constructor(D1: D1Database) {
     this.D1 = D1;
-    this.litterId = mostRecentFamily[G.litterId];
-    this.mostRecentFamily = mostRecentFamily;
   }
 
-  async getPuppyFromLitter(): Promise<D1PQ[]> {
+  async getPuppyFromLitter(litterId?: number | string): Promise<D1PQ[]> {
+    if (litterId) this.litterId = litterId;
+    if(!this.litterId) throw new Error("No litter ID provided.");
     const puppies = await this.D1.prepare(litterQuery)
       .bind(this.litterId)
       .all<D1LQ>()
@@ -39,8 +40,8 @@ export default class PuppyData {
     return puppies;
   }
 
-  async getAllPuppies(): Promise<PuppyDataType[]> {
-    const puppies = await this.getPuppyFromLitter();
+  async getAllPuppies(litterId?: number | string): Promise<PuppyDataType[]> {
+    const puppies = await this.getPuppyFromLitter(litterId);
     return await Promise.all(puppies.map((pup) => this.mergeData(pup)));
   }
 
@@ -69,18 +70,60 @@ export default class PuppyData {
     });
   }
 
-  static async getPuppyFromPuppies(
-    D1: D1Database,
-    puppyId: string
-  ): Promise<PuppyDataType> {
-    return await D1.prepare(puppyQuery)
+  async getPuppyFromPuppies(puppyId: string): Promise<PuppyDataType> {
+    return await this.D1.prepare(puppyQuery)
       .bind(puppyId)
       .first<D1PQ>()
-      .then((res) =>
-        res
-          ? PuppyData.castFromD1(res)
-          : Promise.reject("No puppy data found for ID: " + puppyId)
+      .then((res) => {
+        if (!res) Promise.reject("No puppy data found for ID: " + puppyId);
+        this.pup = PuppyData.castFromD1(res!);
+        return this.pup!;
+      });
+  }
+
+  async getFamily(): Promise<PuppyDataType> {
+    if (!this.pup)
+      throw new Error(
+        "No puppy data found. You must first call getPuppyFromPuppies."
       );
+
+    if (!this.mostRecentFamily) {
+      // Cobble together a recent family from data gathered with the puppy.
+      const mostRecentFamilyHack = {
+        ...this.pup.ids,
+        [G.litterBirthday]: this.pup.litterData[G.litterBirthday]!.toString(),
+        [G.dueDate]: this.pup.litterData[G.dueDate]!.toString(),
+        [G.applicantsInQueue]: this.pup.litterData[G.applicantsInQueue],
+        [G.availablePuppies]: this.pup.litterData[G.availablePuppies],
+        [G.totalPuppies]: this.pup.litterData[G.totalPuppies],
+      };
+      const A = new AdultDogData(
+        this.D1,
+        this.pup.ids[G.mother],
+        G.mother,
+        mostRecentFamilyHack,
+        G.father
+      );
+      const adultData = await A.getParentData();
+
+      return {
+        ...this.pup,
+        parentData: adultData,
+      };
+    }
+    const A = new AdultDogData(
+      this.D1,
+      this.pup.ids[G.mother],
+      G.mother,
+      this.mostRecentFamily,
+      G.father
+    );
+    const adultData = await A.getParentData();
+
+    return {
+      ...this.pup,
+      parentData: adultData,
+    };
   }
 
   /**Queries to Obtain this object can be found in adult-constants.*/

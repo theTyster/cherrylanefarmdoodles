@@ -14,8 +14,9 @@ export default async function WoodSectionDams({
     D1,
     params.litterId,
   );
-  const P = new PuppyData(D1, mostRecentFamily);
-  const puppies = await P.getAllPuppies();
+  const P = new PuppyData(D1);
+  P.mostRecentFamily = mostRecentFamily;
+  const puppies = await P.getAllPuppies(params.litterId);
   return (
     <>
       {puppies.map((puppyData) => {
