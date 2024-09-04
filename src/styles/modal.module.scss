@@ -1,10 +1,15 @@
 @use "../styles/theme.module.scss" as Theme;
 @use "../styles/mixins.scss" as Mixins;
+@use "../styles/root-layout.module.scss";
 
 $buttonPos: calc(
   Theme.$spaceBetweenElements + (Theme.$spaceBetweenElements / 2)
 );
 $svgWxH: 57px;
+
+@include root-layout.white-layout {
+  @extend root-layout.wood-layout;
+}
 
 .container {
   display: flex;
@@ -92,7 +97,7 @@ button.exit {
   }
 }
 
-@media screen and (max-height: 300px){
+@media screen and (max-height: 300px) {
   button.exit {
     position: static;
   }

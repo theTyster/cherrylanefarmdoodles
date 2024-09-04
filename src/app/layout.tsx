@@ -8,7 +8,6 @@ import { type Metadata } from "next";
 // Styles
 import "@styles/reset.scss";
 import "@styles/global.scss";
-import "@styles/root-layout.scss";
 import { font } from "@styles/font";
 
 export const metadata: Metadata = {

@@ -1,5 +1,5 @@
 export const runtime = "edge";
-import "@styles/root-layout.scss";
+import css from "@styles/root-layout.module.scss";
 import Theme from "@styles/theme.module.scss";
 
 export default function WhiteSectionPuppyLayout({
@@ -16,20 +16,20 @@ export default function WhiteSectionPuppyLayout({
   return (
     <>
       {children}
-      <div className="white-layout">
-        <div className="left-flex" />
-        <div className="content-box">{_1white}</div>
-        <div className="right-flex" />
+      <div className={css["white-layout"]}>
+        <div className={css["left-flex"]} />
+        <div className={css["content-box"]}>{_1white}</div>
+        <div className={css["right-flex"]} />
       </div>
-      <div className={`wood-layout ${Theme.woodgrain}`}>
-        <div className="left-flex" />
-        <div className="content-box">{_2wood}</div>
-        <div className="right-flex" />
+      <div className={`${css['wood-layout']} ${Theme.woodgrain}`}>
+        <div className={css["left-flex"]} />
+        <div className={css["content-box"]}>{_2wood}</div>
+        <div className={css["right-flex"]} />
       </div>
-      <div className="tan-layout">
-        <div className="left-flex" />
-        <div className="content-box">{_3tan}</div>
-        <div className="right-flex" />
+      <div className={css["tan-layout"]}>
+        <div className={css["left-flex"]} />
+        <div className={css["content-box"]}>{_3tan}</div>
+        <div className={css["right-flex"]} />
       </div>
     </>
   );

@@ -1,22 +1,15 @@
 @use "../styles/theme.module.scss" as Theme;
 @use "../styles/mixins.scss" as Mixins;
 
-main {
-  min-height: 100vh;
-  width: 100vw;
-  display: flex;
-  flex-direction: column;
-}
-
 // All layouts
-div[class$="-layout"] {
+@mixin all-layouts() {
   display: flex;
   flex-basis: 0;
-  div.right-flex,
-  div.left-flex {
+  .right-flex,
+  .left-flex {
     flex: 1 1 0;
   }
-  div.content-box {
+  .content-box {
     flex: 0 1 Theme.$tabletViewport;
     display: flex;
     flex-direction: column;
@@ -26,13 +19,13 @@ div[class$="-layout"] {
     // margin;
   }
   @include Mixins.mediaQuery(Theme.$tabletViewport) {
-    div.content-box {
+    .content-box {
       flex: 0 1 Theme.$LgPhoneViewport;
     }
   }
 
   @include Mixins.mediaQuery(Theme.$LgPhoneViewport) {
-    div.content-box {
+    .content-box {
       flex: 0 1 Theme.$SmPhoneViewport;
     }
   }
@@ -52,13 +45,15 @@ div[class$="-layout"] {
   }
 }
 
-div.white-layout {
+.white-layout {
+  @include all-layouts;
   flex: 1 1;
   padding: 100px 0;
   background-color: white;
 }
 
-div.wood-layout {
+.wood-layout {
+  @include all-layouts;
   flex: 2 2;
   padding: 100px 0;
   background-color: Theme.$darkPrimary;
@@ -69,7 +64,8 @@ div.wood-layout {
   }
 }
 
-div.tan-layout {
+.tan-layout {
+  @include all-layouts;
   flex: 1 1;
   padding: 100px 0;
   background-color: Theme.$lightPrimary;
