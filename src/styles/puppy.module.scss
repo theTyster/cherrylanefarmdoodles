@@ -1,0 +1,83 @@
+@use "@styles/theme.module.scss" as Theme;
+@use "@styles/mixins.scss" as Mixins;
+@use "@styles/dog-about.module.scss";
+@use "@styles/root-layout.module.scss";
+
+@include Mixins.mediaQuery(Theme.$watchViewport) {
+  .partnerData,
+  .dogTitle,
+  .mainDog,
+  .partnerVisuals {
+    margin: 2px;
+    padding: 2px;
+  }
+}
+
+//.light {
+//  .dogTable {
+//    tbody > tr:nth-child(odd) {
+//      background-color: rgba(Theme.$darkSecondaryGreen, 0.3);
+//    }
+//  }
+//}
+//.dark > {
+//  .dogTable {
+//    tbody > tr:nth-child(odd) {
+//      background-color: rgba(Theme.$lightSecondaryGreen, 0.3);
+//    }
+//  }
+//}
+
+.attentionGetter {
+  @extend .attentionGetter;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.availability {
+  @extend .breeder;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  flex-wrap: wrap-reverse;
+  svg {
+    height: 1em;
+  }
+}
+
+.breeder {
+  @extend .breeder;
+}
+
+.dogTable {
+  @extend .dogInfoList;
+  color: Theme.$lightPrimary;
+  max-width: 100%;
+  height: fit-content;
+  margin-left: unset;
+  thead {
+    font-weight: 700;
+    text-align: center;
+  }
+  .col1 {
+    text-align: left;
+  }
+  .col2 {
+    text-align: right;
+  }
+}
+
+.familyData {
+  @extend .partnerData;
+}
+
+#Headshots_Lg {
+  @extend #Headshots_Lg;
+}
+
+#Headshots_Sm {
+  @extend #Headshots_Sm;
+  margin-top: Theme.$spaceBetweenElements;
+  margin-bottom: Theme.$spaceBetweenElements;
+}
