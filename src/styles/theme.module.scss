@@ -1,4 +1,4 @@
-@use "../styles/mixins.scss" as Mixins;
+@use "@styles/mixins.scss" as Mixins;
 
 // Colors
 $lightPrimary: #e8d8ca;
@@ -29,11 +29,14 @@ $dadShadow: 0 0 0 calc($outlineWidth * 0.667) $lightAccentBlue;
 
 $black: #333;
 
+$transitionShort: 0.1s;
+
 // Sizing
 $tabletViewport: 1200px;
 $LgPhoneViewport: 750px;
 $SmPhoneViewport: 390px;
 $microViewport: 300px;
+$watchViewport: 200px;
 // Smallest allowable width is currently 96px
 
 // Spacing
