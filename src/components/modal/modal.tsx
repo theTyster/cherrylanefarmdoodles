@@ -84,7 +84,7 @@ export default function Modal({
             />
           </svg>
         </button>
-        <div className={css["backdrop"]}>{children}</div>
+        <div className={css['child']}>{children}</div>
       </div>
     </>
   );
