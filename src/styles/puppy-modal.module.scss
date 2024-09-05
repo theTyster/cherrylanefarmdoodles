@@ -1,0 +1,8 @@
+@use "@styles/puppy.module.scss";
+@use "@styles/theme.module.scss" as Theme;
+
+.familyData {
+  @extend .familyData;
+  margin: 0;
+  padding: 0;
+}
