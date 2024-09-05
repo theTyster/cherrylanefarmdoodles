@@ -22,20 +22,31 @@ article.mainDog {
   font-size: Theme.$h4;
   color: Theme.$darkPrimary;
   font-size: Theme.$h3;
-  list-style-type: circle;
   margin-left: Theme.$spaceBetweenElements;
-  max-width: Theme.$Headshots_Lg;
-  padding: revert;
-  li {
-    margin-top: Theme.$spaceBetweenElements;
-  }
+  margin-top: Theme.$spaceBetweenElements;
+  width: 100%;
+  height: fit-content;
   @include Mixins.mediaQuery(Theme.$tabletViewport) {
     margin-left: unset;
+  max-width: Theme.$Headshots_Lg;
     padding: 0;
   }
   @include Mixins.mediaQuery(Theme.$microViewport) {
     line-break: anywhere;
   }
+  thead {
+    font-weight: 700;
+    text-align: center;
+  }
+  td:nth-child(odd){
+    line-height: 1.5em;
+  }
+}
+.col1 {
+  width: 40%;
+}
+.col2 {
+  width: 60%;
 }
 
 .attentionGetter {
