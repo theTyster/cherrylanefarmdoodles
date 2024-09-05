@@ -89,12 +89,6 @@ export default function Puppy({
               <tbody>
                 <tr>
                   <td>
-                    <b>Gender:</b>
-                  </td>
-                  <td>{D.dogData[G.gender]}</td>
-                </tr>
-                <tr>
-                  <td>
                     <b>Nose Color:</b>
                   </td>
                   <td>{D.dogData[G.noseColor]}</td>
