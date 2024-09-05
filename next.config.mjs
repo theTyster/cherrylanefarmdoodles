@@ -22,6 +22,15 @@ nextConfig = {
 
     return config;
   },
+  sassOptions: {
+    logger: { warn: function (message) {
+      console.warn(message);
+    },
+      debug: function (message) {
+        console.debug(message);
+      }
+    }
+  }
 };
 
 if (process.env.NODE_ENV === "development") {
