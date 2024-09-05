@@ -1,6 +1,5 @@
-// Class names are based off of an Enum in the DogAbout component.
-@use "../styles/theme.module.scss" as Theme;
-@use "../styles/mixins.scss" as Mixins;
+@use "@styles/theme.module.scss" as Theme;
+@use "@styles/mixins.scss" as Mixins;
 
 .dogTitle {
   font-weight: 700;
@@ -31,6 +30,7 @@ article.mainDog {
     margin-top: Theme.$spaceBetweenElements;
   }
   @include Mixins.mediaQuery(Theme.$tabletViewport) {
+    margin-left: unset;
     padding: 0;
   }
   @include Mixins.mediaQuery(Theme.$microViewport) {
@@ -73,48 +73,50 @@ article.mainDog {
     margin-right: unset;
   }
 }
-.partnerData {
-  display: flex;
-  border-radius: Theme.$bigButtonRadius;
-  padding: Theme.$spaceBetweenElements;
-  margin-top: Theme.$spaceBetweenElements;
-  background-color: Theme.$darkPrimary;
-  align-items: center;
-  @include Mixins.setTextValues() {
-    color: Theme.$lightPrimary;
-  }
-  @include Mixins.mediaQuery(Theme.$tabletViewport) {
-    flex-direction: column;
+.partner {
+  &Data {
+    display: flex;
+    border-radius: Theme.$bigButtonRadius;
+    padding: Theme.$spaceBetweenElements;
+    margin-top: Theme.$spaceBetweenElements;
+    background-color: Theme.$darkPrimary;
     align-items: center;
+    @include Mixins.setTextValues() {
+      color: Theme.$lightPrimary;
+    }
+    @include Mixins.mediaQuery(Theme.$tabletViewport) {
+      flex-direction: column;
+      align-items: center;
+    }
+    @include Mixins.mediaQuery(Theme.$LgPhoneViewport) {
+      width: 100%;
+      flex-direction: column;
+      align-items: center;
+    }
   }
-  @include Mixins.mediaQuery(Theme.$LgPhoneViewport) {
-    width: 100%;
-    flex-direction: column;
-    align-items: center;
-  }
-}
 
-.partneVisuals {
-  display: flex;
-  margin: Theme.$spaceBetweenElements;
-  @include Mixins.mediaQuery(Theme.$LgPhoneViewport) {
+  &Visuals {
+    max-width: 600px;
+    margin: Theme.$spaceBetweenElements;
+    @include Mixins.mediaQuery(Theme.$LgPhoneViewport) {
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+  }
+
+  &LastLitter {
+    text-align: center;
+    margin-top: calc(Theme.$spaceBetweenElements/2);
+  }
+  &Photo {
+    display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    flex-direction: column;
   }
-}
-
-.partnerLastLitter {
-  text-align: center;
-  margin-top: calc(Theme.$spaceBetweenElements/2);
-}
-.partnerPhoto {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-.partnerBreeder {
-  margin-top: Theme.$spaceBetweenElements;
-  text-align: center;
+  &Breeder {
+    margin-top: Theme.$spaceBetweenElements;
+    text-align: center;
+  }
 }
