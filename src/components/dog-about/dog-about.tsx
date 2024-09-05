@@ -30,9 +30,12 @@ export type VariantTypes = {
 export default async function DogAbout({
   variant,
   variantData,
+  /**CSS imported through CSS modules.*/
+  variantCSS,
 }: {
   variant: Variant;
   variantData: DogAboutTypes.ParentData | DogAboutTypes.PuppyData;
+  variantCSS?: { [key: string]: string };
 }) {
   /**
    * Ultimately determines which variant's data will be used for this
@@ -69,7 +72,7 @@ export default async function DogAbout({
 
   const VariantComponents = {
     [V.Parent]: <Adult D={data<V["Parent"]>()} />,
-    [V.Puppy]: <Puppy D={data<V["Puppy"]>()} />,
+    [V.Puppy]: <Puppy D={data<V["Puppy"]>()} css={variantCSS} />,
     [V.CurrentLitter]: <CurrentLitter D={data<V["CurrentLitter"]>()} />,
   };
 

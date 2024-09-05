@@ -3,6 +3,7 @@ import { getRequestContext } from "@cloudflare/next-on-pages";
 import DogAbout from "@/components/dog-about/dog-about";
 import PuppyData from "@/components/dog-about/constants/puppy-constants";
 import Modal from "../modal/modal";
+import theme from "@styles/puppy-modal.module.scss";
 
 export default async function PuppyModal({
   puppyId,
@@ -14,7 +15,7 @@ export default async function PuppyModal({
   return (
     <>
       <Modal>
-        <DogAbout variant={"Puppy"} variantData={puppyData} />
+        <DogAbout variantCSS={theme} variant={"Puppy"} variantData={familyData} />
       </Modal>
     </>
   );
