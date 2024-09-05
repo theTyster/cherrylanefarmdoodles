@@ -50,4 +50,5 @@ export type PuppyData  = {
   ids: Ids & {
     readonly [G.dogId]: PQ[typeof G.dogId];
   };
+  parentData?: ParentData;
 }
