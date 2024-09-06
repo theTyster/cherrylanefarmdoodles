@@ -12,7 +12,6 @@ import css from "@/styles/dog-about.module.scss";
 import type { PuppyData } from "@/types/dog-about";
 
 export default function CurrentLitter({ D }: { D: PuppyData }) {
-  console.log(D)
     return (
       <>
             <div className={css.partnerPhoto}>
