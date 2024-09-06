@@ -41,6 +41,7 @@
 }
 a.home-button {
   border-radius: 100%;
+  background-color: white;
   margin: 0 auto;
   @include Mixins.setBoxShadow(Theme.$darkPrimary);
   transition: all 0.2s;
@@ -78,6 +79,7 @@ img.logo {
   font-size: 31px;
   width: 0;
   overflow: hidden;
+  z-index: 997;
 }
 .link {
   text-decoration: none;
