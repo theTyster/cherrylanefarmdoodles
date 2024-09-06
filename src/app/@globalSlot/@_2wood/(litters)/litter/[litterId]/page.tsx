@@ -35,7 +35,8 @@ export default async function WoodSectionLitter({
         <h2>Previous Litters</h2>
         {previousLitters.map((litter) => {
           const litterId = litter[1];
-          const GroupPhoto = litter[0];
+          const GroupImage = litter[0];
+          // Case for the first time mother.
           if (
             litterId === Number.parseFloat(params.litterId) &&
             previousLitters.length === 1
@@ -52,13 +53,14 @@ export default async function WoodSectionLitter({
                 <SvgFirstTimeMother style={{ maxWidth: "700px" }} />
               </div>
             );
+            // Case for the current litter.
           } else if (litterId === Number.parseFloat(params.litterId)) return;
           else
             return (
               <GroupPhoto
                 key={`GP-${litterId}`}
                 alt={`${mom.adultName}'s Previous Litter with ID ${litterId}'`}
-                src={GroupPhoto}
+                src={GroupImage}
                 litterId={litterId}
               />
             );
