@@ -20,7 +20,6 @@ article.mainDog {
 
 .dogInfoList {
   font-size: Theme.$h4;
-  color: Theme.$darkPrimary;
   font-size: Theme.$h3;
   margin-left: Theme.$spaceBetweenElements;
   margin-top: Theme.$spaceBetweenElements;
@@ -28,7 +27,7 @@ article.mainDog {
   height: fit-content;
   @include Mixins.mediaQuery(Theme.$tabletViewport) {
     margin-left: unset;
-  max-width: Theme.$Headshots_Lg;
+    max-width: Theme.$Headshots_Lg;
     padding: 0;
   }
   @include Mixins.mediaQuery(Theme.$microViewport) {
@@ -38,7 +37,7 @@ article.mainDog {
     font-weight: 700;
     text-align: center;
   }
-  td:nth-child(odd){
+  td:nth-child(odd) {
     line-height: 1.5em;
   }
 }
@@ -86,15 +85,13 @@ article.mainDog {
 }
 .partner {
   &Data {
+    color: Theme.$lightPrimary;
     display: flex;
     border-radius: Theme.$bigButtonRadius;
     padding: Theme.$spaceBetweenElements;
     margin-top: Theme.$spaceBetweenElements;
     background-color: Theme.$darkPrimary;
     align-items: center;
-    @include Mixins.setTextValues() {
-      color: Theme.$lightPrimary;
-    }
     @include Mixins.mediaQuery(Theme.$tabletViewport) {
       flex-direction: column;
       align-items: center;
@@ -107,6 +104,7 @@ article.mainDog {
   }
 
   &Visuals {
+    color: Theme.$lightSecondaryGreen;
     max-width: 600px;
     margin: Theme.$spaceBetweenElements;
     @include Mixins.mediaQuery(Theme.$LgPhoneViewport) {
@@ -114,10 +112,14 @@ article.mainDog {
       justify-content: center;
       flex-direction: column;
     }
+    & > * {
+      color: Theme.$lightSecondaryGreen;
+    }
   }
 
   &LastLitter {
     text-align: center;
+    color: Theme.$lightPrimary;
     margin-top: calc(Theme.$spaceBetweenElements/2);
   }
   &Photo {
@@ -127,6 +129,7 @@ article.mainDog {
     justify-content: center;
   }
   &Breeder {
+    color: Theme.$lightPrimary;
     margin-top: Theme.$spaceBetweenElements;
     text-align: center;
   }

@@ -43,27 +43,17 @@ export default function Puppy({
             gender={D.dogData[G.gender]}
           />
           <div className={`${css.dogTitle}`}>
-            <h1 className={css.dogName}>{puppyName}</h1>
+            <h1 className={css.dogName}>{puppyName}
+              <AvailabilityIcon availability={D.dogData[G.availability]}/>
+            </h1>
             <hr />
             <h2 className={css.availability}>
               {D.dogData[G.availability]}
-              <AvailabilityIcon availability={D.dogData[G.availability]}/>
             </h2>
           </div>
         </div>
         <div className={css.familyData}>
           <div className={css.partnerVisuals}>
-            <h3 className={css.parentsLine}>
-              {D.dogData.gender === "F"
-                ? "Daughter of " +
-                  D.parentData.dogData[G.adultName] +
-                  " and " +
-                  D.parentData.partnerData[G.adultName]
-                : "Son of " +
-                  D.parentData.dogData[G.adultName] +
-                  " and " +
-                  D.parentData.partnerData[G.adultName]}
-            </h3>
             <table className={css.dogTable}>
               <thead>
                 <tr>
@@ -109,7 +99,6 @@ export default function Puppy({
                 ) : undefined}
               </tbody>
             </table>
-            <h4 className={css.partnerLastLitter}></h4>
             <GroupPhoto
               id={css[D1T.Group_Photos]}
               src={D.ids[D1T.Group_Photos]}
@@ -120,6 +109,17 @@ export default function Puppy({
             />
           </div>
           <div className={css.partnerPhoto}>
+            <h3 className={css.parentsLine}>
+              {D.dogData.gender === "F"
+                ? "Daughter of " +
+                  D.parentData.dogData[G.adultName] +
+                  " and " +
+                  D.parentData.partnerData[G.adultName]
+                : "Son of " +
+                  D.parentData.dogData[G.adultName] +
+                  " and " +
+                  D.parentData.partnerData[G.adultName]}
+            </h3>
             <Link href={`/sires/${D.ids[G.father]}`}></Link>
             <SmallHeadshot
               variant={D1T.Headshots_Sm}

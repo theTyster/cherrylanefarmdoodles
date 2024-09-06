@@ -13,46 +13,49 @@
   }
 }
 
-//.light {
-//  .dogTable {
-//    tbody > tr:nth-child(odd) {
-//      background-color: rgba(Theme.$darkSecondaryGreen, 0.3);
-//    }
-//  }
-//}
-//.dark > {
-//  .dogTable {
-//    tbody > tr:nth-child(odd) {
-//      background-color: rgba(Theme.$lightSecondaryGreen, 0.3);
-//    }
-//  }
-//}
-
 .attentionGetter {
   @extend .attentionGetter;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-.availability {
-  @extend .breeder;
-  display: inline-flex;
+
+.dogName {
+  display: inline-grid;
+  height: 1em;
+  line-height: 1.25em;
+  width: 100%;
   align-items: center;
-  justify-content: center;
+  justify-items: center;
   text-align: center;
   flex-wrap: wrap-reverse;
-  svg {
-    height: 1em;
+  margin-bottom: 1.4rem;
+}
+@include Mixins.mediaQuery(Theme.$SmPhoneViewport) {
+  .dogName {
+    margin-bottom: 0;
+    svg {
+      display: none;
+    }
   }
 }
 
-.breeder {
-  @extend .breeder;
+.availability {
+  font-size: 10vw;
+  margin-top: 2rem;
 }
+@include Mixins.mediaQuery(Theme.$LgPhoneViewport) {
+  .availability {
+    font-size: Theme.$h2;
+  }
+}
+
+// This css rule is not used in the project but is included for demonstration purposes
+// It is not included in the final output
+// it demonstrates how to create cSS rules that make viewing tables easier on small screens:
 
 .dogTable {
   @extend .dogInfoList;
-  color: Theme.$lightPrimary;
   max-width: 100%;
   height: fit-content;
   margin-left: unset;
@@ -61,15 +64,68 @@
     text-align: center;
   }
   .col1 {
-    text-align: left;
+    width: 40%;
   }
   .col2 {
-    text-align: right;
+    width: 60%;
+  }
+  & * {
+    color: Theme.$lightPrimary;
+  }
+}
+
+@include Mixins.mediaQuery(Theme.$LgPhoneViewport) {
+  .dogTable {
+    display: block;
+    width: 100%;
+    margin: 0 auto;
+    thead {
+      margin-top: 1rem;
+    }
+    td {
+      display: block;
+      margin: 0 auto;
+      width: 100%;
+      text-align: center;
+      padding: 0.5rem;
+    }
+    tr {
+      display: block;
+      width: 100%;
+      height: fit-content;
+      text-align: center;
+      padding: 0.5rem;
+    }
+    .col1,
+    .col2 {
+      display: block;
+      width: 100%;
+      height: fit-content;
+      text-align: center;
+      padding: 0.5rem;
+      &:nth-child(even) {
+        height: 1em;
+      }
+    }
   }
 }
 
 .familyData {
   @extend .partnerData;
+  margin-top: unset;
+}
+
+.partnerVisuals {
+  @extend .partnerVisuals;
+}
+
+.parentsLine {
+  font-size: Theme.$h2;
+  color: Theme.$lightSecondaryGreen;
+}
+
+.breederLine {
+  color: Theme.$lightPrimary;
 }
 
 #Headshots_Lg {
