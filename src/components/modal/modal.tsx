@@ -31,9 +31,10 @@ export default function Modal({
         left: 0,
         width: "100%",
         height: "100vh",
-      });
+      }).to
+      ('body', { duration: 0, overflow: 'hidden' }, '<')
     },
-    { scope: modalRef, dependencies: [modalRef] }
+    { dependencies: [modalRef] }
   );
 
   const back = () => modalTl.current!.reverse().then(() => router.back());
