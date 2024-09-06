@@ -87,27 +87,23 @@ function Nav() {
     color: Theme.darkTertiaryCherry,
     ease: "back.out",
   };
-    const getScreenWidth = () => screen.width;
-    const [screenWidth, setScreenWidth] = useState(getScreenWidth());
+  const [screenWidth, setScreenWidth] = useState<number>();
   const menuRef = useRef<HTMLElement>(null),
-    menuClose = useRef<gsap.core.Timeline>();
+    menuTl = useRef<gsap.core.Timeline>();
   useGSAP(
     () => {
+      const getScreenWidth = () => window.screen?.width;
       const menuTween =
-        getScreenWidth() < 445
-          ? smallScreenTween
-          : largeScreenTween;
+        getScreenWidth() < 445 ? smallScreenTween : largeScreenTween;
       getScreenWidth() < 445
         ? (buttonTween.top =
             Number.parseFloat(Theme.spaceBetweenElements.replace("px", "")) / 2)
         : undefined;
-      console.log(screen.width);
-      console.log(screenWidth);
-      menuClose.current = gsap.timeline({
+      menuTl.current = gsap.timeline({
         paused: true,
         defaults: { duration: 1 },
       });
-      menuClose.current
+      menuTl.current
         .to(`.${navCSS["menu"]}`, {
           ...menuTween,
         })
@@ -117,6 +113,7 @@ function Nav() {
           "<"
         )
         .to(`#${navCSS["title-menu-button"]}`, buttonTween, "<");
+      setScreenWidth(getScreenWidth());
     },
     {
       scope: menuRef,
@@ -130,10 +127,10 @@ function Nav() {
   );
 
   const menuToggle = () => {
-    if (!menuClose.current) return;
-    if (menuClose.current.paused()) menuClose.current.play();
-    else menuClose.current.reversed(!menuClose.current.reversed());
-    setScreenWidth(getScreenWidth());
+    if (!menuTl.current) return;
+    menuTl.current.seek(0);
+    if (menuTl.current.paused()) menuTl.current.play();
+    else menuTl.current.reversed(!menuTl.current.reversed());
     return;
   };
 
