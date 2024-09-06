@@ -134,9 +134,7 @@ export default class AdultDogData {
    * If both the adultId and dogId are known, then it is faster to use {@see asyncAdultData}.
    **/
   async getAdultData(adultId?: number): Promise<ParentTypified> {
-    adultId = adultId || this.adultId;
-    if (!this.adultId) throw new Error("No adult ID provided.");
-    const adultData = await this.adultTableQuery(adultId).then(
+    const adultData = await this.adultTableQuery(adultId ?? this.adultId).then(
       async (adultTableData) =>
         !adultTableData
           ? Promise.reject(

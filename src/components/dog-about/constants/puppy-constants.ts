@@ -157,6 +157,7 @@ export default class PuppyData {
         [G.litterId]: pup[G.litterId],
         [G.mother]: pup[G.mother],
         [G.father]: pup[G.father],
+        [G.puppyId]: pup[G.puppyId],
       },
     } satisfies PuppyDataType;
 

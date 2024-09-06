@@ -12,10 +12,11 @@ import css from "@/styles/dog-about.module.scss";
 import type { PuppyData } from "@/types/dog-about";
 
 export default function CurrentLitter({ D }: { D: PuppyData }) {
+  console.log(D)
     return (
       <>
             <div className={css.partnerPhoto}>
-              <Link href={`/sires/${"--father id here--"}`}></Link>
+              <Link scroll={false} href={`/pup/${D.ids.puppyId}`}>
               <SmallHeadshot
                 variant={D1T.Headshots_Sm}
                 gender={D.dogData[G.gender]}
@@ -27,6 +28,7 @@ export default function CurrentLitter({ D }: { D: PuppyData }) {
                 }
                 id={css.Headshots_Sm}
               />
+              </Link>
               <h4 className={css.partnerBreeder}>
                 {D.dogData[G.puppyName]}
               </h4>

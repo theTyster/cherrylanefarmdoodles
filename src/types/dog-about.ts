@@ -32,9 +32,9 @@ export type ParentData = {
   partnerData?: DogData;
   readonly litterData: LitterData;
   readonly ids: Ids;
-}
+};
 
-export type PuppyData  = {
+export type PuppyData = {
   readonly dogData: {
     readonly [G.puppyName]: PQ[typeof G.puppyName];
     readonly [G.collarColor]: PQ[typeof G.collarColor];
@@ -45,10 +45,11 @@ export type PuppyData  = {
     readonly [G.personality]: DQ[typeof G.personality];
     readonly [G.Headshots_Lg]: DQ[typeof G.Headshots_Lg];
     readonly [G.Headshots_Sm]: DQ[typeof G.Headshots_Sm];
-  }
+  };
   readonly litterData: LitterData;
   ids: Ids & {
     readonly [G.dogId]: PQ[typeof G.dogId];
+    readonly [G.puppyId]: PQ[typeof G.puppyId];
   };
   parentData?: ParentData;
-}
+};

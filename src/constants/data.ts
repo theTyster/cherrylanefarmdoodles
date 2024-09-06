@@ -44,7 +44,7 @@ export const GlobalNameSpaces = {
   /**Primarily used in D1 Dogs*/
   gender: "gender",
   /**Primarily used in D1Dogs*/
-  coat: 'coat',
+  coat: "coat",
   /**Primarily used in D1Dogs*/
   noseColor: "noseColor",
   /**Primarily used in D1Dogs*/
@@ -75,6 +75,8 @@ export const GlobalNameSpaces = {
   /**Primarily used in D1 Adults*/
   certifications: "certifications",
 
+  /**Primarily used in D1 Puppies*/
+  puppyId: "puppyId",
   /**Primarily used in D1 Puppies*/
   puppyName: "puppyName",
   /**Primarily used in D1 Puppies*/

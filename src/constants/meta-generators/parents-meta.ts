@@ -1,38 +1,29 @@
 export const runtime = "edge";
 import { getRequestContext } from "@cloudflare/next-on-pages";
 import { GlobalNameSpaces as G } from "@/constants/data";
-import {
-  adultDogsQuery,
-  type D1AdultDogsQueryData as D1AQ,
-  dogsQuery,
-type D1DogsQueryData as D1DQ,
-} from "@/constants/queries";
+import AdultDogData, { getMostRecentFamily } from "@/components/dog-about/constants/adult-constants";
 import type { Metadata } from "next";
 
 export async function parentsMeta(
-  { params }: { params: { litterId: number } },
+  { params }: { params: { litterId: string } },
 ): Promise<Metadata> {
   const D1 = getRequestContext().env.dogsDB;
 
-  const adult = await D1.prepare(adultDogsQuery)
-    .bind(params.litterId)
-    .first<D1AQ>();
+  const mostRecentFamily = await getMostRecentFamily(D1, params.litterId);
 
-  if (!adult) throw new Error('Adult not found');
+  const adultId = Number.parseFloat(mostRecentFamily[G.mother]);
+  const A = new AdultDogData(D1, adultId, G.mother);
 
-  const dog = await D1.prepare(dogsQuery)
-    .bind(adult[G.dogId])
-    .first<D1DQ>();
+  const adult = await A.getAdultData();
 
-  if (!dog) throw new Error(`Dog not found for adult ${adult[G.adultName]}`);
-  const dogHeadshotSm = dog[G.Headshots_Sm]!;
+  const dogHeadshotSm =  adult[G.Headshots_Sm]!;
 
   return {
     title: {
       default: adult[G.adultName],
       template: "%s | Cherry Lane Farm",
     },
-    description: dog[G.personality],
+    description: adult[G.personality],
     openGraph: {
       images: [
         { url: dogHeadshotSm, alt: adult[G.adultName], width:292, height:292, },

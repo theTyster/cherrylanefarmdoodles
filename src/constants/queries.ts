@@ -118,6 +118,7 @@ export type D1FamilyQueryData = QueryStringify<FamilyQueryData>;
  **/
 export const litterQuery = `
   SELECT
+  ${G.id} as ${G.puppyId},
   ${G.dogId},
   ${G.puppyName},
   ${G.collarColor},
@@ -126,7 +127,9 @@ export const litterQuery = `
     Puppies
   WHERE litterId = ?` as const;
 /**Describes data in the Puppies Table afte being converted to a usable type.*/
-export type LitterQueryData = Omit<D1Puppies, typeof G.id | typeof G.litterId>;
+export type LitterQueryData = Omit<D1Puppies, typeof G.id | typeof G.litterId> & {
+  readonly [G.puppyId]: string;
+}
 
 /**Describes the types of data as they are when queried from D1*/
 export type D1LitterQueryData = QueryStringify<PuppyQueryData>;
@@ -158,6 +161,7 @@ export type PreviousLittersQueryData = [
  * most complex query in the database.
  * */
 export const puppyQuery = `SELECT 
+  ${D1T.Puppies}.${G.id} as ${G.puppyId},
   ${G.puppyName},
   ${G.collarColor},
   ${G.availability},
