@@ -9,75 +9,103 @@
 // 4. menu flex: 0 -> 1
 .sliderMenu {
   display: flex;
-  .flex {
-    flex: 0 1;
-  }
-  .flex-container {
-    flex: 2 2;
-    display: flex;
-    align-items: center;
-    width: 100%;
-  }
+  z-index: 998;
+  position: fixed;
+  width: 100%;
   button#title-menu-button {
-    background-color: white;
-    height: 59px;
-    border-top: 3px solid white;
-    border-bottom: none;
-    border-left: none;
-    border-right: none;
-    svg#hamSVG {
-      /* flex: 0; */
-      color: Theme.$tertiaryCherry;
-      line-height: 1.5rem;
-      /* position: absolute; */
-      padding-left: 1rem;
-      /* position: absolute; */
-      background-color: white;
-      /* height: 60px; */
-    }
-  }
-  menu {
-    flex: 0;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
+    z-index: 999;
+    font-size: 32px;
     background-color: Theme.$tertiaryCherry;
-    height: 60px;
-    font-size: 31px;
-    transition: flex 0.5s;
-    a {
-      flex: 1;
-      text-align: justify;
-      text-decoration: none;
-      margin: 1rem;
-      color: Theme.$lightTertiaryCherry;
-      white-space: nowrap;
-      min-height: 100%;
-      &:hover {
-        border-radius: 14px;
-      }
+    height: 59px;
+    border: none;
+    color: Theme.$lightTertiaryCherry;
+    width: 118px;
+    height: 70px;
+    position: relative;
+    left: Theme.$spaceBetweenElements;
+    top: Theme.$spaceBetweenElements / 2;
+    border-radius: 14px;
+    box-shadow: Theme.$darkTertiaryCherry 9px 12px 15px 0px;
+    outline: solid 4px Theme.$tertiaryCherry;
+    outline-offset: -2px;
+    transition: all 0.5s;
+    &:hover {
+      scale: 1.07;
+      transition: all 0.2s;
     }
-  }
-  a.home-button {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    /* margin: 0 auto; */
-    /* display: inline-flex; */
-    /* align-items: center; */
-    /* justify-content: space-around; */
-    /* text-decoration: none; */
-    .site-name {
-      height: auto;
-      width: 100%;
-    }
-    @include Mixins.mediaQuery(Theme.$microViewport / 2) { 
-      img {
-        width: 100%;
-        height: auto;
-      }
+    &:active {
+      box-shadow: none;
+      scale: 1;
     }
   }
 }
-// }
+a.home-button {
+  border-radius: 100%;
+  margin: 0 auto;
+  @include Mixins.setBoxShadow(Theme.$darkPrimary);
+  transition: all 0.2s;
+  &:hover {
+    scale: 1.07;
+  }
+  &:active {
+    box-shadow: none;
+    scale: 0.97;
+  }
+}
+
+img.logo {
+  width: 150px;
+  height: auto;
+  margin: 0 auto;
+  display: block;
+  position: relative;
+  @include Mixins.mediaQuery(Theme.$LgPhoneViewport) {
+    width: 100%;
+    max-width: 150px;
+    height: auto;
+    margin: 0 auto;
+  }
+  @include Mixins.mediaQuery(Theme.$SmPhoneViewport, 0.5px) {
+    width: 100%;
+    max-width: 150px;
+    height: auto;
+    margin: 0 auto;
+  }
+}
+.menu {
+  background-color: Theme.$tertiaryCherry;
+  height: 60px;
+  font-size: 31px;
+  width: 0;
+  overflow: hidden;
+}
+.link {
+  text-decoration: none;
+  margin: 1rem;
+  color: Theme.$lightTertiaryCherry;
+  white-space: nowrap;
+}
+
+.link:nth-child(1) {
+  margin-left: 180px;
+}
+@include Mixins.mediaQuery(445px) {
+  .home-button,
+  .logo {
+    display: none;
+    box-shadow: none;
+  }
+  .menu {
+    display: grid;
+  }
+  .link:nth-child(1) {
+    margin-left: 1rem;
+    margin-top: 120px;
+  }
+}
+
+//@include Mixins.mediaQuery(Theme.$LgPhoneViewport) {
+//  .site-name {
+//    display: none;
+//  }
+//}
