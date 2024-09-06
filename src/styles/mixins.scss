@@ -41,7 +41,7 @@
 @mixin setBoxShadow($color, $scale: 1px) {
   $x: calc(8px + $scale);
   $y: calc(11px + $scale);
-  box-shadow: $color $x $y 15px 5px;
+  box-shadow: $color $x $y 15px 0px;
 }
 
 @mixin scaleOnHover($scale: 1.07){
