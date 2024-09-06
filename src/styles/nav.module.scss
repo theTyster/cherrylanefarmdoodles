@@ -9,11 +9,11 @@
 // 4. menu flex: 0 -> 1
 .sliderMenu {
   display: flex;
-  z-index: 998;
+  z-index: 498;
   position: fixed;
   width: 100%;
   button#title-menu-button {
-    z-index: 999;
+    z-index: 499;
     font-size: 32px;
     background-color: Theme.$tertiaryCherry;
     height: 59px;
@@ -79,7 +79,7 @@ img.logo {
   font-size: 31px;
   width: 0;
   overflow: hidden;
-  z-index: 997;
+  z-index: 497;
 }
 .link {
   text-decoration: none;
