@@ -70,7 +70,6 @@ function Nav() {
     position: "fixed",
     top: 0,
     left: 0,
-    zIndex: 997,
     ease: "back.out",
   };
   const largeScreenTween = {
@@ -79,7 +78,6 @@ function Nav() {
     alignItems: "center",
     display: "flex",
     position: "fixed",
-    zIndex: 997,
     ease: "back.out",
   };
   const buttonTween = {
@@ -150,11 +148,11 @@ function Nav() {
           Menu
         </button>
         <menu className={navCSS["menu"]}>
-          <Link className={navCSS["link"]} href="litter/1">
+          <Link className={navCSS["link"]} href="/litter/1">
             Litters
           </Link>
-          <Link className={navCSS["link"]} href="puppies/1">
-            Puppies
+          <Link className={navCSS["link"]} href="/dams/1">
+            Mothers
           </Link>
         </menu>
         <Link className={navCSS["home-button"]} href="/">
