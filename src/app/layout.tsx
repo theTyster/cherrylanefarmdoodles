@@ -8,6 +8,8 @@ import { type Metadata } from "next";
 // Styles
 import "@styles/reset.scss";
 import "@styles/global.scss";
+import css from "@styles/root-layout.module.scss";
+import Theme from "@styles/theme.module.scss";
 import { font } from "@styles/font";
 
 export const metadata: Metadata = {
@@ -55,11 +57,13 @@ export const metadata: Metadata = {
 
 export default function CLFMain({
   children,
-  globalSlot,
-  modal
+  _2wood,
+  _3tan,
+  modal,
 }: {
   children: React.ReactNode;
-  globalSlot: React.ReactNode;
+  _2wood: React.ReactNode;
+  _3tan: React.ReactNode;
   modal: React.ReactNode;
 }): React.JSX.Element {
   return (
@@ -67,9 +71,22 @@ export default function CLFMain({
       <body className={font.className}>
         <main>
           <Nav />
-          {children}
           {modal}
-          {globalSlot}
+      <div className={css["white-layout"]}>
+        <div className={css["left-flex"]} />
+        <div className={css["content-box"]}>{children}</div>
+        <div className={css["right-flex"]} />
+      </div>
+      <div className={`${css['wood-layout']} ${Theme.woodgrain}`}>
+        <div className={css["left-flex"]} />
+        <div className={css["content-box"]}>{_2wood}</div>
+        <div className={css["right-flex"]} />
+      </div>
+                <div className={css["tan-layout"]}>
+        <div className={css["left-flex"]} />
+        <div className={css["content-box"]}>{_3tan}</div>
+        <div className={css["right-flex"]} />
+      </div>
         </main>
         <footer>
           <p style={{ margin: "unset" }}>
