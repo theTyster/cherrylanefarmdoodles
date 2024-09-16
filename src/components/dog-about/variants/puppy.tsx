@@ -120,7 +120,7 @@ export default function Puppy({
                   " and " +
                   D.parentData.partnerData[G.adultName]}
             </h3>
-            <Link href={`/sires/${D.ids[G.father]}`}></Link>
+            <Link href={`/dams/${D.ids[G.litterId]}`}>
             <SmallHeadshot
               variant={D1T.Headshots_Sm}
               gender={D.parentData.dogData[G.gender]}
@@ -128,9 +128,11 @@ export default function Puppy({
               alt={D.parentData.dogData[G.adultName]}
               id={css.Headshots_Sm}
             />
+            </Link>
             <h4 className={css.breederLine}>
               <BreederLine breeder={D.parentData.dogData[G.breeder]} />
             </h4>
+            <Link href={`/sires/${D.ids[G.litterId]}`}>
             <SmallHeadshot
               variant={D1T.Headshots_Sm}
               gender={D.parentData.partnerData[G.gender]}
@@ -138,6 +140,7 @@ export default function Puppy({
               alt={D.parentData.partnerData[G.adultName]}
               id={css.Headshots_Sm}
             />
+            </Link>
             <h4 className={css.breederLine}>
               <BreederLine breeder={D.parentData.partnerData[G.breeder]} />
             </h4>
