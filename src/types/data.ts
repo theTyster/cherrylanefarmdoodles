@@ -44,7 +44,9 @@ export interface D1HeadshotsLg extends D1GroupPhotos {}
 
 export interface D1Litters {
   readonly [G.id]: number;
-  readonly [G.dueDate]: Date;
+  /**If dueDate is not provided, Birthday should be.*/
+  readonly [G.dueDate]: Date | null;
+  /**If Birthday is not provided, dueDate should be.*/
   readonly [G.litterBirthday]: Date | null;
   readonly [G.applicantsInQueue]: number;
 }
@@ -52,22 +54,22 @@ export interface D1Litters {
 export interface D1Dogs {
   readonly [G.id]: number;
   readonly [G.gender]: "M" | "F";
-  readonly [G.noseColor]: string;
-  readonly [G.coat]: string;
-  readonly [G.personality]: string;
+  readonly [G.noseColor]: string | null;
+  readonly [G.coat]: string | null;
+  readonly [G.personality]: string | null;
   readonly [G.Headshots_Sm]: string | null;
   readonly [G.Headshots_Lg]: string | null;
 }
 
 export interface D1Adults {
   readonly [G.id]: number;
-  readonly [G.adultName]: string;
+  readonly [G.adultName]: string | 'Adult Doodle';
   readonly [G.breeder]: string;
-  readonly [G.adultBirthday]: Date;
-  readonly [G.eyeColor]: string;
+  readonly [G.adultBirthday]: Date | null;
+  readonly [G.eyeColor]: string | null;
   readonly [G.activityStatus]: "Active" | "Retired" | "Break";
-  readonly [G.favActivities]: string;
-  readonly [G.weight]: number;
+  readonly [G.favActivities]: string | null;
+  readonly [G.weight]: number | null;
   readonly [G.energyLevel]:
     | "Low"
     | "Medium-low"
@@ -81,7 +83,7 @@ export interface D1Adults {
 export interface D1Puppies {
   readonly [G.id]: number;
   readonly [G.puppyName]: string | null;
-  readonly [G.collarColor]: string;
+  readonly [G.collarColor]: string | null;
   readonly [G.availability]: "Available" | "Picked" | "Adopted" | "Held Back";
   readonly [G.dogId]: number;
   readonly [G.litterId]: number;
@@ -114,8 +116,8 @@ export type D1LittersRaw =
 export type D1DogsRaw = [
   number, //id
   "M" | "F", //gender
-  string, //noseColor
-  string, //coatColor
+  string | null, //noseColor
+  string | null, //coatColor
   string, //personality
   string | null, //Headshots_Sm
   string | null //Headshots_Lg
@@ -135,7 +137,7 @@ export type D1AdultsRaw = [
 export type D1PuppiesRaw = [
   number, //id
   string, //puppyName
-  string, //collarColor
+  string | null, //collarColor
   "Available" | "Picked" | "Adopted" | "Held Back", //availability
   number, //dogId
   number //litterId

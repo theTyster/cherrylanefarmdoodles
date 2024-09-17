@@ -34,9 +34,10 @@ CREATE TABLE Headshots_Lg (
 
 CREATE TABLE Litters (
     id integer PRIMARY KEY,
-    dueDate date NOT NULL,
+    dueDate date,
     litterBirthday date,
-    applicantsInQueue integer NOT NULL CHECK (applicantsInQueue >= 0) DEFAULT 0
+    applicantsInQueue integer NOT NULL CHECK (applicantsInQueue >= 0) DEFAULT 0,
+    CONSTRAINT check_has_date CHECK ((litterBirthday IS NOT NULL AND dueDate IS NULL) OR (litterBirthday IS NULL AND dueDate IS NOT NULL) OR (litterBirthday IS NOT NULL AND dueDate IS NOT NULL AND UNIXEPOCH(dueDate) < UNIXEPOCH(litterBirthday)))
 );
 
 CREATE TABLE Dogs (
@@ -45,8 +46,8 @@ CREATE TABLE Dogs (
     noseColor text CHECK (LENGTH(noseColor) <= 30),
     coat text CHECK (LENGTH(coat) <= 50),
     personality text CHECK (LENGTH(personality) <= 140),
-    Headshots_Sm text UNIQUE,
-    Headshots_Lg text UNIQUE,
+    Headshots_Sm text,
+    Headshots_Lg text,
     CONSTRAINT fk_dogs_headshot_small FOREIGN KEY (Headshots_Sm) REFERENCES Headshots_Sm (transformUrl) ON DELETE NO ACTION ON UPDATE CASCADE,
     CONSTRAINT fk_dogs_headshot_large FOREIGN KEY (Headshots_Lg) REFERENCES Headshots_Lg (transformUrl) ON DELETE NO ACTION ON UPDATE CASCADE
 );
@@ -54,14 +55,14 @@ CREATE TABLE Dogs (
 CREATE TABLE Adults (
     id integer PRIMARY KEY,
     dogId integer,
-    adultName text NOT NULL CHECK (LENGTH(adultName) <= 16) 'Adult Goldendoodle',
+    adultName text NOT NULL CHECK (LENGTH(adultName) <= 16) DEFAULT 'Adult Doodle',
     breeder text NOT NULL CHECK (LENGTH(breeder) <= 50),
     adultBirthday date,
     eyeColor text CHECK (LENGTH(eyeColor) <= 16),
     activityStatus text NOT NULL CHECK (activityStatus IN ('Active', 'Retired', 'Break')) DEFAULT 'Active',
     favActivities text CHECK (LENGTH(favActivities) <= 140),
     weight integer CHECK (weight > 0),
-    energyLevel text NOT NULL CHECK (energyLevel IN ('Low', 'Medium-low', 'Medium', 'Medium-high', 'High')),
+    energyLevel text CHECK (energyLevel IN ('Low', 'Medium-low', 'Medium', 'Medium-high', 'High')),
     certifications text CHECK (certifications IN ('Embark', 'Embark-equivalent')),
     CONSTRAINT fk_adults_dog_id FOREIGN KEY (dogId) REFERENCES Dogs (id) ON DELETE CASCADE ON UPDATE CASCADE
 );
@@ -81,7 +82,7 @@ CREATE TABLE Families (
     id integer PRIMARY KEY,
     Group_Photos text,
     mother integer,
-    father integer,
+    father integer NOT NULL DEFAULT 4, -- Unrecorded Father
     litterId integer,
     CONSTRAINT fk_families_group_photo_id FOREIGN KEY (Group_Photos) REFERENCES Group_Photos (transformUrl) ON DELETE NO ACTION ON UPDATE CASCADE,
     CONSTRAINT fk_families_mom_id FOREIGN KEY (mother) REFERENCES Adults (id) ON DELETE CASCADE ON UPDATE CASCADE,
