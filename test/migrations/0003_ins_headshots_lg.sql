@@ -1,7 +1,7 @@
 INSERT
     OR REPLACE INTO Headshots_Lg (hash, transformUrl)
         VALUES
-        ("default", "/public/images/404couldnt-find-picture.webp"),
+        ("default", NULL),
         ("01placeholder", "01placeholder"),
         ("02placeholder", "02placeholder"),
         ("03placeholder", "03placeholder"),

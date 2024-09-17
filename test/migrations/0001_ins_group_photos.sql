@@ -1,7 +1,7 @@
 INSERT
     OR REPLACE INTO Group_Photos (alt, hash, transformUrl)
         VALUES
-        ("No Group Photo", "default", "/public/images/404couldnt-find-picture.webp"),
+        ("No Group Photo", "default", NULL),
         ("Daphne and Francesca riding in a wagon.", "808fc7f821495d95bbf6b946419156b822356269dcfcb91d8a3b39ab5c269ecc", "https://media.cherrylanefarmdoodles.com/dzegD159TJNHOvHfFIRc0F3R4BLYI1F81KH1EFpgVC5AbkPladpgpNAxJ1e2VI7GNt_GzUeVvdMO8JGdZvD9QrjlhvLrZqA7PAkHhfI2UcvlC8xtEKVM4tyJRwbArZlsHTnV?iv=s4U6IvjH030bgPgF&k=6mf53DxgAsyMs48VDIJ6_57dpoiq8SHj3BIhxC_O-_1ysQQwjzpgC3cRQdpVAfuyXodJir84W8E1iTm-gSUbPuBjjLksO2vDC4nY5YSs_WnF4-3Xx7DCAENn7oUOSDNud9pQhw1a39sgYbd8eKPIO8TUDXH77tIrGlm00NQnjdGJQC_ZdPPi6g"),
         ("Pipers Litter born 06/2024", "0a1664bfb4b832dde1de8a6d4d21c4c893852d5afa78ed1e5e7fe354d612cbd4", "https://media.cherrylanefarmdoodles.com/IiF7JoeD_vGvLnet1lYQMhLZ1n7NPwLJ6xjW7_P9cJUF_A3R1U3lreVoWAR4A8CwdZag_LHQWJ_qdSXjdFtnHE8R3oBPMDESz1PmCzIz9v6LpXHGbGJ1VZrZXp7qWKo_xQRL?iv=7tvRHNMs5NHIQ8zh&k=VBX1dRo5O_jMox1UW44NLLxrRqo5QuU5QmeTTrs7t6ZsRlUIa3JtfHX1jU0RLpA7FDfu0W7Rg_m7ePH_g0Bgy-zLKsH-g1sNve10EPTyXighvI0btWYDX7c8H5ZSUQIMffYQD1DUkqpkB39S7HR2_YcLAKExstb3BsAoQ-p7W-PwnHVP6O67UA"),
         ("Colin in a red Bow", "16112d94ed6ab7e301790063f1d49624843ec61e8b0bd9d5ec7e011b7a17b6c1", "https://media.cherrylanefarmdoodles.com/el2RYTy2lponCxoP-vux4i8gL3D2qiHyLFB0SS5ST22MquYnNmLgUKsc_UPGDOsY5EOZP61BXRFlaqZZEaI_taaumc3cqh73b53CujoaXYcPyMjj8iMPJGSoQI267iajsPPc?iv=kDMP56mSDUDa5Knd&k=QFE30PbOI2QnRBzDmib83dWjQcI9W0jBOyYJwk41FjrjShFAieYkdcTAwmbasdR-CNypy8_wm7ToKMcxG-t6OKRm6kL-HwLPqFhi9beAz6uiy821oVmtfjnid4hH1QJQ4Kd1-U0YHrNsllhKSd1hWXmPQfbT-DaJ-SyQ_dJEUKW8D7wuPVGTgA"),
