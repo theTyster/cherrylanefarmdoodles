@@ -18,7 +18,62 @@ import type { ParentData } from "@/types/dog-about";
 
 export default function Adult({ D }: { D: ParentData }) {
   if (!D.partnerData) throw new Error("No partner data provided.");
+  const dogMorF = MorF(D.dogData[G.gender]);
   const partnerMorf = MorF(D.partnerData[G.gender]);
+  /**Returns a string containing information about available puppies.*/
+  function hasPuppies(): string {
+    let hasPuppiesString: string | undefined = undefined;
+
+    const dueDate = D.litterData[G.dueDate];
+    if (dueDate) {
+      hasPuppiesString = `has puppies due on ${normalizeEpochDate(
+        dueDate.toLocaleDateString()
+      ).replace(/.at.*/, "")}` as string;
+
+      hasPuppiesString +=
+        dueDate.toISOString().split("T")[0] ===
+        new Date().toISOString().split("T")[0]
+          ? `...That's today!!`
+          : undefined;
+
+      if (D.litterData[G.litterBirthday])
+        return (hasPuppiesString = `${D.dogData.adultName} has ${
+          D.litterData[G.availablePuppies]
+        } puppies available!` as string);
+
+      return hasPuppiesString;
+    }
+    return `is not a ${dogMorF("father", "mother")}`;
+  }
+
+  /**Returns a string containing information about the most recent litter.*/
+  function relevantLitter(): string {
+    const birthday = D.litterData[G.litterBirthday];
+    const dueDate = D.litterData[G.dueDate];
+    let relevantLitterString: string | undefined = undefined;
+
+    if (dueDate) {
+      relevantLitterString = `Next litter due on ${normalizeEpochDate(
+        dueDate.toLocaleDateString()
+      ).replace(/.at.*/, "")}` as string;
+
+      relevantLitterString +=
+        dueDate.toISOString().split("T")[0] ===
+        new Date().toISOString().split("T")[0]
+          ? `...That's today!!`
+          : undefined;
+    }
+
+    if (birthday)
+      relevantLitterString = `Last litter born on ${normalizeEpochDate(
+        birthday.toLocaleDateString()
+      ).replace(/.at.*/, "")}` as string;
+
+    if (!relevantLitterString)
+      relevantLitterString = "Currently not expecting any litters.";
+
+    return relevantLitterString;
+  }
   return (
     <>
       <div className={css.dogTitle}>
@@ -48,29 +103,21 @@ export default function Adult({ D }: { D: ParentData }) {
                   colSpan={2}
                   style={{ color: css.tertiaryCherry, lineHeight: "1.3em" }}
                 >
-                  {D.litterData[G.litterBirthday]
-                    ? `${D.dogData.adultName} has ${
-                        D.litterData[G.availablePuppies]
-                      } puppies available!`
-                    : `Due on ${normalizeEpochDate(
-                        D.litterData[G.dueDate].toLocaleDateString()
-                      ).replace(/.at.*/, "")}`}
-                  {D.litterData[G.dueDate].toISOString().split("T")[0] ===
-                  new Date().toISOString().split("T")[0]
-                    ? `...That's today!!`
-                    : undefined}
+                  {hasPuppies()}
                 </th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>
-                  <b>Age:</b>
-                </td>
-                <td>
-                  {calcAge(D.dogData[G.adultBirthday].toString())} years old
-                </td>
-              </tr>
+              {D.dogData[G.adultBirthday] ? (
+                <tr>
+                  <td>
+                    <b>Age:</b>
+                  </td>
+                  <td>
+                    {calcAge(D.dogData[G.adultBirthday]!.toString())} years old
+                  </td>
+                </tr>
+              ) : undefined}
               <tr>
                 <td>
                   <b>Weight:</b>
@@ -96,8 +143,7 @@ export default function Adult({ D }: { D: ParentData }) {
                   </td>
                   <td>{D.dogData[G.favActivities]}</td>
                 </tr>
-              ) : undefined
-              }
+              ) : undefined}
               <tr>
                 <td>
                   <b>Nose Color:</b>
@@ -129,17 +175,7 @@ export default function Adult({ D }: { D: ParentData }) {
                 : `Currently matched with ${D.partnerData[G.adultName]}.`}
             </h3>
             <h4 className={css.partnerLastLitter}>
-              {D.litterData[G.litterBirthday]
-                ? `Last litter born on ${normalizeEpochDate(
-                    D.litterData[G.litterBirthday]!.toLocaleDateString()
-                  ).replace(/.at.*/, "")}`
-                : `Next litter due on ${normalizeEpochDate(
-                    D.litterData[G.dueDate].toLocaleDateString()
-                  ).replace(/.at.*/, "")}`}
-              {D.litterData[G.dueDate].toISOString().split("T")[0] ===
-              new Date().toISOString().split("T")[0]
-                ? `...That's today!!`
-                : undefined}
+              {relevantLitter()}
             </h4>
             <GroupPhoto
               id={css[D1T.Group_Photos]}
