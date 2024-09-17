@@ -10,4 +10,8 @@ INSERT INTO Dogs (gender, noseColor, coat, personality, Headshots_Lg, Headshots_
 /*07 Green      */('F', "Black", "Red and white parti", NULL, "07placeholder", "07placeholder"),
 /*08 Nude       */('F', "Black", "Champagne tuxedo", NULL, "08placeholder", "08placeholder"),
 /*09 Blue       */('M', "Black", "Red tuxedo", NULL, "09placeholder", "09placeholder"),
-/*10 Red        */('M', "Black", "Champagne tuxedo", NULL, "10placeholder", "10placeholder");
+/*10 Red        */('M', "Black", "Champagne tuxedo", NULL, "10placeholder", "10placeholder"),
+--09/17 Additions
+/*11             */('F', "Black", "Red tuxedo", NULL, "11placeholder", "11placeholder"),
+/*12             */('F', "Black", "Red", NULL, "12placeholder", "12placeholder"),
+/*13             */('F', "Black", "Red", NULL, "13placeholder", "13placeholder");

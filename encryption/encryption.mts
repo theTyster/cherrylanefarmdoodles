@@ -8,45 +8,22 @@ const readSecrets = await readFile(resolve("../.dev.vars"));
 const secretWrappingKey = readSecrets.toString().trim().split("=")[1];
 
 const r2DirectoryPaths = [
-  join("./uploads/Group_Photos"),
-  join("./uploads/Headshots_Lg"),
+//  join("./uploads/Group_Photos"),
+//  join("./uploads/Headshots_Lg"),
   join("./uploads/Headshots_Sm"),
 ];
 
+// Mapping of dog Images to their respective dogIds.
+// The id is also used to create the SQL script which removes the placeholder text.
 const imagesForDogs = {
-  "Hailee_Lg.jpeg": 3,
-  "Hailee_Sm.jpeg": 3,
-  "Knox.jpeg": 2,
-  "Knox_Sm.jpeg": 2,
-  "Piper_Lg.jpeg": 1,
-  "Piper_Sm.jpeg": 1,
-  "Benedict.JPEG": 1,
-  "Benedict_Sm.JPEG": 1,
-  "Colin.JPEG": 2,
-  "bow-tie-Colin.JPG": 1,
-  "green-bow-Daphne.JPG": 1,
-  "white-bow-Francesca.JPG": 1,
-  "Colin_08-24.JPEG": 2,
-  "Colin_Sm.JPEG": 2,
-  "Daphne.JPEG": 3,
-  "Daphne_Sm.JPEG": 3,
-  "Daphne_08-24.JPEG": 3,
-  "Eloise.JPEG": 4,
-  "Eloise_Sm.JPEG": 4,
-  "Francesca.JPEG": 5,
-  "Francesca_08-24.JPEG": 5,
-  "Francesca_Sm.JPEG": 5,
-  "Kate.JPEG": 6,
-  "Kate_Sm.JPEG": 6,
-  "Lady_Whistledown.JPEG": 7,
-  "Lady_Whistledown_Sm.JPEG": 7,
-  "Daphne_Francesca.JPEG": 1,
-  "PipersLitter_07_2024.JPEG": 1,
+  "11.jpeg": 11,
+  "12.jpeg": 12,
+  "13.jpeg": 13,
 } as const;
 
 type DogImages = keyof typeof imagesForDogs;
 
-const imageFileNames = Object.keys(imagesForDogs) as DogImages[];
+//const imageFileNames = Object.keys(imagesForDogs) as DogImages[];
 
 const outputDirectoryPaths = "generated_files";
 
@@ -98,7 +75,10 @@ const r2PathsFlat = r2Paths.flat();
 
       const fileName = path.split("/").pop() as DogImages;
 
-      if (!imagesForDogs[fileName]) throw new Error("No file name found in imagesForDogs for file " + fileName);
+      if (!imagesForDogs[fileName])
+        throw new Error(
+          "No file name found in imagesForDogs for file " + fileName
+        );
 
       // Begin Entering data
       data.filePath = path;
@@ -144,8 +124,8 @@ const r2PathsFlat = r2Paths.flat();
       // Get Script for uploading to R2
       exec(
         `
-        echo 'npx wrangler r2 object put # --local # cherrylanefarmpics-prev/${data.hash} --cl "en-us" --file="../${r2PathsFlat[index]}"' >> ${outputDirectoryPaths}/paths.sh;
-      `
+        echo 'npx wrangler r2 object put # --local # cherrylanefarmpics/${data.hash} --cl "en-us" --file="hashes/${data.hash}"' >> ${outputDirectoryPaths}/paths.sh;
+        `
       );
 
       // Get Script for renaming files with correct hashes.
@@ -171,6 +151,7 @@ const r2PathsFlat = r2Paths.flat();
           `
           echo 'INSERT OR REPLACE INTO ${data.table} (hash, transformUrl) VALUES ("${data.hash}", "${data.transformUrl}");' >> ${outputDirectoryPaths}/Headshots_Lg.sql
           echo 'UPDATE Dogs SET Headshots_Lg = "${data.transformUrl}" WHERE id = ${data.id};' >> ${outputDirectoryPaths}/Headshots_Lg.sql
+          echo 'DELETE FROM Headshots_Lg WHERE hash = "${data.id}placeholder";' >> ${outputDirectoryPaths}/Headshots_Lg.sql
           `
         );
 
@@ -179,6 +160,7 @@ const r2PathsFlat = r2Paths.flat();
           `
           echo 'INSERT OR REPLACE INTO ${data.table} (hash, transformUrl) VALUES ("${data.hash}", "${data.transformUrl}");' >> ${outputDirectoryPaths}/Headshots_Sm.sql
           echo 'UPDATE Dogs SET Headshots_Sm = "${data.transformUrl}" WHERE id = ${data.id};' >> ${outputDirectoryPaths}/Headshots_Sm.sql
+          echo 'DELETE FROM Headshots_Sm WHERE hash = "${data.id}placeholder";' >> ${outputDirectoryPaths}/Headshots_Sm.sql
           `
         );
 
