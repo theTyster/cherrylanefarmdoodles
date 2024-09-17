@@ -42,8 +42,8 @@ CREATE TABLE Litters (
 CREATE TABLE Dogs (
     id integer PRIMARY KEY,
     gender text NOT NULL CHECK (gender IN ('M', 'F')),
-    noseColor text NOT NULL CHECK (LENGTH(noseColor) <= 30),
-    coat text NOT NULL CHECK (LENGTH(coat) <= 50),
+    noseColor text CHECK (LENGTH(noseColor) <= 30),
+    coat text CHECK (LENGTH(coat) <= 50),
     personality text CHECK (LENGTH(personality) <= 140),
     Headshots_Sm text UNIQUE,
     Headshots_Lg text UNIQUE,
@@ -54,13 +54,13 @@ CREATE TABLE Dogs (
 CREATE TABLE Adults (
     id integer PRIMARY KEY,
     dogId integer,
-    adultName text NOT NULL CHECK (LENGTH(adultName) <= 16),
+    adultName text NOT NULL CHECK (LENGTH(adultName) <= 16) 'Adult Goldendoodle',
     breeder text NOT NULL CHECK (LENGTH(breeder) <= 50),
-    adultBirthday date NOT NULL,
-    eyeColor text NOT NULL CHECK (LENGTH(eyeColor) <= 16),
+    adultBirthday date,
+    eyeColor text CHECK (LENGTH(eyeColor) <= 16),
     activityStatus text NOT NULL CHECK (activityStatus IN ('Active', 'Retired', 'Break')) DEFAULT 'Active',
     favActivities text CHECK (LENGTH(favActivities) <= 140),
-    weight integer NOT NULL CHECK (weight > 0),
+    weight integer CHECK (weight > 0),
     energyLevel text NOT NULL CHECK (energyLevel IN ('Low', 'Medium-low', 'Medium', 'Medium-high', 'High')),
     certifications text CHECK (certifications IN ('Embark', 'Embark-equivalent')),
     CONSTRAINT fk_adults_dog_id FOREIGN KEY (dogId) REFERENCES Dogs (id) ON DELETE CASCADE ON UPDATE CASCADE
@@ -69,7 +69,7 @@ CREATE TABLE Adults (
 CREATE TABLE Puppies (
     id integer PRIMARY KEY,
     puppyName text CHECK (LENGTH(puppyName) <= 16),
-    collarColor text NOT NULL CHECK (LENGTH(collarColor) <= 16),
+    collarColor text CHECK (LENGTH(collarColor) <= 16),
     availability text NOT NULL CHECK (availability IN ('Available', 'Picked', 'Adopted', 'Held Back')) DEFAULT 'Available',
     dogId integer,
     litterId integer,
