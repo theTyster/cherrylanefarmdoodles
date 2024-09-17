@@ -32,7 +32,7 @@ export default async function WoodSectionLitter({
   return (
     <>
       <div>
-        <h2>Previous Litters</h2>
+        <h2>Other litters from {mom[G.adultName]}</h2>
         {previousLitters.map((litter) => {
           const litterId = litter[1];
           const GroupImage = litter[0];
