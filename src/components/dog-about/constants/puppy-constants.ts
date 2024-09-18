@@ -91,8 +91,8 @@ export default class PuppyData {
       // Cobble together a recent family from data gathered with the puppy.
       const mostRecentFamilyHack = {
         ...this.pup.ids,
-        [G.litterBirthday]: this.pup.litterData[G.litterBirthday]!.toString(),
-        [G.dueDate]: this.pup.litterData[G.dueDate]!.toString(),
+        [G.litterBirthday]: this.pup.litterData[G.litterBirthday],
+        [G.dueDate]: this.pup.litterData[G.dueDate],
         [G.applicantsInQueue]: this.pup.litterData[G.applicantsInQueue],
         [G.availablePuppies]: this.pup.litterData[G.availablePuppies],
         [G.totalPuppies]: this.pup.litterData[G.totalPuppies],
@@ -145,8 +145,8 @@ export default class PuppyData {
         [G.Headshots_Sm]: pup[G.Headshots_Sm],
       },
       litterData: {
-        [G.dueDate]: new Date(pup[G.dueDate]),
-        [G.litterBirthday]: new Date(pup[G.litterBirthday]),
+        [G.dueDate]: pup[G.dueDate] ? new Date(pup[G.dueDate]!) : null,
+        [G.litterBirthday]: pup[G.litterBirthday] ? new Date(pup[G.litterBirthday]!): null,
         [G.applicantsInQueue]: pup[G.applicantsInQueue],
         [G.availablePuppies]: pup[G.availablePuppies],
         [G.totalPuppies]: pup[G.totalPuppies],

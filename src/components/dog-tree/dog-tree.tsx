@@ -36,23 +36,31 @@ export default async function DogTree({
 
   const saveTheDate = () => {
     /**The next relevant day. Either due Date or Birthday.*/
-    const specialDay = () =>
-      litterData.litterBirthday
-        ? litterData.litterBirthday
-        : litterData.dueDate;
+    const specialDayGetter = (): Date => {
+      const birthday = litterData[G.litterBirthday];
+      const dueDate = litterData[G.dueDate];
+      if (birthday) return birthday;
+      else if (dueDate) return dueDate;
+      else
+        throw new Error(
+          "No associated birthday or due date found. \n" +
+            JSON.stringify(familyData)
+        );
+    };
+    const specialDay = specialDayGetter();
     const now = new Date();
     /**The date of the next event being reported by this function.*/
-    const nextEvent = (ffw: 49 | 56) =>{
-      const date = new Date(specialDay());
+    const nextEvent = (ffw: 49 | 56) => {
+      const date = new Date(specialDay);
       date.setDate(date.getDate() + ffw);
       return date;
-    }
+    };
 
     // Formats the date based on the current date.
     const dateFormat = (date: Date | number) => {
       // If the date is using a different year, it should display the full date.
       if (now.getFullYear() !== new Date(date).getFullYear())
-        return normalizeEpochDate(specialDay(), "date-only");
+        return normalizeEpochDate(specialDay, "date-only");
       // If the date is the same as the current day, it should display "Today! 🎉"
       else if (
         new Date(date).toISOString().split("T")[0] ===
@@ -64,11 +72,11 @@ export default async function DogTree({
 
     // If the litter is unborn, it should display the due date.
     // The litter is unborn.
-    if (now < specialDay())
+    if (now < specialDay)
       return (
         <>
           <div className={css.goingHome}>Due on</div>
-          {dateFormat(specialDay())}
+          {dateFormat(specialDay)}
         </>
       );
     // If the litter is born and the pick date is in the future, it should
@@ -137,9 +145,7 @@ export default async function DogTree({
           />
         </Link>
       </div>
-      <h1 className={`${Theme.mobileOnly} ${css.heading}`}>
-        {saveTheDate()}
-      </h1>
+      <h1 className={`${Theme.mobileOnly} ${css.heading}`}>{saveTheDate()}</h1>
       <div className={css.bottom}>
         <GroupPhoto
           className={css.puppyGroup}

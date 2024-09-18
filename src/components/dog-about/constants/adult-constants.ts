@@ -43,7 +43,7 @@ export default class AdultDogData {
     adultId: number,
     primaryParent: ParentRole,
     mostRecentFamily?: D1FQ,
-    secondaryParent?: ParentRole,
+    secondaryParent?: ParentRole
   ) {
     this.D1 = D1;
     this.adultId = adultId;
@@ -55,33 +55,32 @@ export default class AdultDogData {
   /**Typifies data for an adult Dog*/
   typifyParent(parentDog: ParentExtracted): ParentTypified {
     return {
-      [G.adultName]: parentDog[G.adultName],
-      [G.breeder]: parentDog[G.breeder],
-      [G.adultBirthday]: new Date(parentDog[G.adultBirthday]),
+      [G.adultName]: parentDog[
+        G.adultName
+      ] as ParentTypified[typeof G.adultName],
+      [G.breeder]: parentDog[G.breeder] as ParentTypified[typeof G.breeder],
+      [G.adultBirthday]: parentDog[G.adultBirthday]
+        ? new Date(parentDog[G.adultBirthday]!)
+        : null,
       [G.eyeColor]: parentDog[G.eyeColor],
-      [G.activityStatus]: parentDog[G.activityStatus] as
-        | "Active"
-        | "Retired"
-        | "Break",
+      [G.activityStatus]: parentDog[
+        G.activityStatus
+      ] as ParentTypified[typeof G.activityStatus],
       [G.favActivities]: parentDog[G.favActivities],
       [G.weight]: parentDog[G.weight],
-      [G.energyLevel]: parentDog[G.energyLevel] as
-        | "Low"
-        | "Medium-low"
-        | "Medium"
-        | "Medium-high"
-        | "High",
-      [G.gender]: parentDog[G.gender] as "M" | "F",
+      [G.energyLevel]: parentDog[
+        G.energyLevel
+      ] as ParentTypified[typeof G.energyLevel],
+      [G.gender]: parentDog[G.gender] as ParentTypified[typeof G.gender],
       [G.noseColor]: parentDog[G.noseColor],
       [G.coat]: parentDog[G.coat],
       [G.personality]: parentDog[G.personality],
       [G.Headshots_Lg]: parentDog[G.Headshots_Lg],
       [G.Headshots_Sm]: parentDog[G.Headshots_Sm],
       [G.dogId]: parentDog[G.dogId],
-      [G.certifications]: parentDog[G.certifications] as
-        | "Embark"
-        | "Embark-equivalent"
-        | null,
+      [G.certifications]: parentDog[
+        G.certifications
+      ] as ParentTypified[typeof G.certifications],
     };
   }
 
@@ -102,26 +101,26 @@ export default class AdultDogData {
     dogId: number
   ): Promise<ParentTypified> {
     const adultData: ParentTypified = await Promise.all([
-      this.adultTableQuery(adultId).then((adultDogsTable) =>
-        !adultDogsTable
-          ? Promise.reject(
-              "Missing " +
-                adultDogsTable +
-                " data in Adult Table for Litter ID: " +
-                this.adultId
-            )
-          : adultDogsTable
-      ),
-      this.dogsTableQuery(dogId).then((dogTableData) =>
-        !dogTableData
-          ? Promise.reject(
-              "Missing " +
-                dogTableData +
-                " data in Dogs Table for ID: " +
-                this.dogId
-            )
-          : dogTableData
-      ),
+      this.adultTableQuery(adultId).then((adultDogsTable) => {
+        if (!adultDogsTable)
+          throw new Error(
+            "Missing " +
+              adultDogsTable +
+              " data in Adult Table for Litter ID: " +
+              this.adultId
+          );
+        return adultDogsTable;
+      }),
+      this.dogsTableQuery(dogId).then((dogTableData) => {
+        if (!dogTableData)
+          throw new Error(
+            "Missing " +
+              dogTableData +
+              " data in Dogs Table for ID: " +
+              this.dogId
+          );
+        return dogTableData;
+      }),
     ]).then(([adultDogsTable, dogTableData]) =>
       this.typifyParent({ ...dogTableData, ...adultDogsTable })
     );
@@ -166,7 +165,11 @@ export default class AdultDogData {
    * @param adultData - The parent data to append to the family data. First parent is the primary parent for the page.
    * @param mostRecentFamily - The most recent family data. Should be the result of a query with {@see getMostRecentFamily} using a litterId.
    **/
-  async getParentData(mostRecentFamily?: D1FQ, primaryParent?:ParentRole, secondaryParent?: ParentRole): Promise<ParentData> {
+  async getParentData(
+    mostRecentFamily?: D1FQ,
+    primaryParent?: ParentRole,
+    secondaryParent?: ParentRole
+  ): Promise<ParentData> {
     mostRecentFamily = mostRecentFamily || this.mostRecentFamily;
     primaryParent = primaryParent || this.primaryParent;
     secondaryParent = secondaryParent || this.secondaryParent;
@@ -176,8 +179,8 @@ export default class AdultDogData {
     const secondaryParentId = mostRecentFamily[secondaryParent];
 
     this.parents = [primaryParent, secondaryParent] as const;
-    
-    const parentDogsData:ParentDataArray<ParentTypified> = await Promise.all([
+
+    const parentDogsData: ParentDataArray<ParentTypified> = await Promise.all([
       this.getAdultData(this.adultId),
       this.getAdultData(secondaryParentId),
     ]);
@@ -186,8 +189,12 @@ export default class AdultDogData {
       dogData: parentDogsData[0],
       partnerData: parentDogsData[1],
       litterData: {
-        [G.dueDate]: new Date(mostRecentFamily[G.dueDate]),
-        [G.litterBirthday]: new Date(mostRecentFamily[G.litterBirthday]),
+        [G.dueDate]: mostRecentFamily[G.dueDate]
+          ? new Date(mostRecentFamily[G.dueDate]!)
+          : null,
+        [G.litterBirthday]: mostRecentFamily[G.litterBirthday]
+          ? new Date(mostRecentFamily[G.litterBirthday]!)
+          : null,
         [G.applicantsInQueue]: mostRecentFamily[G.applicantsInQueue],
         [G.availablePuppies]: mostRecentFamily[G.availablePuppies],
         [G.totalPuppies]: mostRecentFamily[G.totalPuppies],

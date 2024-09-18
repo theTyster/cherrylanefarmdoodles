@@ -75,7 +75,7 @@ export interface D1Adults {
     | "Medium-low"
     | "Medium"
     | "Medium-high"
-    | "High";
+    | "High" | null;
   readonly [G.certifications]: "Embark" | "Embark-equivalent" | null;
   readonly [G.dogId]: number;
 }
@@ -91,7 +91,7 @@ export interface D1Puppies {
 
 export interface D1Families {
   readonly [G.id]: number;
-  readonly [G.Group_Photos]: string;
+  readonly [G.Group_Photos]: string | null;
   readonly [G.mother]: number;
   readonly [G.father]: number;
   readonly [G.litterId]: number;
@@ -99,7 +99,7 @@ export interface D1Families {
 
 export interface D1DogToGroupPhotos {
   readonly [G.id]: number;
-  readonly [G.Group_Photos]: string;
+  readonly [G.Group_Photos]: string | null;
   readonly [G.dogId]: number;
 }
 
@@ -124,7 +124,7 @@ export type D1DogsRaw = [
 ];
 export type D1AdultsRaw = [
   number, //id
-  string, //adultName
+  string | "Adult Doodle", //adultName
   string, //breeder
   Date, //adultBirthday
   string, //eyeColor
@@ -144,13 +144,13 @@ export type D1PuppiesRaw = [
 ];
 export type D1FamiliesRaw = [
   number, //id
-  string, //Group_Photos
+  string | null, //Group_Photos
   number, //mother
   number, //father
   number //litterId
 ];
 export type D1DogToGroupPhotosRaw = [
   number, //id
-  string, //Group_Photos
+  string | null, //Group_Photos
   number //dogId
 ];

@@ -9,7 +9,7 @@ import {
 
 /**Utility type for this file.*/
 type QueryStringify<T> = {
-  [key in keyof T]: T[key] extends number ? number : string;
+  [key in keyof T]: T[key] extends number & null ? number | null : T[key] extends string & null ? string | null : T[key];
 };
 
 /**

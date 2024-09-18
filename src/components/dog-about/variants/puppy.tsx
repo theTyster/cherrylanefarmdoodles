@@ -31,11 +31,45 @@ export default function Puppy({
   if (!css) css = theme;
 
   const puppyName = D.dogData[G.puppyName] ?? "Unnamed Puppy";
+
+  function hasPuppies(): string {
+    let hasPuppiesString: string | undefined = undefined;
+
+    const dueDate = D.litterData[G.dueDate];
+    const birthday = D.litterData[G.litterBirthday];
+    if (dueDate) {
+      hasPuppiesString = `Due on ${normalizeEpochDate(
+        dueDate.toLocaleDateString()
+      ).replace(/.at.*/, "")}` as string;
+
+      hasPuppiesString +=
+        dueDate.toISOString().split("T")[0] ===
+        new Date().toISOString().split("T")[0]
+          ? `...That's today!!`
+          : "";
+      if (birthday) {
+        hasPuppiesString = `Born on ${normalizeEpochDate(
+          birthday.toLocaleDateString()
+        ).replace(/.at.*/, "")}` as string;
+
+        hasPuppiesString +=
+          birthday.toISOString().split("T")[0] ===
+          new Date().toISOString().split("T")[0]
+            ? `...That's today!!`
+            : "";
+        return hasPuppiesString;
+      }
+
+      return hasPuppiesString;
+    }
+    return `is not born yet.`;
+  }
+                    console.log(hasPuppies())
   return (
     <>
       <article className={css.mainDog}>
         <div className={css.attentionGetter}>
-          <LargeHeadshot
+                    <LargeHeadshot
             variant={G.Headshots_Lg}
             id={css.Headshots_Lg}
             src={D.dogData[G.Headshots_Lg]}
@@ -43,13 +77,12 @@ export default function Puppy({
             gender={D.dogData[G.gender]}
           />
           <div className={`${css.dogTitle}`}>
-            <h1 className={css.dogName}>{puppyName}
-              <AvailabilityIcon availability={D.dogData[G.availability]}/>
+            <h1 className={css.dogName}>
+              {puppyName}
+              <AvailabilityIcon availability={D.dogData[G.availability]} />
             </h1>
             <hr />
-            <h2 className={css.availability}>
-              {D.dogData[G.availability]}
-            </h2>
+            <h2 className={css.availability}>{D.dogData[G.availability]}</h2>
           </div>
         </div>
         <div className={css.familyData}>
@@ -58,17 +91,7 @@ export default function Puppy({
               <thead>
                 <tr>
                   <th colSpan={2}>
-                    {D.litterData[G.litterBirthday]
-                      ? `Born on ${normalizeEpochDate(
-                          D.litterData[G.litterBirthday]!.toLocaleDateString()
-                        ).replace(/.at.*/, "")}`
-                      : `Due on ${normalizeEpochDate(
-                          D.litterData[G.dueDate].toLocaleDateString()
-                        ).replace(/.at.*/, "")}`}
-                    {D.litterData[G.dueDate].toISOString().split("T")[0] ===
-                    new Date().toISOString().split("T")[0]
-                      ? `...That's today!!`
-                      : undefined}
+                    {hasPuppies()}
                   </th>
                 </tr>
               </thead>
@@ -121,25 +144,25 @@ export default function Puppy({
                   D.parentData.partnerData[G.adultName]}
             </h3>
             <Link href={`/dams/${D.ids[G.litterId]}`}>
-            <SmallHeadshot
-              variant={D1T.Headshots_Sm}
-              gender={D.parentData.dogData[G.gender]}
-              src={D.parentData.dogData[G.Headshots_Sm]}
-              alt={D.parentData.dogData[G.adultName]}
-              id={css.Headshots_Sm}
-            />
+              <SmallHeadshot
+                variant={D1T.Headshots_Sm}
+                gender={D.parentData.dogData[G.gender]}
+                src={D.parentData.dogData[G.Headshots_Sm]}
+                alt={D.parentData.dogData[G.adultName]}
+                id={css.Headshots_Sm}
+              />
             </Link>
             <h4 className={css.breederLine}>
               <BreederLine breeder={D.parentData.dogData[G.breeder]} />
             </h4>
             <Link href={`/sires/${D.ids[G.litterId]}`}>
-            <SmallHeadshot
-              variant={D1T.Headshots_Sm}
-              gender={D.parentData.partnerData[G.gender]}
-              src={D.parentData.partnerData[G.Headshots_Sm]}
-              alt={D.parentData.partnerData[G.adultName]}
-              id={css.Headshots_Sm}
-            />
+              <SmallHeadshot
+                variant={D1T.Headshots_Sm}
+                gender={D.parentData.partnerData[G.gender]}
+                src={D.parentData.partnerData[G.Headshots_Sm]}
+                alt={D.parentData.partnerData[G.adultName]}
+                id={css.Headshots_Sm}
+              />
             </Link>
             <h4 className={css.breederLine}>
               <BreederLine breeder={D.parentData.partnerData[G.breeder]} />
