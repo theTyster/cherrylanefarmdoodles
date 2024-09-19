@@ -15,7 +15,7 @@ nav.sliderMenu {
   display: flex;
   align-items:center;
   justify-content: space-between;
-  z-index: 498;
+  z-index: 499;
   position: fixed;
   top: 0;
   width: 100%;
@@ -34,12 +34,11 @@ button#title-menu-button {
   padding: 0 1em;
   margin-bottom: $marginBottom;
   font-size: $fontSize;
-  z-index: 499;
+  z-index: 498;
   border: none;
   border-radius: Theme.$buttonRadius;
   background-color: Theme.$tertiaryCherry;
   color: Theme.$lightTertiaryCherry;
-  @include Mixins.setBoxShadow(Theme.$darkTertiaryCherry);
   outline: solid 2px Theme.$tertiaryCherry;
   outline-offset: -1px;
   cursor: pointer;
@@ -55,42 +54,32 @@ button#title-menu-button {
   @include Mixins.mediaQuery(Theme.$LgPhoneViewport) {
     height: calc($menu-button-height - $mobile-view-reduction);
     font-size: calc($fontSize - $mobile-view-reduction / 2);
+    border-radius: Theme.$smallButtonRadius;
   }
 }
 
 a.home-button {
+  display: none;
+  $max-scale: 1.07;
+  height: calc(100% - ($max-scale * 100% - 100%));
+  width: auto;
+  aspect-ratio: 1/1;
+  border: 4px solid Theme.$primary;
   border-radius: 100%;
   background-color: white;
-  margin: 0 auto;
-  @include Mixins.setBoxShadow(Theme.$darkPrimary);
-  transition: all 0.2s;
+  transition: all Theme.$transitionShort;
   &:hover {
-    scale: 1.07;
+    scale: $max-scale;
   }
   &:active {
     box-shadow: none;
-    scale: 0.97;
+    scale: calc($max-scale - 0.10);
   }
 }
 
-img.logo {
-  width: 150px;
+.logo {
+  width: 100%;
   height: auto;
-  margin: 0 auto;
-  display: block;
-  position: relative;
-  @include Mixins.mediaQuery(Theme.$LgPhoneViewport) {
-    width: 100%;
-    max-width: 150px;
-    height: auto;
-    margin: 0 auto;
-  }
-  @include Mixins.mediaQuery(Theme.$SmPhoneViewport, 0.5px) {
-    width: 100%;
-    max-width: 150px;
-    height: auto;
-    margin: 0 auto;
-  }
 }
 
 .menu {
