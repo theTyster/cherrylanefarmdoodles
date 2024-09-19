@@ -7,38 +7,57 @@
 // 2. menu display: none -> flex
 // 3. logo link flex: 1 -> 0
 // 4. menu flex: 0 -> 1
-.sliderMenu {
+$menu-height: 100px;
+$menu-button-height: 60px;
+$mobile-view-reduction: 20px;
+nav.sliderMenu {
+  height: $menu-height;
   display: flex;
+  align-items:center;
+  justify-content: space-between;
   z-index: 498;
   position: fixed;
+  top: 0;
   width: 100%;
-  button#title-menu-button {
-    z-index: 499;
-    font-size: 32px;
-    background-color: Theme.$tertiaryCherry;
-    height: 59px;
-    border: none;
-    color: Theme.$lightTertiaryCherry;
-    width: 118px;
-    height: 70px;
-    position: absolute;
-    left: Theme.$spaceBetweenElements;
-    top: Theme.$spaceBetweenElements / 2;
-    border-radius: 14px;
-    box-shadow: Theme.$darkTertiaryCherry 9px 12px 15px 0px;
-    outline: solid 4px Theme.$tertiaryCherry;
-    outline-offset: -2px;
-    transition: all 0.5s;
-    &:hover {
-      scale: 1.07;
-      transition: all 0.2s;
-    }
-    &:active {
-      box-shadow: none;
-      scale: 1;
-    }
+  padding: 0 15px;
+  contain: strict;
+  @include Mixins.mediaQuery(Theme.$LgPhoneViewport) {
+    top: auto;
+    bottom: 0;
   }
 }
+
+button#title-menu-button {
+  $marginBottom: #{calc(Theme.$boxShadowY + Theme.$boxShadowBlur / 2)}px;
+  $fontSize: Theme.$h3;
+  height: $menu-button-height;
+  padding: 0 1em;
+  margin-bottom: $marginBottom;
+  font-size: $fontSize;
+  z-index: 499;
+  border: none;
+  border-radius: Theme.$buttonRadius;
+  background-color: Theme.$tertiaryCherry;
+  color: Theme.$lightTertiaryCherry;
+  @include Mixins.setBoxShadow(Theme.$darkTertiaryCherry);
+  outline: solid 2px Theme.$tertiaryCherry;
+  outline-offset: -1px;
+  cursor: pointer;
+  transition: all 0.5s;
+  &:hover {
+    scale: 1.07;
+    transition: all Theme.$transitionShort;
+  }
+  &:active {
+    box-shadow: none;
+    scale: 1;
+  }
+  @include Mixins.mediaQuery(Theme.$LgPhoneViewport) {
+    height: calc($menu-button-height - $mobile-view-reduction);
+    font-size: calc($fontSize - $mobile-view-reduction / 2);
+  }
+}
+
 a.home-button {
   border-radius: 100%;
   background-color: white;
@@ -73,9 +92,10 @@ img.logo {
     margin: 0 auto;
   }
 }
+
 .menu {
   background-color: Theme.$tertiaryCherry;
-  height: 60px;
+  height: calc($menu-button-height - Theme.$buttonRadius);
   font-size: 31px;
   width: 0;
   overflow: hidden;
@@ -88,26 +108,7 @@ img.logo {
   white-space: nowrap;
 }
 
-.link:nth-child(1) {
-  margin-left: 180px;
+:export{
+  menuHeight: $menu-height;
+  menuButtonHeight: $menu-button-height;
 }
-@include Mixins.mediaQuery(445px) {
-  .home-button,
-  .logo {
-    display: none;
-    box-shadow: none;
-  }
-  .menu {
-    display: grid;
-  }
-  .link:nth-child(1) {
-    margin-left: 1rem;
-    margin-top: 120px;
-  }
-}
-
-//@include Mixins.mediaQuery(Theme.$LgPhoneViewport) {
-//  .site-name {
-//    display: none;
-//  }
-//}

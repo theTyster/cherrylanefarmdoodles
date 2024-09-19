@@ -5,7 +5,7 @@ import Image from "next/image";
 import { font } from "@styles/font";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 
 // Static
 import Logo from "@pub/images/cherry-lane-farm-logo--256px.png";
@@ -61,16 +61,16 @@ function Nav() {
   //      { scope: navRef }
   //    );
   //    const hamTlTrigger = useRef<HTMLButtonElement>(null);
-
-  const smallScreenTween = {
-    display: "grid",
+  // }
+  const menuTween: gsap.TweenVars = {
+    display: "flex",
     width: "100%",
-    height: "300px",
     alignItems: "center",
     position: "fixed",
     top: 0,
     left: 0,
-    ease: "back.out",
+    ease: "elastic.out",
+    duration: 1,
   };
   const largeScreenTween = {
     width: "100%",
@@ -80,48 +80,48 @@ function Nav() {
     position: "fixed",
     ease: "back.out",
   };
-  const buttonTween = {
-    minWidth: "118px",
-    top: 40,
+  const buttonTween: gsap.TweenVars = {
+    position: "absolute",
+    bottom: 5,
+    height: Number.parseFloat(navCSS["menuButtonHeight"]) / 2 + "px",
+    borderRadius: Number.parseFloat(navCSS["buttonRadius"]) - 0.5 + "rem",
+    boxShadow: 'none',
+    fontSize: "1rem",
     backgroundColor: Theme.lightTertiaryCherry,
     color: Theme.darkTertiaryCherry,
-    ease: "back.out",
+    ease: "linear",
   };
-  const [screenWidth, setScreenWidth] = useState<number>();
   const menuRef = useRef<HTMLElement>(null),
     menuTl = useRef<gsap.core.Timeline>();
   useGSAP(
     () => {
-      const getScreenWidth = () => window.screen?.width;
-      const menuTween =
-        getScreenWidth() < 445 ? smallScreenTween : largeScreenTween;
-      getScreenWidth() < 445
-        ? (buttonTween.top =
-            Number.parseFloat(Theme.spaceBetweenElements.replace("px", "")) / 2)
-        : undefined;
       menuTl.current = gsap.timeline({
         paused: true,
-        defaults: { duration: 1 },
+        defaults: { duration: Theme["transitionShort"] },
       });
       menuTl.current
-        .to(`.${navCSS["menu"]}`, {
-          ...menuTween,
+        .to(`#${navCSS["title-menu-button"]}`, {
+          transition: "none",
         })
+        .to(`.${navCSS["menu"]}`, menuTween, "<")
         .to(
-          `.${navCSS["home-button"]} .${navCSS["logo"]}`,
-          { opacity: 0, height: 0 },
+          `.${navCSS["home-button"]}`,
+          { opacity: 0, height: 0, duration: 0 },
           "<"
         )
-        .to(`#${navCSS["title-menu-button"]}`, buttonTween, "<");
-      setScreenWidth(getScreenWidth());
+        .to(`#${navCSS["title-menu-button"]}`, buttonTween, "<")
+        .to(`#${navCSS["title-menu-button"]}`, {
+          clearProps: "transition",
+        });
+
+
     },
     {
       scope: menuRef,
       dependencies: [
-        smallScreenTween,
+        menuTween,
         largeScreenTween,
         buttonTween,
-        screenWidth,
       ],
     }
   );

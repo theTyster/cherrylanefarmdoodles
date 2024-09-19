@@ -21,6 +21,10 @@ $lightDad: $lightAccentBlue;
 $darkMom: $tertiaryCherry;
 $darkDad: $accentBlue;
 
+// Outlines and Shadows
+$boxShadowX: 9; // Needs to be populated in the mixin.
+$boxShadowY: 12; // Needs to be populated in the mixin.
+$boxShadowBlur: 15; // Needs to be populated in the mixin.
 $outlineWidth: 9px;
 $momOutline: $outlineWidth solid $lightMom;
 $dadOutline: $outlineWidth solid $lightDad;
@@ -29,7 +33,8 @@ $dadShadow: 0 0 0 calc($outlineWidth * 0.667) $lightAccentBlue;
 
 $black: #333;
 
-$transitionShort: 0.1s;
+$transitionShort: 0.2;
+$transitionFancy: 0.5;
 
 // Sizing
 $tabletViewport: 1200px;
@@ -124,7 +129,7 @@ $h4: calc(51px - 30px);
 }
 
 // Vim macro for formatting variable names:
-// veyf:lvf;hpj0
+// 0veyf:lvf;hpj0
 :export {
   Group_Photos: $Group_Photos;
   Headshots_Lg: $Headshots_Lg;
@@ -163,4 +168,10 @@ $h4: calc(51px - 30px);
   spaceBetweenElements: $spaceBetweenElements;
   tabletViewport: $tabletViewport;
   tertiaryCherry: $tertiaryCherry;
+  watchViewport: $watchViewport;
+  transitionShort:$transitionShort;
+  transitionFancy:$transitionFancy;
+  boxShadowX:$boxShadowX; // Needs to be populated in the mixin.
+  boxShadowY:$boxShadowY; // Needs to be populated in the mixin.
+  boxShadowBlur:$boxShadowBlur; // Needs to be populated in the mixin.
 }
