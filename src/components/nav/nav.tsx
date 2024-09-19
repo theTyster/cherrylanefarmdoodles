@@ -1,14 +1,10 @@
 "use client";
 // Components
 import Link from "next/link";
-import Image from "next/image";
 import { font } from "@styles/font";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { useRef } from "react";
-
-// Static
-import Logo from "@pub/images/cherry-lane-farm-logo--256px.png";
 
 // Styles
 import navCSS from "@styles/nav.module.scss";
@@ -174,14 +170,6 @@ function Nav() {
             Mothers
           </Link>
         </menu>
-        <Link className={navCSS["home-button"]} href="/">
-          <Image
-            src={Logo}
-            className={navCSS["logo"]}
-            placeholder="blur"
-            alt="Cherry Lane Farm Doodles logo"
-          />
-        </Link>
       </nav>
     </>
   );

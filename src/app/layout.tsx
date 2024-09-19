@@ -1,6 +1,11 @@
 export const runtime = "edge";
 // Components
 import Nav from "@/components/nav/nav";
+import Image from "next/image";
+import Link from "next/link";
+
+// Static
+import Logo from "@pub/images/cherry-lane-farm-logo--256px.png";
 
 // Types
 import { type Metadata } from "next";
@@ -69,24 +74,35 @@ export default function CLFMain({
   return (
     <html lang="en">
       <body className={font.className}>
+        <header>
+          <Link className={css["home-button"]} href="/">
+            <Image
+              src={Logo}
+              placeholder="blur"
+              alt="Cherry Lane Farm Doodles logo"
+              width={250}
+              height={250}
+            />
+          </Link>
+        </header>
         <main>
           <Nav />
           {modal}
-      <div className={css["white-layout"]}>
-        <div className={css["left-flex"]} />
-        <div className={css["content-box"]}>{children}</div>
-        <div className={css["right-flex"]} />
-      </div>
-      <div className={`${css['wood-layout']} ${Theme.woodgrain}`}>
-        <div className={css["left-flex"]} />
-        <div className={css["content-box"]}>{_2wood}</div>
-        <div className={css["right-flex"]} />
-      </div>
-                <div className={css["tan-layout"]}>
-        <div className={css["left-flex"]} />
-        <div className={css["content-box"]}>{_3tan}</div>
-        <div className={css["right-flex"]} />
-      </div>
+          <div className={css["white-layout"]}>
+            <div className={css["left-flex"]} />
+            <div className={css["content-box"]}>{children}</div>
+            <div className={css["right-flex"]} />
+          </div>
+          <div className={`${css["wood-layout"]} ${Theme.woodgrain}`}>
+            <div className={css["left-flex"]} />
+            <div className={css["content-box"]}>{_2wood}</div>
+            <div className={css["right-flex"]} />
+          </div>
+          <div className={css["tan-layout"]}>
+            <div className={css["left-flex"]} />
+            <div className={css["content-box"]}>{_3tan}</div>
+            <div className={css["right-flex"]} />
+          </div>
         </main>
         <footer>
           <p style={{ margin: "unset" }}>
