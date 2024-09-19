@@ -14,7 +14,7 @@
 }
 .selectorButton {
   $darkenedPrimary: darken(Theme.$darkPrimary, 4%);
-  @include Mixins.setBoxShadow($darkenedPrimary, 1px);
+  @include Mixins.setBoxShadow($darkenedPrimary);
   border: none;
   z-index: 1;
   width: 100%;

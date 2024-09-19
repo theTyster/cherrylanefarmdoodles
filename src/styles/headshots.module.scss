@@ -51,7 +51,7 @@
 .mom {
   outline: Theme.$momOutline;
   outline-offset: -1px;
-  @include Mixins.setBoxShadow(Theme.$darkMom, 1px);
+  @include Mixins.setBoxShadow(Theme.$darkMom);
   &:active {
     transform: scale(0.95);
     box-shadow: none;
@@ -61,7 +61,7 @@
 .dad {
   outline: Theme.$dadOutline;
   outline-offset: -1px;
-  @include Mixins.setBoxShadow(Theme.$darkDad, 1px);
+  @include Mixins.setBoxShadow(Theme.$darkDad);
   &:active {
     transform: scale(0.95);
     box-shadow: none;
