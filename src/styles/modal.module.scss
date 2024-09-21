@@ -29,6 +29,9 @@ $svgWxH: 57px;
   background-color: Theme.$darkPrimary;
   padding: Theme.$spaceBetweenElements / 2;
   border-radius: Theme.$bigButtonRadius;
+  @include Mixins.mediaQuery(Theme.$SmPhoneViewport) {
+    margin: 0;
+  }
 }
 
 button.exit {

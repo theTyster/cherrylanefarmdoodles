@@ -66,9 +66,6 @@ a.home-button {
       width: 100%;
       height: auto;
     }
-    @include Mixins.setTextValues() {
-      line-break: anywhere;
-    }
   }
 }
 

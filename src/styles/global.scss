@@ -36,24 +36,32 @@ p {
 }
 
 h1 {
-  resize: auto;
   text-align: center;
-  font-size: 51px;
+  font-size: Theme.$h1;
   font-weight: 700;
+  @include Mixins.mediaQuery(Theme.$tabletViewport) {
+    font-size: calc(Theme.$h1 - 10px);
+  }
+  @include Mixins.mediaQuery(Theme.$LgPhoneViewport) {
+    font-size: calc(Theme.$h1 - 10px);
+  }
+  @include Mixins.mediaQuery(Theme.$SmPhoneViewport) {
+    font-size: calc(Theme.$h1 - 20px);
+  }
 }
 h2 {
   text-align: center;
-  font-size: 41px;
+  font-size: Theme.$h2;
   font-weight: 700;
 }
 h3 {
   text-align: center;
-  font-size: 31px;
+  font-size: Theme.$h3;
   font-weight: 700;
 }
 h4 {
   text-align: left;
-  font-size: 21px;
+  font-size: Theme.$h4;
   font-weight: 700;
 }
 h1.title {

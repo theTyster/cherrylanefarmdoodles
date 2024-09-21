@@ -30,9 +30,6 @@ article.mainDog {
     max-width: Theme.$Headshots_Lg;
     padding: 0;
   }
-  @include Mixins.mediaQuery(Theme.$microViewport) {
-    line-break: anywhere;
-  }
   thead {
     font-weight: 700;
     text-align: center;
@@ -46,6 +43,62 @@ article.mainDog {
 }
 .col2 {
   width: 60%;
+}
+
+@include Mixins.mediaQuery(Theme.$LgPhoneViewport) {
+  .dogInfoList {
+    display: block;
+    width: 100%;
+    margin: 0 auto;
+    tbody {
+      display: block;
+      width: 100%;
+      height: fit-content;
+      text-align: center;
+      padding: 0.5rem;
+    }
+    thead {
+      display: block;
+      margin: 0 auto;
+      width: 100%;
+      text-align: center;
+      padding: 0.5rem;
+      margin-top: 1rem;
+    }
+    th {
+      display: block;
+      margin: 0 auto;
+      width: 100%;
+      text-align: center;
+      padding: 0.5rem;
+      margin-top: 1rem;
+    }
+    td {
+      display: block;
+      margin: 0 auto;
+      width: 100%;
+      text-align: center;
+      padding: 0.5rem;
+    }
+    tr {
+      display: block;
+      width: 100%;
+      height: fit-content;
+      text-align: center;
+      padding: 0.5rem;
+    }
+    .col1,
+    .col2 {
+      display: block;
+      width: 100%;
+      height: fit-content;
+      text-align: center;
+      padding: 0.5rem;
+      &:nth-child(even) {
+        height: 1em;
+      }
+    }
+  }
 }
 
 .attentionGetter {

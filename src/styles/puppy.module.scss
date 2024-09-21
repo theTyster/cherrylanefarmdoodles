@@ -22,7 +22,7 @@
 
 .dogName {
   display: inline-grid;
-  height: 1em;
+  height: fit-content;
   line-height: 1.25em;
   width: 100%;
   align-items: center;
@@ -74,42 +74,6 @@
   }
 }
 
-@include Mixins.mediaQuery(Theme.$LgPhoneViewport) {
-  .dogTable {
-    display: block;
-    width: 100%;
-    margin: 0 auto;
-    thead {
-      margin-top: 1rem;
-    }
-    td {
-      display: block;
-      margin: 0 auto;
-      width: 100%;
-      text-align: center;
-      padding: 0.5rem;
-    }
-    tr {
-      display: block;
-      width: 100%;
-      height: fit-content;
-      text-align: center;
-      padding: 0.5rem;
-    }
-    .col1,
-    .col2 {
-      display: block;
-      width: 100%;
-      height: fit-content;
-      text-align: center;
-      padding: 0.5rem;
-      &:nth-child(even) {
-        height: 1em;
-      }
-    }
-  }
-}
-
 .familyData {
   @extend .partnerData;
   margin-top: unset;
@@ -117,6 +81,7 @@
 
 .partnerVisuals {
   @extend .partnerVisuals;
+  margin: 0;
 }
 
 .parentsLine {

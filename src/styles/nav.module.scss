@@ -61,10 +61,12 @@ button#title-menu-button {
 .menu {
   background-color: Theme.$tertiaryCherry;
   height: calc($menu-button-height - Theme.$buttonRadius);
-  font-size: 31px;
+  font-size: Theme.$h3;
   width: 0;
   overflow: hidden;
   z-index: 497;
+  display: flex;
+  align-items: space-around;
 }
 .link {
   text-decoration: none;
