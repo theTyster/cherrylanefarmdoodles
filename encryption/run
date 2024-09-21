@@ -7,3 +7,17 @@ run () {
 }
 
 run;
+
+uploadIfYes () {
+  read -p "Upload to R2? (y/n) " -n 1 -r
+
+  if [[ $REPLY =~ ^[Yy]$ ]]
+  then
+    echo "Uploading to R2...";
+    ./generated_files/rename.sh;
+    ./generated_files/upload-local.sh;
+    ./generated_files/upload-remote.sh;
+  fi
+}
+
+uploadIfYes;

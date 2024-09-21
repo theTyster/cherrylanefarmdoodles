@@ -27,12 +27,13 @@ const r2Paths = await Promise.all(r2DirectoryPaths.map(async (path) => {
         }
     });
 }));
-exec(`echo '' > ${outputDirectoryPaths}/Dog_To_Group_Photos.sql`);
-exec(`echo '' > ${outputDirectoryPaths}/Group_Photos.sql`);
-exec(`echo '' > ${outputDirectoryPaths}/Headshots_Lg.sql`);
-exec(`echo '' > ${outputDirectoryPaths}/Headshots_Sm.sql`);
-exec(`echo '#!/bin/bash' > ${outputDirectoryPaths}/paths.sh`);
-exec(`echo '#!/bin/bash' > ${outputDirectoryPaths}/rename.sh`);
+exec(`echo '' > ./${outputDirectoryPaths}/Dog_To_Group_Photos.sql`);
+exec(`echo '' > ./${outputDirectoryPaths}/Group_Photos.sql`);
+exec(`echo '' > ./${outputDirectoryPaths}/Headshots_Lg.sql`);
+exec(`echo '' > ./${outputDirectoryPaths}/Headshots_Sm.sql`);
+exec(`echo '#!/bin/bash' > ./${outputDirectoryPaths}/upload-local.sh`);
+exec(`echo '#!/bin/bash' > ./${outputDirectoryPaths}/upload-remote.sh`);
+exec(`echo '#!/bin/bash' > ./${outputDirectoryPaths}/rename.sh`);
 const r2PathsFlat = r2Paths.flat();
 /*const encryptedURLs = */ await Promise.all(r2PathsFlat.map(async (path, index) => {
     if (!path)
@@ -76,31 +77,32 @@ const r2PathsFlat = r2Paths.flat();
         //console.log(data);
         // Get Script for uploading to R2
         exec(`
-        echo 'npx wrangler r2 object put # --local # cherrylanefarmpics/${data.hash} --cl "en-us" --file="hashes/${data.hash}"' >> ${outputDirectoryPaths}/paths.sh;
+        echo 'npx wrangler r2 object put --local cherrylanefarmpics/${data.hash} --cl "en-us" --file="./${outputDirectoryPaths}/hashes/${data.hash}"' >> ./${outputDirectoryPaths}/upload-local.sh;
+        echo 'npx wrangler r2 object put cherrylanefarmpics/${data.hash} --cl "en-us" --file="./${outputDirectoryPaths}/hashes/${data.hash}"' >> ./${outputDirectoryPaths}/upload-remote.sh;
         `);
         // Get Script for renaming files with correct hashes.
         exec(`
-        mkdir -p ${outputDirectoryPaths}/hashes;
-        echo 'cp ../${r2PathsFlat[index]} ./hashes/${data.hash}' >> ${outputDirectoryPaths}/rename.sh;
+        mkdir -p ./${outputDirectoryPaths}/hashes;
+        echo 'cp ./${r2PathsFlat[index]} ./${outputDirectoryPaths}/hashes/${data.hash}' >> ./${outputDirectoryPaths}/rename.sh;
       `);
         if (data.table === "Group_Photos")
             exec(`
-          echo 'INSERT OR REPLACE INTO ${data.table} (alt, hash, transformUrl) VALUES ("${data.hash}", "${data.transformUrl}");' >> ${outputDirectoryPaths}/Group_Photos.sql
-          echo 'INSERT OR REPLACE INTO Dog_To_Group_Photos (dogId, Group_Photos) VALUES (${data.id}, "${data.transformUrl}");' >> ${outputDirectoryPaths}/Dog_To_Group_Photos.sql
-          echo 'UPDATE Dog_To_Group_Photos SET Group_Photos = "${data.transformUrl}" WHERE dogId = ${data.id};' >> ${outputDirectoryPaths}/Group_Photos.sql;
-          echo 'UPDATE Families SET Group_Photos = "${data.transformUrl}" WHERE id = ${data.id};' >> ${outputDirectoryPaths}/Group_Photos.sql;
+          echo 'INSERT OR REPLACE INTO ${data.table} (alt, hash, transformUrl) VALUES ("${data.hash}", "${data.transformUrl}");' >> ./${outputDirectoryPaths}/Group_Photos.sql
+          echo 'INSERT OR REPLACE INTO Dog_To_Group_Photos (dogId, Group_Photos) VALUES (${data.id}, "${data.transformUrl}");' >> ./${outputDirectoryPaths}/Dog_To_Group_Photos.sql
+          echo 'UPDATE Dog_To_Group_Photos SET Group_Photos = "${data.transformUrl}" WHERE dogId = ${data.id};' >> ./${outputDirectoryPaths}/Group_Photos.sql;
+          echo 'UPDATE Families SET Group_Photos = "${data.transformUrl}" WHERE id = ${data.id};' >> ./${outputDirectoryPaths}/Group_Photos.sql;
           `);
         if (data.table === "Headshots_Lg")
             exec(`
-          echo 'INSERT OR REPLACE INTO ${data.table} (hash, transformUrl) VALUES ("${data.hash}", "${data.transformUrl}");' >> ${outputDirectoryPaths}/Headshots_Lg.sql
-          echo 'UPDATE Dogs SET Headshots_Lg = "${data.transformUrl}" WHERE id = ${data.id};' >> ${outputDirectoryPaths}/Headshots_Lg.sql
-          echo 'DELETE FROM Headshots_Lg WHERE hash = "${data.id}placeholder";' >> ${outputDirectoryPaths}/Headshots_Lg.sql
+          echo 'INSERT OR REPLACE INTO ${data.table} (hash, transformUrl) VALUES ("${data.hash}", "${data.transformUrl}");' >> ./${outputDirectoryPaths}/Headshots_Lg.sql
+          echo 'UPDATE Dogs SET Headshots_Lg = "${data.transformUrl}" WHERE id = ${data.id};' >> ./${outputDirectoryPaths}/Headshots_Lg.sql
+          echo 'DELETE FROM Headshots_Lg WHERE hash = "${data.id}placeholder";' >> ./${outputDirectoryPaths}/Headshots_Lg.sql
           `);
         if (data.table === "Headshots_Sm")
             exec(`
-          echo 'INSERT OR REPLACE INTO ${data.table} (hash, transformUrl) VALUES ("${data.hash}", "${data.transformUrl}");' >> ${outputDirectoryPaths}/Headshots_Sm.sql
-          echo 'UPDATE Dogs SET Headshots_Sm = "${data.transformUrl}" WHERE id = ${data.id};' >> ${outputDirectoryPaths}/Headshots_Sm.sql
-          echo 'DELETE FROM Headshots_Sm WHERE hash = "${data.id}placeholder";' >> ${outputDirectoryPaths}/Headshots_Sm.sql
+          echo 'INSERT OR REPLACE INTO ${data.table} (hash, transformUrl) VALUES ("${data.hash}", "${data.transformUrl}");' >> ./${outputDirectoryPaths}/Headshots_Sm.sql
+          echo 'UPDATE Dogs SET Headshots_Sm = "${data.transformUrl}" WHERE id = ${data.id};' >> ./${outputDirectoryPaths}/Headshots_Sm.sql
+          echo 'DELETE FROM Headshots_Sm WHERE hash = "${data.id}placeholder";' >> ./${outputDirectoryPaths}/Headshots_Sm.sql
           `);
         console.log(data);
     }
