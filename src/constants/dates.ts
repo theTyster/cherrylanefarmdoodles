@@ -84,7 +84,7 @@ class DateCalculator extends Date {
       const due = dog[DOG.dueDate];
 
       // If the litter is born, the birthday is the most relevant date.
-        if (litter && due) {
+      if (litter && due) {
         this._dog = dog;
         this.date = new Date(litter);
         return;
@@ -101,36 +101,35 @@ class DateCalculator extends Date {
         this.date = new Date(litter);
         return;
       } else {
+        if (!adult && !litter && !due)
+          throw new Error(
+            "Must have a birthday or due date to calculate dates. Provided: " +
+              JSON.stringify(dog)
+          );
 
-      if (!adult && !litter && !due) 
-        throw new Error(
-          "Must have a birthday or due date to calculate dates. Provided: " +
-            JSON.stringify(dog)
-        );
+        if (!adult && !due)
+          throw new Error(
+            "Must have a birthday or due date to calculate dates. Provided: " +
+              JSON.stringify(dog)
+          );
 
-      if (!adult && !due)
-        throw new Error(
-          "Must have a birthday or due date to calculate dates. Provided: " +
-            JSON.stringify(dog)
-        );
+        if (adult && litter)
+          throw new Error(
+            "Will not calculate dates for both an adult and puppies simultaneously. Provided: " +
+              JSON.stringify(dog)
+          );
 
-      if (adult && litter)
-        throw new Error(
-          "Will not calculate dates for both an adult and puppies simultaneously. Provided: " +
-            JSON.stringify(dog)
-        );
-
-      if (adult && due)
-        throw new Error(
-          "Will not calculate dates for both an adult and puppies simultaneously. Provided: " +
-            JSON.stringify(dog)
-        );
-      }
+        if (adult && due)
+          throw new Error(
+            "Will not calculate dates for both an adult and puppies simultaneously. Provided: " +
+              JSON.stringify(dog)
+          );
         this._dog = dog;
+      }
+      this._dog = dog;
     }
-        this.date = new Date(0);
-        this._handleError();
-
+    this.date = new Date(0);
+    this._handleError();
   }
 
   /**
@@ -208,7 +207,7 @@ class DateCalculator extends Date {
     // FIXME:
     // SOMETHING IN THIS GETTER IS BREAKING.
     // IT HAS TO DO WITH THE WAY THE CLASS IS INSTANTIATED. THE TYPE GUARDS ARE NOT INCLUSIVE ENOUGH.
-    console.log('dog', this._dog);
+    console.log("dog", this._dog);
     return (
       this._dog[DOG.litterBirthday] ??
       this._dog[DOG.adultBirthday] ??
