@@ -45,39 +45,24 @@ type DogDates = {
  *
  * currentDOB: Contains currently known information about the dog's birthday. It's value is the same as either birthday or dueDate depending on which is provided.
  * nextEvent: The next event in the puppy's life. If the puppies are not yet born, this is the due date. If the puppies are born, this is the pick day. If the pick day has passed, this is the go home day.
- *
- * NOTE:
- * Both DueDate and Birthday cannot be null. If DueDate is not provided, Birthday should be.
  **/
 class DateCalculator extends Date {
-  //pickDay: Date;
-  //goHome: Date;
-
-  //dueDate: Date;
-  //birthday: Date;
-
-  //currentDOB: Date;
-  //nextEvent: Date;
-
   /**Should only be used by this class*/
-  // The ! operator is used to tell the compiler that the variable is not null
-  // or undefined. It is used to suppress the strict null check in TypeScript.
-  //
-  // In this case, I am using it to bypass build errors. This won't be an
-  // issue since this class is not in use currently. I am actually not sure if
-  // the _dog property is ever null since it appears to be the source of a few
-  // errors.
   private _dog!: DogDates;
-  date: Date;
 
   constructor(dog: DogDates | ConstructorParameters<typeof Date>[number]) {
-    super();
+    let dateInit: Date;
+    let dogInit: DogDates;
+    let superInit: ConstructorParameters<typeof Date>[number];
     if (typeof dog === "string") {
-      this.date = new Date(dog);
+      superInit = dog;
+      dateInit = new Date(dog);
     } else if (typeof dog === "number") {
-      this.date = new Date(dog);
+      superInit = dog;
+      dateInit = new Date(dog);
     } else if (dog instanceof Date) {
-      this.date = new Date(dog);
+      superInit = dog;
+      dateInit = new Date(dog);
     } else {
       const adult = dog[DOG.adultBirthday];
       const litter = dog[DOG.litterBirthday];
@@ -85,21 +70,21 @@ class DateCalculator extends Date {
 
       // If the litter is born, the birthday is the most relevant date.
       if (litter && due) {
-        this._dog = dog;
-        this.date = new Date(litter);
-        return;
+        superInit = litter;
+        dateInit = new Date(litter);
+        dogInit = dog;
       } else if (due) {
-        this._dog = dog;
-        this.date = new Date(due);
-        return;
+        superInit = due;
+        dateInit = new Date(due);
+        dogInit = dog;
       } else if (adult) {
-        this._dog = dog;
-        this.date = new Date(adult);
-        return;
+        superInit = adult;
+        dateInit = new Date(adult);
+        dogInit = dog;
       } else if (litter) {
-        this._dog = dog;
-        this.date = new Date(litter);
-        return;
+        superInit = litter;
+        dateInit = new Date(litter);
+        dogInit = dog;
       } else {
         if (!adult && !litter && !due)
           throw new Error(
@@ -124,12 +109,17 @@ class DateCalculator extends Date {
             "Will not calculate dates for both an adult and puppies simultaneously. Provided: " +
               JSON.stringify(dog)
           );
-        this._dog = dog;
+
+        dogInit = dog;
+        dateInit = new Date((litter ?? due ?? adult)!);
+        superInit = dateInit;
       }
-      this._dog = dog;
+      dogInit = dog;
+      dateInit = new Date((litter ?? due ?? adult)!);
+      superInit = dateInit;
+      super(superInit);
+      this._dog = dogInit;
     }
-    this.date = new Date(0);
-    this._handleError();
   }
 
   /**
@@ -149,44 +139,58 @@ class DateCalculator extends Date {
     else return msg as unknown as T;
   }
 
-  private prettify(date: Date) {
+  private _prettify(date: Date | "Available Now") {
+    let prettified: string;
+    if (date === "Available Now") return date;
     const now = new Date(Date.now());
     // If the date is using a different year, it should display the full date.
     if (now.getFullYear() !== new Date(date).getFullYear())
-      return normalizeEpochDate(date, "date-only");
+      prettified = normalizeEpochDate(date, "date-only");
     // If the date is the same as the current day, it should display "Today! 🎉"
     else if (
       new Date(date).toISOString().split("T")[0] ===
       now.toISOString().split("T")[0]
     )
       return "Today! 🎉";
-    else return normalizeEpochDate(date, "date-only").split(",")[0];
+    else {
+      prettified = normalizeEpochDate(date, "date-only").split(",")[0];
+    }
+    if (prettified.endsWith("1") && !prettified.endsWith("11"))
+      prettified += "st";
+    else if (prettified.endsWith("2") && !prettified.endsWith("12"))
+      prettified += "nd";
+    else if (prettified.endsWith("3") && !prettified.endsWith("13"))
+      prettified += "rd";
+    else prettified += "th";
+    return prettified;
   }
 
   prettified: {
     pickDay: string;
-    //goHome: string;
-    //dueDate: string;
-    //birthday: string;
-    //currentDOB: string;
-    //nextEvent: string;
+    goHome: string;
+    dueDate: string;
+    birthday: string;
+    currentDOB: string;
+    nextEvent: string;
   } = {
-    pickDay: this.prettify(this.pickDay),
-    //goHome: this.prettify(this.goHome),
-    //dueDate: this.prettify(this.dueDate!),
-    //birthday: this.prettify(this.birthday),
-    //currentDOB: this.prettify(this.currentDOB),
-    //nextEvent: this.prettify(this.nextEvent as Date),
+    pickDay: this._prettify(this.pickDay),
+    goHome: this._prettify(this.goHome),
+    dueDate: this._prettify(this.dueDate!),
+    birthday: this._prettify(this.birthday),
+    currentDOB: this._prettify(this.currentDOB),
+    nextEvent: this._prettify(this.nextEvent as Date),
   };
 
   /**The Date 7 weeks after the litter's birthday.*/
   get pickDay(): Date {
-    return new Date(this.currentDOB.setDate(this.currentDOB.getDate() + 49));
+    const curDOB = new Date(this.currentDOB);
+    return new Date(curDOB.setDate(this.currentDOB.getDate() + 49));
   }
 
   /**The Date 8 weeks after the litter's birthday.*/
   get goHome(): Date {
-    return new Date(this.currentDOB.setDate(this.currentDOB.getDate() + 56));
+    const curDOB = new Date(this.currentDOB);
+    return new Date(curDOB.setDate(this.currentDOB.getDate() + 56));
   }
 
   /**
@@ -204,24 +208,16 @@ class DateCalculator extends Date {
 
   /**The Date the puppies were born. If an adult was provided, then the date of the adults birthday.*/
   get birthday(): Date {
-    // FIXME:
-    // SOMETHING IN THIS GETTER IS BREAKING.
-    // IT HAS TO DO WITH THE WAY THE CLASS IS INSTANTIATED. THE TYPE GUARDS ARE NOT INCLUSIVE ENOUGH.
-    console.log("dog", this._dog);
-    return (
-      this._dog[DOG.litterBirthday] ??
-      this._dog[DOG.adultBirthday] ??
-      this._handleError<Date>(() => new Date(0))
-    );
+    return this;
   }
 
   /**
    * The date of the next event that buyers should be aware of.
-   * If all events are in the past, this will return "Available Now!".
+   * If all events are in the past, this will return "Available Now".
    **/
-  get nextEvent(): Date | "Available Now!" {
+  get nextEvent(): Date | "Available Now" {
     if (!!this.goHome) {
-      if (this.goHome.getTime() < Date.now()) return "Available Now!";
+      if (this.goHome.getTime() < Date.now()) return "Available Now";
     }
 
     if (!!this.pickDay)
@@ -236,25 +232,4 @@ class DateCalculator extends Date {
   }
 }
 
-//// Test data I should probably just write actual tests. But whenever I do that it takes all day long.
-//// We'll see if this is faster.
-//const datestring = "2012-01-01";
-//const dummydogAdult = {
-//  [DOG.adultBirthday]: new Date(datestring),
-//};
-//dummydogAdult;
-//
-//const dummydogLitter = {
-//  [DOG.litterBirthday]: new Date(datestring),
-//  [DOG.dueDate]: new Date(datestring),
-//};
-//dummydogLitter;
-//
-//const dateobj = new Date(datestring);
-//dateobj;
-//
-//const param = dummydogAdult;
-//
 export default DateCalculator;
-//const test = new DateCalculator(param);
-//export const D = test.nextEvent;
