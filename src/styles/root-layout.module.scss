@@ -19,6 +19,12 @@ a.home-button {
     box-shadow: none;
     scale: calc($max-scale - 0.1);
   }
+  @include Mixins.mediaQuery(Theme.$SmPhoneViewport) {
+    .logo{
+      width: 100%;
+      height: auto;
+    }
+  }
 }
 // }
 

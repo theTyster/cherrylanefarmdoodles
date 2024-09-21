@@ -77,6 +77,7 @@ export default function CLFMain({
         <header>
           <Link className={css["home-button"]} href="/">
             <Image
+              className={css["logo"]}
               src={Logo}
               placeholder="blur"
               alt="Cherry Lane Farm Doodles logo"
