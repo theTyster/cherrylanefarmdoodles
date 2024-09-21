@@ -1,3 +1,4 @@
+// FIX TAB INDEX FOR MENU ITEMS
 "use client";
 // Components
 import Link from "next/link";
@@ -58,6 +59,36 @@ function Nav() {
       if (!button) throw new Error("Button not found: " + button);
       return { button, tl, nav };
     };
+  function setMenuInerts(addOrRemove: "add" | "remove") {
+    const noInertLinks = () =>
+      menuRef.current?.querySelectorAll("a").forEach((link) => {
+        link.inert = false;
+      });
+    const yesInertLinks = () =>
+      menuRef.current?.querySelectorAll("a").forEach((link) => {
+        link.inert = true;
+      });
+    switch (addOrRemove) {
+      case "add":
+        if (!menuRef.current)
+          document.addEventListener("DOMContentLoaded", () => yesInertLinks, {
+            once: true,
+            passive: true,
+          });
+        else yesInertLinks();
+        break;
+      case "remove":
+        if (!menuRef.current)
+          document.addEventListener("DOMContentLoaded", () => noInertLinks, {
+            once: true,
+            passive: true,
+          });
+        else noInertLinks();
+        break;
+      default:
+        throw new Error("Invalid argument for setMenuIndex: " + addOrRemove);
+    }
+  }
 
   useGSAP(
     () => {
@@ -72,7 +103,9 @@ function Nav() {
         })
         .play();
 
+      setMenuInerts("add");
       menuTl.current
+        .call(setMenuInerts, ["remove"])
         .to(`#${navCSS["title-menu-button"]}`, {
           transition: "none",
           duration: 0,
@@ -139,16 +172,20 @@ function Nav() {
 
     if (tlIsOpen()) {
       addCloserListeners();
-    } else
+      setMenuInerts("remove");
+    } else {
       button.addEventListener("click", subsequentClicksHandler, {
         once: true,
         passive: true,
       });
+      setMenuInerts("add");
+    }
   };
 
   const firstClickHandler = async () => {
     await playTl();
     addCloserListeners();
+    setMenuInerts("remove");
   };
 
   return (
