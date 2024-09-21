@@ -87,6 +87,17 @@ export default function Puppy({
         </div>
         <div className={css.familyData}>
           <div className={css.partnerVisuals}>
+            <h3 className={css.parentsLine}>
+              {D.dogData.gender === "F"
+                ? "Daughter of " +
+                  D.parentData.dogData[G.adultName] +
+                  " and " +
+                  D.parentData.partnerData[G.adultName]
+                : "Son of " +
+                  D.parentData.dogData[G.adultName] +
+                  " and " +
+                  D.parentData.partnerData[G.adultName]}
+            </h3>
             <table className={css.dogTable}>
               <thead>
                 <tr>
@@ -132,17 +143,6 @@ export default function Puppy({
             />
           </div>
           <div className={css.partnerPhoto}>
-            <h3 className={css.parentsLine}>
-              {D.dogData.gender === "F"
-                ? "Daughter of " +
-                  D.parentData.dogData[G.adultName] +
-                  " and " +
-                  D.parentData.partnerData[G.adultName]
-                : "Son of " +
-                  D.parentData.dogData[G.adultName] +
-                  " and " +
-                  D.parentData.partnerData[G.adultName]}
-            </h3>
             <Link href={`/dams/${D.ids[G.litterId]}`}>
               <SmallHeadshot
                 variant={D1T.Headshots_Sm}

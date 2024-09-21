@@ -1,8 +1,23 @@
-@use "@styles/puppy.module.scss";
+@use "@styles/puppy.module.scss" as ParentCSS;
+@use "@styles/mixins.scss" as Mixins;
 @use "@styles/theme.module.scss" as Theme;
 
 .familyData {
-  @extend .familyData;
   margin: 0;
   padding: 0;
+}
+
+.parentsLine {
+  display: none;
+}
+
+@include Mixins.mediaQuery(Theme.$LgPhoneViewport) {
+  .dogName {
+    margin-bottom: calc(ParentCSS.$dogNameMarginBottom / 2);
+    font-size: 7vw;
+  }
+  .availability {
+    margin: 0;
+    font-size: 14vw;
+  }
 }

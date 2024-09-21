@@ -13,6 +13,13 @@
   }
 }
 
+.dogTitle {
+  @extend .dogTitle;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
 .attentionGetter {
   @extend .attentionGetter;
   display: flex;
@@ -20,33 +27,43 @@
   align-items: center;
 }
 
+$dogNameMarginBottom: -2.4rem;
 .dogName {
   display: inline-grid;
   height: fit-content;
-  line-height: 1.25em;
+  line-height: 1.3em;
   width: 100%;
   align-items: center;
   justify-items: center;
   text-align: center;
   flex-wrap: wrap-reverse;
-  margin-bottom: 1.4rem;
-}
-@include Mixins.mediaQuery(Theme.$SmPhoneViewport) {
-  .dogName {
-    margin-bottom: 0;
-    svg {
-      display: none;
-    }
+  margin-bottom: $dogNameMarginBottom;
+  font-size: Theme.$h2;
+  font-weight: 400;
+  @include Mixins.mediaQuery(Theme.$tabletViewport) {
+    font-size: 5vw;
+  }
+  @include Mixins.mediaQuery(Theme.$LgPhoneViewport) {
+    margin-bottom: calc($dogNameMarginBottom / 2);
+    font-size: 7vw;
+  }
+  @include Mixins.mediaQuery(Theme.$SmPhoneViewport) {
+    font-size: 10vw;
   }
 }
 
 .availability {
-  font-size: 10vw;
-  margin-top: 2rem;
-}
-@include Mixins.mediaQuery(Theme.$LgPhoneViewport) {
-  .availability {
-    font-size: Theme.$h2;
+  $margin: 2rem;
+  font-size: Theme.$h1;
+  margin: $margin;
+  @include Mixins.mediaQuery(Theme.$tabletViewport) {
+    font-size: 61px; // Magic Number since the width of the characters is known always.
+  }
+  @include Mixins.mediaQuery(Theme.$LgPhoneViewport) {
+    margin: calc($margin / 2);
+  }
+  @include Mixins.mediaQuery(Theme.$SmPhoneViewport) {
+    font-size: 15vw;
   }
 }
 
@@ -85,6 +102,7 @@
 }
 
 .parentsLine {
+  display: block;
   font-size: Theme.$h2;
   color: Theme.$lightSecondaryGreen;
 }
@@ -95,6 +113,7 @@
 
 #Headshots_Lg {
   @extend #Headshots_Lg;
+  margin-bottom: Theme.$spaceBetweenElements;
 }
 
 #Headshots_Sm {
