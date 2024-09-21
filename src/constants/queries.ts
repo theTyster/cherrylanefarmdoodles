@@ -144,7 +144,7 @@ export const previousLittersQuery = `
   ${G.litterId}
   FROM
     ${D1T.Families}
-  WHERE ${G.mother} OR ${G.father} = ?` as const;
+  WHERE ${G.mother} = ?` as const;
 /**Describes data in the Families Table after being converted to a usable type.*/
 export type PreviousLittersQueryData = [
   D1Families[typeof G.Group_Photos],
