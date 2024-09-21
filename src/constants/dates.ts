@@ -49,6 +49,7 @@ type DogDates = {
 class DateCalculator extends Date {
   /**Should only be used by this class*/
   private _dog!: DogDates;
+  date!: Date;
 
   constructor(dog: DogDates | ConstructorParameters<typeof Date>[number]) {
     let dateInit: Date;
@@ -119,6 +120,7 @@ class DateCalculator extends Date {
       superInit = dateInit;
       super(superInit);
       this._dog = dogInit;
+      this.date = dateInit;
     }
   }
 
@@ -161,6 +163,8 @@ class DateCalculator extends Date {
       prettified += "nd";
     else if (prettified.endsWith("3") && !prettified.endsWith("13"))
       prettified += "rd";
+    // Case where the string ends in a year. 
+    else if (prettified.includes(",")) return prettified;
     else prettified += "th";
     return prettified;
   }
@@ -168,15 +172,11 @@ class DateCalculator extends Date {
   prettified: {
     pickDay: string;
     goHome: string;
-    dueDate: string;
-    birthday: string;
     currentDOB: string;
     nextEvent: string;
   } = {
     pickDay: this._prettify(this.pickDay),
     goHome: this._prettify(this.goHome),
-    dueDate: this._prettify(this.dueDate!),
-    birthday: this._prettify(this.birthday),
     currentDOB: this._prettify(this.currentDOB),
     nextEvent: this._prettify(this.nextEvent as Date),
   };
@@ -198,16 +198,6 @@ class DateCalculator extends Date {
    * If the dog is not yet born, this is the due date.
    **/
   get currentDOB(): Date {
-    return this.birthday ?? this.dueDate;
-  }
-
-  /**The Date the puppies were expected to be born.*/
-  get dueDate(): Date | null {
-    return this._dog?.[DOG.dueDate] ?? null;
-  }
-
-  /**The Date the puppies were born. If an adult was provided, then the date of the adults birthday.*/
-  get birthday(): Date {
     return this;
   }
 
@@ -216,6 +206,7 @@ class DateCalculator extends Date {
    * If all events are in the past, this will return "Available Now".
    **/
   get nextEvent(): Date | "Available Now" {
+    const now = new Date().getTime();
     if (!!this.goHome) {
       if (this.goHome.getTime() < Date.now()) return "Available Now";
     }
@@ -223,8 +214,7 @@ class DateCalculator extends Date {
     if (!!this.pickDay)
       if (this.pickDay.getTime() < Date.now()) return this.goHome;
 
-    if (this.birthday) return this.pickDay;
-    else if (this.dueDate) return this.dueDate;
+    if (now < new Date(this.currentDOB).getTime()) return this.pickDay;
     else {
       this._handleError();
       return this.pickDay;
