@@ -11,13 +11,20 @@ import BreederLine from "@/components/breeder-line/breeder-line";
 import Link from "next/link";
 
 // Css
-import css from "@/styles/dog-about.module.scss";
+import theme from "@/styles/dog-about.module.scss";
 
 // Types
 import type { ParentData } from "@/types/dog-about";
 
-export default function Adult({ D }: { D: ParentData }) {
+export default function Adult({
+  D,
+  css,
+}: {
+  D: ParentData;
+  css?: { [key: string]: string };
+}) {
   if (!D.partnerData) throw new Error("No partner data provided.");
+  if (!css) css = theme;
   const dogMorF = MorF(D.dogData[G.gender]);
   const partnerMorf = MorF(D.partnerData[G.gender]);
   /**Returns a string containing information about available puppies.*/
@@ -174,9 +181,7 @@ export default function Adult({ D }: { D: ParentData }) {
                 ? `Previously matched with ${D.partnerData[G.adultName]}.`
                 : `Currently matched with ${D.partnerData[G.adultName]}.`}
             </h3>
-            <h4 className={css.partnerLastLitter}>
-              {relevantLitter()}
-            </h4>
+            <h4 className={css.partnerLastLitter}>{relevantLitter()}</h4>
             <GroupPhoto
               id={css[D1T.Group_Photos]}
               src={D.ids[D1T.Group_Photos]}

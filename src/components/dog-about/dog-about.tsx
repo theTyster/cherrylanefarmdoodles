@@ -71,9 +71,9 @@ export default async function DogAbout({
   };
 
   const VariantComponents = {
-    [V.Parent]: <Adult D={data<V["Parent"]>()} />,
+    [V.Parent]: <Adult D={data<V["Parent"]>()} css={variantCSS} />,
     [V.Puppy]: <Puppy D={data<V["Puppy"]>()} css={variantCSS} />,
-    [V.CurrentLitter]: <CurrentLitter D={data<V["CurrentLitter"]>()} />,
+    [V.CurrentLitter]: <CurrentLitter D={data<V["CurrentLitter"]>()} css={variantCSS} />,
   };
 
   return VariantComponents[variant];
