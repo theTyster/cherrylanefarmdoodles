@@ -4,6 +4,8 @@
 div.top {
   display: flex;
   margin: Theme.$spaceBetweenElements 0;
+  justify-content: space-between;
+  width: 100%;
 }
 h1.heading {
   margin: calc(Theme.$spaceBetweenElements + Theme.$outlineWidth);
