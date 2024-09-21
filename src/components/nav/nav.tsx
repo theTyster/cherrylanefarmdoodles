@@ -121,13 +121,13 @@ function Nav() {
   };
 
   const addCloserListeners = () => {
-    document.addEventListener("pointerup", subsequentClicksHandler);
+    document.addEventListener("click", subsequentClicksHandler);
     document.addEventListener("keyup", keyCloser);
     document.addEventListener("scroll", subsequentClicksHandler);
   };
 
   const removeCloserListeners = () => {
-    document.removeEventListener("pointerup", subsequentClicksHandler);
+    document.removeEventListener("click", subsequentClicksHandler);
     document.removeEventListener("keyup", keyCloser);
     document.removeEventListener("scroll", subsequentClicksHandler);
   };
