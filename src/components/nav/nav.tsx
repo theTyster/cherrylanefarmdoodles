@@ -163,6 +163,9 @@ function Nav() {
           Menu
         </button>
         <menu className={navCSS["menu"]}>
+          <Link className={navCSS["link"]} href="/">
+            Home
+          </Link>
           <Link className={navCSS["link"]} href="/litter/1">
             Litters
           </Link>
