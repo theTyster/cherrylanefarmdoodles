@@ -60,7 +60,14 @@ class DateCalculator extends Date {
   //nextEvent: Date;
 
   /**Should only be used by this class*/
-  private _dog: DogDates;
+  // The ! operator is used to tell the compiler that the variable is not null
+  // or undefined. It is used to suppress the strict null check in TypeScript.
+  //
+  // In this case, I am using it to bypass build errors. This won't be an
+  // issue since this class is not in use currently. I am actually not sure if
+  // the _dog property is ever null since it appears to be the source of a few
+  // errors.
+  private _dog!: DogDates;
   date: Date;
 
   constructor(dog: DogDates | ConstructorParameters<typeof Date>[number]) {
