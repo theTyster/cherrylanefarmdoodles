@@ -81,7 +81,7 @@ export default function Puppy({
               {puppyName}
               <AvailabilityIcon availability={D.dogData[G.availability]} />
             </h1>
-            <hr />
+            <hr></hr>
             <h2 className={css.availability}>{D.dogData[G.availability]}</h2>
           </div>
         </div>
