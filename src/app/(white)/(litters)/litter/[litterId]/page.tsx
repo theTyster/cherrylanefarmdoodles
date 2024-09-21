@@ -11,6 +11,8 @@ import AdultDogData, {
 } from "@/components/dog-about/constants/adult-constants";
 export { puppiesMeta as generateMetadata } from "@/constants/meta-generators/puppies-meta";
 
+import DateCalculator from "@/constants/dates";
+
 export default async function WhiteSectionLitter({
   params,
 }: {
@@ -32,6 +34,10 @@ export default async function WhiteSectionLitter({
   P.mostRecentFamily = mostRecentFamily;
   const puppies = await P.getAllPuppies(params.litterId);
 
+  const calc = new DateCalculator({
+    litterBirthday: mostRecentFamily[G.litterBirthday],
+    dueDate: mostRecentFamily[G.dueDate],
+  });
   return (
     <>
       <Link href={`/dams/${params.litterId}`}>
@@ -42,7 +48,10 @@ export default async function WhiteSectionLitter({
           src={mom[G.Headshots_Lg]}
         />
       </Link>
-      <h1 className="litter-title">{mom[G.adultName]}&apos;s Current Litter</h1>
+      <h1 className="litter-title">{`${
+        mom[G.adultName]
+      }'s Litter born on `}
+      {calc.prettified.currentDOB}</h1>
       <hr />
       <div className="litter-currentLitter">
         {puppies.map((puppyData) => {

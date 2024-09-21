@@ -11,6 +11,7 @@ import DadHeadshot from "@/components/Headshots/Headshots";
 // Constants
 import { GlobalNameSpaces as G, D1Tables as D1T } from "@/constants/data";
 import { normalizeEpochDate } from "thetyster-utils";
+import DateCalculator from "@/constants/dates";
 
 // Types
 import type { DogTreeData } from "@/types/dog-tree";
@@ -35,40 +36,17 @@ export default async function DogTree({
   Object.freeze(ids);
 
   const saveTheDate = () => {
-    /**The next relevant day. Either due Date or Birthday.*/
-    const specialDayGetter = (): Date => {
+
+    const now = new Date().getTime();
       const birthday = litterData[G.litterBirthday];
       const dueDate = litterData[G.dueDate];
-      if (birthday) return birthday;
-      else if (dueDate) return dueDate;
-      else
-        throw new Error(
-          "No associated birthday or due date found. \n" +
-            JSON.stringify(familyData)
-        );
-    };
-    const specialDay = specialDayGetter();
-    const now = new Date();
-    /**The date of the next event being reported by this function.*/
-    const nextEvent = (ffw: 49 | 56) => {
-      const date = new Date(specialDay);
-      date.setDate(date.getDate() + ffw);
-      return date;
-    };
+      const calc = new DateCalculator({
+        litterBirthday: birthday,
+        dueDate,
+      });
 
-    // Formats the date based on the current date.
-    const dateFormat = (date: Date | number) => {
-      // If the date is using a different year, it should display the full date.
-      if (now.getFullYear() !== new Date(date).getFullYear())
-        return normalizeEpochDate(specialDay, "date-only");
-      // If the date is the same as the current day, it should display "Today! 🎉"
-      else if (
-        new Date(date).toISOString().split("T")[0] ===
-        now.toISOString().split("T")[0]
-      )
-        return "Today! 🎉";
-      else return normalizeEpochDate(date, "date-only").split(",")[0];
-    };
+      console.log(calc.currentDOB);
+      const specialDay = calc.getTime();
 
     // If the litter is unborn, it should display the due date.
     // The litter is unborn.
@@ -76,25 +54,25 @@ export default async function DogTree({
       return (
         <>
           <div className={css.goingHome}>Due on</div>
-          {dateFormat(specialDay)}
+          {calc.prettified.currentDOB}
         </>
       );
     // If the litter is born and the pick date is in the future, it should
     // display the pick date which is 7 weeks after the birthdate.
-    else if (now.getTime() <= nextEvent(49).getTime())
+    else if (now <= new Date(calc.nextEvent).getTime())
       return (
         <>
           <div className={css.goingHome}>Pick Day is</div>
-          {dateFormat(nextEvent(49))}
+          {calc.prettified.pickDay}
         </>
       );
     // If the litter is born, and the pick date has passed, it should display
     // the going home date which is 8 weeks after the birthdate.
-    else if (now.getTime() <= nextEvent(56).getTime())
+    else if (now <= new Date(calc.nextEvent).getTime())
       return (
         <>
           <div className={css.goingHome}>Going Home</div>
-          {dateFormat(nextEvent(56))}
+          {calc.prettified.goHome}
         </>
       );
     // if the litter is born, and the going home date has passed, and there are
