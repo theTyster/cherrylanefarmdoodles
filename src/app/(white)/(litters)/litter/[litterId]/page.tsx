@@ -9,7 +9,7 @@ import PuppyData from "@/components/dog-about/constants/puppy-constants";
 import AdultDogData, {
   getMostRecentFamily,
 } from "@/components/dog-about/constants/adult-constants";
-export { puppiesMeta as generateMetadata } from "@/constants/meta-generators/puppies-meta";
+//export { puppiesMeta as generateMetadata } from "@/constants/meta-generators/puppies-meta";
 
 // Styles
 import css from "@styles/currentLitter.module.scss";
@@ -51,11 +51,31 @@ export default async function WhiteSectionLitter({
           src={mom[G.Headshots_Lg]}
         />
       </Link>
-      <h1 className="litter-title">{`${
-        mom[G.adultName]
-      }'s Litter born on `}
-      {calc.prettified.currentDOB}</h1>
-      <hr />
+      {
+      // Case for the first time mother.
+      (puppies.length === 0) ?
+      <>
+        <h1 className="litter-title">{`${
+          mom[G.adultName]
+        }'s next litter is due on `}
+        {calc.prettified.currentDOB}</h1>
+        <hr></hr>
+        {
+        /** 
+         * This will be where a subscription
+         * button goes
+         **/
+        }
+      </>
+      :
+      <>
+        <h1 className="litter-title">{`${
+          mom[G.adultName]
+        }'s Litter born on `}
+        {calc.prettified.currentDOB}</h1>
+        <hr></hr>
+      </>
+      }
       <div className="litter-currentLitter">
         {puppies.map((puppyData) => {
           return (
