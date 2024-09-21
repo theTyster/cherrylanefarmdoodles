@@ -32,7 +32,7 @@ export default function Adult({
     let hasPuppiesString: string | undefined = undefined;
 
     const dueDate = D.litterData[G.dueDate];
-    if (dueDate) {
+    if (D.litterData[G.availablePuppies] === 0 && dueDate) {
       hasPuppiesString = `has puppies due on ${normalizeEpochDate(
         dueDate.toLocaleDateString()
       ).replace(/.at.*/, "")}` as string;
@@ -42,15 +42,18 @@ export default function Adult({
         new Date().toISOString().split("T")[0]
           ? `...That's today!!`
           : undefined;
+    } else if (
+      D.litterData[G.availablePuppies] > 0 &&
+      D.litterData[G.litterBirthday]
+    )
+      hasPuppiesString = `${D.dogData.adultName} has ${
+        D.litterData[G.availablePuppies]
+      } ${
+        D.litterData[G.availablePuppies] > 1 ? "puppies" : "puppy"
+      } available!` as string;
+    else hasPuppiesString = `is not a ${dogMorF("father", "mother")}`;
 
-      if (D.litterData[G.litterBirthday])
-        return (hasPuppiesString = `${D.dogData.adultName} has ${
-          D.litterData[G.availablePuppies]
-        } puppies available!` as string);
-
-      return hasPuppiesString;
-    }
-    return `is not a ${dogMorF("father", "mother")}`;
+    return hasPuppiesString;
   }
 
   /**Returns a string containing information about the most recent litter.*/
@@ -174,40 +177,71 @@ export default function Adult({
             </tbody>
           </table>
         </div>
-        <div className={css.partnerData}>
-          <div className={css.partnerVisuals}>
-            <h3 className={css.partnerName}>
-              {D.litterData[G.litterBirthday]
-                ? `Previously matched with ${D.partnerData[G.adultName]}.`
-                : `Currently matched with ${D.partnerData[G.adultName]}.`}
-            </h3>
-            <h4 className={css.partnerLastLitter}>{relevantLitter()}</h4>
-            <GroupPhoto
-              id={css[D1T.Group_Photos]}
-              src={D.ids[D1T.Group_Photos]}
-              alt={`${D.dogData[G.adultName]} and ${
-                D.partnerData[G.adultName]
-              }'s last litter.'`}
-              litterId={D.ids[G.litterId]}
-            />
-          </div>
-          <div className={css.partnerPhoto}>
-            <Link
-              href={`/${partnerMorf("sires", "dams")}/${D.ids[G.litterId]}`}
-            >
-              <SmallHeadshot
-                variant={D1T.Headshots_Sm}
-                gender={D.partnerData[G.gender]}
-                src={D.partnerData[G.Headshots_Sm]}
-                alt={D.partnerData[G.adultName]}
-                id={css.Headshots_Sm}
-              />
-            </Link>
-            <h4 className={css.partnerBreeder}>
-              <BreederLine breeder={D.partnerData[G.breeder]} />
-            </h4>
-          </div>
-        </div>
+        {(() => {
+          // No partner, and no previous litter data.
+          if (D.partnerData[G.adultName] === "Unrecorded") return;
+
+          return (
+            <div className={css.partnerData}>
+              <div className={css.partnerVisuals}>
+                {(() => {
+                  // Has litter but no available puppies.
+                  // Show who they were previously matched with.
+                  if (
+                    D.partnerData[G.adultName] !== "Unrecorded" &&
+                    D.litterData[G.litterBirthday] &&
+                    !D.litterData[G.availablePuppies]
+                  )
+                    return (
+                      <>
+                        <h3 className={css.partnerName}>
+                          {`Previously matched with ${
+                            D.partnerData[G.adultName]
+                          }.`}
+                        </h3>
+                      </>
+                    );
+                  // Has litter and available puppies. (default)
+                  else
+                    return (
+                      <>
+                        <h3 className={css.partnerName}>
+                          {`Currently matched with ${
+                            D.partnerData[G.adultName]
+                          }.`}
+                        </h3>
+                      </>
+                    );
+                })()}
+                <h4 className={css.partnerLastLitter}>{relevantLitter()}</h4>
+                <GroupPhoto
+                  id={css[D1T.Group_Photos]}
+                  src={D.ids[D1T.Group_Photos]}
+                  alt={`${D.dogData[G.adultName]} and ${
+                    D.partnerData[G.adultName]
+                  }'s last litter.'`}
+                  litterId={D.ids[G.litterId]}
+                />
+              </div>
+              <div className={css.partnerPhoto}>
+                <Link
+                  href={`/${partnerMorf("sires", "dams")}/${D.ids[G.litterId]}`}
+                >
+                  <SmallHeadshot
+                    variant={D1T.Headshots_Sm}
+                    gender={D.partnerData[G.gender]}
+                    src={D.partnerData[G.Headshots_Sm]}
+                    alt={D.partnerData[G.adultName]}
+                    id={css.Headshots_Sm}
+                  />
+                </Link>
+                <h4 className={css.partnerBreeder}>
+                  <BreederLine breeder={D.partnerData[G.breeder]} />
+                </h4>
+              </div>
+            </div>
+          );
+        })()}
       </article>
     </>
   );
