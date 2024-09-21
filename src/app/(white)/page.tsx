@@ -129,7 +129,6 @@ export default async function WhiteSection() {
 
     const familyTableData = entryPoint[D1QueriesIndex];
 
-    // Clone items so there is no type conflicts and no exception to using the enum.
     return {
       [G.mother]: { ...result[0] } satisfies DogData,
       [G.father]: { ...result[1] } satisfies DogData,

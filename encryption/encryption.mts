@@ -16,9 +16,7 @@ const r2DirectoryPaths = [
 // Mapping of dog Images to their respective dogIds.
 // The id is also used to create the SQL script which removes the placeholder text.
 const imagesForDogs = {
-  "11.jpeg": 11,
-  "12.jpeg": 12,
-  "13.jpeg": 13,
+  "Dune-HeadshotSM.jpeg": 14,
 } as const;
 
 type DogImages = keyof typeof imagesForDogs;
