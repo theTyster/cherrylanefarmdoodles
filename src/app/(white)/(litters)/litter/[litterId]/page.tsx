@@ -11,6 +11,9 @@ import AdultDogData, {
 } from "@/components/dog-about/constants/adult-constants";
 export { puppiesMeta as generateMetadata } from "@/constants/meta-generators/puppies-meta";
 
+// Styles
+import css from "@styles/currentLitter.module.scss";
+
 import DateCalculator from "@/constants/dates";
 
 export default async function WhiteSectionLitter({
@@ -58,6 +61,7 @@ export default async function WhiteSectionLitter({
           return (
             <DogAbout
               key={puppyData.ids[G.dogId]}
+              variantCSS={css}
               variant={"CurrentLitter"}
               variantData={puppyData}
             />
