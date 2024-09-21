@@ -76,7 +76,7 @@ export const familyQuery = (
   ${G.Group_Photos},
   ${G.mother},
   ${G.father},
-  ${D1T.Families}.${G.litterId} as ${[G.litterId]},
+  ${D1T.Families}.${G.litterId} as ${G.litterId},
   ${G.dueDate},
   ${G.litterBirthday},
   ${G.applicantsInQueue},
@@ -84,7 +84,7 @@ export const familyQuery = (
   SUM(CASE WHEN Pups.${G.availability} = 'Available' THEN 1 ELSE 0 END) AS ${
     G.availablePuppies
   },
-   COUNT(Pups.${G.id}) as ${[G.totalPuppies]}
+   COUNT(Pups.${G.id}) as ${G.totalPuppies}
   FROM
     ${D1T.Families}
     Left JOIN

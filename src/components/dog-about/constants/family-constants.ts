@@ -28,7 +28,7 @@ type D<T extends FamilyQueryParam> = T extends "first"
  **/
 export async function getMostRecentFamily<T extends FamilyQueryParam = never>(
   D1: D1Database,
-  litterId: string,
+  litterId?: string,
 ): Promise<D<T>> {
   const T = litterId ? "first" : "all";
   if (T === "first") {
@@ -43,8 +43,8 @@ export async function getMostRecentFamily<T extends FamilyQueryParam = never>(
       });
   }
   if (T === "all") {
-    return await D1.prepare(familyQuery(litterId))
-      .bind(litterId)
+    return await D1.prepare(familyQuery())
+      .bind()
       [T]<D1FQ>()
       .then((res) => {
         if (!res) {
