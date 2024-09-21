@@ -37,7 +37,7 @@ CREATE TABLE Litters (
     dueDate date,
     litterBirthday date,
     applicantsInQueue integer NOT NULL CHECK (applicantsInQueue >= 0) DEFAULT 0,
-    CONSTRAINT check_has_date CHECK ((litterBirthday IS NOT NULL AND dueDate IS NULL) OR (litterBirthday IS NULL AND dueDate IS NOT NULL) OR (litterBirthday IS NOT NULL AND dueDate IS NOT NULL AND UNIXEPOCH(dueDate) < UNIXEPOCH(litterBirthday)))
+    CONSTRAINT check_has_date CHECK ((litterBirthday IS NOT NULL AND dueDate IS NULL) OR (litterBirthday IS NULL AND dueDate IS NOT NULL) OR (litterBirthday IS NOT NULL AND dueDate IS NOT NULL AND UNIXEPOCH(dueDate) <= UNIXEPOCH(litterBirthday)))
 );
 
 CREATE TABLE Dogs (
