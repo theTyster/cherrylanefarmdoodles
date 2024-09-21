@@ -1,6 +1,7 @@
 import CLFImage from "../CLFImage/CLFImage";
 import { D1Tables as D1T } from "@/constants/data";
 import { MorF } from "@/constants/Morf";
+import { type StaticImageData } from "next/image";
 
 // CSS
 import css from "@styles/headshots.module.scss";
@@ -16,7 +17,7 @@ function Headshot({
   className,
 }: {
   variant: typeof D1T.Headshots_Lg | typeof D1T.Headshots_Sm;
-  src: string | null;
+  src: StaticImageData | string | null;
   alt: string;
   gender: "M" | "F";
   id?: string;
@@ -35,12 +36,7 @@ function Headshot({
           width: 292,
           height: 292,
         };
-  return <CLFImage
-      id={id ? id : undefined}
-      src={src}
-      alt={alt}
-      {...props}
-    />
+  return <CLFImage id={id ? id : undefined} src={src} alt={alt} {...props} />;
 }
 
 export default Headshot;

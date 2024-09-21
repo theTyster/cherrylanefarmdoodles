@@ -2,6 +2,7 @@ import { Buffer } from "node:buffer";
 import Image from "next/image";
 import fallback from "@pub/images/404couldnt_find_picture.webp";
 import { pawSVG } from "@/constants/base64PawURL";
+import { type StaticImageData } from "next/image";
 
 function CLFImage({
   src,
@@ -10,7 +11,7 @@ function CLFImage({
   height,
   ...props
 }: {
-  src: string | null;
+  src: StaticImageData | string | null;
   alt: string;
   width: number;
   height: number;
