@@ -116,11 +116,6 @@ export default async function WhiteSection() {
         "Missing Father's Data from the Adults table. result[1] === " +
           result[1]
       );
-    else if (!result[G.Group_Photos])
-      throw new Error(
-        "Missing Group Photos from the Families table. Group_Photos === " +
-          result[G.Group_Photos]
-      );
     else if (!result[G.litterId])
       throw new Error(
         "Missing Litter ID from the Families table. litterId === " +
