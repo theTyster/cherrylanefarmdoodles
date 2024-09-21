@@ -64,12 +64,11 @@ export default function Puppy({
     }
     return `is not born yet.`;
   }
-                    console.log(hasPuppies())
   return (
     <>
       <article className={css.mainDog}>
         <div className={css.attentionGetter}>
-                    <LargeHeadshot
+          <LargeHeadshot
             variant={G.Headshots_Lg}
             id={css.Headshots_Lg}
             src={D.dogData[G.Headshots_Lg]}
@@ -101,9 +100,7 @@ export default function Puppy({
             <table className={css.dogTable}>
               <thead>
                 <tr>
-                  <th colSpan={2}>
-                    {hasPuppies()}
-                  </th>
+                  <th colSpan={2}>{hasPuppies()}</th>
                 </tr>
               </thead>
               <colgroup>

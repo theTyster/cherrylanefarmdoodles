@@ -10,7 +10,6 @@ import DadHeadshot from "@/components/Headshots/Headshots";
 
 // Constants
 import { GlobalNameSpaces as G, D1Tables as D1T } from "@/constants/data";
-import { normalizeEpochDate } from "thetyster-utils";
 import DateCalculator from "@/constants/dates";
 
 // Types
@@ -45,7 +44,6 @@ export default async function DogTree({
         dueDate,
       });
 
-      console.log(calc.currentDOB);
       const specialDay = calc.getTime();
 
     // If the litter is unborn, it should display the due date.
