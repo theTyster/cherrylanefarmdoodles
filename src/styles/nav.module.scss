@@ -15,7 +15,7 @@ nav.sliderMenu {
   display: flex;
   align-items:center;
   justify-content: space-between;
-  z-index: 499;
+  z-index: 497;
   position: fixed;
   top: 0;
   width: 100%;
@@ -34,7 +34,7 @@ button#title-menu-button {
   padding: 0 1em;
   margin-bottom: $marginBottom;
   font-size: $fontSize;
-  z-index: 498;
+  z-index: 499;
   border: none;
   border-radius: Theme.$buttonRadius;
   background-color: Theme.$tertiaryCherry;
@@ -64,13 +64,13 @@ button#title-menu-button {
   font-size: Theme.$h3;
   width: 0;
   overflow: hidden;
-  z-index: 497;
+  z-index: 498;
   display: flex;
   align-items: space-around;
 }
 .link {
-  text-decoration: none;
-  margin: 1rem;
+  flex: 1 1 auto;
+  text-align: center;
   color: Theme.$lightTertiaryCherry;
   white-space: nowrap;
 }
