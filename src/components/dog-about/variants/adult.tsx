@@ -1,7 +1,8 @@
+export const runtime = "edge";
 import { calcAge, normalizeEpochDate } from "thetyster-utils";
+import DateCalculator from "@/constants/dates";
 import { MorF } from "@/constants/Morf";
 import { GlobalNameSpaces as G, D1Tables as D1T } from "@/constants/data";
-export const runtime = "edge";
 
 // Components
 import LargeHeadshot from "@/components/Headshots/Headshots";
@@ -27,21 +28,16 @@ export default function Adult({
   if (!css) css = theme;
   const dogMorF = MorF(D.dogData[G.gender]);
   const partnerMorf = MorF(D.partnerData[G.gender]);
+  const calc = new DateCalculator({
+    litterBirthday: D.litterData[G.litterBirthday],
+    dueDate: D.litterData[G.dueDate],
+  });
   /**Returns a string containing information about available puppies.*/
   function hasPuppies(): string {
     let hasPuppiesString: string | undefined = undefined;
-
     const dueDate = D.litterData[G.dueDate];
     if (D.litterData[G.availablePuppies] === 0 && dueDate) {
-      hasPuppiesString = `has puppies due on ${normalizeEpochDate(
-        dueDate.toLocaleDateString()
-      ).replace(/.at.*/, "")}` as string;
-
-      hasPuppiesString +=
-        dueDate.toISOString().split("T")[0] ===
-        new Date().toISOString().split("T")[0]
-          ? `...That's today!!`
-          : undefined;
+      hasPuppiesString = `${D.dogData[G.adultName]}'s next litter is due on ${calc.prettified.currentDOB}`
     } else if (
       D.litterData[G.availablePuppies] > 0 &&
       D.litterData[G.litterBirthday]
@@ -51,7 +47,7 @@ export default function Adult({
       } ${
         D.litterData[G.availablePuppies] > 1 ? "puppies" : "puppy"
       } available!` as string;
-    else hasPuppiesString = `is not a ${dogMorF("father", "mother")}`;
+    else hasPuppiesString = `${D.dogData[G.adultName]} is not a ${dogMorF("father", "mother")}`;
 
     return hasPuppiesString;
   }
@@ -62,25 +58,15 @@ export default function Adult({
     const dueDate = D.litterData[G.dueDate];
     let relevantLitterString: string | undefined = undefined;
 
-    if (dueDate) {
-      relevantLitterString = `Next litter due on ${normalizeEpochDate(
-        dueDate.toLocaleDateString()
-      ).replace(/.at.*/, "")}` as string;
-
-      relevantLitterString +=
-        dueDate.toISOString().split("T")[0] ===
-        new Date().toISOString().split("T")[0]
-          ? `...That's today!!`
-          : undefined;
+    if (D.litterData[G.availablePuppies] === 0 && dueDate) {
+      relevantLitterString = `Next litter due on ${calc.prettified.currentDOB}`;
     }
-
-    if (birthday)
-      relevantLitterString = `Last litter born on ${normalizeEpochDate(
-        birthday.toLocaleDateString()
-      ).replace(/.at.*/, "")}` as string;
-
-    if (!relevantLitterString)
+    if (birthday){
+      relevantLitterString = `Last litter born on ${calc.prettified.currentDOB}`;
+    }
+    if (!relevantLitterString){
       relevantLitterString = "Currently not expecting any litters.";
+    }
 
     return relevantLitterString;
   }
