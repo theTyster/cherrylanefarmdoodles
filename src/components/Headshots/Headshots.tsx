@@ -19,13 +19,12 @@ function Headshot({
   variant: typeof D1T.Headshots_Lg | typeof D1T.Headshots_Sm;
   src: StaticImageData | string | null;
   alt: string;
-  gender: ("M" | "F") | 'U';
+  gender: ("M" | "F") | "U";
   id?: string;
   className?: string;
 }) {
-  console.log(className);
   const classNameMod = className ? className : "no-mods";
-  const morf = gender !== 'U' ? MorF(gender) : () => css.unrecordedDog;
+  const morf = gender !== "U" ? MorF(gender) : () => css.unrecordedDog;
   let props;
   if (variant === D1T.Headshots_Lg)
     props = {
