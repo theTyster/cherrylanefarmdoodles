@@ -3,8 +3,9 @@ import Theme from "@/styles/theme.module.scss";
 import css from "@/styles/dog-tree.module.scss";
 
 // Components
-import GroupPhoto from "../GroupPhoto/GroupPhoto";
+import GroupPhoto from "@/components/GroupPhoto/GroupPhoto";
 import Link from "next/link";
+import NextFamilyDate from "@/components/next-family-date/next-family-date";
 
 // Headshots
 import MomHeadshot from "@/components/Headshots/Headshots";
@@ -13,21 +14,16 @@ import UnrecordedDog from "@/components/Headshots/Headshots";
 
 // Constants
 import { GlobalNameSpaces as G, D1Tables as D1T } from "@/constants/data";
-import DateCalculator from "@/constants/dates";
 
 // Types
 import type { DogTreeData } from "@/types/dog-tree";
 
 // Static
-import unrecordedDogIMG from '@pub/images/unrecorded-dog.png';
+import unrecordedDogIMG from "@pub/images/unrecorded-dog.png";
 
 export const runtime = "edge";
 
-export default async function DogTree({
-  familyData,
-}: {
-  familyData: DogTreeData;
-}) {
+export default function DogTree({ familyData }: { familyData: DogTreeData }) {
   const {
     [G.mother]: mother,
     [G.father]: father,
@@ -39,67 +35,6 @@ export default async function DogTree({
   Object.freeze(father);
   Object.freeze(litterData);
   Object.freeze(ids);
-
-  const saveTheDate = () => {
-    const now = new Date().getTime();
-    const birthday = litterData[G.litterBirthday];
-    const dueDate = litterData[G.dueDate];
-    const calc = new DateCalculator({
-      litterBirthday: birthday,
-      dueDate,
-    });
-
-    const specialDay = calc.getTime();
-
-    // If the litter is unborn, it should display the due date.
-    // The litter is unborn.
-    if (now < specialDay)
-      return (
-        <>
-          <div className={css.goingHome}>Due on</div>
-          {calc.prettified.currentDOB}
-        </>
-      );
-    // If the litter is born and the pick date is in the future, it should
-    // display the pick date which is 7 weeks after the birthdate.
-    else if (now <= new Date(calc.nextEvent).getTime())
-      return (
-        <>
-          <div className={css.goingHome}>Pick Day is</div>
-          {calc.prettified.pickDay}
-        </>
-      );
-    // If the litter is born, and the pick date has passed, it should display
-    // the going home date which is 8 weeks after the birthdate.
-    else if (now <= new Date(calc.nextEvent).getTime())
-      return (
-        <>
-          <div className={css.goingHome}>Going Home</div>
-          {calc.prettified.goHome}
-        </>
-      );
-    // if the litter is born, and the going home date has passed, and there are
-    // still puppies available, it should display "Available Now".
-    else if (litterData[G.availablePuppies])
-      return (
-        <>
-          <div className={css.goingHome}>Available</div>
-          Now
-        </>
-      );
-    // if the litter is born, and the going home date has passed, and there are
-    // no puppies available it should display "All Puppies are in their furever
-    // homes. Sign up for the next litter from this mother!"
-    else
-      return (
-        <>
-          <div className={css.goingHome}>
-            All puppies are in their furever homes
-          </div>
-          Sign up for the next litter from this mother
-        </>
-      );
-  };
 
   return (
     <>
@@ -124,7 +59,14 @@ export default async function DogTree({
           </Link>
         )}
         <h1 className={`${Theme.desktopOnly} ${css.heading}`}>
-          {saveTheDate()}
+          <NextFamilyDate
+            className={css.goingHome}
+            calcInit={{
+              litterBirthday: litterData[G.litterBirthday],
+              dueDate: litterData[G.dueDate],
+            }}
+            availablePuppies={litterData[G.availablePuppies]}
+          />
         </h1>
         {father[G.adultName] === "Unrecorded" ? (
           <UnrecordedDog
@@ -146,7 +88,16 @@ export default async function DogTree({
           </Link>
         )}
       </div>
-      <h1 className={`${Theme.mobileOnly} ${css.heading}`}>{saveTheDate()}</h1>
+      <h1 className={`${Theme.mobileOnly} ${css.heading}`}>
+          <NextFamilyDate
+            className={css.goingHome}
+            calcInit={{
+              litterBirthday: litterData[G.litterBirthday],
+              dueDate: litterData[G.dueDate],
+            }}
+            availablePuppies={litterData[G.availablePuppies]}
+          />
+      </h1>
       <div className={css.bottom}>
         <GroupPhoto
           className={css.puppyGroup}

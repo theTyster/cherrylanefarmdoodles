@@ -1,10 +1,13 @@
 export const runtime = "edge";
 import { GlobalNameSpaces as G } from "@/constants/data";
 import { getRequestContext } from "@cloudflare/next-on-pages";
+
+// Components
 import DogAbout from "@/components/dog-about/dog-about";
 import Headshot from "@/components/Headshots/Headshots";
 import Link from "next/link";
 import PuppyData from "@/components/dog-about/constants/puppy-constants";
+import NextFamilyDate from "@/components/next-family-date/next-family-date";
 
 import AdultDogData, {
   getMostRecentFamily,
@@ -37,10 +40,11 @@ export default async function WhiteSectionLitter({
   P.mostRecentFamily = mostRecentFamily;
   const puppies = await P.getAllPuppies(params.litterId);
 
-  const calc = new DateCalculator({
+  const calcInit = {
     litterBirthday: mostRecentFamily[G.litterBirthday],
     dueDate: mostRecentFamily[G.dueDate],
-  });
+  };
+
   return (
     <>
       <Link href={`/dams/${params.litterId}`}>
@@ -52,29 +56,34 @@ export default async function WhiteSectionLitter({
         />
       </Link>
       {
-      // Case for the first time mother.
-      (puppies.length === 0) ?
-      <>
-        <h1 className="litter-title">{`${
-          mom[G.adultName]
-        }'s next litter is due on `}
-        {calc.prettified.currentDOB}</h1>
-        <hr></hr>
-        {
-        /** 
-         * This will be where a subscription
-         * button goes
-         **/
-        }
-      </>
-      :
-      <>
-        <h1 className="litter-title">{`${
-          mom[G.adultName]
-        }'s Litter born on `}
-        {calc.prettified.currentDOB}</h1>
-        <hr></hr>
-      </>
+        // Case for the first time mother.
+        puppies.length === 0 ? (
+          <>
+            <h1 className="litter-title">
+              <NextFamilyDate
+                calcInit={calcInit}
+                availablePuppies={mostRecentFamily[G.availablePuppies]}
+                leade={`${mom[G.adultName]}'s First Litter is \n`}
+              />
+            </h1>
+            <hr></hr>
+            {/**
+             * This will be where a subscription
+             * button goes
+             **/}
+          </>
+        ) : (
+          <>
+            <h1 className="litter-title">
+              <NextFamilyDate
+                calcInit={calcInit}
+                availablePuppies={mostRecentFamily[G.availablePuppies]}
+                leade={`${mom[G.adultName]}'s Current Litter \n`}
+              />
+            </h1>
+            <hr></hr>
+          </>
+        )
       }
       <div className="litter-currentLitter">
         {puppies.map((puppyData) => {
