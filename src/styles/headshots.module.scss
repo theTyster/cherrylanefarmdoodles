@@ -67,3 +67,18 @@
     box-shadow: none;
   }
 }
+
+.unrecordedDog {
+  outline: Theme.$unrecordedDogOutline;
+  outline-offset: -1px;
+  cursor: auto;
+  box-shadow: none;
+  &:hover {
+    transform: scale(1);
+  }
+  &:active {
+    transform: scale(1);
+    box-shadow: none;
+  }
+}
+

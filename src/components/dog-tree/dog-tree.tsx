@@ -5,8 +5,11 @@ import css from "@/styles/dog-tree.module.scss";
 // Components
 import GroupPhoto from "../GroupPhoto/GroupPhoto";
 import Link from "next/link";
+
+// Headshots
 import MomHeadshot from "@/components/Headshots/Headshots";
 import DadHeadshot from "@/components/Headshots/Headshots";
+import UnrecordedDog from "@/components/Headshots/Headshots";
 
 // Constants
 import { GlobalNameSpaces as G, D1Tables as D1T } from "@/constants/data";
@@ -14,6 +17,9 @@ import DateCalculator from "@/constants/dates";
 
 // Types
 import type { DogTreeData } from "@/types/dog-tree";
+
+// Static
+import unrecordedDogIMG from '@pub/images/unrecorded-dog.png';
 
 export const runtime = "edge";
 
@@ -35,16 +41,15 @@ export default async function DogTree({
   Object.freeze(ids);
 
   const saveTheDate = () => {
-
     const now = new Date().getTime();
-      const birthday = litterData[G.litterBirthday];
-      const dueDate = litterData[G.dueDate];
-      const calc = new DateCalculator({
-        litterBirthday: birthday,
-        dueDate,
-      });
+    const birthday = litterData[G.litterBirthday];
+    const dueDate = litterData[G.dueDate];
+    const calc = new DateCalculator({
+      litterBirthday: birthday,
+      dueDate,
+    });
 
-      const specialDay = calc.getTime();
+    const specialDay = calc.getTime();
 
     // If the litter is unborn, it should display the due date.
     // The litter is unborn.
@@ -99,7 +104,7 @@ export default async function DogTree({
   return (
     <>
       <div className={css.top}>
-        <Link href={"dams/" + ids[G.litterId]}>
+        {mother[G.adultName] === "Unrecorded" ? (
           <MomHeadshot
             variant={D1T[G.Headshots_Sm]}
             className={css.momHeadshot}
@@ -107,19 +112,39 @@ export default async function DogTree({
             alt="Mother Dog"
             gender="F"
           />
-        </Link>
+        ) : (
+          <Link href={"dams/" + ids[G.litterId]}>
+            <MomHeadshot
+              variant={D1T[G.Headshots_Sm]}
+              className={css.momHeadshot}
+              src={mother[G.Headshots_Sm]}
+              alt="Mother Dog"
+              gender="F"
+            />
+          </Link>
+        )}
         <h1 className={`${Theme.desktopOnly} ${css.heading}`}>
           {saveTheDate()}
         </h1>
-        <Link href={"sires/" + ids[G.litterId]}>
-          <DadHeadshot
+        {father[G.adultName] === "Unrecorded" ? (
+          <UnrecordedDog
             variant={D1T[G.Headshots_Sm]}
-            className={css.dadHeadshot}
-            src={father[G.Headshots_Sm]}
+            className={css.unrecordedDog}
+            src={unrecordedDogIMG}
             alt="Father Dog"
-            gender="M"
+            gender="U"
           />
-        </Link>
+        ) : (
+          <Link href={"sires/" + ids[G.litterId]}>
+            <DadHeadshot
+              variant={D1T[G.Headshots_Sm]}
+              className={css.dadHeadshot}
+              src={father[G.Headshots_Sm]}
+              alt="Father Dog"
+              gender="M"
+            />
+          </Link>
+        )}
       </div>
       <h1 className={`${Theme.mobileOnly} ${css.heading}`}>{saveTheDate()}</h1>
       <div className={css.bottom}>
