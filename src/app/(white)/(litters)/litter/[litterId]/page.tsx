@@ -17,8 +17,6 @@ import AdultDogData, {
 // Styles
 import css from "@styles/currentLitter.module.scss";
 
-import DateCalculator from "@/constants/dates";
-
 export default async function WhiteSectionLitter({
   params,
 }: {
