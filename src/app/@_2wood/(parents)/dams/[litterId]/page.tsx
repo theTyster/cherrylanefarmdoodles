@@ -14,7 +14,6 @@ export default async function WoodSectionDams({
   const D1 = getRequestContext().env.dogsDB;
   const mostRecentFamily = await getMostRecentFamily<"first">(
     D1,
-    params.litterId
   );
   const P = new PuppyData(D1);
   P.mostRecentFamily = mostRecentFamily;

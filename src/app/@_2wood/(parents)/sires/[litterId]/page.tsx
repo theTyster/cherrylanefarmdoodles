@@ -13,8 +13,7 @@ export default async function WoodSectionSires({
 }): Promise<React.JSX.Element | null> {
   const D1 = getRequestContext().env.dogsDB;
   const mostRecentFamily = await getMostRecentFamily<"first">(
-    D1,
-    params.litterId
+    D1
   );
   const P = new PuppyData(D1);
   P.mostRecentFamily = mostRecentFamily;

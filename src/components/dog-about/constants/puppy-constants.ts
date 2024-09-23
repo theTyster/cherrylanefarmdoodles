@@ -58,11 +58,9 @@ export default class PuppyData {
           throw new Error(
             "Missing data in the Dogs Table for ID: " + puppyData[G.dogId]
           );
-        return {
-          ...puppyDogsTable,
-          ...puppyData,
-        };
+        return puppyDogsTable;
       });
+
     return PuppyData.castFromD1({
       ...puppyDogDataQuery,
       ...puppyData
