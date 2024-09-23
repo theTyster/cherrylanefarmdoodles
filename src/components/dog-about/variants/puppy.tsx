@@ -134,8 +134,8 @@ export default function Puppy({
               id={css[D1T.Group_Photos]}
               src={D.ids[D1T.Group_Photos]}
               alt={`${
-                D.dogData[G.puppyName]
-              } and ${"--mother name here--"}'s last litter.'`}
+                D.parentData.partnerData[G.adultName]
+              } and ${D.parentData.dogData[G.adultName]}'s last litter.'`}
               litterId={D.ids[G.litterId]}
             />
           </div>
