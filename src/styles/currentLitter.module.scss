@@ -5,3 +5,15 @@
 .partnerBreeder {
   color: Theme.$darkPrimary;
 }
+
+.puppyLink {
+  position: relative;
+}
+
+.availabilityIcon {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 3em;
+  height: 3em;
+}
