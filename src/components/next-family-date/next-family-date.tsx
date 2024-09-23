@@ -74,10 +74,8 @@ function NextFamilyDate({
     return (
       <>
         <div style={style} className={className}>
-          {`${leade} `}
-          All puppies are in their furever homes
+          All puppies are in their furever homes.
         </div>
-        Sign up for the next litter from this mother
       </>
     );
 }
