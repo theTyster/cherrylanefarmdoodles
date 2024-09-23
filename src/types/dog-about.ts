@@ -53,3 +53,8 @@ export type PuppyData = {
   };
   parentData?: ParentData;
 };
+
+export type CurrentLitterData = {
+  readonly puppies: PuppyData[];
+  readonly parentData?: ParentData;
+};

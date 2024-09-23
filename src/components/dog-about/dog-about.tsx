@@ -24,8 +24,10 @@ export type Variant = (typeof V)[keyof typeof V];
 export type VariantTypes = {
   [V.Parent]: DogAboutTypes.ParentData;
   [V.Puppy]: DogAboutTypes.PuppyData;
-  [V.CurrentLitter]: DogAboutTypes.PuppyData;
+  [V.CurrentLitter]: DogAboutTypes.CurrentLitterData;
 };
+
+type VariantDataTypes = VariantTypes[keyof VariantTypes];
 
 export default async function DogAbout({
   variant,
@@ -34,7 +36,7 @@ export default async function DogAbout({
   variantCSS,
 }: {
   variant: Variant;
-  variantData: DogAboutTypes.ParentData | DogAboutTypes.PuppyData;
+  variantData: VariantDataTypes;
   variantCSS?: { [key: string]: string };
 }) {
   /**

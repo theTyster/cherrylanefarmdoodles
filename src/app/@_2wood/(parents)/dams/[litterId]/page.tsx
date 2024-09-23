@@ -1,10 +1,20 @@
+export const runtime = "edge";
 import { GlobalNameSpaces as G } from "@/constants/data";
 import { getRequestContext } from "@cloudflare/next-on-pages";
+
+// Components
 import DogAbout from "@/components/dog-about/dog-about";
 import PuppyData from "@/components/dog-about/constants/puppy-constants";
-import { getFirstRecentFamily } from "@/components/dog-about/constants/family-constants";
 
-export const runtime = "edge";
+import AdultDogData from "@/components/dog-about/constants/adult-constants";
+import { getFirstRecentFamily } from "@/components/dog-about/constants/family-constants";
+//export { puppiesMeta as generateMetadata } from "@/constants/meta-generators/puppies-meta";
+
+// Styles
+import css from "@styles/currentLitter.module.scss";
+
+// Types
+import type { CurrentLitterData } from "@/types/dog-about";
 
 export default async function WoodSectionDams({
   params,
@@ -12,24 +22,32 @@ export default async function WoodSectionDams({
   params: { litterId: string };
 }): Promise<React.JSX.Element | null> {
   const D1 = getRequestContext().env.dogsDB;
-  const mostRecentFamily = await getFirstRecentFamily(
+  const mostRecentFamily = await getFirstRecentFamily(D1, params.litterId);
+
+  const adultId = mostRecentFamily[G.mother];
+
+  const parentData = await new AdultDogData(
     D1,
-    params.litterId
-  );
+    adultId,
+    "mother",
+    mostRecentFamily,
+    "father"
+  ).getParentData();
+
   const P = new PuppyData(D1);
   P.mostRecentFamily = mostRecentFamily;
   const puppies = await P.getAllPuppies(params.litterId);
+
+  const currentLitterData: CurrentLitterData = {
+    parentData,
+    puppies,
+  };
+
   return (
-    <>
-      {puppies.map((puppyData) => {
-        return (
-          <DogAbout
-            key={puppyData.ids[G.dogId]}
-            variant={"CurrentLitter"}
-            variantData={puppyData}
-          />
-        );
-      })}
-    </>
+    <DogAbout
+      variantCSS={css}
+      variant={"CurrentLitter"}
+      variantData={currentLitterData}
+    />
   );
 }

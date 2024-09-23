@@ -7,7 +7,6 @@ import DogAbout from "@/components/dog-about/dog-about";
 import Headshot from "@/components/Headshots/Headshots";
 import Link from "next/link";
 import PuppyData from "@/components/dog-about/constants/puppy-constants";
-import NextFamilyDate from "@/components/next-family-date/next-family-date";
 
 import AdultDogData from "@/components/dog-about/constants/adult-constants";
 import { getFirstRecentFamily } from "@/components/dog-about/constants/family-constants";
@@ -16,6 +15,9 @@ import { getFirstRecentFamily } from "@/components/dog-about/constants/family-co
 // Styles
 import css from "@styles/currentLitter.module.scss";
 
+// Types
+import type { CurrentLitterData } from "@/types/dog-about";
+
 export default async function WhiteSectionLitter({
   params,
 }: {
@@ -23,72 +25,42 @@ export default async function WhiteSectionLitter({
 }): Promise<React.JSX.Element | null> {
   const D1 = getRequestContext().env.dogsDB;
   const mostRecentFamily = await getFirstRecentFamily(D1, params.litterId);
-  const mom = await new AdultDogData(
+
+  const adultId = mostRecentFamily[G.mother];
+
+  const parentData = await new AdultDogData(
     D1,
-    mostRecentFamily[G.mother],
-    "mother"
-  ).getAdultData();
+    adultId,
+    "mother",
+    mostRecentFamily,
+    "father"
+  ).getParentData();
 
   const P = new PuppyData(D1);
   P.mostRecentFamily = mostRecentFamily;
   const puppies = await P.getAllPuppies(params.litterId);
 
-  const calcInit = {
-    litterBirthday: mostRecentFamily[G.litterBirthday],
-    dueDate: mostRecentFamily[G.dueDate],
+  const currentLitterData: CurrentLitterData = {
+    parentData,
+    puppies,
   };
 
   return (
     <>
       <Link href={`/dams/${params.litterId}`}>
         <Headshot
-          alt={mom[G.adultName]}
+          alt={parentData.dogData[G.adultName]}
           variant={G.Headshots_Lg}
-          gender={mom[G.gender]}
-          src={mom[G.Headshots_Lg]}
+          gender={parentData.dogData[G.gender]}
+          src={parentData.dogData[G.Headshots_Lg]}
         />
       </Link>
-      {
-        // Case for the first time mother.
-        puppies.length === 0 ? (
-          <>
-            <h1 className="litter-title">
-              <NextFamilyDate
-                calcInit={calcInit}
-                availablePuppies={mostRecentFamily[G.availablePuppies]}
-                leade={`${mom[G.adultName]}'s First Litter is \n`}
-              />
-            </h1>
-            <hr></hr>
-            {/**
-             * This will be where a subscription
-             * button goes
-             **/}
-          </>
-        ) : (
-          <>
-            <h1 className="litter-title">
-              <NextFamilyDate
-                calcInit={calcInit}
-                availablePuppies={mostRecentFamily[G.availablePuppies]}
-                leade={`${mom[G.adultName]}'s Current Litter \n`}
-              />
-            </h1>
-            <hr></hr>
-          </>
-        )
-      }
       <div className="litter-currentLitter">
-        {puppies.map((puppyData) => {
-          return (
-            <DogAbout
-              key={puppyData.ids[G.dogId]}
-              variantCSS={css}
-              variant={"CurrentLitter"}
-              variantData={puppyData}
-            />
-          );
-        })}
+        <DogAbout
+          variantCSS={css}
+          variant={"CurrentLitter"}
+          variantData={currentLitterData}
+        />
       </div>
     </>
   );
