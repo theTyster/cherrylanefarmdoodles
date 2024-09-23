@@ -106,6 +106,7 @@ function Nav() {
       setMenuInerts("add");
       menuTl.current
         .call(setMenuInerts, ["remove"])
+        .to(menuRef.current, { width: '100%', duration: 0 })
         .to(`#${navCSS["title-menu-button"]}`, {
           transition: "none",
           duration: 0,

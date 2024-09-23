@@ -18,9 +18,9 @@ nav.sliderMenu {
   z-index: 497;
   position: fixed;
   top: 0;
-  width: 100%;
-  padding: 0 15px;
-  contain: strict;
+  width: fit-content;
+  padding: 0 30px 0 10px;
+  contain: content;
   @include Mixins.mediaQuery(Theme.$LgPhoneViewport) {
     top: auto;
     bottom: 0;
