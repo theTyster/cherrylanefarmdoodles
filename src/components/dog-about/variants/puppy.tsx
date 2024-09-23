@@ -38,9 +38,7 @@ export default function Puppy({
     const dueDate = D.litterData[G.dueDate];
     const birthday = D.litterData[G.litterBirthday];
     if (dueDate) {
-      hasPuppiesString = `Due on ${normalizeEpochDate(
-        dueDate.toLocaleDateString()
-      ).replace(/.at.*/, "")}` as string;
+      hasPuppiesString = `Due on ${normalizeEpochDate(dueDate)}`;
 
       hasPuppiesString +=
         dueDate.toISOString().split("T")[0] ===
@@ -49,8 +47,9 @@ export default function Puppy({
           : "";
       if (birthday) {
         hasPuppiesString = `Born on ${normalizeEpochDate(
-          birthday.toLocaleDateString()
-        ).replace(/.at.*/, "")}` as string;
+          birthday,
+          "date-only"
+        )}`;
 
         hasPuppiesString +=
           birthday.toISOString().split("T")[0] ===
@@ -133,9 +132,9 @@ export default function Puppy({
             <GroupPhoto
               id={css[D1T.Group_Photos]}
               src={D.ids[D1T.Group_Photos]}
-              alt={`${
-                D.parentData.partnerData[G.adultName]
-              } and ${D.parentData.dogData[G.adultName]}'s last litter.'`}
+              alt={`${D.parentData.partnerData[G.adultName]} and ${
+                D.parentData.dogData[G.adultName]
+              }'s last litter.'`}
               litterId={D.ids[G.litterId]}
             />
           </div>
