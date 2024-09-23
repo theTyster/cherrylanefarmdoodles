@@ -3,24 +3,36 @@ import type { D1Vals } from "@/types/data";
 import { D1Tables as D1T, GlobalNameSpaces as G } from "@/constants/data";
 import style from "@styles/availability-icon.module.scss";
 
-const SvgAvailableSquare = ({ css }: { css?: React.CSSProperties }) => (
+const SvgAvailableSquare = ({
+  css,
+  className,
+}: {
+  css?: React.CSSProperties;
+  className?: string;
+}) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     fill="#426932"
     viewBox="0 0 32 32"
     style={css}
-    className={style.availability}
+    className={style.availability + " " + className}
   >
     <ellipse cx={16} cy={16} fill="#d3e8ca" rx={12} ry={12} />
     <path d="m22.39 10.4-6.932 12.01a.9.9 0 0 1-.248.4 1 1 0 0 1-1.413-.04l-4.572-4.22a.995.995 0 0 1 .046-1.41 1 1 0 0 1 1.414.04l3.578 3.3L20.658 9.4c.276-.47.887-.64 1.366-.36.478.27.642.89.366 1.36M27.997-.03h-24a4 4 0 0 0-4 4v24a4 4 0 0 0 4 4h24a4 4 0 0 0 4-4v-24a4 4 0 0 0-4-4" />
   </svg>
 );
-const SvgPickedSquare = ({ css }: { css?: React.CSSProperties }) => (
+const SvgPickedSquare = ({
+  css,
+  className,
+}: {
+  css?: React.CSSProperties;
+  className?: string;
+}) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 32 32"
     style={css}
-    className={style.availability}
+    className={style.availability + " " + className}
   >
     <path
       fill="#b3b319"
@@ -32,12 +44,18 @@ const SvgPickedSquare = ({ css }: { css?: React.CSSProperties }) => (
     />
   </svg>
 );
-const SvgUnavailableSquare = ({ css }: { css?: React.CSSProperties }) => (
+const SvgUnavailableSquare = ({
+  css,
+  className,
+}: {
+  css?: React.CSSProperties;
+  className?: string;
+}) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 32 32"
     style={css}
-    className={style.availability}
+    className={style.availability + " " + className}
   >
     <ellipse cx={16} cy={16} fill="#ffc9d8" rx={12} ry={12} />
     <path
@@ -60,18 +78,51 @@ const variants = {
   Picked: "Picked",
   "Held Back": "Held Back",
 } satisfies Variants;
-const AvailabilityIcon = ({ availability }: { availability: Variant }) => {
+const AvailabilityIcon = ({
+  availability,
+  style,
+  className,
+}: {
+  availability: Variant;
+  style?: React.CSSProperties;
+  className?: string;
+}) => {
   switch (availability) {
     case variants["Available"]:
-      return <SvgAvailableSquare />;
+      return (
+        <SvgAvailableSquare
+          className={className}
+          css={style ? style : undefined}
+        />
+      );
     case variants["Adopted"]:
-      return <SvgUnavailableSquare />;
+      return (
+        <SvgUnavailableSquare
+          className={className}
+          css={style ? style : undefined}
+        />
+      );
     case variants["Picked"]:
-      return <SvgPickedSquare />;
+      return (
+        <SvgPickedSquare
+          className={className}
+          css={style ? style : undefined}
+        />
+      );
     case variants["Held Back"]:
-      return <SvgUnavailableSquare />;
+      return (
+        <SvgUnavailableSquare
+          className={className}
+          css={style ? style : undefined}
+        />
+      );
     default:
-      return <SvgAvailableSquare />;
+      return (
+        <SvgAvailableSquare
+          className={className}
+          css={style ? style : undefined}
+        />
+      );
   }
 };
 export default AvailabilityIcon;
