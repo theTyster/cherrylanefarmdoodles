@@ -1,5 +1,5 @@
 export const runtime = "edge";
-import css from "./layout.module.scss";
+import css from "./parents.module.scss";
 
 export default async function WoodSectionParentsLayout({
   children,
@@ -8,7 +8,6 @@ export default async function WoodSectionParentsLayout({
 }): Promise<React.JSX.Element | null> {
   return (
     <>
-      <h2>Current Litter</h2>
       <div className={css.currentLitter}>{children}</div>
     </>
   );
