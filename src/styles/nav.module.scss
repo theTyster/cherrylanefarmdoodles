@@ -13,7 +13,7 @@ $mobile-view-reduction: 20px;
 nav.sliderMenu {
   height: $menu-height;
   display: flex;
-  align-items:center;
+  align-items: center;
   justify-content: space-between;
   z-index: 497;
   position: fixed;
@@ -73,9 +73,12 @@ button#title-menu-button {
   text-align: center;
   color: Theme.$lightTertiaryCherry;
   white-space: nowrap;
+  &:visited {
+    color: Theme.$lightTertiaryCherry;
+  }
 }
 
-:export{
+:export {
   menuHeight: $menu-height;
   menuButtonHeight: $menu-button-height;
 }

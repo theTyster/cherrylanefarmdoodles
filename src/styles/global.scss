@@ -72,7 +72,7 @@ table {
   width: 100%;
   border-collapse: collapse;
   margin-left: none;
- 
+
   th {
     font-weight: 700;
   }
@@ -100,7 +100,7 @@ a {
     text-decoration: underline;
   }
   &:visited {
-    color: Theme.$tertiaryCherry;
+    color: inherit;
   }
 }
 
