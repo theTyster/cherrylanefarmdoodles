@@ -9,9 +9,8 @@ import Link from "next/link";
 import PuppyData from "@/components/dog-about/constants/puppy-constants";
 import NextFamilyDate from "@/components/next-family-date/next-family-date";
 
-import AdultDogData, {
-  getMostRecentFamily,
-} from "@/components/dog-about/constants/adult-constants";
+import AdultDogData from "@/components/dog-about/constants/adult-constants";
+import { getFirstRecentFamily } from "@/components/dog-about/constants/family-constants";
 //export { puppiesMeta as generateMetadata } from "@/constants/meta-generators/puppies-meta";
 
 // Styles
@@ -23,11 +22,7 @@ export default async function WhiteSectionLitter({
   params: { litterId: string };
 }): Promise<React.JSX.Element | null> {
   const D1 = getRequestContext().env.dogsDB;
-
-  const mostRecentFamily = await getMostRecentFamily<"first">(
-    D1,
-    params.litterId
-  );
+  const mostRecentFamily = await getFirstRecentFamily(D1, params.litterId);
   const mom = await new AdultDogData(
     D1,
     mostRecentFamily[G.mother],

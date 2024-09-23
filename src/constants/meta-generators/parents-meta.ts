@@ -1,7 +1,8 @@
 export const runtime = "edge";
 import { getRequestContext } from "@cloudflare/next-on-pages";
 import { GlobalNameSpaces as G } from "@/constants/data";
-import AdultDogData, { getMostRecentFamily } from "@/components/dog-about/constants/adult-constants";
+import AdultDogData from "@/components/dog-about/constants/adult-constants";
+import { getFirstRecentFamily } from "@/components/dog-about/constants/family-constants";
 import type { Metadata } from "next";
 
 export async function parentsMeta(
@@ -9,9 +10,9 @@ export async function parentsMeta(
 ): Promise<Metadata> {
   const D1 = getRequestContext().env.dogsDB;
 
-  const mostRecentFamily = await getMostRecentFamily(D1, params.litterId);
+  const mostRecentFamily = await getFirstRecentFamily(D1, params.litterId);
 
-  const adultId = Number.parseFloat(mostRecentFamily[G.mother]);
+  const adultId = mostRecentFamily[G.mother];
   const A = new AdultDogData(D1, adultId, G.mother);
 
   const adult = await A.getAdultData();

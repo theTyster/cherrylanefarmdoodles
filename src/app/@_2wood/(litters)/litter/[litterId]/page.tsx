@@ -10,9 +10,8 @@ import {
 
 import { Fragment } from "react";
 
-import AdultDogData, {
-  getMostRecentFamily,
-} from "@/components/dog-about/constants/adult-constants";
+import AdultDogData from "@/components/dog-about/constants/adult-constants";
+import { getFirstRecentFamily } from "@/components/dog-about/constants/family-constants";
 //export { puppiesMeta as generateMetadata } from "@/constants/meta-generators/puppies-meta";
 
 export default async function WoodSectionLitter({
@@ -22,10 +21,7 @@ export default async function WoodSectionLitter({
 }): Promise<React.JSX.Element | null> {
   const D1 = getRequestContext().env.dogsDB;
 
-  const mostRecentFamily = await getMostRecentFamily<"first">(
-    D1,
-    params.litterId
-  );
+  const mostRecentFamily = await getFirstRecentFamily(D1, params.litterId);
   const motherId = mostRecentFamily[G.mother];
   const mom = await new AdultDogData(D1, motherId, "mother").getAdultData();
   const previousLitters = await D1.prepare(previousLittersQuery)

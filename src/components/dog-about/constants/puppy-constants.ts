@@ -1,6 +1,5 @@
 import { GlobalNameSpaces as G } from "@/constants/data";
 import { type PuppyData as PuppyDataType } from "@/types/dog-about";
-export { getMostRecentFamily } from "./family-constants";
 import AdultDogData from "./adult-constants";
 
 // Constants for the constants

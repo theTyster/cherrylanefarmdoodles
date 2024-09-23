@@ -25,12 +25,28 @@ type D<T extends FamilyQueryParam> = T extends "first"
  *
  * The front page uses the entire object without a litterId filter to display
  * all of the most recent families.
+ *
+ * @param D1 The database to query.
+ * @param litterId The ID of the litter to get data for.  If <'first'> is specified in the type parameter, and the litterId is provided, The first family with that Id is returned.  If <'first'> is specified in the type parameter, and the litterId is not provided, The first family in the database is returned.  If <'all'> is specified in the type parameter, the litterId must be provided. All families will be returned sorted from newest to oldest.
+ * @param T The type of data to return. Should be <'first'>, <'all'>, or <never>.
  **/
 export async function getMostRecentFamily<T extends FamilyQueryParam = never>(
   D1: D1Database,
   litterId?: string,
 ): Promise<D<T>> {
-  const T = litterId ? "first" : "all";
+  const T = litterId ? "all" : "first";
+  if (T === "all") {
+    return await D1.prepare(familyQuery(litterId))
+      .bind(litterId)
+      [T]<D1FQ>()
+      .then((res) => {
+        if (!res) {
+          throw new Error("No family found for litterId: " + litterId);
+        }
+        return res.results[0] as D<T>;
+      });
+  }
+
   if (T === "first") {
     return await D1.prepare(familyQuery(litterId))
       .bind(litterId)
@@ -42,16 +58,29 @@ export async function getMostRecentFamily<T extends FamilyQueryParam = never>(
         return res as D<T>;
       });
   }
-  if (T === "all") {
-    return await D1.prepare(familyQuery())
-      .bind()
-      [T]<D1FQ>()
-      .then((res) => {
-        if (!res) {
-          throw new Error("No family found for litterId: " + litterId);
-        }
-        return res.results as D<T>;
-      });
-  }
-  throw new Error("Invalid Query in getMostRecentFamily and " + getMostRecentFamily.caller.name);
+  throw new Error("Invalid Query in getMostRecentFamily");
+}
+
+export async function getAllRecentFamilies(D1: D1Database, litterId: string) {
+  return await D1.prepare(familyQuery(litterId))
+    .bind(litterId)
+    .all<D1FQ>()
+    .then((res) => {
+      if (!res) {
+        throw new Error("No family found for litterId: " + litterId);
+      }
+      return res;
+    });
+}
+
+export async function getFirstRecentFamily(D1: D1Database, litterId: string) {
+  return await D1.prepare(familyQuery(litterId))
+    .bind(litterId)
+    .first<D1FQ>()
+    .then((res) => {
+      if (!res) {
+        throw new Error("No families found.");
+      }
+      return res;
+    });
 }

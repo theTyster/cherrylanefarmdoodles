@@ -2,12 +2,11 @@ export const runtime = "edge";
 import { getRequestContext } from "@cloudflare/next-on-pages";
 import DogAbout from "@/components/dog-about/dog-about";
 import { GlobalNameSpaces as G } from "@/constants/data";
-export { parentsMeta as generateMetadata } from "@/constants/meta-generators/parents-meta";
+//export { parentsMeta as generateMetadata } from "@/constants/meta-generators/parents-meta";
 
 // Constants
-import AdultDogData, {
-  getMostRecentFamily,
-} from "@/components/dog-about/constants/adult-constants";
+import AdultDogData from "@/components/dog-about/constants/adult-constants";
+import { getFirstRecentFamily } from "@/components/dog-about/constants/family-constants";
 
 export default async function WhiteSectionSires({
   params,
@@ -17,8 +16,8 @@ export default async function WhiteSectionSires({
   };
 }) {
   const D1 = getRequestContext().env.dogsDB;
-  /**Applicable to both adult and puppy variants*/
-  const mostRecentFamily = await getMostRecentFamily<"first">(
+
+  const mostRecentFamily = await getFirstRecentFamily(
     D1,
     params.litterId
   );
