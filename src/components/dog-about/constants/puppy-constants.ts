@@ -65,8 +65,7 @@ export default class PuppyData {
       });
     return PuppyData.castFromD1({
       ...puppyDogDataQuery,
-      ...puppyData,
-      ...this.mostRecentFamily,
+      ...puppyData
     });
   }
 

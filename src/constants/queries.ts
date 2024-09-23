@@ -126,7 +126,7 @@ export const litterQuery = `
   FROM
     Puppies
   WHERE litterId = ?` as const;
-/**Describes data in the Puppies Table afte being converted to a usable type.*/
+/**Describes data in the Puppies Table after being converted to a usable type.*/
 export type LitterQueryData = Omit<D1Puppies, typeof G.id | typeof G.litterId> & {
   readonly [G.puppyId]: string;
 }
