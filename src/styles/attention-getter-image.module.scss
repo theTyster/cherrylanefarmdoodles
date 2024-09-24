@@ -21,17 +21,17 @@ div.container {
 .side-text-container {
   display: flex;
   flex: 1 1 0%;
-    //div:nth-child(3) {
-    //  @include Theme.mediaQuery(Theme.$tabletViewport) {
-    //    max-width: 100%;
-    //  }
-    //}
+  //div:nth-child(3) {
+  //  @include Theme.mediaQuery(Theme.$tabletViewport) {
+  //    max-width: 100%;
+  //  }
+  //}
 }
 
 .image {
   margin: Theme.$spaceBetweenElements;
   border-radius: 100%;
-    @include Theme.setBoxShadow(black);
+  @include Theme.setBoxShadow(black);
   &:hover {
     scale: Theme.$scaleOnHover;
   }
@@ -43,15 +43,15 @@ div.container {
   transition-duration: #{Theme.$transitionShort}s;
   @include Theme.mediaQuery(Theme.$tabletViewport) {
     width: 100%;
-    height:auto;
+    height: auto;
     max-width: Theme.$Headshots_Sm;
   }
   @include Theme.mediaQuery(Theme.$SmPhoneViewport) {
     margin: 0;
-    &:hover{
+    &:hover {
       scale: 1;
     }
-    &:active{
+    &:active {
       scale: 0.95;
     }
   }

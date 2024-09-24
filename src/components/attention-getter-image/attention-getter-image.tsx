@@ -18,14 +18,14 @@ import css from "@styles/attention-getter-image.module.scss";
 // }
 
 function AttentionGetterImage({
-  imgClass,
+  className,
   imgSrc,
   imgAlt,
   imgLink,
   sideText_classPrefix,
   sideText,
 }: {
-  imgClass?: string;
+  className?: string;
   imgSrc: string | StaticImageData;
   imgAlt: string;
   imgLink?: string;
@@ -34,13 +34,13 @@ function AttentionGetterImage({
 }) {
 
   return (
-    <div className={css['container']}>
+    <div className={`${className} ${css['container']}`}>
       {imgLink ? (
         <Link className={css['link']} href={imgLink}>
-          <Image className={`${imgClass} ${css['image']}`} src={imgSrc} alt={imgAlt} placeholder="blur" />
+          <Image className={`${css['image']}`} src={imgSrc} alt={imgAlt} placeholder="blur" />
         </Link>
       ) : (
-          <Image className={`${imgClass} ${css['image']}`} src={imgSrc} alt={imgAlt} placeholder="blur" />
+          <Image className={`${css['image']}`} src={imgSrc} alt={imgAlt} placeholder="blur" />
       )}
       <div className={css["sideText-container"]}>
         <div className={`${sideText_classPrefix}-centering-box`}></div>

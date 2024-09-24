@@ -24,7 +24,7 @@ export default function WoodLayout(): React.JSX.Element | null {
         imgSrc={JennyImage}
         imgAlt="Jenny"
         imgLink="/about"
-        imgClass={css["attention-getter-image"]}
+        className={css["attention-getter-image"]}
         sideText_classPrefix="sideText"
         sideText={
           <>
