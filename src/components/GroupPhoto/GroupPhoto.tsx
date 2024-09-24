@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { StaticImageData } from "next/image";
 import CLFImage from "@/components/CLFImage/CLFImage";
 import css from "@styles/GroupPhoto.module.scss";
 
@@ -9,7 +10,7 @@ function GroupPhoto({
   className,
   ...props
 }: {
-  src: string | null;
+  src: string | null | StaticImageData ;
   alt: string;
   litterId: number | string;
   className?: string;
