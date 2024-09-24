@@ -9,6 +9,7 @@
   object-fit: scale-down;
   border-radius: Theme.$bigButtonRadius;
   box-sizing: content-box;
+  background-color: Theme.$primary;
   @include Theme.mediaQuery(Theme.$LgPhoneViewport) {
     width: Theme.$Headshots_Sm;
     height: auto;
@@ -26,6 +27,7 @@
   object-fit: scale-down;
   border-radius: Theme.$Headshots_SmRadius;
   cursor: pointer;
+  background-color: Theme.$primary;
   transition-property: box-shadow;
   transition-duration: #{Theme.$transitionShort}s;
   &:active {
