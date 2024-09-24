@@ -140,12 +140,15 @@ $h4: calc(51px - 30px);
   }
 }
 
-.woodgrain {
-  background-size: cover;
-  background-position: center;
-  background-image: url("~/public/images/woodgrain-dark.svg");
-  &-light {
-    background-image: url("~/public/images/woodgrain-light.svg");
+@mixin woodgrain() {
+  .woodgrain {
+    background-size: cover;
+    background-position: center;
+    background-image: url("~/public/images/woodgrain-dark.svg");
+    &-light {
+      background-image: url("~/public/images/woodgrain-light.svg");
+    }
+    @content
   }
 }
 
@@ -253,5 +256,6 @@ $h4: calc(51px - 30px);
   transitionFancy:$transitionFancy;
   transitionShort:$transitionShort;
   watchViewport: $watchViewport;
+  woodgrain: woodgrain();
 }
 

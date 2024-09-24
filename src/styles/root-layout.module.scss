@@ -90,6 +90,7 @@ $spaceBetweenLayouts: 100px;
     color: Theme.$lightPrimary;
   }
 }
+@include Theme.woodgrain();
 
 .tan-layout {
   @include all-layouts;
