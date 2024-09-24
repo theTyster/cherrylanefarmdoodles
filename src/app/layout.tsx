@@ -82,6 +82,7 @@ export default function CLFMain({
               alt="Cherry Lane Farm Doodles logo"
               width={250}
               height={250}
+              priority
             />
           </Link>
         </header>

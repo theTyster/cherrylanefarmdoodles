@@ -15,6 +15,7 @@ function Headshot({
   gender,
   className,
   style,
+  ...props
 }: {
   variant: typeof D1T.Headshots_Lg | typeof D1T.Headshots_Sm;
   src: StaticImageData | string | null;
@@ -22,25 +23,26 @@ function Headshot({
   gender: ("M" | "F") | "U";
   className?: string;
   style?: React.CSSProperties;
+  [key: string]: unknown;
 }) {
   const classNameMod = className ? className : "no-mods";
   const morf = gender !== "U" ? MorF(gender) : () => css.unrecordedDog;
-  let props;
+  let defaultProps;
   if (variant === D1T.Headshots_Lg)
-    props = {
+    defaultProps = {
       className: `${classNameMod} ${css.lg} ${morf(css.dad, css.mom)}`,
       width: 500,
       height: 666,
     };
   else if (variant === D1T.Headshots_Sm)
-    props = {
+    defaultProps = {
       className: `${classNameMod} ${css.sm} ${morf(css.dad, css.mom)}`,
       width: 292,
       height: 292,
     };
   // Default to small headshot
   else
-    props = {
+    defaultProps = {
       className: `${classNameMod} ${css.sm} ${morf(css.dad, css.mom)}`,
       width: 292,
       height: 292,
@@ -50,6 +52,7 @@ function Headshot({
       src={src}
       alt={alt}
       style={style && src ? style : { ...style, height: 'auto', aspectRatio: 1/1 }}
+      {...defaultProps}
       {...props}
     />
   );
