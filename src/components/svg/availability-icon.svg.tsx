@@ -3,6 +3,41 @@ import type { D1Vals } from "@/types/data";
 import { D1Tables as D1T, GlobalNameSpaces as G } from "@/constants/data";
 import style from "@styles/availability-icon.module.scss";
 
+const SvgGuardianStar = ({
+  css,
+  className
+}: {
+  css?: React.CSSProperties;
+  className?: string;
+}) => (
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"
+    style={css}
+    className={style.availability + " " + className}
+  >
+    <defs>
+      <linearGradient
+        id="gurdian-star_svg__a"
+        x1={3.356}
+        x2={20.933}
+        y1={2.669}
+        y2={15.728}
+        gradientUnits="userSpaceOnUse"
+      >
+        <stop offset={0} stopColor="#e2ac20" />
+        <stop offset={1} stopColor="#6b5210" />
+      </linearGradient>
+    </defs>
+    <path
+      fill="url(#gurdian-star_svg__a)"
+      d="M4 0a4 4 0 0 0-4 4v24a4 4 0 0 0 4 4h24a4 4 0 0 0 4-4V4a4 4 0 0 0-4-4z"
+    />
+    <path
+      fill="#ebdc98"
+      d="M29.03-7.44 20.758 7.198l7.368 15.113-16.478-3.344L-.448 30.645-2.359 13.94l-14.844-7.896 15.296-6.98 2.922-16.558L12.38-5.103z"
+      transform="rotate(90 2.684 16.142)scale(.42971)"
+    />
+  </svg>
+);
 const SvgAvailableSquare = ({
   css,
   className,
@@ -76,7 +111,7 @@ const variants = {
   Available: "Available",
   Adopted: "Adopted",
   Picked: "Picked",
-  "Held Back": "Held Back",
+  "Available Guardian": "Available Guardian",
 } satisfies Variants;
 const AvailabilityIcon = ({
   availability,
@@ -109,9 +144,9 @@ const AvailabilityIcon = ({
           css={style ? style : undefined}
         />
       );
-    case variants["Held Back"]:
+    case variants["Available Guardian"]:
       return (
-        <SvgUnavailableSquare
+        <SvgGuardianStar
           className={className}
           css={style ? style : undefined}
         />

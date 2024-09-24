@@ -71,7 +71,7 @@ CREATE TABLE Puppies (
     id integer PRIMARY KEY,
     puppyName text CHECK (LENGTH(puppyName) <= 16),
     collarColor text CHECK (LENGTH(collarColor) <= 16),
-    availability text NOT NULL CHECK (availability IN ('Available', 'Picked', 'Adopted', 'Held Back')) DEFAULT 'Available',
+    availability text NOT NULL CHECK (availability IN ('Available', 'Picked', 'Adopted', 'Available Guardian')) DEFAULT 'Available',
     dogId integer,
     litterId integer,
     CONSTRAINT fk_puppies_litter_id FOREIGN KEY (litterId) REFERENCES Litters (id) ON DELETE CASCADE ON UPDATE CASCADE,

@@ -37,7 +37,7 @@ export default function CurrentLitter({
       case "Adopted":
         message += " has been adopted!";
         break;
-      case "Held Back":
+      case "Available Guardian":
         message += " is going to be a new mother at Cherry Lane Farms!";
       default:
         message += "'s availability is unknown.";
