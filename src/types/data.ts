@@ -84,7 +84,7 @@ export interface D1Puppies {
   readonly [G.id]: number;
   readonly [G.puppyName]: string | null;
   readonly [G.collarColor]: string | null;
-  readonly [G.availability]: "Available" | "Picked" | "Adopted" | "Held Back";
+  readonly [G.availability]: "Available" | "Picked" | "Adopted" | "Available Guardian";
   readonly [G.dogId]: number;
   readonly [G.litterId]: number;
 }
@@ -138,7 +138,7 @@ export type D1PuppiesRaw = [
   number, //id
   string, //puppyName
   string | null, //collarColor
-  "Available" | "Picked" | "Adopted" | "Held Back", //availability
+  "Available" | "Picked" | "Adopted" | "Available Guardian", //availability
   number, //dogId
   number //litterId
 ];

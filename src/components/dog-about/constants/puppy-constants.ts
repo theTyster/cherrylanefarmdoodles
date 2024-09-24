@@ -149,7 +149,7 @@ export default class PuppyData {
           | "Available"
           | "Picked"
           | "Adopted"
-          | "Held Back",
+          | "Available Guardian",
         [G.gender]: pup[G.gender] as "M" | "F",
         [G.noseColor]: pup[G.noseColor],
         [G.coat]: pup[G.coat],
