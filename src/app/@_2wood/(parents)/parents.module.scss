@@ -1,9 +1,10 @@
 @use "@styles/_theme.module.scss" as Theme;
+@use "@styles/currentLitter.module.scss";
 
-.currentLitter {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: Theme.$spaceBetweenElements + Theme.$outlineWidth;
-  margin-top: Theme.$spaceBetweenElements + Theme.$outlineWidth;
+.puppyLink {
+  @extend .puppyLink;
+  img {
+    @include Theme.imageHover(black);
+  }
 }
+
