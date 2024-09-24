@@ -1,5 +1,4 @@
 @use "@styles/_theme.module.scss" as Theme;
-@use "@styles/_mixins.scss" as Mixins;
 @use "@styles/root-layout.module.scss";
 
 $buttonPos: calc(
@@ -29,7 +28,7 @@ $svgWxH: 57px;
   background-color: Theme.$darkPrimary;
   padding: Theme.$spaceBetweenElements / 2;
   border-radius: Theme.$bigButtonRadius;
-  @include Mixins.mediaQuery(Theme.$SmPhoneViewport) {
+  @include Theme.mediaQuery(Theme.$SmPhoneViewport) {
     margin: 0;
   }
 }
@@ -38,7 +37,7 @@ button.exit {
   display: none;
 }
 
-@include Mixins.mediaQuery(Theme.$tabletViewport) {
+@include Theme.mediaQuery(Theme.$tabletViewport) {
   button.exit {
     display: block;
     border: none;
@@ -51,7 +50,7 @@ button.exit {
     background-color: Theme.$primary;
     border-radius: 100%;
     padding: 20px;
-    @include Mixins.scaleOnHover;
+    @include Theme.scaleOnHover;
     &:active {
       transform: scale(1);
     }
@@ -71,7 +70,7 @@ button.exit {
   }
 }
 
-@include Mixins.mediaQuery(Theme.$LgPhoneViewport) {
+@include Theme.mediaQuery(Theme.$LgPhoneViewport) {
   button.exit {
     display: block;
     scale: 0.5;
@@ -92,7 +91,7 @@ button.exit {
   }
 }
 
-@include Mixins.mediaQuery(Theme.$microViewport) {
+@include Theme.mediaQuery(Theme.$microViewport) {
   button.exit,
   .child {
     margin: unset;

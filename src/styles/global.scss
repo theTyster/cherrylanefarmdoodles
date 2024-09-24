@@ -1,8 +1,7 @@
 @use "@styles/_theme.module.scss" as Theme;
-@use "@styles/_mixins.scss" as Mixins;
 
 // Globals{
-@include Mixins.setTextValues() {
+@include Theme.setTextValues() {
   color: Theme.$black;
 }
 
@@ -39,13 +38,13 @@ h1 {
   text-align: center;
   font-size: Theme.$h1;
   font-weight: 700;
-  @include Mixins.mediaQuery(Theme.$tabletViewport) {
+  @include Theme.mediaQuery(Theme.$tabletViewport) {
     font-size: calc(Theme.$h1 - 10px);
   }
-  @include Mixins.mediaQuery(Theme.$LgPhoneViewport) {
+  @include Theme.mediaQuery(Theme.$LgPhoneViewport) {
     font-size: calc(Theme.$h1 - 10px);
   }
-  @include Mixins.mediaQuery(Theme.$SmPhoneViewport) {
+  @include Theme.mediaQuery(Theme.$SmPhoneViewport) {
     font-size: calc(Theme.$h1 - 20px);
   }
 }
@@ -104,7 +103,7 @@ a {
   }
 }
 
-@include Mixins.setTextValues() {
+@include Theme.setTextValues() {
   word-break: break-word;
 }
 

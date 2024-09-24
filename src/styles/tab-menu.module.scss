@@ -1,4 +1,3 @@
-@use "@styles/_mixins" as Mixins;
 @use "@styles/_theme.module.scss" as Theme;
 
 .container {
@@ -8,13 +7,13 @@
   justify-content: center;
   border-radius: Theme.$buttonRadius;
   margin-bottom: Theme.$spaceBetweenElements;
-  @include Mixins.mediaQuery(Theme.$LgPhoneViewport) {
+  @include Theme.mediaQuery(Theme.$LgPhoneViewport) {
     flex-direction: column;
   }
 }
 .selectorButton {
   $darkenedPrimary: darken(Theme.$darkPrimary, 4%);
-  @include Mixins.setBoxShadow($darkenedPrimary);
+  @include Theme.setBoxShadow($darkenedPrimary);
   border: none;
   z-index: 1;
   width: 100%;
@@ -30,7 +29,7 @@
     font-weight: 400;
   }
   &:hover {
-    @include Mixins.scaleOnHover(1.04);
+    @include Theme.scaleOnHover(1.04);
     z-index: 2;
     &:active {
       box-shadow: unset;

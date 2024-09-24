@@ -1,5 +1,4 @@
 @use "@styles/_theme.module.scss" as Theme;
-@use "@styles/_mixins.scss" as Mixins;
 // logo {
 a.home-button {
   $max-scale: Theme.$scaleOnHover;
@@ -19,7 +18,7 @@ a.home-button {
     box-shadow: none;
     scale: calc($max-scale - 0.1);
   }
-  @include Mixins.mediaQuery(Theme.$SmPhoneViewport) {
+  @include Theme.mediaQuery(Theme.$SmPhoneViewport) {
     .logo{
       width: 100%;
       height: auto;
@@ -45,26 +44,26 @@ a.home-button {
     // padding;
     // margin;
   }
-  @include Mixins.mediaQuery(Theme.$tabletViewport) {
+  @include Theme.mediaQuery(Theme.$tabletViewport) {
     .content-box {
       flex: 0 1 Theme.$LgPhoneViewport;
       max-width: Theme.$LgPhoneViewport;
     }
   }
 
-  @include Mixins.mediaQuery(Theme.$LgPhoneViewport) {
+  @include Theme.mediaQuery(Theme.$LgPhoneViewport) {
     .content-box {
       flex: 0 1 Theme.$SmPhoneViewport;
       max-width: Theme.$SmPhoneViewport;
     }
   }
 
-  @include Mixins.mediaQuery(Theme.$SmPhoneViewport) {
+  @include Theme.mediaQuery(Theme.$SmPhoneViewport) {
     display: block;
     width: 100%;
   }
-  @include Mixins.mediaQuery(Theme.$microViewport) {
-    @include Mixins.setImageValues() {
+  @include Theme.mediaQuery(Theme.$microViewport) {
+    @include Theme.setImageValues() {
       width: 100%;
       height: auto;
     }
@@ -87,7 +86,7 @@ $spaceBetweenLayouts: 100px;
   background-color: Theme.$darkPrimary;
   background-position: center;
   background-size: cover;
-  @include Mixins.setTextValues() {
+  @include Theme.setTextValues() {
     color: Theme.$lightPrimary;
   }
 }

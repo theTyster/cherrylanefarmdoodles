@@ -1,5 +1,4 @@
 @use "@styles/_theme.module.scss" as Theme;
-@use "@styles/_mixins.scss" as Mixins;
 
 .adoptionBanner {
   a {
@@ -54,7 +53,7 @@
   }
 }
 
-@include Mixins.mediaQuery(Theme.$tabletViewport) {
+@include Theme.mediaQuery(Theme.$tabletViewport) {
   .adoptionBanner {
     div.eventHandlerDiv {
       font-size: 2.5rem;
@@ -62,7 +61,7 @@
   }
 }
 
-@include Mixins.mediaQuery(Theme.$LgPhoneViewport) {
+@include Theme.mediaQuery(Theme.$LgPhoneViewport) {
   .adoptionBanner {
     div.eventHandlerDiv {
       div.buttonText {
@@ -76,7 +75,7 @@
   }
 }
 
-@include Mixins.mediaQuery(Theme.$microViewport) {
+@include Theme.mediaQuery(Theme.$microViewport) {
   .adoptionBanner {
     div.eventHandlerDiv {
       overflow: clip;
