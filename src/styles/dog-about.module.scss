@@ -112,6 +112,7 @@ article.mainDog {
   max-width: Theme.$Group_Photos;
   border-radius: Theme.$buttonRadius;
   aspect-ratio: 4/3;
+  width: 100%;
   @include Theme.imageHover(black);
   @include Theme.mediaQuery(Theme.$tabletViewport) {
     width: 100%;
@@ -140,9 +141,12 @@ article.mainDog {
   }
 
   &Visuals {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     color: Theme.$lightSecondaryGreen;
     max-width: 600px;
-    margin: Theme.$spaceBetweenElements;
     margin-bottom: Theme.$spaceBetweenElements;
     @include Theme.mediaQuery(Theme.$LgPhoneViewport) {
       align-items: center;
@@ -157,7 +161,7 @@ article.mainDog {
   &LastLitter {
     text-align: center;
     color: Theme.$lightPrimary;
-    margin-top: calc(Theme.$spaceBetweenElements/2);
+    margin: calc(Theme.$spaceBetweenElements) 0;
   }
   &Photo {
     display: flex;
