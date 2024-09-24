@@ -1,5 +1,4 @@
 @use "@styles/_theme.module.scss" as Theme;
-@use "@styles/_mixins.scss" as Mixins;
 
 div.top {
   display: flex;
@@ -35,7 +34,7 @@ div.bottom {
   margin-bottom: calc(Theme.$spaceBetweenElements + Theme.$outlineWidth);
 }
 
-@include Mixins.mediaQuery(Theme.$tabletViewport) {
+@include Theme.mediaQuery(Theme.$tabletViewport) {
   img.puppyGroup {
     width: 100%;
   }
@@ -43,7 +42,7 @@ div.bottom {
     margin-left: calc(Theme.$spaceBetweenElements + Theme.$outlineWidth);
   }
 }
-@include Mixins.mediaQuery(Theme.$LgPhoneViewport) {
+@include Theme.mediaQuery(Theme.$LgPhoneViewport) {
   h1.heading {
     margin: 0 0 Theme.$spaceBetweenElements 0;
   }

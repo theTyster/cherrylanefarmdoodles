@@ -1,8 +1,7 @@
-@use '@styles/_mixins.scss' as Mixins;
 @use '@styles/_theme.module.scss' as Theme;
 
 .fullText {
-  @include Mixins.mediaQuery(Theme.$LgPhoneViewport) {
+  @include Theme.mediaQuery(Theme.$LgPhoneViewport) {
     display: none;
   }
 }

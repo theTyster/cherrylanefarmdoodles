@@ -1,5 +1,4 @@
 @use "@styles/_theme.module.scss" as Theme;
-@use "@styles/_mixins.scss" as Mixins;
 
 .dogTitle {
   font-weight: 700;
@@ -25,7 +24,7 @@ article.mainDog {
   margin-top: Theme.$spaceBetweenElements;
   width: 100%;
   height: fit-content;
-  @include Mixins.mediaQuery(Theme.$tabletViewport) {
+  @include Theme.mediaQuery(Theme.$tabletViewport) {
     margin-left: unset;
     max-width: Theme.$Headshots_Lg;
     padding: 0;
@@ -45,7 +44,7 @@ article.mainDog {
   width: 60%;
 }
 
-@include Mixins.mediaQuery(Theme.$LgPhoneViewport) {
+@include Theme.mediaQuery(Theme.$LgPhoneViewport) {
   .dogInfoList {
     display: block;
     width: 100%;
@@ -103,7 +102,7 @@ article.mainDog {
 
 .attentionGetter {
   display: flex;
-  @include Mixins.mediaQuery(Theme.$tabletViewport) {
+  @include Theme.mediaQuery(Theme.$tabletViewport) {
     flex-direction: column;
     align-items: center;
   }
@@ -115,10 +114,10 @@ article.mainDog {
 }
 
 #Headshots_Sm {
-  @include Mixins.mediaQuery(Theme.$tabletViewport) {
+  @include Theme.mediaQuery(Theme.$tabletViewport) {
     margin-top: Theme.$spaceBetweenElements;
   }
-  @include Mixins.setBoxShadow(black);
+  @include Theme.setBoxShadow(black);
   &:active {
     box-shadow: none;
   }
@@ -130,7 +129,7 @@ article.mainDog {
   aspect-ratio: 4/3;
   margin-top: Theme.$spaceBetweenElements;
   margin-right: Theme.$spaceBetweenElements;
-  @include Mixins.mediaQuery(Theme.$tabletViewport) {
+  @include Theme.mediaQuery(Theme.$tabletViewport) {
     width: 100%;
     height: auto;
     margin-right: unset;
@@ -145,11 +144,11 @@ article.mainDog {
     margin-top: Theme.$spaceBetweenElements;
     background-color: Theme.$darkPrimary;
     align-items: center;
-    @include Mixins.mediaQuery(Theme.$tabletViewport) {
+    @include Theme.mediaQuery(Theme.$tabletViewport) {
       flex-direction: column;
       align-items: center;
     }
-    @include Mixins.mediaQuery(Theme.$LgPhoneViewport) {
+    @include Theme.mediaQuery(Theme.$LgPhoneViewport) {
       width: 100%;
       flex-direction: column;
       align-items: center;
@@ -160,7 +159,7 @@ article.mainDog {
     color: Theme.$lightSecondaryGreen;
     max-width: 600px;
     margin: Theme.$spaceBetweenElements;
-    @include Mixins.mediaQuery(Theme.$LgPhoneViewport) {
+    @include Theme.mediaQuery(Theme.$LgPhoneViewport) {
       align-items: center;
       justify-content: center;
       flex-direction: column;

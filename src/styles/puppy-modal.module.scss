@@ -1,5 +1,4 @@
 @use "@styles/puppy.module.scss" as ParentCSS;
-@use "@styles/_mixins.scss" as Mixins;
 @use "@styles/_theme.module.scss" as Theme;
 
 .familyData {
@@ -11,7 +10,7 @@
   display: none;
 }
 
-@include Mixins.mediaQuery(Theme.$LgPhoneViewport) {
+@include Theme.mediaQuery(Theme.$LgPhoneViewport) {
   .dogName {
     margin-bottom: calc(ParentCSS.$dogNameMarginBottom / 2);
     font-size: 7vw;

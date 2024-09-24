@@ -1,9 +1,8 @@
 @use "@styles/_theme.module.scss" as Theme;
-@use "@styles/_mixins.scss" as Mixins;
 @use "@styles/dog-about.module.scss";
 @use "@styles/root-layout.module.scss";
 
-@include Mixins.mediaQuery(Theme.$watchViewport) {
+@include Theme.mediaQuery(Theme.$watchViewport) {
   .partnerData,
   .dogTitle,
   .mainDog,
@@ -40,14 +39,14 @@ $dogNameMarginBottom: -2.4rem;
   margin-bottom: $dogNameMarginBottom;
   font-size: Theme.$h2;
   font-weight: 400;
-  @include Mixins.mediaQuery(Theme.$tabletViewport) {
+  @include Theme.mediaQuery(Theme.$tabletViewport) {
     font-size: 5vw;
   }
-  @include Mixins.mediaQuery(Theme.$LgPhoneViewport) {
+  @include Theme.mediaQuery(Theme.$LgPhoneViewport) {
     margin-bottom: calc($dogNameMarginBottom / 2);
     font-size: 7vw;
   }
-  @include Mixins.mediaQuery(Theme.$SmPhoneViewport) {
+  @include Theme.mediaQuery(Theme.$SmPhoneViewport) {
     font-size: 10vw;
   }
 }
@@ -56,13 +55,13 @@ $dogNameMarginBottom: -2.4rem;
   $margin: 2rem;
   font-size: Theme.$h1;
   margin: $margin;
-  @include Mixins.mediaQuery(Theme.$tabletViewport) {
+  @include Theme.mediaQuery(Theme.$tabletViewport) {
     font-size: 61px; // Magic Number since the width of the characters is known always.
   }
-  @include Mixins.mediaQuery(Theme.$LgPhoneViewport) {
+  @include Theme.mediaQuery(Theme.$LgPhoneViewport) {
     margin: calc($margin / 2);
   }
-  @include Mixins.mediaQuery(Theme.$SmPhoneViewport) {
+  @include Theme.mediaQuery(Theme.$SmPhoneViewport) {
     font-size: 15vw;
   }
 }
