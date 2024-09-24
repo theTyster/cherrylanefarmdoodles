@@ -73,6 +73,7 @@ export default function Puppy({
             src={D.dogData[G.Headshots_Lg]}
             alt={puppyName}
             gender={D.dogData[G.gender]}
+            priority
           />
           <div className={`${css.dogTitle}`}>
             <h1 className={css.dogName}>

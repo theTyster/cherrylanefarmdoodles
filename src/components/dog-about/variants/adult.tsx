@@ -87,6 +87,7 @@ export default function Adult({
             src={D.dogData[G.Headshots_Lg]}
             alt={D.dogData[G.adultName]}
             gender={D.dogData[G.gender]}
+            priority
           />
           <table className={css.dogInfoList}>
             <colgroup>

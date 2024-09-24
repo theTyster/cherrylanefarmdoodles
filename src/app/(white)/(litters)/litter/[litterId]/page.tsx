@@ -53,6 +53,7 @@ export default async function WhiteSectionLitter({
           variant={G.Headshots_Lg}
           gender={parentData.dogData[G.gender]}
           src={parentData.dogData[G.Headshots_Lg]}
+          priority
         />
       </Link>
       <DogAbout

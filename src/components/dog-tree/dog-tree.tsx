@@ -45,6 +45,7 @@ export default function DogTree({ familyData }: { familyData: DogTreeData }) {
             src={mother[G.Headshots_Sm]}
             alt="Mother Dog"
             gender="F"
+            priority
           />
         ) : (
           <Link href={"dams/" + ids[G.litterId]}>
@@ -54,6 +55,7 @@ export default function DogTree({ familyData }: { familyData: DogTreeData }) {
               src={mother[G.Headshots_Sm]}
               alt="Mother Dog"
               gender="F"
+              priority
             />
           </Link>
         )}
