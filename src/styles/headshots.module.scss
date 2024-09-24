@@ -10,6 +10,8 @@
   border-radius: Theme.$bigButtonRadius;
   box-sizing: content-box;
   background-color: Theme.$primary;
+  transition-property: box-shadow;
+  transition-duration: #{Theme.$transitionShort}s;
   @include Theme.mediaQuery(Theme.$LgPhoneViewport) {
     width: Theme.$Headshots_Sm;
     height: auto;
