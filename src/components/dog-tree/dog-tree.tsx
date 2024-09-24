@@ -19,6 +19,7 @@ import type { DogTreeData } from "@/types/dog-tree";
 
 // Static
 import unrecordedDogIMG from "@pub/images/unrecorded-dog.png";
+import CheckBackSoon from "@/components/svg/check-back-soon";
 
 export const runtime = "edge";
 
@@ -90,22 +91,32 @@ export default function DogTree({ familyData }: { familyData: DogTreeData }) {
         )}
       </div>
       <h1 className={`${css.mobileOnly} ${css.heading}`}>
-          <NextFamilyDate
-            className={css.goingHome}
-            calcInit={{
-              litterBirthday: litterData[G.litterBirthday],
-              dueDate: litterData[G.dueDate],
-            }}
-            availablePuppies={litterData[G.availablePuppies]}
-          />
+        <NextFamilyDate
+          className={css.goingHome}
+          calcInit={{
+            litterBirthday: litterData[G.litterBirthday],
+            dueDate: litterData[G.dueDate],
+          }}
+          availablePuppies={litterData[G.availablePuppies]}
+        />
       </h1>
       <div className={css.bottom}>
-        <GroupPhoto
-          className={css.puppyGroup}
-          src={ids[G.Group_Photos]}
-          alt="Puppies"
-          litterId={ids[G.litterId]}
-        />
+        {(() => {
+          if (ids[G.Group_Photos])
+            return (
+              <GroupPhoto
+                className={css.puppyGroup}
+                src={ids[G.Group_Photos]}
+                alt="Puppies"
+                litterId={ids[G.litterId]}
+              />
+            );
+          else {
+            return (
+              <CheckBackSoon litterId={ids[G.litterId]}/>
+            );
+          }
+        })()}
       </div>
     </>
   );
