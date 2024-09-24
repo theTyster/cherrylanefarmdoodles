@@ -16,3 +16,15 @@
   width: 3em;
   height: 3em;
 }
+
+.litter-title {
+  margin: Theme.$spaceBetweenElements;
+}
+
+.currentLitter {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: Theme.$spaceBetweenElements + Theme.$outlineWidth;
+  margin-top: Theme.$spaceBetweenElements + Theme.$outlineWidth;
+}

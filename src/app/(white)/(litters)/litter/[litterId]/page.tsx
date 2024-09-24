@@ -55,13 +55,11 @@ export default async function WhiteSectionLitter({
           src={parentData.dogData[G.Headshots_Lg]}
         />
       </Link>
-      <div className="litter-currentLitter">
-        <DogAbout
-          variantCSS={css}
-          variant={"CurrentLitter"}
-          variantData={currentLitterData}
-        />
-      </div>
+      <DogAbout
+        variantCSS={css}
+        variant={"CurrentLitter"}
+        variantData={currentLitterData}
+      />
     </>
   );
 }

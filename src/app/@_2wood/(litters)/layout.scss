@@ -1,9 +1,0 @@
-@use "@styles/_theme.module.scss" as Theme;
-
-.currentLitter {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: Theme.$spaceBetweenElements + Theme.$outlineWidth;
-  margin-top: Theme.$spaceBetweenElements + Theme.$outlineWidth;
-}
