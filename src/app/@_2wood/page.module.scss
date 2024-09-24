@@ -3,7 +3,7 @@
 
 .puppy-culture {
   display: block;
-  margin: 0 auto;
+  margin: Theme.$spaceBetweenElements auto;
   width: 100%;
 }
 @media screen and (max-width: 768px) {
@@ -11,4 +11,8 @@
     height: auto;
     max-width: 400px;
   }
+}
+
+.attention-getter-image{
+  border-radius: 100%;
 }
