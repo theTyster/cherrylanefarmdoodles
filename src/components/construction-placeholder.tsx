@@ -12,9 +12,9 @@ export default function ConstructionPlaceholder({
     <>
       <h1 className="title">Coming Soon!</h1>
       <p className="construction-doodle">
-        We are hard at work building a beautiful site for our new litter of
-        puppies. Over the next few weeks we will gradually be rolling out new
-        features.
+        We are hard at work building a beautiful site for your new goldendoodle
+        puppies. We are still gradually rolling out new features. Check back
+        soon for updates!
       </p>
       {dogFill ? (
         <SvgConstructionDoodle dogFill={dogFill} />
