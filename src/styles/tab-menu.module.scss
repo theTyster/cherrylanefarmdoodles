@@ -20,7 +20,7 @@
   flex: auto;
   background-color: Theme.$primary;
   cursor: pointer;
-  transition: box-shadow 0.1s;
+  transition: box-shadow Theme.$transitionShort;
   transition-property: box-shadow, transform, background-color;
   outline: 2px solid Theme.$primary;
   outline-offset: -1px;
