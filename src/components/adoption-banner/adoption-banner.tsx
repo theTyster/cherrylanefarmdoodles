@@ -3,8 +3,7 @@ import FormLink from "@/components/form-link/form-link";
 import SvgDoodlePuppy from "../svg/doodle-puppy.svg";
 
 // Styling and animation
-import css from "@/styles/adoption-banner.module.scss";
-import Theme from "@/styles/theme.module.scss";
+import css from "@styles/adoption-banner.module.scss";
 import gsap from "gsap";
 import { useRef } from "react";
 
@@ -15,6 +14,7 @@ function AdoptionBanner() {
 
   useGSAP(
     (context, contextSafe) => {
+      context;
       //prettier-ignore
       const cSafe = contextSafe as ContextSafeFunc,
       initialTL:    gsap.core.Timeline | null = gsap.timeline(),
@@ -23,7 +23,7 @@ function AdoptionBanner() {
       const gsapScopedSelect = gsap.utils.selector(bannerRef.current);
 
       initialTL.to(gsapScopedSelect(`.${css.eventHandlerDiv}`), {
-        boxShadow: `9px 12px 15px 5px ${Theme.darkSecondaryGreen}`,
+        boxShadow: `9px 12px 15px 5px ${css.darkSecondaryGreen}`,
         scale: 1,
         ease: "power4.out(3)",
       });
@@ -161,7 +161,7 @@ function AdoptionBanner() {
                   <g
                     transform="matrix(-1,0,0,1,173.99,-65.38)"
                     fill="none"
-                    stroke={Theme.darkSecondaryGreen}
+                    stroke={css.darkSecondaryGreen}
                     strokeWidth="7.9375"
                   >
                     <path d="m87.941 120.2 18.202-45.38" />
@@ -182,7 +182,7 @@ function AdoptionBanner() {
                   <g
                     transform="matrix(-1,0,0,1,173.99,-65.38)"
                     fill="none"
-                    stroke={Theme.darkSecondaryGreen}
+                    stroke={css.darkSecondaryGreen}
                     strokeWidth="7.9375"
                   >
                     <path d="m87.941 120.2 18.202-45.38" />

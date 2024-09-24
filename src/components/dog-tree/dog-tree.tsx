@@ -1,6 +1,5 @@
 // Styling
-import Theme from "@/styles/theme.module.scss";
-import css from "@/styles/dog-tree.module.scss";
+import css from "@styles/dog-tree.module.scss";
 
 // Components
 import GroupPhoto from "@/components/GroupPhoto/GroupPhoto";
@@ -58,7 +57,7 @@ export default function DogTree({ familyData }: { familyData: DogTreeData }) {
             />
           </Link>
         )}
-        <h1 className={`${Theme.desktopOnly} ${css.heading}`}>
+        <h1 className={`${css.desktopOnly} ${css.heading}`}>
           <NextFamilyDate
             className={css.goingHome}
             calcInit={{
@@ -88,7 +87,7 @@ export default function DogTree({ familyData }: { familyData: DogTreeData }) {
           </Link>
         )}
       </div>
-      <h1 className={`${Theme.mobileOnly} ${css.heading}`}>
+      <h1 className={`${css.mobileOnly} ${css.heading}`}>
           <NextFamilyDate
             className={css.goingHome}
             calcInit={{

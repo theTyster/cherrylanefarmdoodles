@@ -1,4 +1,4 @@
-import Theme from "@/styles/theme.module.scss";
+import Theme from "@styles/_theme.module.scss";
 import ConstructionPlaceholder from "@/components/construction-placeholder";
 
 export const runtime = "edge";

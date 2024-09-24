@@ -9,7 +9,6 @@ import TabMenu, {
 } from "@/components/tab-menu/tab-menu";
 
 // Styles
-import Theme from "@styles/theme.module.scss";
 import css from "./page.module.scss";
 
 // Constants
@@ -183,17 +182,17 @@ export default async function WhiteSection() {
   return (
     <>
       <svg className={css.fullText} role="heading" aria-level={1} viewBox={`0 0 249 24`}>
-        <text x="1" y="15" fontWeight={700} fill={Theme.darkPrimary}>
+        <text x="1" y="15" fontWeight={700} fill={css.darkPrimary}>
           Select a mother to see her litter
         </text>
       </svg>
       <svg
-        className={Theme.phoneOnly}
+        className={css.phoneOnly}
         role="heading"
         aria-level={1}
         viewBox={`0 0 124 24`}
       >
-        <text x="1" y="15" fontWeight={700} fill={Theme.darkPrimary}>
+        <text x="1" y="15" fontWeight={700} fill={css.darkPrimary}>
           Select a mother
         </text>
       </svg>

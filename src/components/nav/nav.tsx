@@ -9,7 +9,6 @@ import { useRef } from "react";
 
 // Styles
 import navCSS from "@styles/nav.module.scss";
-import Theme from "@styles/theme.module.scss";
 
 export const runtime = "edge";
 
@@ -40,8 +39,8 @@ function Nav() {
     borderRadius: Number.parseFloat(navCSS["buttonRadius"]) - 0.5 + "rem",
     boxShadow: "transparent 0px 0px 0px 0px",
     fontSize: "1rem",
-    backgroundColor: Theme.lightTertiaryCherry,
-    color: Theme.darkTertiaryCherry,
+    backgroundColor: navCSS.lightTertiaryCherry,
+    color: navCSS.darkTertiaryCherry,
     display: "none", // use this until their is more to put in the menu.
     opacity: 0, // use this until their is more to put in the menu.
   };
@@ -94,12 +93,12 @@ function Nav() {
     () => {
       menuTl.current = gsap.timeline({
         paused: true,
-        defaults: { duration: Number.parseFloat(Theme["transitionFancy"]) },
+        defaults: { duration: Number.parseFloat(navCSS["transitionFancy"]) },
       });
 
       gsap
         .to(`#${navCSS["title-menu-button"]}`, {
-          boxShadow: `${Theme.darkTertiaryCherry} ${Theme.boxShadowX}px ${Theme.boxShadowY}px ${Theme.boxShadowBlur}px`,
+          boxShadow: `${navCSS.darkTertiaryCherry} ${navCSS.boxShadowX}px ${navCSS.boxShadowY}px ${navCSS.boxShadowBlur}px`,
         })
         .play();
 

@@ -1,7 +1,6 @@
 import Image from "next/image";
 // Static Images
 import cherry from "@pub/images/cherry.svg";
-import Theme from "@styles/theme.module.scss";
 import css from "@styles/breeder-line.module.scss";
 
 const variants = {
@@ -25,7 +24,7 @@ function BreederLine({
             style={
               variant
                 ? /**Intentionally true. I ended up liking this as the default.*/ {
-                    backgroundColor: Theme.lightPrimary,
+                    backgroundColor: css.lightPrimary,
                   }
                 : undefined
             }

@@ -3,7 +3,6 @@ import { useState, Fragment } from "react";
 
 //CSS
 import css from "@styles/tab-menu.module.scss";
-import Theme from "@styles/theme.module.scss";
 import { font } from "@styles/font";
 
 export type MenuNamesObj = {
@@ -57,20 +56,20 @@ function TabMenu({
   const setBorderRadiusRow = (index: number) =>
     //Gives the left most button a border-radius on left corners.
     index === 0
-      ? `${Theme.buttonRadius} 0 0 ${Theme.buttonRadius}`
+      ? `${css.buttonRadius} 0 0 ${css.buttonRadius}`
       : //Gives the right most button a border-radius on right corners.
       index === menuDataArr.length - 1
-      ? `0 ${Theme.buttonRadius} ${Theme.buttonRadius} 0`
+      ? `0 ${css.buttonRadius} ${css.buttonRadius} 0`
       : //Sets other buttons to no border-radius by default.
         "0 0 0 0";
 
    const setBorderRadiusColumn = (index: number) =>
     //Gives the top most button a border-radius on top corners.
     index === 0
-      ? `${Theme.buttonRadius} ${Theme.buttonRadius} 0 0`
+      ? `${css.buttonRadius} ${css.buttonRadius} 0 0`
       : //Gives the bottom most button a border-radius on bottom corners.
       index === menuDataArr.length - 1
-      ? `0 0 ${Theme.buttonRadius} ${Theme.buttonRadius}`
+      ? `0 0 ${css.buttonRadius} ${css.buttonRadius}`
       : //Sets other buttons to no border-radius by default.
         "0 0 0 0";
 
@@ -84,7 +83,7 @@ function TabMenu({
                 button {
                   border-radius: ${setBorderRadiusRow(index)};
                 }
-                @media screen and (max-width: ${Theme.LgPhoneViewport}) {
+                @media screen and (max-width: ${css.LgPhoneViewport}) {
                   button {
                     border-radius: ${setBorderRadiusColumn(index)};
                   }
@@ -96,8 +95,8 @@ function TabMenu({
               data-tabmenu-item-id={item.id}
               className={`${css.selectorButton} ${
                 item === currentSelected
-                  ? Theme["woodgrain-light"] + " " + css["selected"]
-                  : Theme["woodgrain"]
+                  ? css["woodgrain-light"] + " " + css["selected"]
+                  : css["woodgrain"]
               }`}
               onClick={item.buttonClick ? item.buttonClick : undefined}
             >

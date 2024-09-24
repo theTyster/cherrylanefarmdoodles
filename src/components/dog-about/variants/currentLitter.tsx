@@ -9,7 +9,7 @@ import NextFamilyDate from "@/components/next-family-date/next-family-date";
 import AvailabilityIcon from "@/components/svg/availability-icon.svg";
 
 // Css
-import theme from "@/styles/currentLitter.module.scss";
+import theme from "@styles/currentLitter.module.scss";
 
 // Types
 import type { CurrentLitterData, PuppyData } from "@/types/dog-about";

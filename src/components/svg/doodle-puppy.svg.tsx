@@ -1,4 +1,4 @@
-import Theme from "@/styles/theme.module.scss";
+import Theme from "@styles/_theme.module.scss";
 import * as React from "react";
 function SvgDoodlePuppy ({className}: {className: string}) {
   return (
