@@ -1,6 +1,8 @@
-import CLFImage from "../CLFImage/CLFImage";
+import Link from "next/link";
+import Image, { StaticImageData } from "next/image";
+
 //CSS
-import "./attention-getter-image.scss";
+import css from "@styles/attention-getter-image.module.scss";
 
 // NOTE: Using this component encourages the use of the center-children-by-flex
 // mixin in order to style the sideText containers to a desirable width of the
@@ -24,7 +26,7 @@ function AttentionGetterImage({
   sideText,
 }: {
   imgClass?: string;
-  imgSrc: string;
+  imgSrc: string | StaticImageData;
   imgAlt: string;
   imgLink?: string;
   sideText_classPrefix: string;
@@ -32,15 +34,15 @@ function AttentionGetterImage({
 }) {
 
   return (
-    <div className="attention-getter">
+    <div className={css['container']}>
       {imgLink ? (
-        <a href={imgLink} target="_blank" rel="noreferrer noopener">
-          <CLFImage className={imgClass} src={imgSrc} alt={imgAlt} width={400} height={400}/>
-        </a>
+        <Link className={css['link']} href={imgLink}>
+          <Image className={`${imgClass} ${css['image']}`} src={imgSrc} alt={imgAlt} placeholder="blur" />
+        </Link>
       ) : (
-          <CLFImage className={imgClass} src={imgSrc} alt={imgAlt} width={400} height={400}/>
+          <Image className={`${imgClass} ${css['image']}`} src={imgSrc} alt={imgAlt} placeholder="blur" />
       )}
-      <div className="sideText-container">
+      <div className={css["sideText-container"]}>
         <div className={`${sideText_classPrefix}-centering-box`}></div>
         <div className={`${sideText_classPrefix}-item`}>{sideText}</div>
         <div className={`${sideText_classPrefix}-centering-box`}></div>

@@ -1,0 +1,59 @@
+@use "@styles/theme.module.scss" as Theme;
+@use "@styles/mixins.scss" as Mixins;
+
+div.container {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  div.sideText-container {
+    display: flex;
+    flex: 1 1 0%;
+  }
+  @include Mixins.mediaQuery(Theme.$tabletViewport) {
+    flex-direction: column;
+  }
+}
+
+.link {
+  border-radius: 100%;
+  margin-bottom: Theme.$spaceBetweenElements;
+}
+
+.side-text-container {
+  display: flex;
+  flex: 1 1 0%;
+    //div:nth-child(3) {
+    //  @include Mixins.mediaQuery(Theme.$tabletViewport) {
+    //    max-width: 100%;
+    //  }
+    //}
+}
+
+.image {
+  margin: Theme.$spaceBetweenElements;
+  border-radius: 100%;
+    @include Mixins.setBoxShadow(black);
+  &:hover {
+    scale: Theme.$scaleOnHover;
+  }
+  &:active {
+    scale: 1;
+    box-shadow: unset;
+  }
+  transition-property: scale, box-shadow;
+  transition-duration: #{Theme.$transitionShort}s;
+  @include Mixins.mediaQuery(Theme.$tabletViewport) {
+    width: 100%;
+    height:auto;
+    max-width: Theme.$Headshots_Sm;
+  }
+  @include Mixins.mediaQuery(Theme.$SmPhoneViewport) {
+    margin: 0;
+    &:hover{
+      scale: 1;
+    }
+    &:active{
+      scale: 0.95;
+    }
+  }
+}
