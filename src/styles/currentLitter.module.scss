@@ -1,6 +1,6 @@
 @use "@styles/dog-about.module.scss";
-@use "@styles/mixins.scss" as Mixins;
-@use "@styles/theme.module.scss" as Theme;
+@use "@styles/_mixins.scss" as Mixins;
+@use "@styles/_theme.module.scss" as Theme;
 
 .partnerBreeder {
   color: Theme.$darkPrimary;
