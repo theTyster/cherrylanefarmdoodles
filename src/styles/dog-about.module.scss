@@ -108,27 +108,13 @@ article.mainDog {
   }
 }
 
-#Headshots_Lg {
-  margin-top: calc(1rem + 9px);
-  box-shadow: revert;
-}
-
-#Headshots_Sm {
-  @include Theme.mediaQuery(Theme.$tabletViewport) {
-    margin-top: Theme.$spaceBetweenElements;
-  }
-  @include Theme.setBoxShadow(black);
-  &:active {
-    box-shadow: none;
-  }
-}
-
-#Group_Photos {
+.Group_Photos {
   max-width: Theme.$Group_Photos;
   border-radius: Theme.$buttonRadius;
   aspect-ratio: 4/3;
   margin-top: Theme.$spaceBetweenElements;
   margin-right: Theme.$spaceBetweenElements;
+  @include Theme.imageHover(black);
   @include Theme.mediaQuery(Theme.$tabletViewport) {
     width: 100%;
     height: auto;
@@ -184,5 +170,23 @@ article.mainDog {
     color: Theme.$lightPrimary;
     margin-top: Theme.$spaceBetweenElements;
     text-align: center;
+  }
+}
+
+.Headshots_Lg {
+  margin-top: calc(1rem + 9px);
+  box-shadow: revert;
+  &:hover {
+    transform: translateY(0);
+    box-shadow: revert;
+  }
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+.Headshots_Sm {
+  @include Theme.mediaQuery(Theme.$tabletViewport) {
+    margin-top: Theme.$spaceBetweenElements;
   }
 }

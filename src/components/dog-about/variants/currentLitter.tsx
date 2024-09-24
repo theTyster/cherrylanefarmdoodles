@@ -107,7 +107,7 @@ export default function CurrentLitter({
                   ).concat(
                     ` (${puppyData.dogData.gender === "F" ? "Female" : "Male"})`
                   )}
-                  id={css.Headshots_Sm}
+                  className={css.Headshots_Sm}
                 />
                 <AvailabilityIcon
                   className={css.availabilityIcon}

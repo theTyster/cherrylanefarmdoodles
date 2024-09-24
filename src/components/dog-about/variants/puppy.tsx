@@ -69,7 +69,7 @@ export default function Puppy({
         <div className={css.attentionGetter}>
           <LargeHeadshot
             variant={G.Headshots_Lg}
-            id={css.Headshots_Lg}
+            className={css.Headshots_Lg}
             src={D.dogData[G.Headshots_Lg]}
             alt={puppyName}
             gender={D.dogData[G.gender]}
@@ -130,7 +130,7 @@ export default function Puppy({
               </tbody>
             </table>
             <GroupPhoto
-              id={css[D1T.Group_Photos]}
+              className={css[D1T.Group_Photos]}
               src={D.ids[D1T.Group_Photos]}
               alt={`${D.parentData.partnerData[G.adultName]} and ${
                 D.parentData.dogData[G.adultName]
@@ -145,7 +145,7 @@ export default function Puppy({
                 gender={D.parentData.dogData[G.gender]}
                 src={D.parentData.dogData[G.Headshots_Sm]}
                 alt={D.parentData.dogData[G.adultName]}
-                id={css.Headshots_Sm}
+                className={css.Headshots_Sm}
               />
             </Link>
             <h4 className={css.breederLine}>
@@ -157,7 +157,7 @@ export default function Puppy({
                 gender={D.parentData.partnerData[G.gender]}
                 src={D.parentData.partnerData[G.Headshots_Sm]}
                 alt={D.parentData.partnerData[G.adultName]}
-                id={css.Headshots_Sm}
+                className={css.Headshots_Sm}
               />
             </Link>
             <h4 className={css.breederLine}>
