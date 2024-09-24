@@ -14,12 +14,14 @@ function Headshot({
   alt,
   gender,
   className,
+  style,
 }: {
   variant: typeof D1T.Headshots_Lg | typeof D1T.Headshots_Sm;
   src: StaticImageData | string | null;
   alt: string;
   gender: ("M" | "F") | "U";
   className?: string;
+  style?: React.CSSProperties;
 }) {
   const classNameMod = className ? className : "no-mods";
   const morf = gender !== "U" ? MorF(gender) : () => css.unrecordedDog;
@@ -43,7 +45,14 @@ function Headshot({
       width: 292,
       height: 292,
     };
-  return <CLFImage src={src} alt={alt} {...props} />;
+  return (
+    <CLFImage
+      src={src}
+      alt={alt}
+      style={style && src ? style : { ...style, height: 'auto', aspectRatio: 1/1 }}
+      {...props}
+    />
+  );
 }
 
 export default Headshot;
