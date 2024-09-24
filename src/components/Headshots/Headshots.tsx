@@ -13,14 +13,12 @@ function Headshot({
   src,
   alt,
   gender,
-  id,
   className,
 }: {
   variant: typeof D1T.Headshots_Lg | typeof D1T.Headshots_Sm;
   src: StaticImageData | string | null;
   alt: string;
   gender: ("M" | "F") | "U";
-  id?: string;
   className?: string;
 }) {
   const classNameMod = className ? className : "no-mods";
@@ -45,7 +43,7 @@ function Headshot({
       width: 292,
       height: 292,
     };
-  return <CLFImage id={id ? id : undefined} src={src} alt={alt} {...props} />;
+  return <CLFImage src={src} alt={alt} {...props} />;
 }
 
 export default Headshot;

@@ -9,14 +9,6 @@
   object-fit: scale-down;
   border-radius: Theme.$bigButtonRadius;
   box-sizing: content-box;
-  .mom {
-    outline: Theme.$momOutline;
-    outline-offset: -1px;
-  }
-  .dad {
-    outline: Theme.$dadOutline;
-    outline-offset: -1px;
-  }
   @include Theme.mediaQuery(Theme.$LgPhoneViewport) {
     width: Theme.$Headshots_Sm;
     height: auto;
@@ -34,13 +26,9 @@
   object-fit: scale-down;
   border-radius: Theme.$Headshots_SmRadius;
   cursor: pointer;
-  transition-property: scale, box-shadow;
+  transition-property: box-shadow;
   transition-duration: #{Theme.$transitionShort}s;
-  &:hover {
-    scale: Theme.$scaleOnHover;
-  }
   &:active {
-    transform: scale(0.95);
     box-shadow: none;
   }
   @include Theme.mediaQuery(Theme.$LgPhoneViewport) {
@@ -50,25 +38,19 @@
   @include Theme.mediaQuery(Theme.$SmPhoneViewport) {
     width: 100%;
     height: auto;
-    &:hover {
-      scale: 1;
-    }
-    &:active {
-      scale: 0.95;
-    }
   }
 }
 
 .mom {
   outline: Theme.$momOutline;
   outline-offset: -1px;
-  @include Theme.setBoxShadow(Theme.$darkMom, 'hover');
+  @include Theme.imageHover(Theme.$darkMom);
 }
 
 .dad {
   outline: Theme.$dadOutline;
   outline-offset: -1px;
-  @include Theme.setBoxShadow(Theme.$darkDad, 'hover');
+  @include Theme.imageHover(Theme.$darkDad);
 }
 
 .unrecordedDog {
@@ -76,11 +58,7 @@
   outline-offset: -1px;
   cursor: auto;
   box-shadow: none;
-  &:hover {
-    transform: scale(1);
-  }
   &:active {
-    transform: scale(1);
     box-shadow: none;
   }
 }

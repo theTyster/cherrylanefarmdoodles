@@ -83,7 +83,7 @@ export default function Adult({
         <div className={css.attentionGetter}>
           <LargeHeadshot
             variant={G.Headshots_Lg}
-            id={css.Headshots_Lg}
+            className={css.Headshots_Lg}
             src={D.dogData[G.Headshots_Lg]}
             alt={D.dogData[G.adultName]}
             gender={D.dogData[G.gender]}
@@ -201,7 +201,7 @@ export default function Adult({
                 })()}
                 <h4 className={css.partnerLastLitter}>{relevantLitter()}</h4>
                 <GroupPhoto
-                  id={css[D1T.Group_Photos]}
+                  className={css[D1T.Group_Photos]}
                   src={D.ids[D1T.Group_Photos]}
                   alt={`${D.dogData[G.adultName]} and ${
                     D.partnerData[G.adultName]
@@ -218,7 +218,7 @@ export default function Adult({
                     gender={D.partnerData[G.gender]}
                     src={D.partnerData[G.Headshots_Sm]}
                     alt={D.partnerData[G.adultName]}
-                    id={css.Headshots_Sm}
+                    className={css.Headshots_Sm}
                   />
                 </Link>
                 <h4 className={css.partnerBreeder}>

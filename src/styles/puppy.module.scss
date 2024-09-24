@@ -75,6 +75,7 @@ $dogNameMarginBottom: -2.4rem;
   max-width: 100%;
   height: fit-content;
   margin-left: unset;
+  margin-bottom: Theme.$spaceBetweenElements;
   thead {
     font-weight: 700;
     text-align: center;
@@ -110,13 +111,13 @@ $dogNameMarginBottom: -2.4rem;
   color: Theme.$lightPrimary;
 }
 
-#Headshots_Lg {
-  @extend #Headshots_Lg;
+.Headshots_Lg {
+  @extend .Headshots_Lg;
   margin-bottom: Theme.$spaceBetweenElements;
 }
 
-#Headshots_Sm {
-  @extend #Headshots_Sm;
+.Headshots_Sm {
+  @extend .Headshots_Sm;
   margin-top: Theme.$spaceBetweenElements;
   margin-bottom: Theme.$spaceBetweenElements;
 }
