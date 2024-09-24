@@ -93,7 +93,7 @@ function Nav() {
     () => {
       menuTl.current = gsap.timeline({
         paused: true,
-        defaults: { duration: Number.parseFloat(navCSS["transitionFancy"]) },
+        defaults: { duration: Number.parseFloat(navCSS["transitionShort"]) },
       });
 
       gsap
