@@ -112,8 +112,6 @@ article.mainDog {
   max-width: Theme.$Group_Photos;
   border-radius: Theme.$buttonRadius;
   aspect-ratio: 4/3;
-  margin-top: Theme.$spaceBetweenElements;
-  margin-right: Theme.$spaceBetweenElements;
   @include Theme.imageHover(black);
   @include Theme.mediaQuery(Theme.$tabletViewport) {
     width: 100%;
@@ -145,6 +143,7 @@ article.mainDog {
     color: Theme.$lightSecondaryGreen;
     max-width: 600px;
     margin: Theme.$spaceBetweenElements;
+    margin-bottom: Theme.$spaceBetweenElements;
     @include Theme.mediaQuery(Theme.$LgPhoneViewport) {
       align-items: center;
       justify-content: center;
