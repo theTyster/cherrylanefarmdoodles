@@ -3,6 +3,8 @@
 .groupPhoto {
   padding: 1rem;
   border-radius: Theme.$buttonRadius;
+  outline: 2px solid Theme.$primary;
+  outline-offset: -1px;
   background-color: Theme.$primary;
   transition: all #{Theme.$transitionShort}s;
 
@@ -16,5 +18,7 @@
 }
 
 .link {
-  border-radius: Theme.$buttonRadius
+  height: fit-content;
+  width: fit-content;
+  display: block;
 }

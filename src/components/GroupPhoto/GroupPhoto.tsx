@@ -1,5 +1,6 @@
 import Link from "next/link";
 import CLFImage from "@/components/CLFImage/CLFImage";
+import css from "@styles/GroupPhoto.module.scss";
 
 function GroupPhoto({
   src,
@@ -16,6 +17,7 @@ function GroupPhoto({
 }) {
   return (
     <Link
+      className={css.link}
       href={`/litter/${litterId}`}
     >
     <CLFImage
@@ -23,7 +25,7 @@ function GroupPhoto({
       alt={alt}
       width={615}
       height={433}
-      className={className}
+      className={`${css.groupPhoto} ${className}`}
       {...props}
     />
     </Link>
