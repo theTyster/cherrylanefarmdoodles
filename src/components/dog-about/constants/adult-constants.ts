@@ -1,5 +1,6 @@
 import { GlobalNameSpaces as G } from "@/constants/data";
 import { type ParentData } from "@/types/dog-about";
+import { unstable_cache } from "next/cache";
 
 // Constants for the constants
 import {
@@ -83,12 +84,46 @@ export default class AdultDogData {
     };
   }
 
-  async adultTableQuery(adultId: number) {
-    return await this.D1.prepare(adultDogsQuery).bind(adultId).first<D1AQ>();
+  async adultTableQuery(adultId?: number): Promise<D1AQ> {
+    if (!adultId) adultId = this.adultId;
+    this.adultId = adultId;
+    const cached = await unstable_cache(
+      async () => {
+        return await this.D1.prepare(adultDogsQuery)
+          .bind(adultId)
+          .first<D1AQ>();
+      },
+      [
+        "adult-" + adultId,
+        adultDogsQuery,
+      ],
+      {
+        tags: ["adult-" + adultId, "adultTableQuery"],
+        revalidate: 28800,
+      }
+    )();
+    if (!cached) throw new Error("No data found for adult ID: " + adultId);
+    return cached;
   }
 
-  async dogsTableQuery(dogId: number) {
-    return await this.D1.prepare(dogsQuery).bind(dogId).first<D1DQ>();
+  async dogsTableQuery(dogId?: number): Promise<D1DQ>{
+    if (!dogId) dogId = this.dogId;
+    this.dogId = dogId;
+    const cached = await unstable_cache(
+      async () => {
+        return await this.D1.prepare(dogsQuery).bind(dogId).first<D1DQ>();
+      },
+      [
+        "dog-" + dogId,
+        dogsQuery,
+      ],
+      {
+        tags: ["dog-" + dogId, "dogsTableQuery"],
+        revalidate: 28800,
+      }
+    )();
+    if (!cached) throw new Error("No data found for dog ID: " + dogId);
+    return cached;
   }
 
   /**

@@ -1,6 +1,7 @@
 import { GlobalNameSpaces as G } from "@/constants/data";
 import { type PuppyData as PuppyDataType } from "@/types/dog-about";
 import AdultDogData from "./adult-constants";
+import { unstable_cache } from "next/cache";
 
 // Constants for the constants
 import {
@@ -26,12 +27,22 @@ export default class PuppyData {
 
   async getPuppyFromLitter(litterId?: number | string): Promise<D1PQ[]> {
     if (litterId) this.litterId = litterId;
-    if(!this.litterId) throw new Error("No litter ID provided.");
-    const puppies = await this.D1.prepare(litterQuery)
-      .bind(this.litterId)
-      .all<D1LQ>()
-      .then((res) => res.results);
-
+    if (!this.litterId) throw new Error("No litter ID provided.");
+    const puppies = await unstable_cache(
+      async () => {
+        return await this.D1.prepare(litterQuery)
+          .bind(this.litterId)
+          .all<D1LQ>()
+          .then((res) => res.results);
+      },
+      ["puppy-" + this.litterId, litterQuery],
+      {
+        tags: ["puppy-" + this.litterId, "getPuppyFromLitter"],
+        revalidate: 28800,
+      }
+    )();
+    if (!puppies)
+      throw new Error("No puppies found for litter ID: " + litterId);
     if (puppies.length > 24)
       throw new Error(
         "This litter has set a world record for the most puppies in a single litter. We can't load that many on a page."
@@ -49,32 +60,50 @@ export default class PuppyData {
    * Feels like O(n) but it's actually O(~10) because a dog can only have so many puppies in a litter.
    **/
   async mergeData(puppyData: D1PQ): Promise<PuppyDataType> {
-    const puppyDogDataQuery = await this.D1.prepare(dogsQuery)
-      .bind(puppyData[G.dogId])
-      .first<D1DQ>()
-      .then(async (puppyDogsTable) => {
-        if (!puppyDogsTable)
-          throw new Error(
-            "Missing data in the Dogs Table for ID: " + puppyData[G.dogId]
-          );
-        return puppyDogsTable;
-      });
+    const puppyDogDataQuery = await unstable_cache(
+      async () => {
+        return await this.D1.prepare(dogsQuery)
+          .bind(puppyData[G.dogId])
+          .first<D1DQ>()
+          .then(async (puppyDogsTable) => {
+            if (!puppyDogsTable)
+              throw new Error(
+                "Missing data in the Dogs Table for ID: " + puppyData[G.dogId]
+              );
+            return puppyDogsTable;
+          });
+      },
+      ["puppy-" + puppyData[G.dogId], dogsQuery],
+      {
+        tags: ["puppy-" + puppyData[G.dogId], "mergeData"],
+        revalidate: 28800,
+      }
+    )();
 
     return PuppyData.castFromD1({
       ...puppyDogDataQuery,
-      ...puppyData
+      ...puppyData,
     });
   }
 
   async getPuppyFromPuppies(puppyId: string): Promise<PuppyDataType> {
-    return await this.D1.prepare(puppyQuery)
-      .bind(puppyId)
-      .first<D1PQ>()
-      .then((res) => {
-        if (!res) Promise.reject("No puppy data found for ID: " + puppyId);
-        this.pup = PuppyData.castFromD1(res!);
-        return this.pup!;
-      });
+    return await unstable_cache(
+      async () => {
+        return await this.D1.prepare(puppyQuery)
+          .bind(puppyId)
+          .first<D1PQ>()
+          .then((res) => {
+            if (!res) Promise.reject("No puppy data found for ID: " + puppyId);
+            this.pup = PuppyData.castFromD1(res!);
+            return this.pup!;
+          });
+      },
+      ["puppy-" + puppyId, puppyQuery],
+      {
+        tags: ["puppy-" + puppyId, "getPuppyFromPuppies"],
+        revalidate: 28800,
+      }
+    )();
   }
 
   async getFamily(): Promise<PuppyDataType> {
@@ -142,7 +171,9 @@ export default class PuppyData {
       },
       litterData: {
         [G.dueDate]: pup[G.dueDate] ? new Date(pup[G.dueDate]!) : null,
-        [G.litterBirthday]: pup[G.litterBirthday] ? new Date(pup[G.litterBirthday]!): null,
+        [G.litterBirthday]: pup[G.litterBirthday]
+          ? new Date(pup[G.litterBirthday]!)
+          : null,
         [G.applicantsInQueue]: pup[G.applicantsInQueue],
         [G.availablePuppies]: pup[G.availablePuppies],
         [G.totalPuppies]: pup[G.totalPuppies],
