@@ -2,7 +2,7 @@
 @use "@styles/mixins.scss" as Mixins;
 // logo {
 a.home-button {
-  $max-scale: 1.07;
+  $max-scale: Theme.$scaleOnHover;
   height: calc(100% - ($max-scale * 100% - 100%));
   width: fit-content;
   margin: 1rem auto;
@@ -48,12 +48,14 @@ a.home-button {
   @include Mixins.mediaQuery(Theme.$tabletViewport) {
     .content-box {
       flex: 0 1 Theme.$LgPhoneViewport;
+      max-width: Theme.$LgPhoneViewport;
     }
   }
 
   @include Mixins.mediaQuery(Theme.$LgPhoneViewport) {
     .content-box {
       flex: 0 1 Theme.$SmPhoneViewport;
+      max-width: Theme.$SmPhoneViewport;
     }
   }
 

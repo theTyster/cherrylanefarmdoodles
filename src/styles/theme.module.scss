@@ -35,6 +35,8 @@ $unrecordedDogShadow: 0 0 0 calc($outlineWidth * 0.667) $lightSecondaryGreen;
 
 $black: #333;
 
+$scaleOnHover: 1.07;
+
 $transitionShort: 0.2;
 $transitionFancy: 0.5;
 
@@ -145,6 +147,9 @@ $h4: calc(51px - 30px);
   accentBlue: $accentBlue;
   bigButtonRadius: $bigButtonRadius; // 32px
   black: $black;
+  boxShadowBlur:$boxShadowBlur; // Needs to be populated in the mixin.
+  boxShadowX:$boxShadowX; // Needs to be populated in the mixin.
+  boxShadowY:$boxShadowY; // Needs to be populated in the mixin.
   buttonRadius: $buttonRadius; // 14px
   dadOutline: $dadOutline;
   dadShadow: $dadShadow;
@@ -168,14 +173,12 @@ $h4: calc(51px - 30px);
   momShadow: $momShadow;
   outlineWidth: $outlineWidth;
   primary: $primary;
+  scaleOnHover:  $scaleOnHover;
   secondaryGreen: $secondaryGreen;
   spaceBetweenElements: $spaceBetweenElements;
   tabletViewport: $tabletViewport;
   tertiaryCherry: $tertiaryCherry;
-  watchViewport: $watchViewport;
-  transitionShort:$transitionShort;
   transitionFancy:$transitionFancy;
-  boxShadowX:$boxShadowX; // Needs to be populated in the mixin.
-  boxShadowY:$boxShadowY; // Needs to be populated in the mixin.
-  boxShadowBlur:$boxShadowBlur; // Needs to be populated in the mixin.
+  transitionShort:$transitionShort;
+  watchViewport: $watchViewport;
 }
