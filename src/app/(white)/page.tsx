@@ -1,4 +1,5 @@
 import { getRequestContext } from "@cloudflare/next-on-pages";
+import { getAllRecentFamilies } from "@/components/dog-about/constants/family-constants";
 
 // Components
 import DogTree from "@/components/dog-tree/dog-tree";
@@ -14,8 +15,6 @@ import css from "./page.module.scss";
 // Constants
 import { GlobalNameSpaces as G } from "@/constants/data";
 import {
-  familyQuery,
-  type D1FamilyQueryData as D1FQ,
   adultDogsQuery,
   type D1AdultDogsQueryData as D1AQ,
   dogsQuery,
@@ -39,10 +38,7 @@ export default async function WhiteSection() {
   // Data Collection for the Dogtree component {
   const D1 = getRequestContext().env.dogsDB;
 
-  const entryPoint = await D1.prepare(familyQuery())
-    .bind()
-    .all<D1FQ>()
-    .then((res) => res.results);
+  const entryPoint = await getAllRecentFamilies(D1);
 
   // Reversed so that the most recent litters are displayed first.
   entryPoint.reverse();
@@ -127,8 +123,10 @@ export default async function WhiteSection() {
       [G.mother]: { ...result[0] } satisfies DogData,
       [G.father]: { ...result[1] } satisfies DogData,
       litterData: {
-        [G.dueDate]: familyTableData[G.dueDate],
-        [G.litterBirthday]: familyTableData[G.litterBirthday],
+        [G.dueDate]: familyTableData[G.dueDate] ? new Date(familyTableData[G.dueDate]!) : null,
+        [G.litterBirthday]: familyTableData[G.litterBirthday]
+          ? new Date(familyTableData[G.litterBirthday]!)
+          : null,
         [G.applicantsInQueue]: familyTableData[G.applicantsInQueue],
         [G.availablePuppies]: familyTableData[G.availablePuppies],
         [G.totalPuppies]: familyTableData[G.totalPuppies],

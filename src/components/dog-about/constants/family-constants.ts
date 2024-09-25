@@ -23,16 +23,16 @@ import fetchDataWithCache from "@/constants/caching";
  * @param D1 The database to query.
  * @param litterId The ID of the litter to get data for.
  **/
-export async function getAllRecentFamilies(D1: D1Database, litterId: string) {
+export async function getAllRecentFamilies(D1: D1Database) {
   return await fetchDataWithCache(
-    "all-families__" + litterId + '__familyQuery',
+    "all-families__familyQuery",
     async () =>
-      await D1.prepare(familyQuery(litterId))
-        .bind(litterId)
+      await D1.prepare(familyQuery())
+        .bind()
         .all<D1FQ>()
         .then((res) => {
           if (!res) {
-            throw new Error("No family found for litterId: " + litterId);
+            throw new Error("No families found. 💀");
           }
           return res.results;
         })
