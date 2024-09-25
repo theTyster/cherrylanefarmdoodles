@@ -3,6 +3,10 @@ compatibility_date = "2024-06-05"
 compatibility_flags = ["nodejs_compat"]
 account_id = "11384f4c64593ba3cde6e064d5183db5"
 
+[[kv_namespaces]]
+binding = "__NEXT_ON_PAGES__KV_SUSPENSE_CACHE"
+id = "32b954be1e5845b5b8b11186ae8f35fd"
+
 [[d1_databases]]
 binding = "dogsDB"
 database_name = "dogs_prev"
