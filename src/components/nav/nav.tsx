@@ -24,14 +24,6 @@ function Nav() {
     delay: 0,
   };
 
-  const largeScreenTween = {
-    width: "100%",
-    alignItems: "center",
-    display: "flex",
-    position: "fixed",
-    ease: "back.out",
-  };
-
   const buttonTween: gsap.TweenVars = {
     position: "absolute",
     bottom: 5,
@@ -105,7 +97,7 @@ function Nav() {
       setMenuInerts("add");
       menuTl.current
         .call(setMenuInerts, ["remove"])
-        .to(menuRef.current, { width: '100%', duration: 0 })
+        .to(menuRef.current, { width: "100%", duration: 0 })
         .to(`#${navCSS["title-menu-button"]}`, {
           transition: "none",
           duration: 0,
@@ -115,7 +107,10 @@ function Nav() {
         .to(`#${navCSS["title-menu-button"]}`, {
           clearProps: "transition",
           duration: 0,
-        });
+        })
+        .to(`.${navCSS["menu"]}`, { flexWrap: "wrap",
+          duration: 1,
+        }, ">")
       const { button } = refChecker();
       button.addEventListener("click", firstClickHandler, {
         once: true,
@@ -124,7 +119,7 @@ function Nav() {
     },
     {
       scope: menuRef,
-      dependencies: [buttonRef, menuTween, largeScreenTween, buttonTween],
+      dependencies: [buttonRef, menuTween, buttonTween],
     }
   );
 
@@ -202,6 +197,9 @@ function Nav() {
         <menu className={navCSS["menu"]}>
           <Link className={navCSS["link"]} href="/">
             Home
+          </Link>
+          <Link className={navCSS["link"]} href="/about">
+            About
           </Link>
           <Link className={navCSS["link"]} href="/litter/1">
             Litters

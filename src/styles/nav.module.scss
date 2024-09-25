@@ -59,7 +59,7 @@ button#title-menu-button {
 
 .menu {
   background-color: Theme.$tertiaryCherry;
-  height: calc($menu-button-height - Theme.$buttonRadius);
+  height: fit-content;
   font-size: Theme.$h3;
   width: 0;
   overflow: hidden;
