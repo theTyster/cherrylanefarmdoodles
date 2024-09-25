@@ -13,13 +13,6 @@ import css from "./page.module.scss";
 export default function WoodLayout(): React.JSX.Element | null {
   return (
     <>
-      <Link href="https://shoppuppyculture.com/pages/about-puppy-culture">
-        <Image
-          className={css["puppy-culture"]}
-          src={PuppyCulture}
-          alt="Raised with Jane Killion's Puppy Culture"
-        />
-      </Link>
       <AttentionGetterImage
         imgSrc={JennyImage}
         imgAlt="Jenny"
@@ -43,6 +36,13 @@ export default function WoodLayout(): React.JSX.Element | null {
           </>
         }
       />
+      <Link href="https://shoppuppyculture.com/pages/about-puppy-culture">
+        <Image
+          className={css["puppy-culture"]}
+          src={PuppyCulture}
+          alt="Raised with Jane Killion's Puppy Culture"
+        />
+      </Link>
     </>
   );
 }
