@@ -81,15 +81,17 @@ $spaceBetweenLayouts: 100px;
 
 .wood-layout {
   @include all-layouts;
-  flex: 2 2;
-  padding: $spaceBetweenLayouts 0;
+  flex: 1 1;
+  padding: Theme.$spaceBetweenElements 0 $spaceBetweenLayouts 0;
   background-color: Theme.$darkPrimary;
-  background-position: center;
-  background-size: cover;
   @include Theme.setTextValues() {
     color: Theme.$lightPrimary;
   }
+  .content-box > * {
+    padding: 200px 0;
+  }
 }
+
 @include Theme.woodgrain();
 
 .tan-layout {
