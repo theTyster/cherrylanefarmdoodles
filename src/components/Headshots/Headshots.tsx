@@ -51,7 +51,7 @@ function Headshot({
     <CLFImage
       src={src}
       alt={alt}
-      style={style && src ? style : { ...style, height: 'auto', aspectRatio: 1/1 }}
+      style={style && src ? style : { ...style, aspectRatio: 1/1 }}
       {...defaultProps}
       {...props}
     />
