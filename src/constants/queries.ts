@@ -167,36 +167,43 @@ export type PreviousLittersQueryData = [
  * Nothing else in the database has as many datapoints as a puppy. This is the
  * most complex query in the database.
  * */
-export const puppyQuery = `SELECT 
-  ${D1T.Puppies}.${G.id} as ${G.puppyId},
-  ${G.puppyName},
-  ${G.collarColor},
-  ${G.availability},
-  ${G.gender},
-  ${G.noseColor},
-  ${G.coat},
-  ${G.personality},
-  ${G.Headshots_Lg},
-  ${G.Headshots_Sm},
-  ${G.Group_Photos},
-  ${G.dueDate},
-  ${G.litterBirthday},
-  ${G.applicantsInQueue},
-  ${D1T.Puppies}.${G.dogId} AS ${G.dogId},
-  ${D1T.Families}.${G.litterId} AS ${G.litterId},
-  ${G.mother},
-  ${G.father},
-  SUM(CASE WHEN ${D1T.Puppies}.${G.availability} LIKE "%Available%" THEN 1 ELSE 0 END) AS ${G.availablePuppies},
-  COUNT(${D1T.Puppies}.${G.id}) AS ${G.totalPuppies}
+export const puppyQuery = `
+WITH AggregateCounts AS (
+  SELECT 
+    COUNT(*) AS totalPuppies,
+    SUM(CASE WHEN availability LIKE "%Available%" THEN 1 ELSE 0 END) AS availablePuppies
+  FROM Puppies
+WHERE litterId = (SELECT litterId FROM Puppies WHERE id = ?1)
+)
+SELECT
+  Puppies.id AS puppyId,
+  puppyName,
+  collarColor,
+  availability,
+  gender,
+  noseColor,
+  coat,
+  personality,
+  Headshots_Lg,
+  Headshots_Sm,
+  Group_Photos,
+  dueDate,
+  litterBirthday,
+  applicantsInQueue,
+  Puppies.dogId AS dogId,
+  Families.litterId AS litterId,
+  mother,
+  father,
+  AggregateCounts.availablePuppies,
+  AggregateCounts.totalPuppies
 FROM
-${D1T.Puppies}
-  LEFT JOIN ${D1T.Families} ON ${D1T.Families}.${G.litterId} = ${D1T.Puppies}.${G.litterId}
-  LEFT JOIN ${D1T.Litters} ON ${D1T.Litters}.${G.id} = ${D1T.Puppies}.${G.litterId}
-  LEFT JOIN ${D1T.Dogs} ON ${D1T.Dogs}.${G.id} = ${D1T.Puppies}.${G.dogId}
+  Puppies
+  LEFT JOIN Families ON Families.litterId = Puppies.litterId
+  LEFT JOIN Litters ON Litters.id = Puppies.litterId
+  LEFT JOIN Dogs ON Dogs.id = Puppies.dogId
+  CROSS JOIN AggregateCounts 
 WHERE
-${D1T.Puppies}.${G.id} = ?
-
-    ` as const;
+${D1T.Puppies}.${G.id} = ?1` as const;
 
 export type PuppyQueryData = LitterQueryData & FamilyQueryData & DogsQueryData;
 export type D1PuppyQueryData = QueryStringify<PuppyQueryData>;
