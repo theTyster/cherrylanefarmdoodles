@@ -37,10 +37,10 @@ function AttentionGetterImage({
     <div className={`${className} ${css['container']}`}>
       {imgLink ? (
         <Link className={css['link']} href={imgLink}>
-          <Image className={`${css['image']}`} src={imgSrc} alt={imgAlt} placeholder="blur" />
+          <Image className={`${css['image']}`} src={imgSrc} alt={imgAlt} placeholder="blur" width={450} height={450}/>
         </Link>
       ) : (
-          <Image className={`${css['image']}`} src={imgSrc} alt={imgAlt} placeholder="blur" />
+          <Image className={`${css['image']}`} src={imgSrc} alt={imgAlt} placeholder="blur" width={450} height={450}/>
       )}
       <div className={css["sideText-container"]}>
         <div className={`${sideText_classPrefix}-centering-box`}></div>

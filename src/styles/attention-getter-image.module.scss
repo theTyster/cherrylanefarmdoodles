@@ -29,7 +29,7 @@ div.container {
 }
 
 .image {
-  margin: Theme.$spaceBetweenElements;
+  margin: Theme.$spaceBetweenElements 0;
   border-radius: 100%;
   @include Theme.setBoxShadow(black);
   &:hover {
@@ -47,7 +47,6 @@ div.container {
     max-width: Theme.$Headshots_Sm;
   }
   @include Theme.mediaQuery(Theme.$SmPhoneViewport) {
-    margin: 0;
     &:hover {
       scale: 1;
     }
