@@ -29,40 +29,55 @@ export default async function WoodSectionLitter({
     .raw<PlQ>();
   return (
     <>
-      {previousLitters.map((litter) => {
-        const litterId = litter[1];
-        const GroupImage = litter[0];
-        // Case for the first time mother.
-        if (
-          litterId === Number.parseFloat(params.litterId) &&
-          previousLitters.length === 1
-        ) {
-          return (
-            <div
-              key={`FTM-${litterId}`}
-              style={{
-                display: "flex",
-                width: "100%",
-                justifyContent: "center",
-              }}
-            >
-              <SvgFirstTimeMother style={{ maxWidth: "700px" }} />
-            </div>
-          );
-          // Case for the current litter.
-        } else if (litterId === Number.parseFloat(params.litterId)) return;
-        else
-          return (
-            <Fragment key={`GP-${litterId}`}>
-              <h2>Other litters from {mom[G.adultName]}</h2>
-              <GroupPhoto
-                alt={`${mom.adultName}'s Previous Litter with ID ${litterId}'`}
-                src={GroupImage}
-                litterId={litterId}
-              />
-            </Fragment>
-          );
-      })}
+      <div
+        style={{
+          display: "flex",
+          width: "100%",
+          justifyContent: "center",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
+        {previousLitters.map((litter) => {
+          const litterId = litter[1];
+          const GroupImage = litter[0];
+          // Case for the first time mother.
+          if (
+            litterId === Number.parseFloat(params.litterId) &&
+            previousLitters.length === 1
+          ) {
+            return (
+              <div
+                key={`FTM-${litterId}`}
+                style={{
+                  display: "flex",
+                  width: "100%",
+                  justifyContent: "center",
+                  flexDirection: "column",
+                }}
+              >
+                <SvgFirstTimeMother style={{ maxWidth: "700px" }} />
+              </div>
+            );
+            // Case for the current litter.
+          } else if (litterId === Number.parseFloat(params.litterId)) return;
+          else
+            return (
+              <Fragment key={`GP-${litterId}`}>
+                <h2
+                  style={{
+                    marginBottom: "1em"
+                  }}
+                >Other litters from {mom[G.adultName]}</h2>
+                <GroupPhoto
+                  alt={`${mom.adultName}'s Previous Litter with ID ${litterId}'`}
+                  src={GroupImage}
+                  litterId={litterId}
+                />
+              </Fragment>
+            );
+        })}
+      </div>
     </>
   );
 }
