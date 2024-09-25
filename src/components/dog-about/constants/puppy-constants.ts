@@ -92,6 +92,8 @@ export default class PuppyData {
           });
       }
     );
+    this.pup = pup;
+    return pup;
   }
 
   async getFamily(): Promise<PuppyDataType> {
@@ -122,7 +124,8 @@ export default class PuppyData {
       return {
         ...this.pup,
         parentData: adultData,
-      };
+        ...mostRecentFamilyHack,
+      } satisfies PuppyDataType;
     }
     const A = new AdultDogData(
       this.D1,
@@ -136,7 +139,8 @@ export default class PuppyData {
     return {
       ...this.pup,
       parentData: adultData,
-    };
+      ...this.mostRecentFamily,
+    } satisfies PuppyDataType;
   }
 
   /**Queries to Obtain this object can be found in adult-constants.*/
@@ -158,10 +162,8 @@ export default class PuppyData {
         [G.Headshots_Sm]: pup[G.Headshots_Sm],
       },
       litterData: {
-        [G.dueDate]: pup[G.dueDate] ? new Date(pup[G.dueDate]!) : null,
-        [G.litterBirthday]: pup[G.litterBirthday]
-          ? new Date(pup[G.litterBirthday]!)
-          : null,
+        [G.dueDate]: pup[G.dueDate],
+        [G.litterBirthday]: pup[G.litterBirthday],
         [G.applicantsInQueue]: pup[G.applicantsInQueue],
         [G.availablePuppies]: pup[G.availablePuppies],
         [G.totalPuppies]: pup[G.totalPuppies],

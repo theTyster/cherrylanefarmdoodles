@@ -49,9 +49,14 @@ export default function CurrentLitter({
       <div className={css["currentLitter"]}>
         {(() => {
           if (!D.parentData) return null;
+
+          const litterBirthday = D.parentData.litterData[G.litterBirthday],
+            dueDate = D.parentData.litterData[G.dueDate];
           const calcInit = {
-            litterBirthday: D.parentData.litterData[G.litterBirthday],
-            dueDate: D.parentData.litterData[G.dueDate],
+            litterBirthday: litterBirthday
+              ? new Date(litterBirthday)
+              : undefined,
+            dueDate: dueDate ? new Date(dueDate) : undefined,
           };
           // Case for the first time mother.
           return D.parentData.litterData[G.totalPuppies] === 0 ? (

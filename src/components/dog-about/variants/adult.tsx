@@ -28,16 +28,22 @@ export default function Adult({
   if (!css) css = theme;
   const dogMorF = MorF(D.dogData[G.gender]);
   const partnerMorf = MorF(D.partnerData[G.gender]);
+
+  const litterBirthday = D.litterData[G.litterBirthday],
+    dueDate = D.litterData[G.dueDate];
+
   const calc = new DateCalculator({
-    litterBirthday: D.litterData[G.litterBirthday],
-    dueDate: D.litterData[G.dueDate],
+    litterBirthday: litterBirthday ? new Date(litterBirthday) : undefined,
+    dueDate: dueDate ? new Date(dueDate) : undefined,
   });
   /**Returns a string containing information about available puppies.*/
   function hasPuppies(): string {
     let hasPuppiesString: string | undefined = undefined;
     const dueDate = D.litterData[G.dueDate];
     if (D.litterData[G.availablePuppies] === 0 && dueDate) {
-      hasPuppiesString = `${D.dogData[G.adultName]}'s next litter is due on ${calc.prettified.currentDOB}`
+      hasPuppiesString = `${D.dogData[G.adultName]}'s next litter is due on ${
+        calc.prettified.currentDOB
+      }`;
     } else if (
       D.litterData[G.availablePuppies] > 0 &&
       D.litterData[G.litterBirthday]
@@ -47,7 +53,11 @@ export default function Adult({
       } ${
         D.litterData[G.availablePuppies] > 1 ? "puppies" : "puppy"
       } available!` as string;
-    else hasPuppiesString = `${D.dogData[G.adultName]} is not a ${dogMorF("father", "mother")}`;
+    else
+      hasPuppiesString = `${D.dogData[G.adultName]} is not a ${dogMorF(
+        "father",
+        "mother"
+      )}`;
 
     return hasPuppiesString;
   }
@@ -61,10 +71,10 @@ export default function Adult({
     if (D.litterData[G.availablePuppies] === 0 && dueDate) {
       relevantLitterString = `Next litter due on ${calc.prettified.currentDOB}`;
     }
-    if (birthday){
+    if (birthday) {
       relevantLitterString = `Last litter born on ${calc.prettified.currentDOB}`;
     }
-    if (!relevantLitterString){
+    if (!relevantLitterString) {
       relevantLitterString = "Currently not expecting any litters.";
     }
 

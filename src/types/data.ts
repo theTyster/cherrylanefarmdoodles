@@ -45,9 +45,9 @@ export interface D1HeadshotsLg extends D1GroupPhotos {}
 export interface D1Litters {
   readonly [G.id]: number;
   /**If dueDate is not provided, Birthday should be.*/
-  readonly [G.dueDate]: Date | null;
+  readonly [G.dueDate]: string | null;
   /**If Birthday is not provided, dueDate should be.*/
-  readonly [G.litterBirthday]: Date | null;
+  readonly [G.litterBirthday]: string | null;
   readonly [G.applicantsInQueue]: number;
 }
 
@@ -65,7 +65,7 @@ export interface D1Adults {
   readonly [G.id]: number;
   readonly [G.adultName]: string | 'Adult Doodle';
   readonly [G.breeder]: string;
-  readonly [G.adultBirthday]: Date | null;
+  readonly [G.adultBirthday]: string | null;
   readonly [G.eyeColor]: string | null;
   readonly [G.activityStatus]: "Active" | "Retired" | "Break";
   readonly [G.favActivities]: string | null;
@@ -109,8 +109,8 @@ export type D1LittersRaw =
   /**prettier-ignore*/
   [
     number, //id
-    Date | null, //dueDate
-    Date | null, //litterBirthday
+    string | null, //dueDate
+    string | null, //litterBirthday
     number //applicantsInQueue
   ];
 export type D1DogsRaw = [
@@ -126,7 +126,7 @@ export type D1AdultsRaw = [
   number, //id
   string | "Adult Doodle", //adultName
   string, //breeder
-  Date, //adultBirthday
+  string, //adultBirthday
   string, //eyeColor
   "Active" | "Retired" | "Break", //activityStatus
   string, //favActivities

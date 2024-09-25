@@ -59,9 +59,7 @@ export default class AdultDogData {
         G.adultName
       ] as ParentTypified[typeof G.adultName],
       [G.breeder]: parentDog[G.breeder] as ParentTypified[typeof G.breeder],
-      [G.adultBirthday]: parentDog[G.adultBirthday]
-        ? new Date(parentDog[G.adultBirthday]!)
-        : null,
+      [G.adultBirthday]: parentDog[G.adultBirthday],
       [G.eyeColor]: parentDog[G.eyeColor],
       [G.activityStatus]: parentDog[
         G.activityStatus
@@ -216,12 +214,8 @@ export default class AdultDogData {
       dogData: parentDogsData[0],
       partnerData: parentDogsData[1],
       litterData: {
-        [G.dueDate]: mostRecentFamily[G.dueDate]
-          ? new Date(mostRecentFamily[G.dueDate]!)
-          : null,
-        [G.litterBirthday]: mostRecentFamily[G.litterBirthday]
-          ? new Date(mostRecentFamily[G.litterBirthday]!)
-          : null,
+        [G.dueDate]: mostRecentFamily[G.dueDate],
+        [G.litterBirthday]: mostRecentFamily[G.litterBirthday],
         [G.applicantsInQueue]: mostRecentFamily[G.applicantsInQueue],
         [G.availablePuppies]: mostRecentFamily[G.availablePuppies],
         [G.totalPuppies]: mostRecentFamily[G.totalPuppies],

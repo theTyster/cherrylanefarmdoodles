@@ -38,21 +38,23 @@ export default function Puppy({
     const dueDate = D.litterData[G.dueDate];
     const birthday = D.litterData[G.litterBirthday];
     if (dueDate) {
-      hasPuppiesString = `Due on ${normalizeEpochDate(dueDate)}`;
+      const dueDateObject = new Date(dueDate);
+      hasPuppiesString = `Due on ${normalizeEpochDate(dueDateObject, "date-only")}`;
 
       hasPuppiesString +=
-        dueDate.toISOString().split("T")[0] ===
+        dueDateObject.toISOString().split("T")[0] ===
         new Date().toISOString().split("T")[0]
           ? `...That's today!!`
           : "";
       if (birthday) {
+        const birthdayObject = new Date(birthday);
         hasPuppiesString = `Born on ${normalizeEpochDate(
           birthday,
           "date-only"
         )}`;
 
         hasPuppiesString +=
-          birthday.toISOString().split("T")[0] ===
+          birthdayObject.toISOString().split("T")[0] ===
           new Date().toISOString().split("T")[0]
             ? `...That's today!!`
             : "";

@@ -36,6 +36,14 @@ export default function DogTree({ familyData }: { familyData: DogTreeData }) {
   Object.freeze(litterData);
   Object.freeze(ids);
 
+          const litterBirthday = litterData[G.litterBirthday],
+            dueDate = litterData[G.dueDate];
+          const calcInit = {
+            litterBirthday: litterBirthday
+              ? new Date(litterBirthday)
+              : undefined,
+            dueDate: dueDate ? new Date(dueDate) : undefined,
+          };
   return (
     <>
       <div className={css.top}>
@@ -63,10 +71,7 @@ export default function DogTree({ familyData }: { familyData: DogTreeData }) {
         <h1 className={`${css.desktopOnly} ${css.heading}`}>
           <NextFamilyDate
             className={css.goingHome}
-            calcInit={{
-              litterBirthday: litterData[G.litterBirthday],
-              dueDate: litterData[G.dueDate],
-            }}
+            calcInit={calcInit}
             availablePuppies={litterData[G.availablePuppies]}
           />
         </h1>
@@ -93,10 +98,7 @@ export default function DogTree({ familyData }: { familyData: DogTreeData }) {
       <h1 className={`${css.mobileOnly} ${css.heading}`}>
         <NextFamilyDate
           className={css.goingHome}
-          calcInit={{
-            litterBirthday: litterData[G.litterBirthday],
-            dueDate: litterData[G.dueDate],
-          }}
+          calcInit={calcInit}
           availablePuppies={litterData[G.availablePuppies]}
         />
       </h1>
