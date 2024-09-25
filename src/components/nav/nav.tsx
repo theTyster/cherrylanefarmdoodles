@@ -108,9 +108,7 @@ function Nav() {
           clearProps: "transition",
           duration: 0,
         })
-        .to(`.${navCSS["menu"]}`, { flexWrap: "wrap",
-          duration: 1,
-        }, ">")
+        .to(`.${navCSS["menu"]}`, { flexWrap: "wrap", duration: 0 }, ">");
       const { button } = refChecker();
       button.addEventListener("click", firstClickHandler, {
         once: true,
@@ -201,11 +199,11 @@ function Nav() {
           <Link className={navCSS["link"]} href="/about">
             About
           </Link>
-          <Link className={navCSS["link"]} href="/litter/1">
-            Litters
-          </Link>
           <Link className={navCSS["link"]} href="/dams/1">
             Mothers
+          </Link>
+          <Link className={navCSS["link"]} href="/litter/1">
+            Litters
           </Link>
         </menu>
       </nav>

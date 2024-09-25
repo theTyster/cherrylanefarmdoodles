@@ -70,10 +70,26 @@ button#title-menu-button {
 .link {
   flex: 1 1 auto;
   text-align: center;
+  padding: 0 .5em;
   color: Theme.$lightTertiaryCherry;
+  border-radius: Theme.$buttonRadius;
+  transition: all #{Theme.$transitionShort}s;
   white-space: nowrap;
+  text-decoration: none;
+  &:hover {
+    color: Theme.$tertiaryCherry;
+    background-color: Theme.$lightTertiaryCherry;
+    text-decoration: none;
+  }
+  &:active {
+    color: Theme.$lightTertiaryCherry;
+    background-color: Theme.$darkTertiaryCherry;
+    text-decoration: none;
+  }
   &:visited {
     color: Theme.$lightTertiaryCherry;
+    background-color: Theme.$darkTertiaryCherry;
+    text-decoration: none;
   }
 }
 
