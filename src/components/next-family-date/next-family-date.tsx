@@ -70,14 +70,24 @@ function NextFamilyDate({
   // if the litter is born, and the going home date has passed, and there are
   // no puppies available it should display "All Puppies are in their furever
   // homes. Sign up for the next litter from this mother!"
-  else
+  else if (availablePuppies === 0)
     return (
       <>
         <div style={style} className={className}>
-          All puppies are in their furever homes.
+          All puppies are
+        </div>
+        in their furever homes
+      </>
+    );
+  else {
+    return (
+      <>
+        <div style={style} className={className}>
+        &lt;!-- There was an error --&gt;
         </div>
       </>
     );
+  }
 }
 
 export default NextFamilyDate;
