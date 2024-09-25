@@ -1,0 +1,16 @@
+@use "@styles/_theme.module.scss" as Theme;
+
+.attention-getter-image {
+  flex-direction: column;
+  img {
+    box-shadow: none;
+    cursor: auto;
+    &:hover {
+      transform: none;
+      scale: none;
+    }
+    &:active {
+      transform: none;
+    }
+  }
+}
