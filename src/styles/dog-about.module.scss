@@ -148,6 +148,10 @@ article.mainDog {
     color: Theme.$lightSecondaryGreen;
     max-width: 600px;
     margin-bottom: Theme.$spaceBetweenElements;
+    margin-right: Theme.$spaceBetweenElements;
+    @include Theme.mediaQuery(Theme.$tabletViewport) {
+      margin-right: revert;
+    }
     @include Theme.mediaQuery(Theme.$LgPhoneViewport) {
       align-items: center;
       justify-content: center;
