@@ -9,7 +9,11 @@ import {
 
 /**Utility type for this file.*/
 type QueryStringify<T> = {
-  [key in keyof T]: T[key] extends number & null ? number | null : T[key] extends string & null ? string | null : T[key];
+  [key in keyof T]: T[key] extends number & null
+    ? number | null
+    : T[key] extends string & null
+    ? string | null
+    : T[key];
 };
 
 /**
@@ -81,7 +85,7 @@ export const familyQuery = (
   ${G.litterBirthday},
   ${G.applicantsInQueue},
   ${G.availability},
-  SUM(CASE WHEN Pups.${G.availability} = 'Available' THEN 1 ELSE 0 END) AS ${
+  SUM(CASE WHEN Pups.${G.availability} LIKE '%Available%' THEN 1 ELSE 0 END) AS ${
     G.availablePuppies
   },
    COUNT(Pups.${G.id}) as ${G.totalPuppies}
@@ -127,9 +131,12 @@ export const litterQuery = `
     Puppies
   WHERE litterId = ?` as const;
 /**Describes data in the Puppies Table after being converted to a usable type.*/
-export type LitterQueryData = Omit<D1Puppies, typeof G.id | typeof G.litterId> & {
+export type LitterQueryData = Omit<
+  D1Puppies,
+  typeof G.id | typeof G.litterId
+> & {
   readonly [G.puppyId]: string;
-}
+};
 
 /**Describes the types of data as they are when queried from D1*/
 export type D1LitterQueryData = QueryStringify<PuppyQueryData>;
@@ -179,7 +186,7 @@ export const puppyQuery = `SELECT
   ${D1T.Families}.${G.litterId} AS ${G.litterId},
   ${G.mother},
   ${G.father},
-  SUM(CASE WHEN ${D1T.Puppies}.${G.availability} IS "Available" THEN 1 ELSE 0 END) AS ${G.availablePuppies},
+  SUM(CASE WHEN ${D1T.Puppies}.${G.availability} LIKE "%Available%" THEN 1 ELSE 0 END) AS ${G.availablePuppies},
   COUNT(${D1T.Puppies}.${G.id}) AS ${G.totalPuppies}
 FROM
 ${D1T.Puppies}
