@@ -21,7 +21,7 @@ export default function WhiteSectionAbout(): React.JSX.Element | null {
           <>
             <p>
               My husband and I have a love for animals, plants, and farm life.
-              That&apos;s why we decided to start or hobby farm! We have had
+              That&apos;s why we decided to start our hobby farm! We&apos;ve had
               many different kinds of animals on our farm over the years. It has
               been such a fun experience.
             </p>
