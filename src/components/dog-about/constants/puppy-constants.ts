@@ -79,7 +79,7 @@ export default class PuppyData {
   }
 
   async getPuppyFromPuppies(puppyId: string): Promise<PuppyDataType> {
-    return await fetchDataWithCache(
+    const pup = await fetchDataWithCache(
       "puppy-" + puppyId + '__puppyQuery',
       async () => {
         return await this.D1.prepare(puppyQuery)
