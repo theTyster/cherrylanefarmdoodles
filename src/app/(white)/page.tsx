@@ -123,10 +123,8 @@ export default async function WhiteSection() {
       [G.mother]: { ...result[0] } satisfies DogData,
       [G.father]: { ...result[1] } satisfies DogData,
       litterData: {
-        [G.dueDate]: familyTableData[G.dueDate] ? new Date(familyTableData[G.dueDate]!) : null,
-        [G.litterBirthday]: familyTableData[G.litterBirthday]
-          ? new Date(familyTableData[G.litterBirthday]!)
-          : null,
+        [G.dueDate]: familyTableData[G.dueDate],
+        [G.litterBirthday]: familyTableData[G.litterBirthday],
         [G.applicantsInQueue]: familyTableData[G.applicantsInQueue],
         [G.availablePuppies]: familyTableData[G.availablePuppies],
         [G.totalPuppies]: familyTableData[G.totalPuppies],
