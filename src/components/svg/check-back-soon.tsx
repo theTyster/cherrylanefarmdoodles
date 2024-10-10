@@ -74,6 +74,10 @@ const SvgDog = ({
     {litterId ? (
       <NeedsContainer className={className}>
         <GroupPhoto
+          style={{
+            width: 'revert',
+            height: 'revert'
+          }}
           className={css.dog}
           src={dogIMG}
           alt={"Check Back Soon!"}
