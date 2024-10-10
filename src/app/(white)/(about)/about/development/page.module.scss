@@ -1,0 +1,15 @@
+@use "@styles/_theme.module.scss" as Theme;
+
+.attention-getter-image {
+  flex-direction: column;
+}
+
+.portfolio-link {
+  color: Theme.$secondaryGreen;
+}
+
+.side-text {
+  p {
+    font-size: Theme.$h4;
+  }
+}

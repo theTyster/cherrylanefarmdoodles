@@ -1,0 +1,20 @@
+@use "@styles/_theme.module.scss" as Theme;
+@use "@styles/attention-getter-image.module.scss";
+
+.image_gh {
+  @extend .image;
+  background-color: Theme.$lightPrimary;
+  border: 0.5rem solid Theme.$lightPrimary;
+}
+
+.attention-getter-image {
+  flex-direction: column;
+}
+
+.side-text {
+  font-size: Theme.$h3;
+}
+
+.gh-link {
+  color: Theme.$lightSecondaryGreen;
+}
