@@ -4,49 +4,62 @@ import Image, { StaticImageData } from "next/image";
 //CSS
 import css from "@styles/attention-getter-image.module.scss";
 
-// NOTE: Using this component encourages the use of the center-children-by-flex
-// mixin in order to style the sideText containers to a desirable width of the
-// image. This should be done in the parent components stylesheet.
-//
-// To select it, nest this selector in AttentionGetterImage's parent.
-// Example:
-// div.attention-getter {
-//   @include center-children-by-flex(
-//     $childClassPrefix: <SET THIS>
-//		 $itemWidth: <SET THIS>
-//   )
-// }
-
 function AttentionGetterImage({
   className,
   imgSrc,
+  node,
   imgAlt,
   imgLink,
-  sideText_classPrefix,
   sideText,
 }: {
   className?: string;
-  imgSrc: string | StaticImageData;
   imgAlt: string;
+  imgSrc?: string | StaticImageData;
+  node?: React.ReactNode;
   imgLink?: string;
-  sideText_classPrefix: string;
   sideText: React.ReactNode;
 }) {
-
-  return (
-    <div className={`${className} ${css['container']}`}>
-      {imgLink ? (
-        <Link className={css['link']} href={imgLink}>
-          <Image className={`${css['image']}`} src={imgSrc} alt={imgAlt} placeholder="blur" width={450} height={450}/>
+  const setImage = () => {
+    if (imgLink && imgSrc) {
+      return (
+        <Link className={css["link"]} href={imgLink}>
+          <Image
+            className={`${css["image"]}`}
+            src={imgSrc}
+            alt={imgAlt}
+            placeholder="blur"
+            width={450}
+            height={450}
+          />
         </Link>
-      ) : (
-          <Image className={`${css['image']}`} src={imgSrc} alt={imgAlt} placeholder="blur" width={450} height={450}/>
-      )}
-      <div className={css["sideText-container"]}>
-        <div className={`${sideText_classPrefix}-centering-box`}></div>
-        <div className={`${sideText_classPrefix}-item`}>{sideText}</div>
-        <div className={`${sideText_classPrefix}-centering-box`}></div>
-      </div>
+      );
+    } else if (imgSrc && !imgLink) {
+      return (
+        <Image
+          className={`${css["image"]}`}
+          src={imgSrc}
+          alt={imgAlt}
+          placeholder="blur"
+          width={450}
+          height={450}
+        />
+      );
+    } else if (node && imgLink) {
+      return (
+        <Link className={css["link"]} href={imgLink}>
+          {node}
+        </Link>
+      );
+    } else if (node && !imgLink) {
+      return node;
+    } else throw new Error("You must provide either an imgSrc or a node prop.");
+  };
+
+  if (!className) className = "";
+  return (
+    <div className={`${className} ${css["container"]}`}>
+      {setImage()}
+      <div className={css["side-text"]}>{sideText}</div>
     </div>
   );
 }

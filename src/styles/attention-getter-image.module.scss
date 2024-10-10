@@ -3,32 +3,28 @@
 div.container {
   display: flex;
   align-items: center;
+  gap: Theme.$spaceBetweenElements;
   flex-wrap: wrap;
-  div.sideText-container {
-    display: flex;
-    flex: 1 1 0%;
-  }
   @include Theme.mediaQuery(Theme.$tabletViewport) {
     flex-direction: column;
   }
 }
 
+.side-text {
+  flex: 2;
+  @include Theme.mediaQuery(Theme.$tabletViewport) {
+    flex: 1;
+  }
+}
+
 .link {
+  flex: 1;
   border-radius: 100%;
   margin-bottom: Theme.$spaceBetweenElements;
 }
 
-.side-text-container {
-  display: flex;
-  flex: 1 1 0%;
-  //div:nth-child(3) {
-  //  @include Theme.mediaQuery(Theme.$tabletViewport) {
-  //    max-width: 100%;
-  //  }
-  //}
-}
-
 .image {
+  flex: 1;
   margin: Theme.$spaceBetweenElements 0;
   border-radius: 100%;
   @include Theme.setBoxShadow(black);

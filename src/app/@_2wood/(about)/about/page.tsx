@@ -17,7 +17,6 @@ export default function WhiteSectionAbout(): React.JSX.Element | null {
           imgSrc={omaPuppy}
           imgAlt="Jenny"
           className={css["attention-getter-image"]}
-          sideText_classPrefix="sideText"
           sideText={
             <>
               <p>
