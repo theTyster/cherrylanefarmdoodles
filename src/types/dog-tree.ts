@@ -1,4 +1,5 @@
 import { GlobalNameSpaces as G } from "@/constants/data";
+import { PuppyData } from "@/types/dog-about";
 import type {
   DogsQueryData as DQ,
   D1DogsQueryData as D1DQ,
@@ -22,6 +23,7 @@ export type DogData = D1DQ & D1AQ;
 export interface DogTreeData {
   mother: DogData;
   father: DogData;
+  puppies: PuppyData[];
   litterData: {
     [G.dueDate]: FQ[typeof G.dueDate];
     [G.litterBirthday]: FQ[typeof G.litterBirthday];

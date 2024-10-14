@@ -1,5 +1,6 @@
 import { getRequestContext } from "@cloudflare/next-on-pages";
 import { getAllRecentFamilies } from "@/components/dog-about/constants/family-constants";
+import PuppyData from "@/components/dog-about/constants/puppy-constants";
 
 // Components
 import DogTree from "@/components/dog-tree/dog-tree";
@@ -26,19 +27,12 @@ import type { DogData, DogTreeData } from "@/types/dog-tree";
 
 export const runtime = "edge";
 
-function DogTreeAndAdoptionBanner({ familyData }: { familyData: DogTreeData }) {
-  return (
-    <>
-      <DogTree familyData={familyData} />
-    </>
-  );
-}
-
 export default async function WhiteSection() {
   // Data Collection for the Dogtree component {
   const D1 = getRequestContext().env.dogsDB;
 
   const entryPoint = await getAllRecentFamilies(D1);
+  const puppyData = new PuppyData(D1);
 
   // Reversed so that the most recent litters are displayed first.
   entryPoint.reverse();
@@ -92,6 +86,7 @@ export default async function WhiteSection() {
                 );
               return { ...dogData, ...res };
             }),
+           puppyData.getAllPuppies(familyTableData[G.litterId]),
         ])),
       };
     })
@@ -122,6 +117,7 @@ export default async function WhiteSection() {
     return {
       [G.mother]: { ...result[0] } satisfies DogData,
       [G.father]: { ...result[1] } satisfies DogData,
+      puppies: result[2],
       litterData: {
         [G.dueDate]: familyTableData[G.dueDate],
         [G.litterBirthday]: familyTableData[G.litterBirthday],
@@ -149,7 +145,7 @@ export default async function WhiteSection() {
         {
           id: family.mother.adultName + index,
           title: family.mother.adultName,
-          component: <DogTreeAndAdoptionBanner familyData={family} />,
+          component: <DogTree familyData={family} />
         },
       ];
 

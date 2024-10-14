@@ -111,6 +111,7 @@ export default function DogTree({ familyData }: { familyData: DogTreeData }) {
                 src={ids[G.Group_Photos]}
                 alt="Puppies"
                 litterId={ids[G.litterId]}
+                puppiesLeft={familyData.puppies}
               />
             );
           else {

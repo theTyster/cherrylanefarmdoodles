@@ -4,12 +4,12 @@
   padding: 1rem;
   margin-bottom: Theme.$spaceBetweenElements 0;
   border-radius: Theme.$buttonRadius;
-  outline: 2px solid Theme.$primary;
+  outline: 2px solid Theme.$darkPrimary;
   outline-offset: -1px;
-  background-color: Theme.$primary;
+  background-color: Theme.$darkPrimary;
   transition: all #{Theme.$transitionShort}s;
   @include Theme.imageHover(Theme.$darkPrimary);
-  @include Theme.mediaQuery(Theme.$LgPhoneViewport){
+  @include Theme.mediaQuery(Theme.$LgPhoneViewport) {
     width: 100%;
     height: auto;
   }
@@ -20,12 +20,15 @@
   height: fit-content;
   width: fit-content;
   display: block;
+  &:hover {
+    text-decoration: none;
+  }
 }
 
 .no-photo {
   position: absolute;
   top: 85%;
-  left:0;
+  left: 0;
   font-size: 25px;
   color: Theme.$lightPrimary;
   text-align: center;
