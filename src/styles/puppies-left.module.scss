@@ -1,0 +1,32 @@
+@use "@styles/_theme.module.scss" as Theme;
+
+.puppy-stats {
+  display: flex;
+  p {
+    line-height: 1em;
+    padding: 0.5em;
+    font-weight: 700;
+  }
+  span {
+    font-weight: 400;
+  }
+}
+
+.available {
+  background: Theme.$secondaryGreen;
+  color: Theme.$lightSecondaryGreen;
+  border-top-left-radius: 0.5em;
+  border-bottom-left-radius: 0.5em;
+}
+
+.picked {
+  background: Theme.$primary;
+  color: Theme.$lightPrimary;
+}
+
+.unavailable {
+  background: Theme.$tertiaryCherry;
+  color: Theme.$lightTertiaryCherry;
+  border-top-right-radius: 0.5em;
+  border-bottom-right-radius: 0.5em;
+}
