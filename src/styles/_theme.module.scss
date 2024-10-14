@@ -83,7 +83,6 @@ $h4: calc(51px - 30px);
 
 @mixin setImageValues() {
   img,
-  svg,
   video {
     @content;
   }
