@@ -21,7 +21,7 @@ function PuppiesLeft({ puppies }: { puppies: PuppyData[] }) {
       pup.dogData.availability === "Picked"
   ).length;
 
-  //  const totalWatching = puppies[0].litterData.applicantsInQueue;
+  const totalWatching = puppies[0] ? puppies[0].litterData.applicantsInQueue : 0;
 
   useGSAP(
     async () => {
@@ -53,9 +53,9 @@ function PuppiesLeft({ puppies }: { puppies: PuppyData[] }) {
         <p className={css["available"]}>{totalAvailPups}</p>
         <p className={css["unavailable"]}>{totalUnavailPups}</p>
       </div>
-      {
-        //totalWatching ? ( <p className={css["watching"]}>{totalWatching}</p>) : undefined
-      }
+      {totalWatching ? (
+        <p className={css["watching"]}>{totalWatching}</p>
+      ) : undefined}
     </>
   );
 }
