@@ -1,5 +1,7 @@
 @use "@styles/_theme.module.scss" as Theme;
 
+@include Theme.woodgrain($wide: true);
+
 .container {
   width: 100%;
   display: flex;

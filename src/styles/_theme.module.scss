@@ -145,15 +145,23 @@ $h4: calc(51px - 30px);
   }
 }
 
-@mixin woodgrain() {
+@mixin woodgrain($wide: false) {
   .woodgrain {
+    @content;
     background-size: cover;
     background-position: center;
     background-image: url("~/public/images/woodgrain-dark.svg");
     &-light {
       background-image: url("~/public/images/woodgrain-light.svg");
+      background-size: cover;
+      background-position: center;
     }
-    @content
+    @if $wide {
+      background-image: url("~/public/images/woodgrain-dark-wide.svg");
+      &-light {
+        background-image: url("~/public/images/woodgrain-light-wide.svg");
+      }
+    }
   }
 }
 

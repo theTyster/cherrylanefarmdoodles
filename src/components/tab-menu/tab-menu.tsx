@@ -63,7 +63,7 @@ function TabMenu({
       : //Sets other buttons to no border-radius by default.
         "0 0 0 0";
 
-   const setBorderRadiusColumn = (index: number) =>
+  const setBorderRadiusColumn = (index: number) =>
     //Gives the top most button a border-radius on top corners.
     index === 0
       ? `${css.buttonRadius} ${css.buttonRadius} 0 0`
@@ -95,9 +95,10 @@ function TabMenu({
               data-tabmenu-item-id={item.id}
               className={`${css.selectorButton} ${
                 item === currentSelected
-                  ? css["woodgrain-light"] + " " + css["selected"]
-                  : css["woodgrain"]
+                  ? css["woodgrain"] + " " + css["selected"]
+                  : css["woodgrain-light"]
               }`}
+              style={{backgroundSize: "800px"}}
               onClick={item.buttonClick ? item.buttonClick : undefined}
             >
               <h2 className={font.className /**Important*/}>{item.title}</h2>
