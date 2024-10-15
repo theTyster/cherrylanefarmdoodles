@@ -1,0 +1,113 @@
+"use client";
+import React, { useState } from "react";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
+import css from "@styles/puppifications.module.scss";
+import Image from "next/image";
+
+function Puppifications({ parentId }: { parentId: string | number }) {
+  // This component starts as a button and then morphs into a form after it is clicked
+  // The form is a simple email input and submit button
+  // The form is submitted via a POST request to the server
+
+  parentId;
+
+  // State to track if the form is visible
+  const [formVisible, setFormVisible] = useState(false);
+  const [subscription, setSubscription] = useState("");
+
+  // Function to handle the form submission
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setSubscription("Subscribed");
+    animateSub();
+  };
+
+  const { contextSafe } = useGSAP({ dependencies: [formVisible] });
+
+  // Function to handle the button click
+  const animateSub = contextSafe(async () => {
+    const tl = gsap.timeline();
+    await tl
+      .to(`.${css["iris"]}`, {
+        duration: 0.5,
+        height: 0,
+        ease: "back.in",
+        onComplete: () => setFormVisible(!formVisible),
+      })
+      .to(`.${css["iris"]}`, {
+        duration: 0.5,
+        height: 350,
+        ease: "back.out",
+      });
+  });
+
+  const handleKeyup = (e: React.KeyboardEvent) => {
+    if (e.key === "Escape") {
+      animateSub();
+    }
+    if (e.key === "Enter") {
+      animateSub();
+    }
+  };
+
+  // Return the button and form
+  return (
+    <>
+      <div className={css["container"]}>
+        <div className={css["iris"]}>
+          {formVisible ? (
+            <>
+              <span style={{ fontSize: css["h2"] }} className={css["top-line"]}>
+                Enter your email
+              </span>
+              <Image
+                src={"/images/envelope-doodle.png"}
+                width={170}
+                height={170}
+                alt={"Puppy holding an envelope."}
+              />
+              <form className={css["form"]} onSubmit={handleSubmit}>
+                <input
+                  onKeyUp={handleKeyup}
+                  type="email"
+                  placeholder="Email Address"
+                />
+                <button className={css["button"]} type="submit">
+                  Subscribe
+                </button>
+              </form>
+            </>
+          ) : (
+            <>
+              <span style={{ fontSize: css["h3"] }} className={css["top-line"]}>
+                {subscription
+                  ? "Ok, I'll let you know when the next litter is born!"
+                  : "Be the first to know when more puppies arrive"}
+              </span>
+              <style jsx>{`
+                .${css["button"]}:hover {
+                  ${subscription ? "transform: scale(1);" : ""}
+                  ${subscription ? "cursor: auto;" : ""}
+                }
+              `}</style>
+              <button
+                style={
+                  subscription
+                    ? { color: css["darkPrimary"], boxShadow: "none" }
+                    : undefined
+                }
+                className={`${css["button"]} ${css["puppifications"]} ${css['woodgrain-light']}`}
+                onClick={subscription ? () => undefined : animateSub}
+              >
+                {`${subscription ? subscription : "Enable Puppifications"}`}
+              </button>
+            </>
+          )}
+        </div>
+      </div>
+    </>
+  );
+}
+
+export default Puppifications;

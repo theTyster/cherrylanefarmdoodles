@@ -1,0 +1,103 @@
+@use "@styles/_theme.module.scss" as Theme;
+
+$componentHeight: 350px;
+
+.container {
+  height: $componentHeight; // Two divs prevents the container from collapsing during animation.
+}
+
+.iris {
+  display: flex;
+  padding: 1em;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  height: $componentHeight;
+  width: 100%;
+  span,
+  button,
+  input {
+    font-family: inherit;
+    text-align: center;
+    @include Theme.mediaQuery(Theme.$microViewport) {
+      word-break: break-all;
+    }
+  }
+}
+
+@include Theme.woodgrain($wide: true);
+
+.button {
+  padding: 1em;
+  margin: 1em;
+  border: none;
+  border-radius: Theme.$buttonRadius;
+  width: 100%;
+  height: max-content;
+  cursor: pointer;
+  background-color: Theme.$primary;
+  color: Theme.$lightPrimary;
+  transition: all #{Theme.$transitionShort}s;
+  @include Theme.setBoxShadow(Theme.$darkPrimary);
+  &:hover {
+    transform: translateY(0.3rem);
+  }
+  &:active {
+    transform: translateY(0.4rem);
+    box-shadow: none;
+  }
+}
+
+.top-line {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  position: relative;
+  font-family: inherit;
+  text-align: center;
+}
+
+.puppifications {
+  font-size: Theme.$h3;
+  border-radius: Theme.$bigButtonRadius;
+}
+
+.form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  flex-wrap: wrap;
+  width: 100%;
+  padding: 1em;
+  overflow: hidden;
+  input {
+    flex: 4;
+    padding: 1em;
+    margin: 0;
+    border: none;
+    border-radius: Theme.$buttonRadius;
+    background-color: white;
+    color: Theme.$darkPrimary;
+  }
+  button.button[type="submit"] {
+    flex: 1;
+    padding: 1em 1.5em;
+    height: max-content;
+    font-weight: 700;
+  }
+  @include Theme.mediaQuery(Theme.$microViewport) {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    input {
+      flex: 1;
+      width: 100%;
+    }
+    button {
+      flex: 1;
+      width: 100%;
+    }
+  }
+}
