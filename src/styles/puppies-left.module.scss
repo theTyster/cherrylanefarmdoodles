@@ -6,6 +6,7 @@
     line-height: 1em;
     padding: 0.5em;
     font-weight: 700;
+    margin-bottom: 0;
   }
   span {
     font-weight: 400;
@@ -17,11 +18,15 @@
   color: Theme.$lightSecondaryGreen;
   border-top-left-radius: 0.5em;
   border-bottom-left-radius: 0.5em;
-}
-
-.picked {
-  background: Theme.$primary;
-  color: Theme.$lightPrimary;
+  &::before {
+    content: "Available: ";
+    @include Theme.mediaQuery(Theme.$SmPhoneViewport) {
+      content: "Avail: ";
+    }
+    @include Theme.mediaQuery(Theme.$microViewport) {
+      content: "";
+    }
+  }
 }
 
 .unavailable {
@@ -29,4 +34,34 @@
   color: Theme.$lightTertiaryCherry;
   border-top-right-radius: 0.5em;
   border-bottom-right-radius: 0.5em;
+  &::before {
+    content: "Unavailable: ";
+    @include Theme.mediaQuery(Theme.$SmPhoneViewport) {
+      content: "Unavail: ";
+    }
+    @include Theme.mediaQuery(Theme.$microViewport) {
+      content: "";
+    }
+  }
+}
+
+.watching {
+  display: block;
+  margin: 0 auto;
+  text-align: center;
+  background: Theme.$primary;
+  color: Theme.$lightPrimary;
+  border-bottom-right-radius: 0.5em;
+  max-width: 66%;
+  border-bottom-left-radius: 0.5em;
+
+  &::before {
+    content: "Watching: ";
+    @include Theme.mediaQuery(Theme.$SmPhoneViewport) {
+      content: "Watch: ";
+    }
+    @include Theme.mediaQuery(Theme.$microViewport) {
+      content: "";
+    }
+  }
 }

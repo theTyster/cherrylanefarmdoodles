@@ -15,12 +15,13 @@ function PuppiesLeft({ puppies }: { puppies: PuppyData[] }) {
       pup.dogData.availability === "Available" ||
       pup.dogData.availability === "Available Guardian"
   ).length;
-  const totalPickedPups = puppies.filter(
-    (pup) => pup.dogData.availability === "Picked"
-  ).length;
   const totalUnavailPups = puppies.filter(
-    (pup) => pup.dogData.availability === "Adopted"
+    (pup) =>
+      pup.dogData.availability === "Adopted" ||
+      pup.dogData.availability === "Picked"
   ).length;
+
+  //  const totalWatching = puppies[0].litterData.applicantsInQueue;
 
   useGSAP(
     async () => {
@@ -41,23 +42,21 @@ function PuppiesLeft({ puppies }: { puppies: PuppyData[] }) {
       });
     },
     {
-      dependencies: [totalAvailPups, totalPickedPups, totalUnavailPups],
+      dependencies: [totalAvailPups, totalUnavailPups],
       scope: puppyStatsRef,
     }
   );
 
   return (
-    <div className={css["puppy-stats"]} ref={puppyStatsRef}>
-      <p className={css["available"]}>
-        Available: <span>{totalAvailPups}</span>
-      </p>
-      <p className={css["picked"]}>
-        Picked: <span>{totalPickedPups}</span>
-      </p>
-      <p className={css["unavailable"]}>
-        Unavailable: <span>{totalUnavailPups}</span>
-      </p>
-    </div>
+    <>
+      <div className={css["puppy-stats"]} ref={puppyStatsRef}>
+        <p className={css["available"]}>{totalAvailPups}</p>
+        <p className={css["unavailable"]}>{totalUnavailPups}</p>
+      </div>
+      {
+        //totalWatching ? ( <p className={css["watching"]}>{totalWatching}</p>) : undefined
+      }
+    </>
   );
 }
 
