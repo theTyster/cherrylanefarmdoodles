@@ -27,15 +27,19 @@ export default async function WoodSectionLitter({
   const previousLitters = await D1.prepare(previousLittersQuery)
     .bind(motherId)
     .raw<PlQ>();
+  const woodSectionStyle = {
+    display: "flex",
+    width: "100%",
+    justifyContent: "center",
+    flexDirection: "column",
+    alignItems: "center",
+  } as React.CSSProperties;;
+
   return (
     <>
       <div
         style={{
-          display: "flex",
-          width: "100%",
-          justifyContent: "center",
-          flexDirection: "column",
-          alignItems: "center",
+          ...woodSectionStyle,
         }}
       >
         {previousLitters.map((litter) => {
@@ -50,10 +54,7 @@ export default async function WoodSectionLitter({
               <div
                 key={`FTM-${litterId}`}
                 style={{
-                  display: "flex",
-                  width: "100%",
-                  justifyContent: "center",
-                  flexDirection: "column",
+                  ...woodSectionStyle,
                 }}
               >
                 <SvgFirstTimeMother style={{ maxWidth: "700px" }} />
@@ -66,9 +67,11 @@ export default async function WoodSectionLitter({
               <Fragment key={`GP-${litterId}`}>
                 <h2
                   style={{
-                    marginBottom: "1em"
+                    marginBottom: "1em",
                   }}
-                >Other litters from {mom[G.adultName]}</h2>
+                >
+                  Other litters from {mom[G.adultName]}
+                </h2>
                 <GroupPhoto
                   alt={`${mom.adultName}'s Previous Litter with ID ${litterId}'`}
                   src={GroupImage}
