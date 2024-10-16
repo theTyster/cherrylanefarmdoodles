@@ -1,16 +1,12 @@
 "use client";
+export const runtime = "edge";
 import React, { useState } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import css from "@styles/puppifications.module.scss";
 import Image from "next/image";
 
-function Puppifications({ parentId }: { parentId: string | number }) {
-  // This component starts as a button and then morphs into a form after it is clicked
-  // The form is a simple email input and submit button
-  // The form is submitted via a POST request to the server
-
-  parentId;
+function Puppifications() {
 
   // State to track if the form is visible
   const [formVisible, setFormVisible] = useState(false);
@@ -58,13 +54,14 @@ function Puppifications({ parentId }: { parentId: string | number }) {
         <div className={css["iris"]}>
           {formVisible ? (
             <>
-              <span style={{ fontSize: css["h2"] }} className={css["top-line"]}>
+              <span className={css["top-line"]}>
                 Enter your email
               </span>
               <Image
+                className={css["envelope-doodle"]}
                 src={"/images/envelope-doodle.png"}
-                width={170}
-                height={170}
+                width={130}
+                height={130}
                 alt={"Puppy holding an envelope."}
               />
               <form className={css["form"]} onSubmit={handleSubmit}>
@@ -80,7 +77,7 @@ function Puppifications({ parentId }: { parentId: string | number }) {
             </>
           ) : (
             <>
-              <span style={{ fontSize: css["h3"] }} className={css["top-line"]}>
+              <span className={css["top-line"]}>
                 {subscription
                   ? "Ok, I'll let you know when the next litter is born!"
                   : "Be the first to know when more puppies arrive"}
@@ -94,13 +91,13 @@ function Puppifications({ parentId }: { parentId: string | number }) {
               <button
                 style={
                   subscription
-                    ? { color: css["darkPrimary"], boxShadow: "none" }
+                    ? { boxShadow: "none" }
                     : undefined
                 }
                 className={`${css["button"]} ${css["puppifications"]} ${css['woodgrain-light']}`}
                 onClick={subscription ? () => undefined : animateSub}
               >
-                {`${subscription ? subscription : "Enable Puppifications"}`}
+                {`${subscription ? 'Check your inbox for a confirmation email' : "Enable Puppifications"}`}
               </button>
             </>
           )}
