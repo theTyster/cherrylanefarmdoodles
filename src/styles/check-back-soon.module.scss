@@ -1,5 +1,5 @@
 @use "@styles/_theme.module.scss" as Theme;
-.svg{
+.svg {
   position: absolute;
 }
 .container {
@@ -9,4 +9,6 @@
   height: auto;
   width: fit-content;
   position: relative;
+  transition: all #{Theme.$transitionShort}s;
+  @include Theme.imageHover(Theme.$darkPrimary);
 }
