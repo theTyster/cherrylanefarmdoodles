@@ -34,7 +34,7 @@ function GroupPhoto({
           alt={alt}
           width={615}
           height={433}
-          className={`${css.groupPhoto} ${css['woodgrain']} ${className}`}
+          className={`${css.groupPhoto} ${css["woodgrain"]} ${className}`}
           {...props}
         />
         {src ? undefined : (
@@ -50,9 +50,11 @@ function GroupPhoto({
           </svg>
         )}
       </Link>
-      <Link className={css.link} href={`/litter/${litterId}`}>
-        {puppiesLeft ? <PuppiesLeft puppies={puppiesLeft} /> : undefined}
-      </Link>
+      {puppiesLeft ? (
+        <Link className={css.link} href={`/litter/${litterId}`}>
+          <PuppiesLeft puppies={puppiesLeft} />
+        </Link>
+      ) : undefined}
     </>
   );
 }
