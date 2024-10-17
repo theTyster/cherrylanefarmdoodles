@@ -1,8 +1,8 @@
+export const runtime = "edge";
 import { getRequestContext } from "@cloudflare/next-on-pages";
 
 // Components
 import DogTree from "@/components/dog-tree/dog-tree";
-import AdoptionBanner from "@/components/adoption-banner/adoption-banner";
 import TabMenu, {
   type MenuDataArr,
   type MenuNamesObj,
@@ -13,8 +13,6 @@ import css from "./page.module.scss";
 
 // Constants
 import DogTreeDataClass from "@/components/dog-tree/constants/dog-tree-class";
-
-export const runtime = "edge";
 
 export default async function WhiteSection() {
   const D1 = getRequestContext().env.dogsDB;
@@ -76,7 +74,6 @@ export default async function WhiteSection() {
         menuNamesObj={tabbedFamilies.menuNamesObj}
         initial={tabbedFamilies.menuDataArr[0].id}
       />
-      <AdoptionBanner />
     </>
   );
 }
