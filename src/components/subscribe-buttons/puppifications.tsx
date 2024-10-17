@@ -7,7 +7,6 @@ import css from "@styles/puppifications.module.scss";
 import Image from "next/image";
 
 function Puppifications() {
-
   // State to track if the form is visible
   const [formVisible, setFormVisible] = useState(false);
   const [subscription, setSubscription] = useState("");
@@ -18,6 +17,7 @@ function Puppifications() {
     const form = e.target as HTMLFormElement;
     const input = form[0] as HTMLInputElement;
     const email = input.value;
+    if (!email) return; // No action if no email.
     fetch("/api/subscribe", {
       method: "POST",
       headers: {
@@ -65,9 +65,7 @@ function Puppifications() {
         <div className={css["iris"]}>
           {formVisible ? (
             <>
-              <span className={css["top-line"]}>
-                Enter your email
-              </span>
+              <span className={css["top-line"]}>Enter your email</span>
               <Image
                 className={css["envelope-doodle"]}
                 src={"/images/envelope-doodle.png"}
@@ -75,10 +73,7 @@ function Puppifications() {
                 height={130}
                 alt={"Puppy holding an envelope."}
               />
-              <form 
-                className={css["form"]} 
-                onSubmit={handleSubmit}
-              >
+              <form className={css["form"]} onSubmit={handleSubmit}>
                 <input
                   onKeyUp={handleKeyup}
                   type="email"
@@ -103,15 +98,15 @@ function Puppifications() {
                 }
               `}</style>
               <button
-                style={
-                  subscription
-                    ? { boxShadow: "none" }
-                    : undefined
-                }
-                className={`${css["button"]} ${css["puppifications"]} ${css['woodgrain-light']}`}
+                style={subscription ? { boxShadow: "none" } : undefined}
+                className={`${css["button"]} ${css["puppifications"]} ${css["woodgrain-light"]}`}
                 onClick={subscription ? () => undefined : animateSub}
               >
-                {`${subscription ? 'Pending confirmation' : "Enable Puppifications"}`}
+                {`${
+                  subscription
+                    ? "Pending confirmation"
+                    : "Enable Puppifications"
+                }`}
               </button>
             </>
           )}
