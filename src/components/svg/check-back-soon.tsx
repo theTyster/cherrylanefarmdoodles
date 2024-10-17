@@ -12,13 +12,12 @@ const NeedsContainer = ({
 }) => {
   return (
     <>
-      <div className={`${className ?? ""}`}>
+      <div className={`${css['container']} ${className ?? ""}`}>
         {children}
         <svg
           xmlns="http://www.w3.org/2000/svg"
           xmlnsXlink="http://www.w3.org/1999/xlink"
-          width={615}
-          height={433}
+          viewBox="0 0 615 433"
           className={css.svg}
         >
           <text
@@ -84,7 +83,6 @@ const SvgDog = ({
       </NeedsContainer>
     ) : (
       <CLFImage
-        className={css.dog}
         src={dogIMG}
         alt={"Check Back Soon!"}
         width={615}
