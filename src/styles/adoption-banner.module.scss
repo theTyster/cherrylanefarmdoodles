@@ -1,87 +1,58 @@
 @use "@styles/_theme.module.scss" as Theme;
 
 .adoptionBanner {
-  a {
-    color: Theme.$darkSecondaryGreen;
-    &:hover {
-      text-decoration: none;
-    }
-  }
+  width: 100%;
   // Configure most rules from this class
-  div.eventHandlerDiv {
+  button.eventHandlerDiv {
+    font: inherit;
+    overflow: hidden;
+    border: none;
     background-color: Theme.$lightSecondaryGreen;
     border-radius: calc(Theme.$buttonRadius + 10px);
     width: fit-content;
+  width: 100%;
     cursor: pointer;
     padding: Theme.$spaceBetweenElements;
     display: flex;
     align-items: center;
     justify-content: center;
-    div.buttonText {
-      text-align: center;
-      font-size: 3.4rem;
-      text-decoration: none;
+    @include Theme.setBoxShadow(Theme.$darkSecondaryGreen);
+    transition: box-shadow #{Theme.$transitionShort}s;
+    &:active {
+      box-shadow: none;
     }
-    div.snaps {
-      opacity: 0;
-      position: absolute;
-      height: 0;
-      width: 100%;
-      top: 0;
-      svg.snapLeft,
-      svg.snapRight {
-        position: absolute;
-        $dimensions: 35px;
-        height: $dimensions;
-        width: $dimensions;
-        bottom: 0px;
+    .buttonText {
+      color: Theme.$darkSecondaryGreen;
+      text-align: center;
+      font-size: 6.4rem;
+      text-decoration: none;
+      @include Theme.mediaQuery(Theme.$tabletViewport){
+        font-size: 4rem;
       }
-      svg.snapRight {
-        right: 100%;
+      @include Theme.mediaQuery(Theme.$LgPhoneViewport) {
+        font-size: 1.8rem;
+        padding: Theme.$spaceBetweenElements / 8;
       }
-      svg.snapLeft {
-        left: 100%;
+
+      @include Theme.mediaQuery(Theme.$SmPhoneViewport) {
+        font-size: 1.5rem;
       }
     }
     svg.doodlePuppy {
-      $dimensions: 100px;
-      position: relative;
+      $dimensions: 45%;
       height: $dimensions;
       width: $dimensions;
-      margin-right: Theme.$spaceBetweenElements;
     }
   }
-}
-
-@include Theme.mediaQuery(Theme.$tabletViewport) {
-  .adoptionBanner {
-    div.eventHandlerDiv {
-      font-size: 2.5rem;
-    }
-  }
-}
-
-@include Theme.mediaQuery(Theme.$LgPhoneViewport) {
-  .adoptionBanner {
-    div.eventHandlerDiv {
-      div.buttonText {
-        font-size: 1.8rem;
-        padding: Theme.$spaceBetweenElements / 8;
+  @include Theme.mediaQuery(Theme.$microViewport) {
+    .eventHandlerDiv {
+      overflow: clip;
+      .buttonText {
+        line-break: anywhere;
       }
     }
     svg.doodlePuppy {
       display: none;
-    }
-  }
-}
-
-@include Theme.mediaQuery(Theme.$microViewport) {
-  .adoptionBanner {
-    div.eventHandlerDiv {
-      overflow: clip;
-      div.buttonText {
-        line-break: anywhere;
-      }
     }
   }
 }

@@ -1,5 +1,4 @@
 "use client";
-import FormLink from "@/components/form-link/form-link";
 import SvgDoodlePuppy from "../svg/doodle-puppy.svg";
 
 // Styling and animation
@@ -23,7 +22,6 @@ function AdoptionBanner() {
       const gsapScopedSelect = gsap.utils.selector(bannerRef.current);
 
       initialTL.to(gsapScopedSelect(`.${css.eventHandlerDiv}`), {
-        boxShadow: `9px 12px 15px 5px ${css.darkSecondaryGreen}`,
         scale: 1,
         ease: "power4.out(3)",
       });
@@ -53,9 +51,6 @@ function AdoptionBanner() {
         });
 
       const handleMouseEnter = cSafe(function () {
-        bannerRef.current.addEventListener("click", handleClick, {
-          once: true,
-        });
         bannerRef.current.addEventListener("mouseleave", handleMouseLeave, {
           once: true,
         });
@@ -82,50 +77,7 @@ function AdoptionBanner() {
         });
       });
 
-      const handleClick = cSafe(async function (e: MouseEvent) {
-        e.preventDefault();
-        bannerRef.current.removeEventListener("mouseleave", handleMouseLeave);
-        bannerRef.current.removeEventListener("mouseenter", handleMouseEnter);
-
-        await gsap
-          .timeline()
-          .to(
-            gsapScopedSelect(`.${css.eventHandlerDiv}`),
-            {
-              scale: 0.8,
-              boxShadow: `0px 0px 0px 0px transparent`,
-              ease: "back.out(4)",
-            },
-            "<"
-          )
-          .to(
-            gsapScopedSelect(`.${css.snaps}`),
-            { opacity: 1, duration: 0 },
-            "-=0.265"
-          )
-          .to(gsapScopedSelect(`.${css.snaps}`), {
-            opacity: 0,
-            duration: 0,
-          })
-          .call(function openLinkInAnimation() {
-            window.location.href = "https://forms.zohopublic.com/cherrylanefarmsdoodles/form/Application/formperma/c1uNLpvyuDl0TdUvp1InSoINH1G-84Ugqyq-vBjiItk?selected_litter=Piper's%20Litter%20born%2007-21-2024";
-          })
-          .call(
-            function () {
-              shineTL.isActive() ? undefined : shineTL.play(0);
-            },
-            undefined,
-            0
-          )
-          .add(initialTL.invalidate());
-
-        bannerRef.current.addEventListener("mouseenter", handleMouseEnter, {
-          once: true,
-        });
-      });
-
       const handleMouseLeave = cSafe(function () {
-        bannerRef.current.removeEventListener("click", handleClick);
         gsap.timeline().add(initialTL.invalidate());
       });
 
@@ -135,7 +87,6 @@ function AdoptionBanner() {
 
       return function cleanUp() {
         bannerRef.current.removeEventListener("mouseenter", handleMouseEnter);
-        bannerRef.current.removeEventListener("click", handleClick);
         bannerRef.current.removeEventListener("mouseleave", handleMouseLeave);
       };
     },
@@ -145,61 +96,21 @@ function AdoptionBanner() {
   return (
     <>
       <div className={css.adoptionBanner} ref={bannerRef}>
-        <FormLink>
-          <div className={css.eventHandlerDiv}>
-            <div className={`${css.snaps} ${css.shine}`}></div>
-            <div className={css.snaps}>
-              <svg
-                className={css.snapRight}
-                width="70.648mm"
-                height="71.766mm"
-                version="1.1"
-                viewBox="0 0 70.648 71.766"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <g transform="translate(-19.087,-7.9667)">
-                  <g
-                    transform="matrix(-1,0,0,1,173.99,-65.38)"
-                    fill="none"
-                    stroke={css.darkSecondaryGreen}
-                    strokeWidth="7.9375"
-                  >
-                    <path d="m87.941 120.2 18.202-45.38" />
-                    <path d="m108.67 141.49 44.617-19.999" />
-                    <path d="m100.56 127.97 33.876-35.257" />
-                  </g>
-                </g>
-              </svg>
-              <svg
-                className={css.snapLeft}
-                width="70.648mm"
-                height="71.766mm"
-                version="1.1"
-                viewBox="0 0 70.648 71.766"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <g transform="matrix(-1 0 0 1 89.725 -7.9667)">
-                  <g
-                    transform="matrix(-1,0,0,1,173.99,-65.38)"
-                    fill="none"
-                    stroke={css.darkSecondaryGreen}
-                    strokeWidth="7.9375"
-                  >
-                    <path d="m87.941 120.2 18.202-45.38" />
-                    <path d="m108.67 141.49 44.617-19.999" />
-                    <path d="m100.56 127.97 33.876-35.257" />
-                  </g>
-                </g>
-              </svg>
-            </div>
-            <SvgDoodlePuppy className={css.doodlePuppy} />
-            <div className={css.buttonText}>
-              <div>Apply for a </div>
-              <b>New Puppy</b>
-              <div> from this litter</div>
-            </div>
-          </div>
-        </FormLink>
+        <button className={css.eventHandlerDiv}>
+          <div className={`${css.shine}`}></div>
+          {/*children*/}
+          <SvgDoodlePuppy className={css.doodlePuppy} />
+          <span className={css.buttonText}>
+            <b>Apply</b>
+            <div>for a</div>
+            <b>New Puppy</b>
+          </span>
+          {/*          <iframe
+            aria-label="Cherry Lane Farm's Puppy Application"
+            style={{ height: "500px", width: "99%", border: "none" }}
+            src="https://forms.zohopublic.com/cherrylanefarmsdoodles/form/Application/formperma/c1uNLpvyuDl0TdUvp1InSoINH1G-84Ugqyq-vBjiItk"
+          ></iframe>*/}
+        </button>
       </div>
     </>
   );
