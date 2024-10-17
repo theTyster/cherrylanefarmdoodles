@@ -1,8 +1,11 @@
-import Theme from "@styles/_theme.module.scss";
-import ConstructionPlaceholder from "@/components/construction-placeholder";
+export const runtime = "edge";
+import Puppifications from "@/components/subscribe-buttons/puppifications";
 
-export const runtime = 'edge';
+export default async function TanLayout() {
 
-export default function TanLayout(): React.JSX.Element | null {
-  return <ConstructionPlaceholder dogFill={Theme.lightPrimary}/>;
+  return (
+    <>
+      <Puppifications />
+    </>
+  );
 }
