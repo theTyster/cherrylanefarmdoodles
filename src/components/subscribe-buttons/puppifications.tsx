@@ -15,6 +15,17 @@ function Puppifications() {
   // Function to handle the form submission
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    const form = e.target as HTMLFormElement;
+    const input = form[0] as HTMLInputElement;
+    const email = input.value;
+    fetch("/api/subscribe", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email }),
+    });
+
     setSubscription("Subscribed");
     animateSub();
   };
@@ -64,7 +75,10 @@ function Puppifications() {
                 height={130}
                 alt={"Puppy holding an envelope."}
               />
-              <form className={css["form"]} onSubmit={handleSubmit}>
+              <form 
+                className={css["form"]} 
+                onSubmit={handleSubmit}
+              >
                 <input
                   onKeyUp={handleKeyup}
                   type="email"
@@ -79,7 +93,7 @@ function Puppifications() {
             <>
               <span className={css["top-line"]}>
                 {subscription
-                  ? "Ok, I'll let you know when the next litter is born!"
+                  ? "Check your inbox for a confirmation email"
                   : "Be the first to know when more puppies arrive"}
               </span>
               <style jsx>{`
@@ -97,7 +111,7 @@ function Puppifications() {
                 className={`${css["button"]} ${css["puppifications"]} ${css['woodgrain-light']}`}
                 onClick={subscription ? () => undefined : animateSub}
               >
-                {`${subscription ? 'Check your inbox for a confirmation email' : "Enable Puppifications"}`}
+                {`${subscription ? 'Pending confirmation' : "Enable Puppifications"}`}
               </button>
             </>
           )}
