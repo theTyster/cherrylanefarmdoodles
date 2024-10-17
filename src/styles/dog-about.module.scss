@@ -200,3 +200,5 @@ article.mainDog {
     margin-top: Theme.$spaceBetweenElements;
   }
 }
+
+@include Theme.woodgrain($wide: true);

@@ -179,7 +179,7 @@ export default function Adult({
           if (D.partnerData[G.adultName] === "Unrecorded") return;
 
           return (
-            <div className={css.partnerData}>
+            <div className={`${css.partnerData} ${css['woodgrain']}`}>
               <div className={css.partnerVisuals}>
                 {(() => {
                   // Has litter but no available puppies.
@@ -202,7 +202,7 @@ export default function Adult({
                   else
                     return (
                       <>
-                        <h3 className={css.partnerName}>
+                        <h3 className={`${css.partnerName}`}>
                           {`Currently matched with ${
                             D.partnerData[G.adultName]
                           }.`}
