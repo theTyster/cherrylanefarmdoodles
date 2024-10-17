@@ -34,7 +34,7 @@ function GroupPhoto({
           alt={alt}
           width={615}
           height={433}
-          className={`${css.groupPhoto} ${className}`}
+          className={`${css.groupPhoto} ${css['woodgrain']} ${className}`}
           {...props}
         />
         {src ? undefined : (
