@@ -53,7 +53,7 @@ export async function getAllRecentFamilies(D1: D1Database) {
  **/
 export async function getFirstRecentFamily(D1: D1Database, litterId: string) {
   return fetchDataWithCache(
-    "first-family__" + litterId + "__familyQuery",
+    "first-family_" + litterId + "__familyQuery",
     async () => {
       return await D1.prepare(familyQuery(litterId))
         .bind(litterId)
