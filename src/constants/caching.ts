@@ -12,8 +12,8 @@ export default async function fetchDataWithCache<T>(
   const KV = getRequestContext().env.__NEXT_ON_PAGES__KV_SUSPENSE_CACHE;
 
   if (!KV) {
-    fetchFromDB();
     console.log("KV is not available. Fetching data from the database.");
+    return await fetchFromDB();
   }
 
   // Step 1: Check if data is already cached
