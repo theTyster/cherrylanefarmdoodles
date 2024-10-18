@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "next lint --no-cache ",
     "test": "vitest",
+    "kv-clean": "./scripts/kv-clean",
     "pages:build": "npx @cloudflare/next-on-pages --outdir .vercel/output/static",
     "preview": "npm run pages:build && npx wrangler pages dev .vercel/output/static",
     "deploy": "npm run pages:build && npx wrangler pages deploy .vercel/output/static",
