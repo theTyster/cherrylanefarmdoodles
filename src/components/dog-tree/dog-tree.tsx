@@ -27,12 +27,14 @@ export default function DogTree({ familyData }: { familyData: DogTreeData }) {
   const {
     [G.mother]: mother,
     [G.father]: father,
+    puppies,
     litterData,
     ids,
   } = familyData;
 
   Object.freeze(mother);
   Object.freeze(father);
+  Object.freeze(puppies);
   Object.freeze(litterData);
   Object.freeze(ids);
 
@@ -111,7 +113,7 @@ export default function DogTree({ familyData }: { familyData: DogTreeData }) {
                 src={ids[G.Group_Photos]}
                 alt="Puppies"
                 litterId={ids[G.litterId]}
-                puppiesLeft={familyData.puppies}
+                puppiesLeft={puppies}
               />
             );
           else {
