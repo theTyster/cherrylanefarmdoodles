@@ -4,12 +4,13 @@ import SvgDoodlePuppy from "../svg/doodle-puppy.svg";
 // Styling and animation
 import css from "@styles/adoption-banner.module.scss";
 import gsap from "gsap";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 import { useGSAP, type ContextSafeFunc } from "@gsap/react";
 
 function AdoptionBanner() {
   const bannerRef = useRef() as React.MutableRefObject<HTMLDivElement>;
+  const [isOpen, setIsOpen] = useState(false);
 
   useGSAP(
     (context, contextSafe) => {
@@ -54,24 +55,16 @@ function AdoptionBanner() {
         bannerRef.current.addEventListener("mouseleave", handleMouseLeave, {
           once: true,
         });
-        gsap
-          .timeline()
-          .to(
-            gsapScopedSelect(`.${css.eventHandlerDiv}`),
-            {
-              scale: 0.9,
-              duration: 0.4,
-              ease: "back.out(3)",
-            },
-            "0"
-          )
-          .call(
-            function () {
-              shineTL.isActive() ? undefined : shineTL.play(0);
-            },
-            undefined,
-            0
-          );
+        gsap.timeline().to(
+          gsapScopedSelect(`.${css.eventHandlerDiv}`),
+          {
+            scale: 0.9,
+            duration: 0.4,
+            ease: "back.out(3)",
+          },
+          "0"
+        );
+
         bannerRef.current.addEventListener("mouseenter", handleMouseEnter, {
           once: true,
         });
@@ -85,32 +78,72 @@ function AdoptionBanner() {
         once: true,
       });
 
-      return function cleanUp() {
+      function cleanUp() {
         bannerRef.current.removeEventListener("mouseenter", handleMouseEnter);
         bannerRef.current.removeEventListener("mouseleave", handleMouseLeave);
-      };
+      }
+
+      return cleanUp;
     },
-    { scope: bannerRef.current }
+    { scope: bannerRef.current, dependencies: [isOpen] }
   );
+
+  const { contextSafe: clickAnim } = useGSAP();
+
+  const handleClick = clickAnim(() => {
+    gsap
+      .timeline()
+      .to(
+        `.${css["doodlePuppy"]}, .${css["buttonText"]}`,
+        {
+          opacity: 0,
+          duration: 1,
+        },
+        "<"
+      )
+      .to(
+        `.${css["eventHandlerDiv"]}`,
+        {
+          scale: 1,
+          width: "100%",
+          height: "660px",
+          boxShadow: "none",
+          duration: 1,
+        },
+        "<"
+      )
+      .call(() => {
+        setIsOpen(true);
+      }, undefined);
+  });
 
   return (
     <>
       <div className={css.adoptionBanner} ref={bannerRef}>
-        <button className={css.eventHandlerDiv}>
-          <div className={`${css.shine}`}></div>
-          {/*children*/}
-          <SvgDoodlePuppy className={css.doodlePuppy} />
-          <span className={css.buttonText}>
-            <b>Apply</b>
-            <div>for a</div>
-            <b>New Puppy</b>
-          </span>
-          {/*          <iframe
-            aria-label="Cherry Lane Farm's Puppy Application"
-            style={{ height: "500px", width: "99%", border: "none" }}
-            src="https://forms.zohopublic.com/cherrylanefarmsdoodles/form/Application/formperma/c1uNLpvyuDl0TdUvp1InSoINH1G-84Ugqyq-vBjiItk"
-          ></iframe>*/}
-        </button>
+        {isOpen ? (
+          <div className={css["closed-content"]}>
+            <iframe
+              aria-label="Cherry Lane Farm's Puppy Application"
+              style={{ height: "600px", width: "99%", border: "none" }}
+              src="https://forms.zohopublic.com/cherrylanefarmsdoodles/form/Application/formperma/c1uNLpvyuDl0TdUvp1InSoINH1G-84Ugqyq-vBjiItk"
+            ></iframe>
+          </div>
+        ) : (
+          <>
+            <button
+              onClick={() => handleClick()}
+              className={css.eventHandlerDiv}
+            >
+              <div className={`${css.shine}`}></div>
+              <SvgDoodlePuppy className={css.doodlePuppy} />
+              <span className={css.buttonText}>
+                <b>Apply</b>
+                <div>for a</div>
+                <b>New Puppy</b>
+              </span>
+            </button>
+          </>
+        )}
       </div>
     </>
   );
