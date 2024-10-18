@@ -10,18 +10,21 @@ import css from "@styles/puppies-left.module.scss";
 function PuppiesLeft({ puppies }: { puppies: PuppyData[] }) {
   const puppyStatsRef = useRef(null);
 
-  const totalAvailPups = puppies.filter(
+  const availPups = puppies.filter(
     (pup) =>
       pup.dogData.availability === "Available" ||
       pup.dogData.availability === "Available Guardian"
-  ).length;
-  const totalUnavailPups = puppies.filter(
+  );
+  const unavailPups = puppies.filter(
     (pup) =>
       pup.dogData.availability === "Adopted" ||
       pup.dogData.availability === "Picked"
-  ).length;
+  );
 
-  const totalWatching = puppies[0] ? puppies[0].litterData.applicantsInQueue : 0;
+  const totalAvailPups = availPups.length;
+  const totalUnavailPups = unavailPups.length;
+
+  const totalWatching = availPups[0] ? availPups[0].litterData.applicantsInQueue : 0;
 
   useGSAP(
     async () => {
@@ -42,7 +45,6 @@ function PuppiesLeft({ puppies }: { puppies: PuppyData[] }) {
       });
     },
     {
-      dependencies: [totalAvailPups, totalUnavailPups],
       scope: puppyStatsRef,
     }
   );
