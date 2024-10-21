@@ -37,13 +37,13 @@ function Puppifications() {
     const tl = gsap.timeline();
     await tl
       .to(`.${css["iris"]}`, {
-        duration: 0.5,
+        duration: `${css['transitionFancy']}`,
         height: 0,
         ease: "back.in",
-        onComplete: () => setFormVisible(!formVisible),
       })
+      .call(() => setFormVisible(!formVisible))
       .to(`.${css["iris"]}`, {
-        duration: 0.5,
+        duration: `${css['transitionFancy']}`,
         height: 350,
         ease: "back.out",
       });
