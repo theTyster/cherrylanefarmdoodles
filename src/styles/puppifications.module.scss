@@ -17,6 +17,7 @@ $componentHeight: 350px;
   overflow: hidden;
   height: $componentHeight;
   width: 100%;
+  transition: all #{Theme.$transitionShort}s;
   span,
   button,
   input {
@@ -71,7 +72,7 @@ $componentHeight: 350px;
   text-align: center;
   flex-wrap: wrap;
   width: 100%;
-  padding: 9px 1.5em 3.5em 0;
+  padding: 9px 1.5em 3.5em;
   overflow: hidden;
 
   input {
