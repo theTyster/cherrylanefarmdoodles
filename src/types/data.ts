@@ -1,10 +1,10 @@
-import { GlobalNameSpaces as G, D1Tables as D1T } from "@/constants/data";
+import { GlobalNameSpaces as G, D1TablesType as D1TT, D1Tables as D1T, type PuppyAvailabilityType } from "@/constants/data";
 
 /**
  * Provides an Object as a type for D1Table but sets all values to strings as they are
  * when extracted from D1 initially.
  **/
-export type D1Stringify<T extends D1T> = { [K in keyof D1Schema[T]]: string };
+export type D1Stringify<T extends D1TT> = { [K in keyof D1Schema[T]]: string };
 
 /**
  * Provides an Object as a type for a D1 Table based on a provided string
@@ -13,12 +13,12 @@ export type D1Stringify<T extends D1T> = { [K in keyof D1Schema[T]]: string };
  * Primarily used to provide a type for the results of a query after some logic
  * has been applied to convert data to their correct types.
  **/
-export type D1Parse<T extends D1T> = D1Schema[T];
+export type D1Parse<T extends D1TT> = D1Schema[T];
 
-export type D1Keys<T extends D1T> = keyof D1Schema[T];
+export type D1Keys<T extends D1TT> = keyof D1Schema[T];
 
 /**Provides types for all values in a provided D1Table: T*/
-export type D1Vals<T extends D1T, V extends D1Keys<T> = D1Keys<T>> = {
+export type D1Vals<T extends D1TT, V extends D1Keys<T> = D1Keys<T>> = {
   [Key in V]: D1Schema[T][V];
 };
 
@@ -84,7 +84,7 @@ export interface D1Puppies {
   readonly [G.id]: number;
   readonly [G.puppyName]: string | null;
   readonly [G.collarColor]: string | null;
-  readonly [G.availability]: "Available" | "Picked" | "Adopted" | "Available Guardian";
+  readonly [G.availability]: PuppyAvailabilityType;
   readonly [G.dogId]: number;
   readonly [G.litterId]: number;
 }
@@ -138,7 +138,7 @@ export type D1PuppiesRaw = [
   number, //id
   string, //puppyName
   string | null, //collarColor
-  "Available" | "Picked" | "Adopted" | "Available Guardian", //availability
+  PuppyAvailabilityType, //availability
   number, //dogId
   number //litterId
 ];

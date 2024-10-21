@@ -1,4 +1,8 @@
-import { GlobalNameSpaces as G, D1Tables as D1T } from "@/constants/data";
+import {
+  GlobalNameSpaces as G,
+  D1Tables as D1T,
+  PuppyAvailability,
+} from "@/constants/data";
 import {
   D1Adults,
   D1Dogs,
@@ -85,9 +89,9 @@ export const familyQuery = (
   ${G.litterBirthday},
   ${G.applicantsInQueue},
   ${G.availability},
-  SUM(CASE WHEN Pups.${G.availability} LIKE '%Available%' THEN 1 ELSE 0 END) AS ${
-    G.availablePuppies
-  },
+  SUM(CASE WHEN Pups.${
+    G.availability
+  } LIKE '%Available%' THEN 1 ELSE 0 END) AS ${G.availablePuppies},
    COUNT(Pups.${G.id}) as ${G.totalPuppies}
   FROM
     ${D1T.Families}
@@ -170,37 +174,37 @@ export type PreviousLittersQueryData = [
 export const puppyQuery = `
 WITH AggregateCounts AS (
   SELECT 
-    COUNT(*) AS totalPuppies,
-    SUM(CASE WHEN availability LIKE "%Available%" THEN 1 ELSE 0 END) AS availablePuppies
-  FROM Puppies
-WHERE litterId = (SELECT litterId FROM Puppies WHERE id = ?1)
+    COUNT(*) AS ${G.totalPuppies},
+    SUM(CASE WHEN ${G.availability} LIKE "%${PuppyAvailability.Available}%" THEN 1 ELSE 0 END) AS ${G.availablePuppies}
+  FROM ${D1T.Puppies}
+WHERE ${G.litterId} = (SELECT ${G.litterId} FROM ${D1T.Puppies} WHERE ${G.id} = ?1)
 )
 SELECT
-  Puppies.id AS puppyId,
-  puppyName,
-  collarColor,
-  availability,
-  gender,
-  noseColor,
-  coat,
-  personality,
-  Headshots_Lg,
-  Headshots_Sm,
-  Group_Photos,
-  dueDate,
-  litterBirthday,
-  applicantsInQueue,
-  Puppies.dogId AS dogId,
-  Families.litterId AS litterId,
-  mother,
-  father,
-  AggregateCounts.availablePuppies,
-  AggregateCounts.totalPuppies
+  Puppies.${G.id} AS ${G.puppyId},
+  ${G.puppyName},
+  ${G.collarColor},
+  ${G.availability},
+  ${G.gender},
+  ${G.noseColor},
+  ${G.coat},
+  ${G.personality},
+  ${G.Headshots_Lg},
+  ${G.Headshots_Sm},
+  ${G.Group_Photos},
+  ${G.dueDate},
+  ${G.litterBirthday},
+  ${G.applicantsInQueue},
+  ${D1T.Puppies}.${G.dogId} AS ${G.dogId},
+  ${D1T.Families}.${G.litterId} AS ${G.litterId},
+  ${G.mother},
+  ${G.father},
+  AggregateCounts.${G.availablePuppies},
+  AggregateCounts.${G.totalPuppies}
 FROM
-  Puppies
-  LEFT JOIN Families ON Families.litterId = Puppies.litterId
-  LEFT JOIN Litters ON Litters.id = Puppies.litterId
-  LEFT JOIN Dogs ON Dogs.id = Puppies.dogId
+  ${D1T.Puppies}
+  LEFT JOIN ${D1T.Families} ON ${D1T.Families}.${G.litterId} = ${D1T.Puppies}.${G.litterId}
+  LEFT JOIN ${D1T.Litters} ON ${D1T.Litters}.${G.id} = ${D1T.Puppies}.${G.litterId}
+  LEFT JOIN ${D1T.Dogs} ON ${D1T.Dogs}.${G.id} = ${D1T.Puppies}.${G.dogId}
   CROSS JOIN AggregateCounts 
 WHERE
 ${D1T.Puppies}.${G.id} = ?1` as const;

@@ -14,7 +14,7 @@ export const D1Tables = {
  * All Tables in the D1 Database.
  * @see D1Tables;
  **/
-export type D1Tables = keyof typeof D1Tables;
+export type D1TablesType = keyof typeof D1Tables;
 
 export const GlobalNameSpaces = {
   id: "id",
@@ -102,4 +102,14 @@ export const GlobalNameSpaces = {
 /**
  * Namespaces that are used in multiple places across the website.
  **/
-export type GlobalNameSpaces = keyof typeof GlobalNameSpaces;
+export type GlobalNameSpacesType = keyof typeof GlobalNameSpaces;
+
+/**Possible values for Puppy Availability*/
+export const PuppyAvailability = {
+  Available: "Available",
+  Picked: "Picked",
+  Adopted: "Adopted",
+  ["Available Guardian"]: "Available Guardian",
+} as const;
+export type PuppyAvailabilityType = typeof PuppyAvailability[keyof typeof PuppyAvailability];
+
