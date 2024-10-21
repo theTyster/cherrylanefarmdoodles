@@ -29,7 +29,7 @@ async function SubMenu({
       <Link
         key={item.name + item.id}
         href={`/litter/${item.id}`}
-        className={navCSS["menu-item"]}
+        className={navCSS["submenu-item"]}
       >
         {item.name}
       </Link>

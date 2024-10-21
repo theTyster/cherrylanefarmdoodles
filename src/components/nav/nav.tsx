@@ -54,8 +54,8 @@ function NavMenu({
     height: "100%",
     padding: "0.25em 0",
     alignItems: "center",
-    overflow:
-      () => window.innerWidth < Number.parseFloat(navCSS["LgPhoneViewport"])
+    overflow: () =>
+      window.innerWidth < Number.parseFloat(navCSS["LgPhoneViewport"])
         ? "scroll"
         : "visible",
     position: "fixed",
@@ -142,7 +142,7 @@ function NavMenu({
 
   const handleExit = async (e: MouseEvent | KeyboardEvent | Event) => {
     if (
-      ((e as KeyboardEvent).key === "Escape" ||
+      (((e as KeyboardEvent).key === "Escape" ||
         (e as KeyboardEvent).key === "Enter" ||
         (e as KeyboardEvent).key === " " ||
         e.type === "scroll" ||
@@ -152,7 +152,8 @@ function NavMenu({
             mothersMenuRef.current !== e.target ||
             littersMenuRef.current !== e.target ||
             menuRef.current !== e.target))) &&
-      (menuState === MENU_STATES["open"] || MENU_STATES["submenu"])
+        (menuState === MENU_STATES["open"] || MENU_STATES["submenu"])) ||
+      (e.target as HTMLElement).classList.contains(navCSS["submenu-item"])
     ) {
       window.removeEventListener("click", handleExit);
       window.removeEventListener("keyup", handleExit);
@@ -197,7 +198,7 @@ function NavMenu({
     });
 
     menuTl.current
-      .to(menuRef.current, { width: "100%", duration: 0 })
+      .to(menuRef.current, { width: "100%", duration: 0.01 })
       .to(`#${navCSS["title-menu-button"]}`, {
         transition: "none",
         duration: 0,
@@ -277,7 +278,9 @@ function NavMenu({
         {(() => {
           if (subMenuState === SUBMENU_STATES.Litters)
             return (
-              <div className={`${navCSS["submenu"]} ${navCSS["litter-submenu"]}`}>
+              <div
+                className={`${navCSS["submenu"]} ${navCSS["litter-submenu"]}`}
+              >
                 <li
                   className={`${navCSS["menu-item"]} ${navCSS["back"]}`}
                   ref={backToMainMenuRef}
