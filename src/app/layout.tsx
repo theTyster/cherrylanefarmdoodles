@@ -1,6 +1,6 @@
 export const runtime = "edge";
 // Components
-import Nav from "@/components/nav/nav";
+import Nav from "@/components/nav/menu-items";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -15,6 +15,10 @@ import "@styles/reset.scss";
 import "@styles/global.scss";
 import css from "@styles/root-layout.module.scss";
 import { font } from "@styles/font";
+
+// Utilities
+import { getRequestContext } from "@cloudflare/next-on-pages";
+import NavMenuData from "@/constants/nav";
 
 export const metadata: Metadata = {
   title: {
@@ -59,7 +63,7 @@ export const metadata: Metadata = {
   //  }
 };
 
-export default function CLFMain({
+export default async function CLFMain({
   children,
   _2wood,
   _3tan,
@@ -69,7 +73,9 @@ export default function CLFMain({
   _2wood: React.ReactNode;
   _3tan: React.ReactNode;
   modal: React.ReactNode;
-}): React.JSX.Element {
+}): Promise<React.JSX.Element> {
+  const D1 = getRequestContext().env.dogsDB;
+  const menuData = await new NavMenuData(D1).getData();
   return (
     <html lang="en">
       <body className={font.className}>
@@ -87,7 +93,9 @@ export default function CLFMain({
           </Link>
         </header>
         <main>
-          <Nav />
+          <Nav 
+            menuData={menuData}
+          />
           {modal}
           <div className={css["white-layout"]}>
             <div className={css["left-flex"]} />
