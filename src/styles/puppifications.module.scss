@@ -7,10 +7,11 @@ $componentHeight: 350px;
 }
 
 .iris {
+  /* border: 1px solid red; */
   display: flex;
-  padding: 1em 0;
-  flex-wrap: wrap;
-  justify-content: center;
+  flex-wrap: nowrap;
+  flex-direction: column;
+  justify-content: space-evenly;
   align-items: center;
   position: relative;
   overflow: hidden;
@@ -31,10 +32,10 @@ $componentHeight: 350px;
 
 .button {
   padding: 1em;
-  margin: 2rem 1rem;
+  /* margin: 2rem 1rem; */
   border: none;
   border-radius: Theme.$buttonRadius;
-  width: 100%;
+  width: 80%;
   height: max-content;
   cursor: pointer;
   background-color: Theme.$primary;
@@ -54,7 +55,8 @@ $componentHeight: 350px;
 }
 
 .envelope-doodle {
-  margin-top: 1em;
+  /* margin-top: 1em; */
+  opacity: 1;
 }
 
 .puppifications {
@@ -69,8 +71,9 @@ $componentHeight: 350px;
   text-align: center;
   flex-wrap: wrap;
   width: 100%;
-  padding: 1em;
+  padding: 9px 1.5em 3.5em 0;
   overflow: hidden;
+
   input {
     flex: 4;
     padding: 1em;
@@ -86,6 +89,9 @@ $componentHeight: 350px;
     height: max-content;
     font-weight: 700;
     font-size: 2rem;
+  }
+  @include Theme.mediaQuery(Theme.$LgPhoneViewport) {
+    padding-left: 0 1.5em 3.5em 1.5em;
   }
   @include Theme.mediaQuery(Theme.$microViewport) {
     flex-direction: column;
