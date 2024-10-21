@@ -96,7 +96,9 @@ $spaceBetweenLayouts: 100px;
 
 .tan-layout {
   @include all-layouts;
-  flex: 1 1;
+  .content-box {
+    display: block;
+  }
   padding: $spaceBetweenLayouts 0;
   background-color: Theme.$lightPrimary;
 }
