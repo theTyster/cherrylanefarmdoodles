@@ -157,14 +157,14 @@ class DateCalculator extends Date {
     else {
       prettified = normalizeEpochDate(date, "date-only").split(",")[0];
     }
-    if (prettified.endsWith("1") && !prettified.endsWith("11"))
+    if (prettified.includes(",")) return prettified;
+    else if (prettified.endsWith("1") && !prettified.endsWith("11"))
       prettified += "st";
     else if (prettified.endsWith("2") && !prettified.endsWith("12"))
       prettified += "nd";
     else if (prettified.endsWith("3") && !prettified.endsWith("13"))
       prettified += "rd";
     // Case where the string ends in a year. 
-    else if (prettified.includes(",")) return prettified;
     else prettified += "th";
     return prettified;
   }
