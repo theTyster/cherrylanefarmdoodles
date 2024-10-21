@@ -55,15 +55,24 @@ function AdoptionBanner() {
         bannerRef.current.addEventListener("mouseleave", handleMouseLeave, {
           once: true,
         });
-        gsap.timeline().to(
-          gsapScopedSelect(`.${css.eventHandlerDiv}`),
-          {
-            scale: 0.9,
-            duration: 0.4,
-            ease: "back.out(3)",
-          },
-          "0"
-        );
+        gsap
+          .timeline()
+          .to(
+            gsapScopedSelect(`.${css.eventHandlerDiv}`),
+            {
+              scale: 0.9,
+              duration: 0.4,
+              ease: "back.out(3)",
+            },
+            "0"
+          )
+          .call(
+            function () {
+              shineTL.isActive() ? undefined : shineTL.play(0);
+            },
+            undefined,
+            0
+          );
 
         bannerRef.current.addEventListener("mouseenter", handleMouseEnter, {
           once: true,
