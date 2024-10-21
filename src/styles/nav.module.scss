@@ -44,7 +44,7 @@ $fontSize: Theme.$h3;
   background-color: Theme.$tertiaryCherry;
   border-radius: Theme.$buttonRadius;
   padding: 1em 1em 0.5em 1em;
-  align-items: start;
+  align-items: flex-start;
   /* justify-content: left; */
   gap: 0.5em;
   overflow: visible;
