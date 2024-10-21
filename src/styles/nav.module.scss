@@ -6,29 +6,52 @@
 // 2. menu display: none -> flex
 // 3. logo link flex: 1 -> 0
 // 4. menu flex: 0 -> 1
-$menu-height: 100px;
+$menu-height: 135;
 $menu-button-height: 60px;
 $mobile-view-reduction: 20px;
-nav.sliderMenu {
-  height: $menu-height;
+$fontSize: Theme.$h3;
+.nav {
+  height: #{$menu-height}px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   z-index: 497;
   position: fixed;
   top: 0;
-  width: fit-content;
+  width: 186px;
   padding: 0 30px 0 10px;
-  contain: content;
+  contain: style size layout;
   @include Theme.mediaQuery(Theme.$LgPhoneViewport) {
     top: auto;
     bottom: 0;
   }
+  @include Theme.mediaQuery(Theme.$watchViewport) {
+    height: calc(#{$menu-height}px + 1em);
+  }
+}
+
+.back {
+  font-weight: 700;
+}
+
+.submenu {
+  /* position: absolute; */
+  display: flex;
+  flex-direction: column;
+  width: fit-content;
+  position: relative;
+  top: 10px; //$menu-height;
+  background-color: Theme.$tertiaryCherry;
+  border-radius: Theme.$buttonRadius;
+  padding: 1em 1em 0.5em 1em;
+  align-items: start;
+  /* justify-content: left; */
+  gap: 0.5em;
+  overflow: visible;
 }
 
 button#title-menu-button {
   $marginBottom: #{calc(Theme.$boxShadowY + Theme.$boxShadowBlur / 2)}px;
-  $fontSize: Theme.$h3;
   height: $menu-button-height;
   padding: 0 1em;
   margin-bottom: $marginBottom;
@@ -38,6 +61,8 @@ button#title-menu-button {
   border-radius: Theme.$buttonRadius;
   background-color: Theme.$tertiaryCherry;
   color: Theme.$lightTertiaryCherry;
+  font: inherit;
+  font-size: $fontSize;
   outline: solid 2px Theme.$tertiaryCherry;
   outline-offset: -1px;
   cursor: pointer;
@@ -58,23 +83,33 @@ button#title-menu-button {
 }
 
 .menu {
-  background-color: Theme.$tertiaryCherry;
-  height: fit-content;
-  font-size: Theme.$h3;
-  width: 0;
-  overflow: hidden;
-  z-index: 498;
   display: flex;
-  align-items: space-around;
+  gap: 0.5em;
+  width: 0;
+  height: fit-content;
+  justify-content: center;
+  font-size: $fontSize;
+  overflow: hidden;
+  overscroll-behavior: contain;
+  background-color: Theme.$tertiaryCherry;
+  z-index: 498;
+  @include Theme.mediaQuery(Theme.$SmPhoneViewport) {
+    font-size: Theme.$h4;
+    /* flex-direction: column; */
+  }
+  
 }
-.link {
-  flex: 1 1 auto;
+
+.menu-item {
   text-align: center;
-  padding: 0 .5em;
-  color: Theme.$lightTertiaryCherry;
+  padding: 0.2em 0.5em;
   border-radius: Theme.$buttonRadius;
+  color: Theme.$lightTertiaryCherry;
+  cursor: pointer;
   transition: all #{Theme.$transitionShort}s;
+  list-style: none;
   white-space: nowrap;
+  color: Theme.$lightTertiaryCherry;
   text-decoration: none;
   &:hover {
     color: Theme.$tertiaryCherry;
@@ -91,6 +126,10 @@ button#title-menu-button {
     background-color: Theme.$darkTertiaryCherry;
     text-decoration: none;
   }
+}
+
+.litter-submenu .menu-item {
+  white-space: break-spaces;
 }
 
 :export {
