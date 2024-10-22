@@ -3,6 +3,7 @@ import omaPuppy from "@pub/images/omaPuppy.png";
 
 // Components
 import AttentionGetterImage from "@/components/attention-getter-image/attention-getter-image";
+//import DogCoatInfo from "@/components/dog-coat-info/dog-coat-info";
 
 // Styles
 import css from "./page.module.scss";
@@ -45,6 +46,7 @@ export default function WhiteSectionAbout(): React.JSX.Element | null {
             </>
           }
         />
+        {/*<DogCoatInfo />*/}
       </div>
     </>
   );
