@@ -3,6 +3,7 @@ import Link from "next/link";
 import { StaticImageData } from "next/image";
 import CLFImage from "@/components/CLFImage/CLFImage";
 import PuppiesLeft from "@/components/puppies-left/puppies-left";
+import { type PuppiesLeftData } from "@/types/puppies-left";
 
 // Styles
 import css from "@styles/GroupPhoto.module.scss";
@@ -21,7 +22,7 @@ function GroupPhoto({
   litterId?: number | string;
   className?: string;
   [key: string]: unknown;
-  puppiesLeft?: PuppyData[];
+  puppiesLeft?: PuppiesLeftData;
 }) {
   return (
     <>
@@ -62,7 +63,7 @@ function GroupPhotoWithLink({
   litterId?: number | string;
   className?: string;
   [key: string]: unknown;
-  puppiesLeft?: PuppyData[];
+  puppiesLeft?: PuppiesLeftData;
 }) {
   return (
     <>
