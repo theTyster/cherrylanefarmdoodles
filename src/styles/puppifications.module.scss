@@ -78,7 +78,7 @@ $componentHeight: 350px;
     margin: 0 1em;
     border: none;
     border-radius: Theme.$buttonRadius;
-    background-color: white;
+    background-color: Theme.$white;
     color: Theme.$darkPrimary;
   }
   button.button[type="submit"] {
