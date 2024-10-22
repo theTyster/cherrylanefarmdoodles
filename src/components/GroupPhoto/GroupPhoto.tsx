@@ -8,9 +8,6 @@ import { type PuppiesLeftData } from "@/types/puppies-left";
 // Styles
 import css from "@styles/GroupPhoto.module.scss";
 
-// Types
-import { type PuppyData } from "@/types/dog-about";
-
 function GroupPhoto({
   src,
   alt,
