@@ -38,14 +38,18 @@ export default function DogTree({ familyData }: { familyData: DogTreeData }) {
   Object.freeze(litterData);
   Object.freeze(ids);
 
-          const litterBirthday = litterData[G.litterBirthday],
-            dueDate = litterData[G.dueDate];
-          const calcInit = {
-            litterBirthday: litterBirthday
-              ? new Date(litterBirthday)
-              : undefined,
-            dueDate: dueDate ? new Date(dueDate) : undefined,
-          };
+  const puppiesLeft = {
+    availablePuppies: litterData[G.availablePuppies],
+    applicantsInQueue: litterData[G.applicantsInQueue],
+    totalPuppies: litterData[G.totalPuppies],
+  };
+
+  const litterBirthday = litterData[G.litterBirthday],
+    dueDate = litterData[G.dueDate];
+  const calcInit = {
+    litterBirthday: litterBirthday ? new Date(litterBirthday) : undefined,
+    dueDate: dueDate ? new Date(dueDate) : undefined,
+  };
   return (
     <>
       <div className={css.top}>
@@ -113,13 +117,11 @@ export default function DogTree({ familyData }: { familyData: DogTreeData }) {
                 src={ids[G.Group_Photos]}
                 alt="Puppies"
                 litterId={ids[G.litterId]}
-                puppiesLeft={puppies}
+                puppiesLeft={puppiesLeft}
               />
             );
           else {
-            return (
-              <CheckBackSoon litterId={ids[G.litterId]}/>
-            );
+            return <CheckBackSoon litterId={ids[G.litterId]} />;
           }
         })()}
       </div>
