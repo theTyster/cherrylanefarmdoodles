@@ -7,7 +7,6 @@ $componentHeight: 350px;
 }
 
 .iris {
-  /* border: 1px solid red; */
   display: flex;
   flex-wrap: nowrap;
   flex-direction: column;
@@ -33,7 +32,6 @@ $componentHeight: 350px;
 
 .button {
   padding: 1em;
-  /* margin: 2rem 1rem; */
   border: none;
   border-radius: Theme.$buttonRadius;
   width: 80%;
@@ -56,7 +54,6 @@ $componentHeight: 350px;
 }
 
 .envelope-doodle {
-  /* margin-top: 1em; */
   opacity: 1;
 }
 
