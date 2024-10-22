@@ -28,11 +28,14 @@ export default class PuppyData {
   async getPuppyFromLitter(litterId?: number | string): Promise<D1PQ[]> {
     if (litterId) this.litterId = litterId;
     if (!this.litterId) throw new Error("No litter ID provided.");
+
+    litterId = this.litterId ? this.litterId : litterId; // Don't include 'this' in the D1 binding. Clone it instead.
+
     const puppies = await fetchDataWithCache(
-      "puppy-" + this.litterId + '__litterQuery',
+      "puppy-" + this.litterId + "__litterQuery",
       async () => {
         return await this.D1.prepare(litterQuery)
-          .bind(this.litterId)
+          .bind(litterId)
           .all<D1LQ>()
           .then((res) => res.results);
       }
@@ -57,7 +60,7 @@ export default class PuppyData {
    **/
   async mergeData(puppyData: D1PQ): Promise<PuppyDataType> {
     const puppyDogDataQuery = await fetchDataWithCache(
-      "puppy-" + puppyData[G.dogId] + '__dogsQuery',
+      "puppy-" + puppyData[G.dogId] + "__dogsQuery",
       async () => {
         return await this.D1.prepare(dogsQuery)
           .bind(puppyData[G.dogId])
@@ -80,7 +83,7 @@ export default class PuppyData {
 
   async getPuppyFromPuppies(puppyId: string): Promise<PuppyDataType> {
     const pup = await fetchDataWithCache(
-      "puppy-" + puppyId + '__puppyQuery',
+      "puppy-" + puppyId + "__puppyQuery",
       async () => {
         return await this.D1.prepare(puppyQuery)
           .bind(puppyId)
