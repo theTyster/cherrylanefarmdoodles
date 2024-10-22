@@ -1,7 +1,7 @@
 // Colors
-$lightPrimary: #e8d8ca;
-$primary: #875122;
-$darkPrimary: #5e3918;
+$lightPrimary: #e8d8ca; // Contrast level used for Backgrounds
+$primary: #875122; // Contrast level used for large text
+$darkPrimary: #5e3918; // Contrast level used for small text
 
 $lightSecondaryGreen: #d3e8ca;
 $secondaryGreen: #426932;
@@ -13,6 +13,12 @@ $darkTertiaryCherry: #850829;
 
 $lightAccentBlue: #bbe1f2;
 $accentBlue: #124559;
+
+$white: #f4f2f1;
+$lightGray: #dfdbd7;
+$gray: #655c53;
+$darkGray: #46403a;
+$black: #333;
 
 $lightMom: $lightTertiaryCherry;
 $lightDad: $lightAccentBlue;
@@ -30,8 +36,6 @@ $unrecordedDogOutline: $outlineWidth solid $lightSecondaryGreen;
 $momShadow: 0 0 0 calc($outlineWidth * 0.667) $lightTertiaryCherry;
 $dadShadow: 0 0 0 calc($outlineWidth * 0.667) $lightAccentBlue;
 $unrecordedDogShadow: 0 0 0 calc($outlineWidth * 0.667) $lightSecondaryGreen;
-
-$black: #333;
 
 // Hover Effects
 $scaleOnHover: 1.07;
@@ -223,7 +227,7 @@ $h4: calc(51px - 30px);
 }
 
 // Vim macro for formatting variable names:
-// 0veyf:lvf;hpj0
+// f:hv0wyf;hvF:lp0wxj
 :export {
   Group_Photos: $Group_Photos;
   Headshots_Lg: $Headshots_Lg;
@@ -242,10 +246,12 @@ $h4: calc(51px - 30px);
   dadOutline: $dadOutline;
   dadShadow: $dadShadow;
   darkDad: $darkDad;
+  darkGray: $darkGray;
   darkMom: $darkMom;
   darkPrimary: $darkPrimary;
   darkSecondaryGreen: $darkSecondaryGreen;
   darkTertiaryCherry: $darkTertiaryCherry;
+  gray: $gray;
   h1: $h1;
   h2: $h2;
   h3: $h3;
@@ -269,5 +275,6 @@ $h4: calc(51px - 30px);
   transitionFancy: $transitionFancy;
   transitionShort: $transitionShort;
   watchViewport: $watchViewport;
+  white: $white;
   woodgrain: woodgrain();
 }
