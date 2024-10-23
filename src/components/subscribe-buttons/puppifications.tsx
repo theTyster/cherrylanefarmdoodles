@@ -17,7 +17,7 @@ function Puppifications() {
     e.preventDefault();
     const input = inputRef.current;
     const email = input ? input.value : "";
-    if (!email)
+    if (!email || (!email.includes("@") && !email.includes(".")))
       return input
         ? input.focus()
         : console.warn(
