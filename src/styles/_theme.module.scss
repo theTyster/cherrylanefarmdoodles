@@ -1,7 +1,13 @@
 // Colors
-$lightPrimary: #e8d8ca; // Contrast level used for Backgrounds
-$primary: #875122; // Contrast level used for large text
-$darkPrimary: #5e3918; // Contrast level used for small text
+$white: #f4f2f1;
+$lightGray: #dfdbd7;
+$gray: #655c53;
+$darkGray: #46403a;
+$black: #333;
+
+$lightPrimary: $lightGray; // Contrast level used for Backgrounds
+$primary: $gray; // Contrast level used for large text
+$darkPrimary: $black; // Contrast level used for small text
 
 $lightSecondaryGreen: #d3e8ca;
 $secondaryGreen: #426932;
@@ -13,12 +19,6 @@ $darkTertiaryCherry: #850829;
 
 $lightAccentBlue: #bbe1f2;
 $accentBlue: #124559;
-
-$white: #f4f2f1;
-$lightGray: #dfdbd7;
-$gray: #655c53;
-$darkGray: #46403a;
-$black: #333;
 
 $lightMom: $lightTertiaryCherry;
 $lightDad: $lightAccentBlue;
@@ -150,23 +150,23 @@ $h4: calc(51px - 30px);
 }
 
 @mixin woodgrain($wide: false) {
-  .woodgrain {
-    @content;
-    background-size: cover;
-    background-position: center;
-    background-image: url("~/public/images/woodgrain-dark.svg");
-    &-light {
-      background-image: url("~/public/images/woodgrain-light.svg");
-      background-size: cover;
-      background-position: center;
-    }
-    @if $wide {
-      background-image: url("~/public/images/woodgrain-dark-wide.svg");
-      &-light {
-        background-image: url("~/public/images/woodgrain-light-wide.svg");
-      }
-    }
-  }
+//  .woodgrain {
+//    @content;
+//    background-size: cover;
+//    background-position: center;
+//    background-image: url("~/public/images/woodgrain-dark.svg");
+//    &-light {
+//      background-image: url("~/public/images/woodgrain-light.svg");
+//      background-size: cover;
+//      background-position: center;
+//    }
+//    @if $wide {
+//      background-image: url("~/public/images/woodgrain-dark-wide.svg");
+//      &-light {
+//        background-image: url("~/public/images/woodgrain-light-wide.svg");
+//      }
+//    }
+//  }
 }
 
 @include mediaQuery($tabletViewport, min) {
