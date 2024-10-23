@@ -13,16 +13,28 @@ function Puppifications() {
   const submitRef = useRef<HTMLButtonElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const input = inputRef.current;
-    const email = input ? input.value : "";
-    if (!email || (!email.includes("@") && !email.includes(".")))
-      return input
-        ? input.focus()
-        : console.warn(
-            "No email address provided in Puppification subscription."
-          ); 
+    if (!inputRef.current) throw new Error("Puppfication input element not found.");
+    const email = inputRef.current.value;
+
+    if (!email) {
+      inputRef.current.focus();
+      return false;
+    }
+
+    if (process?.env?.NODE_ENV === "development") {
+      console.log("Subscribed with email:", email);
+      setSubscription(email + " is pending confirmation");
+      await animateSub();
+      await sleep(1);
+      console.log("Enter another?");
+      setSubscription("");
+      await animateSub();
+      return false;
+    }
+
     fetch("/api/subscribe", {
       method: "POST",
       headers: {
@@ -31,7 +43,7 @@ function Puppifications() {
       body: JSON.stringify({ email }),
     });
 
-    setSubscription("Subscribed");
+    setSubscription(email + " is pending confirmation");
     animateSub();
   };
 
@@ -85,12 +97,12 @@ function Puppifications() {
                   type="email"
                   placeholder="Email Address"
                   onBlur={(e) => {
-                    if (e.relatedTarget === submitRef.current) {
-                      handleSubmit(e);
-                    }
-                    else {
-                      animateSub();
-                    }
+                    const noBlur =
+                      e.relatedTarget === submitRef.current ||
+                      !!inputRef.current?.value;
+                    console.log(noBlur);
+                    if (noBlur) return false;
+                    else animateSub();
                   }}
                 />
               ) : (
@@ -134,7 +146,7 @@ function Puppifications() {
             ref={buttonRef}
           >
             {`${
-              subscription ? "Pending confirmation" : "Enable Puppifications"
+              subscription ? subscription : "Enable Puppifications"
             }`}
           </button>
         </div>
