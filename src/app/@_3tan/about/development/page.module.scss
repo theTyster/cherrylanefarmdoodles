@@ -1,29 +1,25 @@
 @use "@styles/_theme.module.scss" as Theme;
 
 .contact-link {
-  display: flex;
-  justify-content: center;
-  align-content: center;
+  display: block;
+  text-align: center;
   // The following properties are shared by all buttons and links.
-  border: 2px solid Theme.$secondaryGreen;
-  border-radius: Theme.$buttonRadius;
   color: Theme.$darkSecondaryGreen;
   cursor: pointer;
-  display: inline-block;
   font-size: Theme.$h3;
   line-height: 1.5;
-  margin-top: Theme.$spaceBetweenElements;
+  margin: Theme.$spaceBetweenElements auto;
+  width: fit-content;
   padding: 0.5rem 1rem;
   text-align: center;
   text-decoration: none;
   transition: background-color Theme.$transitionShort;
   white-space: nowrap;
-
   // The following properties are specific to the contact link.
-  background-color: Theme.$lightPrimary;
+  @include Theme.basicBorder(Theme.$secondaryGreen);
   &:hover {
     text-decoration: none;
-    background-color: Theme.$darkSecondaryGreen;
+    background-color: Theme.$secondaryGreen;
     color: Theme.$lightPrimary;
   }
   &:active {

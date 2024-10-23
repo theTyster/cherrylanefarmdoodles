@@ -113,7 +113,7 @@ article.mainDog {
   border-radius: Theme.$buttonRadius;
   aspect-ratio: 4/3;
   width: 100%;
-  @include Theme.imageHover(black);
+  @include Theme.imageHover(Theme.$black);
   @include Theme.mediaQuery(Theme.$tabletViewport) {
     width: 100%;
     height: auto;

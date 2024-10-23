@@ -6,7 +6,6 @@
   border-radius: Theme.$buttonRadius;
   outline: 2px solid Theme.$darkPrimary;
   outline-offset: -1px;
-  background-color: Theme.$darkPrimary;
 
   transition: all #{Theme.$transitionShort}s;
   @include Theme.imageHover(Theme.$darkPrimary);
@@ -15,8 +14,6 @@
     height: auto;
   }
 }
-
-@include Theme.woodgrain($wide: true);
 
 .link {
   position: relative;

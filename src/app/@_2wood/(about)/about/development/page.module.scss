@@ -16,5 +16,8 @@
 }
 
 .gh-link {
-  color: Theme.$lightSecondaryGreen;
+  color: Theme.$darkSecondaryGreen;
+  &:hover {
+    text-decoration: underline;
+  }
 }

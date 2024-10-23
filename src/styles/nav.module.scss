@@ -51,23 +51,21 @@ $fontSize: Theme.$h3;
 }
 
 button#title-menu-button {
+  @include Theme.basicButton();
+  @include Theme.basicBorder(Theme.$tertiaryCherry);
   $marginBottom: #{calc(Theme.$boxShadowY + Theme.$boxShadowBlur / 2)}px;
   height: $menu-button-height;
   padding: 0 1em;
   margin-bottom: $marginBottom;
   font-size: $fontSize;
   z-index: 499;
-  border: none;
-  border-radius: Theme.$buttonRadius;
-  background-color: Theme.$tertiaryCherry;
-  color: Theme.$lightTertiaryCherry;
+  color: Theme.$tertiaryCherry;
   font: inherit;
   font-size: $fontSize;
-  outline: solid 2px Theme.$tertiaryCherry;
-  outline-offset: -1px;
   cursor: pointer;
   transition: all 0.5s;
   &:hover {
+  background-color: Theme.$tertiaryCherry;
     scale: Theme.$scaleOnHover;
     transition: all Theme.$transitionShort;
   }

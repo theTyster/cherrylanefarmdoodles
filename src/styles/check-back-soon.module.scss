@@ -10,5 +10,6 @@
   width: fit-content;
   position: relative;
   transition: all #{Theme.$transitionShort}s;
+  border-radius: Theme.$buttonRadius;
   @include Theme.imageHover(Theme.$darkPrimary);
 }
