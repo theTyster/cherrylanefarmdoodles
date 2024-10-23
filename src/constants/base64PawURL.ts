@@ -1,11 +1,12 @@
+import css from '@styles/_theme.module.scss'
 export const pawSVG = `<svg version="1.1" viewBox="0 0 292 277.71" xmlns="http://www.w3.org/2000/svg">
 <style>
 @keyframes pulse {
   from {
-    fill: #5e3918;
+    fill: ${css.primary};
   }
   to {
-    fill: #e8d8ca
+    fill: ${css.lightPrimary}
   }
 }
 #paw {

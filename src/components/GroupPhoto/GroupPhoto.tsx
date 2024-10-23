@@ -29,7 +29,7 @@ function GroupPhoto({
         alt={alt}
         width={615}
         height={433}
-        className={`${css.groupPhoto} ${css["woodgrain"]} ${className}`}
+        className={`${css.groupPhoto} ${className}`}
         {...props}
       />
       {src ? undefined : (
@@ -73,7 +73,7 @@ function GroupPhotoWithLink({
             width={615}
             height={433}
             props={props}
-            className={`${css.groupPhoto} ${css["woodgrain"]} ${className}`}
+            className={`${css.groupPhoto} ${className}`}
           />
         </Link>
       ) : (
@@ -84,7 +84,7 @@ function GroupPhotoWithLink({
           width={615}
           height={433}
           props={props}
-          className={`${css.groupPhoto} ${css["woodgrain"]} ${className}`}
+          className={`${css.groupPhoto} ${className}`}
         />
       )}
       {puppiesLeft ? (

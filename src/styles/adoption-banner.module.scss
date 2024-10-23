@@ -9,21 +9,15 @@
     font: inherit;
     overflow: hidden;
     border: none;
-    background-color: Theme.$lightSecondaryGreen;
-    border-radius: calc(Theme.$buttonRadius + 10px);
     width: 100%;
     cursor: pointer;
     padding: Theme.$spaceBetweenElements;
     display: flex;
     align-items: center;
     justify-content: center;
-    @include Theme.setBoxShadow(Theme.$darkSecondaryGreen);
-    transition: box-shadow #{Theme.$transitionShort}s;
-    &:active {
-      box-shadow: none;
-    }
+    background-color: Theme.$white;
     .buttonText {
-      color: Theme.$darkSecondaryGreen;
+      color: Theme.$black;
       text-align: center;
       font-size: 6.4rem;
       text-decoration: none;

@@ -188,7 +188,7 @@ function NavMenu({
     setMenuInerts("add");
     gsap
       .to(`#${navCSS["title-menu-button"]}`, {
-        boxShadow: `${navCSS.darkTertiaryCherry} ${navCSS.boxShadowX}px ${navCSS.boxShadowY}px ${navCSS.boxShadowBlur}px`,
+        boorderTop: "10px solid" + navCSS.tertiaryCherry,
       })
       .play();
 

@@ -1,61 +1,45 @@
 @use "@styles/_theme.module.scss" as Theme;
 
-@include Theme.woodgrain($wide: true);
-
 .container {
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: Theme.$buttonRadius;
   margin-bottom: Theme.$spaceBetweenElements;
   @include Theme.mediaQuery(Theme.$LgPhoneViewport) {
     flex-direction: column;
   }
 }
-.selectorButton {
-  $darkenedPrimary: darken(Theme.$darkPrimary, 4%);
-  @include Theme.setBoxShadow($darkenedPrimary);
-  border: none;
+.selectorButton, .selected {
   z-index: 1;
   width: 100%;
   flex: auto;
-  background-color: Theme.$primary;
   cursor: pointer;
-  transition: box-shadow Theme.$transitionShort;
-  transition-property: box-shadow, transform, background-color;
-  outline: 2px solid Theme.$primary;
-  outline-offset: -1px;
-  h2 {
-    color: Theme.$lightPrimary;
-    font-weight: 400;
+  color: Theme.$darkPrimary;
+  font-family: inherit;
+  font-size: Theme.$h3;
+  font-weight: 400;
+  transition-duration: #{Theme.$transitionShort}s;
+  transition-property: transform, background-color;
+  @include Theme.basicButton() {
+    background-color: Theme.$white;
+    &:hover {
+      background-color: Theme.$darkPrimary;
+      color: Theme.$lightPrimary;
+    }
   }
   &:hover {
-    @include Theme.scaleOnHover(1.04);
-    z-index: 2;
-    &:active {
-      box-shadow: unset;
-      transform: scale(1);
-    }
+    background-color: Theme.$darkPrimary;
+    color: Theme.$lightPrimary;
   }
 }
 .selected {
   $scale: 0.976;
-  border: unset;
-  box-shadow: unset;
-  outline: 2px solid Theme.$darkPrimary;
-  cursor: unset;
   background-color: Theme.$darkPrimary;
   transform: scale($scale) !important;
   z-index: 0;
-  h2 {
+  @include Theme.basicButton() {
+    background-color: Theme.$darkPrimary;
     color: Theme.$lightPrimary;
-    font-weight: 400;
-  }
-  &:hover {
-    transform: scale($scale) !important;
-    &:active {
-      box-shadow: unset;
-    }
   }
 }

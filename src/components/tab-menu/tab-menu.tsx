@@ -3,7 +3,6 @@ import { useState, Fragment } from "react";
 
 //CSS
 import css from "@styles/tab-menu.module.scss";
-import { font } from "@styles/font";
 
 export type MenuNamesObj = {
   [key: string]: number;
@@ -53,55 +52,22 @@ function TabMenu({
     }
   };
 
-  const setBorderRadiusRow = (index: number) =>
-    //Gives the left most button a border-radius on left corners.
-    index === 0
-      ? `${css.buttonRadius} 0 0 ${css.buttonRadius}`
-      : //Gives the right most button a border-radius on right corners.
-      index === menuDataArr.length - 1
-      ? `0 ${css.buttonRadius} ${css.buttonRadius} 0`
-      : //Sets other buttons to no border-radius by default.
-        "0 0 0 0";
-
-  const setBorderRadiusColumn = (index: number) =>
-    //Gives the top most button a border-radius on top corners.
-    index === 0
-      ? `${css.buttonRadius} ${css.buttonRadius} 0 0`
-      : //Gives the bottom most button a border-radius on bottom corners.
-      index === menuDataArr.length - 1
-      ? `0 0 ${css.buttonRadius} ${css.buttonRadius}`
-      : //Sets other buttons to no border-radius by default.
-        "0 0 0 0";
-
   return (
     <>
       <menu className={css.container} onClick={handleTabMenuClick}>
-        {menuDataArr.map((item, index) => (
+        {menuDataArr.map((item/*, index*/) => (
           <Fragment key={`${item.id}`}>
-            <style jsx>
-              {`
-                button {
-                  border-radius: ${setBorderRadiusRow(index)};
-                }
-                @media screen and (max-width: ${css.LgPhoneViewport}) {
-                  button {
-                    border-radius: ${setBorderRadiusColumn(index)};
-                  }
-                }
-              `}
-            </style>
             <button
               aria-label={item.title}
               data-tabmenu-item-id={item.id}
               className={`${css.selectorButton} ${
                 item === currentSelected
-                  ? css["woodgrain"] + " " + css["selected"]
-                  : css["woodgrain-light"]
+                  ? css["selected"]
+                  : ""
               }`}
               style={{backgroundSize: "800px"}}
               onClick={item.buttonClick ? item.buttonClick : undefined}
-            >
-              <h2 className={font.className /**Important*/}>{item.title}</h2>
+            >{item.title}
             </button>
           </Fragment>
         ))}
