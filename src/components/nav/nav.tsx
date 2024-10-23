@@ -118,7 +118,6 @@ function NavMenu({
   const menuHeight: number = Number.parseFloat(navCSS["menuHeight"]);
 
   const setMenuPosition = async (height: number) => {
-    console.log("height", height);
     if (window.innerWidth < Number.parseFloat(navCSS["LgPhoneViewport"]))
       await gsap.to(`.${navCSS["nav"]}`, {
         bottom: 0,
