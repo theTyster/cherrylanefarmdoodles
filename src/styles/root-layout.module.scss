@@ -82,9 +82,9 @@ $spaceBetweenLayouts: 100px;
   @include all-layouts;
   flex: 1 1;
   padding: Theme.$spaceBetweenElements 0 $spaceBetweenLayouts 0;
-  background-color: Theme.$darkPrimary;
+//  background-color: Theme.$darkPrimary;
   @include Theme.setTextValues() {
-    color: Theme.$lightPrimary;
+//    color: Theme.$lightPrimary;
   }
   .content-box > * {
     padding: 200px 0;
@@ -99,5 +99,5 @@ $spaceBetweenLayouts: 100px;
     display: block;
   }
   padding: $spaceBetweenLayouts 0;
-  background-color: Theme.$lightPrimary;
+//  background-color: Theme.$lightPrimary;
 }
