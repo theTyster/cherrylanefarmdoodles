@@ -28,19 +28,13 @@ $componentHeight: 350px;
   }
 }
 
-@include Theme.woodgrain($wide: true);
-
 .button {
-  padding: 1em;
-  border: none;
-  border-radius: Theme.$buttonRadius;
-  width: 80%;
-  height: max-content;
-  cursor: pointer;
-  background-color: Theme.$primary;
-  color: Theme.$lightPrimary;
-  transition: all #{Theme.$transitionShort}s;
-  @include Theme.imageHover(Theme.$darkPrimary);
+  @include Theme.basicButton() {
+    padding: 1em;
+    width: 80%;
+    height: max-content;
+    transition: all #{Theme.$transitionShort}s;
+  }
 }
 
 .top-line {
@@ -59,7 +53,6 @@ $componentHeight: 350px;
 
 .puppifications {
   font-size: Theme.$h3;
-  border-radius: Theme.$bigButtonRadius;
 }
 
 .form {

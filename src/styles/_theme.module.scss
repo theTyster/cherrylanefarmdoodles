@@ -7,7 +7,7 @@ $black: #333;
 
 $lightPrimary: $lightGray; // Contrast level used for Backgrounds
 $primary: $gray; // Contrast level used for large text
-$darkPrimary: $black; // Contrast level used for small text
+$darkPrimary: $darkGray; // Contrast level used for small text
 
 $lightSecondaryGreen: #d3e8ca;
 $secondaryGreen: #426932;
@@ -104,6 +104,36 @@ $h4: calc(51px - 30px);
   }
 }
 
+@mixin basicBorder($color: $darkGray) {
+  border: none;
+  outline: none;
+  border-radius: none;
+  border-top: 5px solid $color;
+  border-bottom: 5px solid $color;
+  @content;
+}
+
+@mixin basicButton(){
+  padding: 0.5em;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background-color $transitionShort;
+  @include basicBorder();
+  background-color: $white;
+  color: $darkGray;
+  box-shadow: revert;
+  @include basicBorder();
+  &:hover {
+    background-color: $darkGray;
+    color: $lightGray;
+  }
+  &:active {
+    background-color: $darkGray;;
+    color: $lightGray;
+  }
+  @content;
+}
+
 @mixin setFlex($direction: row, $justify: center, $align: center) {
   display: flex;
   flex-direction: $direction;
@@ -126,18 +156,23 @@ $h4: calc(51px - 30px);
   }
 }
 
-@mixin imageHover($color) {
-  @include setBoxShadow($color, "hover");
+@mixin imageHover($color, $darkColor: "") {
+  background-color: none;
 
-  transition-property: transform, box-shadow;
+  transition-property: transform, background-color;
   transition-duration: $transitionShort;
 
   &:hover {
     transform: translateY($translateOnHover);
+    background-color: $color;
   }
   &:active {
     transform: translateY(calc($translateOnHover + 0.3rem));
     box-shadow: none;
+    @if $darkColor {
+      background-color: $darkColor;
+    }
+    background-color: $color;
   }
 }
 

@@ -27,7 +27,7 @@ div.container {
   flex: 1;
   margin: Theme.$spaceBetweenElements 0;
   border-radius: 100%;
-  @include Theme.setBoxShadow(black);
+  @include Theme.setBoxShadow(Theme.$black);
   &:hover {
     scale: Theme.$scaleOnHover;
   }
