@@ -23,7 +23,7 @@ const WithSvg = ({ children }: { children: React.ReactNode }) => {
             fontSize: 52,
             lineHeight: 1.25,
             whiteSpace: "pre",
-            fill: "#5e3918",
+            fill: css['primary'],
             fillOpacity: 1,
             stroke: "none",
           }}
