@@ -54,24 +54,26 @@ export default function DogTree({ familyData }: { familyData: DogTreeData }) {
     <>
       <div className={css.top}>
         {mother[G.adultName] === "Unrecorded" ? (
-          <MomHeadshot
-            variant={D1T[G.Headshots_Sm]}
-            className={css.momHeadshot}
-            src={mother[G.Headshots_Sm]}
-            alt="Mother Dog"
-            gender="F"
-            priority
-          />
-        ) : (
-          <Link href={"dams/" + ids[G.litterId]}>
+          <div className={css.momHeadshot}>
             <MomHeadshot
               variant={D1T[G.Headshots_Sm]}
-              className={css.momHeadshot}
               src={mother[G.Headshots_Sm]}
               alt="Mother Dog"
               gender="F"
               priority
             />
+            <h2>Unknown</h2>
+          </div>
+        ) : (
+          <Link className={css.momHeadshot} href={"dams/" + ids[G.litterId]}>
+            <MomHeadshot
+              variant={D1T[G.Headshots_Sm]}
+              src={mother[G.Headshots_Sm]}
+              alt="Mother Dog"
+              gender="F"
+              priority
+            />
+            <h2>{mother["adultName"]}</h2>
           </Link>
         )}
         <h1 className={`${css.desktopOnly} ${css.heading}`}>
@@ -82,32 +84,34 @@ export default function DogTree({ familyData }: { familyData: DogTreeData }) {
           />
         </h1>
         {father[G.adultName] === "Unrecorded" ? (
-          <UnrecordedDog
-            variant={D1T[G.Headshots_Sm]}
-            className={css.unrecordedDog}
-            src={unrecordedDogIMG}
-            alt="Father Dog"
-            gender="U"
-          />
+          <div className={css.unrecordedDog}>
+            <UnrecordedDog
+              variant={D1T[G.Headshots_Sm]}
+              src={unrecordedDogIMG}
+              alt="Father Dog"
+              gender="U"
+            />
+            <h2>Unknown</h2>
+          </div>
         ) : (
-          <Link href={"sires/" + ids[G.litterId]}>
+          <Link className={css.dadHeadshot} href={"sires/" + ids[G.litterId]}>
             <DadHeadshot
               variant={D1T[G.Headshots_Sm]}
-              className={css.dadHeadshot}
               src={father[G.Headshots_Sm]}
               alt="Father Dog"
               gender="M"
             />
+            <h2>{father["adultName"]}</h2>
           </Link>
         )}
       </div>
-      <h1 className={`${css.mobileOnly} ${css.heading}`}>
+      <h3 className={`${css.mobileOnly} ${css.heading}`}>
         <NextFamilyDate
           className={css.goingHome}
           calcInit={calcInit}
           availablePuppies={litterData[G.availablePuppies]}
         />
-      </h1>
+      </h3>
       <div className={css.bottom}>
         {(() => {
           if (ids[G.Group_Photos])
