@@ -21,12 +21,25 @@
   font-size: Theme.$h3;
   font-weight: 400;
   transition-duration: #{Theme.$transitionShort}s;
-  transition-property: transform, background-color;
-  @include Theme.basicButton($bg: Theme.$lightPrimary, $fg:Theme.$darkPrimary) {
+  transition-property: background-color, border;
+  @include Theme.basicButton(
+    $bg: Theme.$lightPrimary,
+    $fg: Theme.$darkPrimary
+  ) {
+    border: 5px solid Theme.$darkPrimary;
     background-color: Theme.$white;
     &:hover {
       background-color: Theme.$darkPrimary;
       color: Theme.$lightPrimary;
+      border: 5px solid Theme.$darkPrimary;
+      &:active {
+        background-color: Theme.$primary;
+        border: 5px solid Theme.$primary;
+      }
+    }
+    &:active {
+      background-color: Theme.$primary;
+      border: 5px solid Theme.$primary;
     }
   }
   &:hover {
