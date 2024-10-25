@@ -22,7 +22,7 @@
   font-weight: 400;
   transition-duration: #{Theme.$transitionShort}s;
   transition-property: transform, background-color;
-  @include Theme.basicButton() {
+  @include Theme.basicButton($bg: Theme.$lightPrimary, $fg:Theme.$darkPrimary) {
     background-color: Theme.$white;
     &:hover {
       background-color: Theme.$darkPrimary;
@@ -35,13 +35,11 @@
   }
 }
 .selected {
-  $scale: 0.976;
   background-color: Theme.$darkPrimary;
-  transform: scale($scale) !important;
   z-index: 0;
   @include Theme.basicButton(
     $bg: Theme.$darkPrimary,
-    $fg: Theme.$lightPrimary,
+    $fg: Theme.$darkPrimary,
     $text: Theme.$lightPrimary
   ) {
     &:hover {

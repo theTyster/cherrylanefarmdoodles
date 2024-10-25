@@ -29,7 +29,7 @@ $componentHeight: 350px;
 }
 
 .button {
-  @include Theme.basicButton() {
+  @include Theme.basicButton($bg: Theme.$white, $fg: Theme.$darkPrimary) {
     padding: 1em;
     width: 80%;
     height: max-content;
