@@ -1,7 +1,6 @@
 export const runtime = "edge";
-import Image from "next/image";
 import Link from "next/link";
-import PuppyCulture from "@pub/images/puppy-culture-cert.svg";
+import PuppyCulture from "@/components/svg/puppy-culture-cert.svg";
 import JennyImage from "@pub/images/Jenny.jpg";
 
 // Components
@@ -35,11 +34,14 @@ export default function WoodLayout(): React.JSX.Element | null {
           </>
         }
       />
-      <Link href="https://shoppuppyculture.com/pages/about-puppy-culture">
-        <Image
+      <Link
           className={css["puppy-culture"]}
-          src={PuppyCulture}
-          alt="Raised with Jane Killion's Puppy Culture"
+        href="https://shoppuppyculture.com/pages/about-puppy-culture">
+        <PuppyCulture
+          desc="Text with a green check mark."
+          descId="puppy-culture-desc"
+          title="Raised with Jane Killion's Puppy Culture"
+          titleId="puppy-culture-title"
         />
       </Link>
     </>
