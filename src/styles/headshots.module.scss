@@ -2,6 +2,7 @@
 
 /*Large*/
 .lg {
+  padding: Theme.$imgPad;
   aspect-ratio: 3/4 !important;
   max-width: Theme.$Headshots_Lg !important;
   width: Theme.$Headshots_Lg;
@@ -24,12 +25,13 @@
 
 /*Small*/
 .sm {
+  padding: Theme.$imgPad;
   aspect-ratio: 1/1 !important;
   max-width: Theme.$Headshots_Sm !important;
   object-fit: scale-down;
   border-radius: Theme.$Headshots_SmRadius;
   cursor: pointer;
-  background-color: Theme.$primary;
+  background-color: Theme.$white;
   transition-property: box-shadow;
   transition-duration: #{Theme.$transitionShort}s;
   &:active {
@@ -48,13 +50,13 @@
 .mom {
   outline: Theme.$momOutline;
   outline-offset: -1px;
-  @include Theme.imageHover(Theme.$darkMom);
+  @include Theme.imageHover(Theme.$lightMom, Theme.$darkMom);
 }
 
 .dad {
   outline: Theme.$dadOutline;
   outline-offset: -1px;
-  @include Theme.imageHover(Theme.$darkDad);
+  @include Theme.imageHover(Theme.$lightDad, Theme.$darkDad);
 }
 
 .unrecordedDog {

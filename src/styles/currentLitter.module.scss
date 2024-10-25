@@ -28,3 +28,9 @@
   gap: Theme.$spaceBetweenElements + Theme.$outlineWidth;
   margin-top: Theme.$spaceBetweenElements + Theme.$outlineWidth;
 }
+
+.partnerPhoto{
+  img:not([class^="breeder-line"]) {
+    @include Theme.imageHover(Theme.$darkHeadshot, Theme.$lightHeadshot);
+  }
+}

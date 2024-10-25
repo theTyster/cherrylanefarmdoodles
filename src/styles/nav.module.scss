@@ -61,13 +61,12 @@ button#title-menu-button {
   position: absolute;
   left: 30px;
   @include Theme.basicButton(
-    $bg: Theme.$lightTertiaryCherry,
-    $fg: Theme.$tertiaryCherry
+    $bg: Theme.$white,
+    $fg: Theme.$tertiaryCherry,
   );
   $marginBottom: #{calc(Theme.$boxShadowY + Theme.$boxShadowBlur / 2)}px;
   height: $menu-button-height;
   padding: 0 1em;
-  margin-bottom: $marginBottom;
   z-index: 499;
   color: Theme.$tertiaryCherry;
   font-family: inherit;
@@ -80,14 +79,12 @@ button#title-menu-button {
     transition: all #{Theme.$transitionShort}s;
   }
   &:active {
-    box-shadow: none;
     scale: 1;
   }
   @include Theme.mediaQuery(Theme.$LgPhoneViewport) {
     top: 50%;
     height: calc($menu-button-height - $mobile-view-reduction);
     font-size: calc($fontSize - $mobile-view-reduction / 2);
-    border-radius: Theme.$smallButtonRadius;
   }
 }
 

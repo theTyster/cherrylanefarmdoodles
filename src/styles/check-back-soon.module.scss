@@ -11,5 +11,5 @@
   position: relative;
   transition: all #{Theme.$transitionShort}s;
   border-radius: Theme.$buttonRadius;
-  @include Theme.imageHover(Theme.$darkPrimary);
+  @include Theme.imageHover(Theme.$darkHeadshot, Theme.$lightHeadshot);
 }

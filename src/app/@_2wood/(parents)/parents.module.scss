@@ -4,7 +4,7 @@
 .puppyLink {
   @extend .puppyLink;
   img {
-    @include Theme.imageHover(black);
+    @include Theme.imageHover(Theme.$darkHeadshot, Theme.$lightHeadshot);
   }
 }
 
