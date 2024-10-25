@@ -10,7 +10,8 @@
     flex-direction: column;
   }
 }
-.selectorButton, .selected {
+.selectorButton,
+.selected {
   z-index: 1;
   width: 100%;
   flex: auto;
@@ -38,8 +39,14 @@
   background-color: Theme.$darkPrimary;
   transform: scale($scale) !important;
   z-index: 0;
-  @include Theme.basicButton() {
-    background-color: Theme.$darkPrimary;
-    color: Theme.$lightPrimary;
+  @include Theme.basicButton(
+    $bg: Theme.$darkPrimary,
+    $fg: Theme.$lightPrimary,
+    $text: Theme.$lightPrimary
+  ) {
+    &:hover {
+      background-color: Theme.$darkPrimary;
+      color: Theme.$lightPrimary;
+    }
   }
 }

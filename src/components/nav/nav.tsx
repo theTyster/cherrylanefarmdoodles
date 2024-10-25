@@ -3,7 +3,6 @@ export const runtime = "edge";
 
 //Utilities
 import gsap from "gsap";
-import { useGSAP } from "@gsap/react";
 import { useRef, useState } from "react";
 
 // Styles
@@ -22,6 +21,7 @@ export const MENU_STATES = {
   open: "open",
   closed: "closed",
   submenu: "submenu",
+  superPositioned: "superPositioned",
 } as const;
 
 export type MenuStateTypes = (typeof MENU_STATES)[keyof typeof MENU_STATES];
@@ -30,220 +30,249 @@ export type SubMenuStateTypes =
 
 function NavMenu({
   menuData,
+  exitRef,
 }: {
   menuData: {
     [SUBMENU_STATES.Mothers]: React.ReactNode;
     [SUBMENU_STATES.Litters]: React.ReactNode;
   };
+  exitRef: React.RefObject<HTMLDivElement>;
 }) {
   const [subMenuState, setSubMenuState]: [
     SubMenuStateTypes,
     React.Dispatch<React.SetStateAction<SubMenuStateTypes>>
   ] = useState(SUBMENU_STATES["Initial"] as SubMenuStateTypes);
 
-  // After the initial load the menu state is switched to closed. 'open' is the
-  // correct initialization.
   const [menuState, setMenuState]: [
     MenuStateTypes,
     React.Dispatch<React.SetStateAction<MenuStateTypes>>
-  ] = useState(MENU_STATES["open"] as MenuStateTypes);
-
-  const menuTween: gsap.TweenVars = {
-    display: "flex",
-    width: "100%",
-    height: "100%",
-    padding: "0.25em 0",
-    alignItems: "center",
-    overflow: () =>
-      window.innerWidth < Number.parseFloat(navCSS["LgPhoneViewport"])
-        ? "scroll"
-        : "visible",
-    position: "fixed",
-    top: 0,
-    left: 0,
-    ease: "linear",
-    delay: 0,
-  };
-
-  const buttonTween: gsap.TweenVars = {
-    position: "absolute",
-    bottom: 5,
-    boxShadow: "transparent 0px 0px 0px 0px",
-    backgroundColor: navCSS.lightTertiaryCherry,
-    color: navCSS.darkTertiaryCherry,
-    display: "none",
-    opacity: 0,
-  };
+  ] = useState(MENU_STATES["closed"] as MenuStateTypes);
 
   const menuRef = useRef<HTMLElement>(null),
-    exitHandler = useRef<() => void>(),
-    menuTl = useRef<gsap.core.Timeline>(),
-    mothersMenuRef = useRef<HTMLLIElement>(null),
-    littersMenuRef = useRef<HTMLLIElement>(null),
-    backToMainMenuRef = useRef<HTMLLIElement>(null),
+    navRef = useRef<HTMLElement>(null),
+    mothersMenuRef = useRef<HTMLButtonElement>(null),
+    littersMenuRef = useRef<HTMLButtonElement>(null),
+    backToMainMenuRef = useRef<HTMLButtonElement>(null),
     buttonRef = useRef<HTMLButtonElement>(null);
 
-  /**Protects focus while the menu is closed.*/
-  function setMenuInerts(addOrRemove: "add" | "remove") {
-    const noInertLinks = () =>
-      menuRef.current?.querySelectorAll("a").forEach((link) => {
-        link.inert = false;
-      });
-    const yesInertLinks = () =>
-      menuRef.current?.querySelectorAll("a").forEach((link) => {
-        link.inert = true;
-      });
-    switch (addOrRemove) {
-      case "add":
-        if (!menuRef.current)
-          document.addEventListener("DOMContentLoaded", () => yesInertLinks, {
-            once: true,
-            passive: true,
-          });
-        else yesInertLinks();
-        break;
-      case "remove":
-        if (!menuRef.current)
-          document.addEventListener("DOMContentLoaded", () => noInertLinks, {
-            once: true,
-            passive: true,
-          });
-        else noInertLinks();
-        break;
-      default:
-        throw new Error("Invalid argument for setMenuIndex: " + addOrRemove);
+  class MenuAnimation {
+    setMenuState: React.Dispatch<React.SetStateAction<MenuStateTypes>>;
+    menuState: MenuStateTypes;
+    buttonTween?: gsap.core.Tween;
+
+    constructor(
+      setMenuState: React.Dispatch<React.SetStateAction<MenuStateTypes>>,
+      menuState: MenuStateTypes
+    ) {
+      this.setMenuState = setMenuState;
+      this.menuState = menuState;
     }
-  }
 
-  const menuHeight: number = Number.parseFloat(navCSS["menuHeight"]);
+    menuOpenTween: gsap.TweenVars = {
+      display: "flex",
+      width: "100%",
+      height: "100%",
+      padding: "0.25em 0",
+      alignItems: "center",
+      position: "fixed",
+      top: 0,
+      left: 0,
+      ease: "linear",
+      delay: 0,
+    };
 
-  const setMenuPosition = async (height: number) => {
-    if (window.innerWidth < Number.parseFloat(navCSS["LgPhoneViewport"]))
-      await gsap.to(`.${navCSS["nav"]}`, {
+    menuCloseTween: gsap.TweenVars = {
+      width: 0,
+    };
+
+    buttonOpenTween: gsap.TweenVars = { y: 50, opacity: 0 };
+    buttonCloseTween: gsap.TweenVars = { y: 0, opacity: 1 };
+
+    menuNavigationButtons = [mothersMenuRef, littersMenuRef, backToMainMenuRef];
+
+    menuHeight = Number.parseFloat(navCSS["menuHeight"]);
+
+    // Tweens {
+    tweenMenuButton(tween: gsap.TweenVars, toOrFrom: "to" | "from" = "to") {
+      return gsap[toOrFrom](`#${navCSS["title-menu-button"]}`, tween);
+    }
+
+    tweenMenu(tween: gsap.TweenVars, toOrFrom: "to" | "from" = "to") {
+      return gsap[toOrFrom](`.${navCSS["menu"]}`, tween);
+    }
+
+    tweenNav(tween: gsap.TweenVars, toOrFrom: "to" | "from" = "to") {
+      return gsap[toOrFrom](`.${navCSS["nav"]}`, tween);
+    }
+
+    async menuOpen() {
+      console.log("opening");
+      if (this.menuState !== MENU_STATES["closed"]) return;
+      this.menuStateSetter(MENU_STATES["superPositioned"]);
+      menuRef.current!.style.display = "flex";
+      menuRef.current!.style.overflow = "hidden";
+
+      this.tweenMenuButton(this.buttonOpenTween).then(
+        () => (buttonRef.current!.style.display = "none")
+      );
+      await this.tweenNav({
+        width: "100%",
+      });
+
+      menuRef.current!.style.overflow = "";
+      this.menuStateSetter(MENU_STATES["open"]);
+      this.addListeners();
+      await this.tweenMenu(this.menuOpenTween);
+    }
+
+    async menuClose() {
+      console.log("closing");
+      if (this.menuState !== MENU_STATES["open"]) return;
+      this.removeListeners();
+      this.menuStateSetter(MENU_STATES["superPositioned"]);
+      menuRef.current!.style.overflow = "hidden";
+      buttonRef.current!.style.display = "block";
+
+      this.tweenMenuButton(this.buttonCloseTween);
+      await this.tweenNav({
+        width: 0,
+      }).then(() => (menuRef.current!.style.display = "none"));
+
+      menuRef.current!.style.overflow = "";
+      this.menuStateSetter(MENU_STATES["closed"]);
+      //await this.tweenMenu(this.menuOpenTween, "from");
+    }
+    async positionMenuForScreenSize(height: number) {
+      if (window.innerWidth >= Number.parseFloat(navCSS["LgPhoneViewport"]))
+        await this.tweenNav({
+          top: 0,
+          height,
+          duration: navCSS["transitionLong"],
+        });
+      else window.innerWidth < Number.parseFloat(navCSS["LgPhoneViewport"]);
+      await this.tweenNav({
         bottom: 0,
         height,
         duration: navCSS["transitionShort"],
       });
-  };
-
-  const reverseTl = async () => {
-    if (!menuTl.current) throw new Error("Timeline not found.");
-    if (!buttonRef.current) throw new Error("Button not found.");
-    setMenuPosition(menuHeight);
-    await menuTl.current.reversed(!menuTl.current.reversed());
-    buttonRef.current.focus(); // This prevents menu items from stealing focus after the menu closes.
-  };
-
-  const buttonEventHandler = async () => {
-    await reverseTl();
-    exitHandler.current!();
-  };
-
-  const handleExit = async (e: MouseEvent | KeyboardEvent | Event) => {
-    if (
-      (((e as KeyboardEvent).key === "Escape" ||
-        (e as KeyboardEvent).key === "Enter" ||
-        (e as KeyboardEvent).key === " " ||
-        e.type === "scroll" ||
-        (e.type === "click" &&
-          !menuRef.current?.contains(e.target as HTMLElement) &&
-          (backToMainMenuRef.current !== e.target ||
-            mothersMenuRef.current !== e.target ||
-            littersMenuRef.current !== e.target ||
-            menuRef.current !== e.target))) &&
-        (menuState === MENU_STATES["open"] || MENU_STATES["submenu"])) ||
-      (e.target as HTMLElement).classList.contains(navCSS["submenu-item"])
-    ) {
-      window.removeEventListener("click", handleExit);
-      window.removeEventListener("keyup", handleExit);
-      window.removeEventListener("scroll", handleExit);
-      if (menuState === "submenu") {
-        setMenuState(MENU_STATES["open"]);
-        await setMenuPosition(menuHeight);
-      }
-      setSubMenuState(SUBMENU_STATES["Initial"]);
-      await reverseTl();
-    } else if (
-      (e.type === "click" || e.type === "scroll") &&
-      mothersMenuRef.current === e.target
-    ) {
-      setMenuState(MENU_STATES["submenu"]);
-      setMenuPosition(350);
-      setSubMenuState(SUBMENU_STATES["Mothers"]);
-    } else if (e.type === "click" && littersMenuRef.current === e.target) {
-      setMenuState(MENU_STATES["submenu"]);
-      setMenuPosition(350);
-      setSubMenuState(SUBMENU_STATES["Litters"]);
-    } else if (
-      (e.type === "click" || e.type === "scroll") &&
-      backToMainMenuRef.current === e.target
-    ) {
-      setMenuState(MENU_STATES["open"]);
-      setMenuPosition(menuHeight);
-      setSubMenuState(SUBMENU_STATES["Initial"]);
     }
+    // }
+
+    exitEventHandler() {
+      this.menuClose();
+    }
+    mouseExitEventHandlerFunc(/*e: MouseEvent*/) {
+      this.menuClose();
+    }
+    keyboardExitEventHandlerFunc(e: KeyboardEvent) {
+      if (
+        (e.key === "Escape" || e.key === "Backspace") &&
+        this.menuState === "open"
+      )
+        this.menuClose();
+      else if (
+        (e.key === "Enter" || e.key === "Space") &&
+        this.menuState === "closed"
+      )
+        this.menuOpen();
+      else return false;
+    }
+    scrollExitEventHandlerFunc(/*e: Event*/) {
+      this.menuClose();
+    }
+
+    /**
+     * This handler is intentionally leaving the submenu items alone.
+     * This provides a better UX since users in a specific submenu are
+     * likely to want to view multiple items in that category without needing
+     * to click through to it each time.
+     **/
+    mouseMenuEventHandlerFunc(e: React.MouseEvent<HTMLElement, MouseEvent>) {
+      if (
+        (e.target as HTMLElement).classList.contains(navCSS["menu-item"]) &&
+        !this.menuNavigationButtons.some(
+          (button) => e.target === button.current
+        )
+      )
+        this.menuClose();
+    }
+
+    removeListeners() {
+      exitRef.current!.removeEventListener(
+        "click",
+        this.exitEventHandler.bind(this)
+      );
+      window.removeEventListener("keyup", this.exitEventHandler.bind(this));
+      window.removeEventListener("scroll", this.exitEventHandler.bind(this));
+    }
+    addListeners() {
+      exitRef.current!.addEventListener(
+        "click",
+        this.mouseExitEventHandlerFunc.bind(this),
+        {
+          once: true,
+          passive: true,
+        }
+      );
+      window.addEventListener(
+        "keyup",
+        this.keyboardExitEventHandlerFunc.bind(this),
+        {
+          passive: true,
+        }
+      );
+      window.addEventListener(
+        "scroll",
+        this.scrollExitEventHandlerFunc.bind(this),
+        {
+          once: true,
+          passive: true,
+        }
+      );
+    }
+
+    menuStateSetter(menuState: MenuStateTypes) {
+      this.menuState = menuState;
+      this.setMenuState(this.menuState);
+    }
+    async toggleMenu(menuState: MenuStateTypes) {
+      if (!buttonRef.current) throw new Error("Button not found.");
+
+      if (menuState === MENU_STATES["open"]) {
+        await this.menuClose();
+      } else if (menuState === MENU_STATES["closed"]) {
+        await this.menuOpen();
+      }
+    }
+  } /** END MENUANIMATION CLASS*/
+
+  const buttonEventHandler = async (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    menuState: MenuStateTypes
+  ) => {
+    e;
+    const m = new MenuAnimation(setMenuState, menuState);
+    await m.toggleMenu(menuState);
   };
-
-  useGSAP(() => {
-    setMenuInerts("add");
-    gsap
-      .to(`#${navCSS["title-menu-button"]}`, {
-        boorderTop: "10px solid" + navCSS.tertiaryCherry,
-      })
-      .play();
-
-    menuTl.current = gsap.timeline({
-      defaults: { duration: Number.parseFloat(navCSS["transitionShort"]) },
-    });
-
-    menuTl.current
-      .to(menuRef.current, { width: "100%", duration: 0.01 })
-      .to(`#${navCSS["title-menu-button"]}`, {
-        transition: "none",
-        duration: 0,
-      })
-      .to(`.${navCSS["menu"]}`, menuTween, "<")
-      .to(`#${navCSS["title-menu-button"]}`, buttonTween, "<")
-      .to(`#${navCSS["title-menu-button"]}`, {
-        clearProps: "transition",
-        duration: 0,
-      })
-      .to(`.${navCSS["menu"]}`, { flexWrap: "wrap", duration: 0 }, ">")
-      .call(setMenuInerts, ["remove"])
-      .call(setMenuState, ["Initial"])
-      .call(() => setMenuState(menuState === "closed" ? "open" : "closed"));
-    menuTl.current.reversed(true);
-
-    exitHandler.current = () => {
-      window.addEventListener("click", handleExit, {
-        passive: true,
-      });
-      window.addEventListener("keyup", handleExit, {
-        passive: true,
-      });
-      window.addEventListener("scroll", handleExit, {
-        passive: true,
-      });
-    };
-
-    return () => {
-      window.removeEventListener("click", handleExit);
-      window.removeEventListener("keyup", handleExit);
-      window.removeEventListener("scroll", handleExit);
-    };
-  });
 
   return (
-    <nav className={navCSS["nav"]} ref={menuRef}>
+    <nav className={navCSS["nav"]} ref={navRef}>
       <button
-        onClick={buttonEventHandler}
+        onClick={(e) => buttonEventHandler(e, menuState)}
         id={navCSS["title-menu-button"]}
         ref={buttonRef}
         tabIndex={0}
       >
         Menu
       </button>
-      <menu className={navCSS["menu"]}>
+      <menu
+        className={navCSS["menu"]}
+        onClick={(e) => {
+          const m = new MenuAnimation(setMenuState, menuState);
+          m.mouseMenuEventHandlerFunc(e);
+        }}
+        ref={menuRef}
+      >
         {subMenuState === SUBMENU_STATES.Initial ? (
           <>
             <Link href="/" className={navCSS["menu-item"]}>
@@ -255,45 +284,57 @@ function NavMenu({
           </>
         ) : null}
         {(() => {
-          if (subMenuState === SUBMENU_STATES.Mothers)
+          if (subMenuState === SUBMENU_STATES["Mothers"])
             return (
-              <div className={navCSS["submenu"]}>
-                <li
+              <div
+                className={`${navCSS["submenu"]} ${navCSS["mothers-submenu"]}`}
+              >
+                <button
                   className={`${navCSS["menu-item"]} ${navCSS["back"]}`}
                   ref={backToMainMenuRef}
+                  onClick={() => setSubMenuState(SUBMENU_STATES["Initial"])}
                 >
                   &lt; Back
-                </li>
-                {menuData[SUBMENU_STATES.Mothers]}
+                </button>
+                {menuData[SUBMENU_STATES["Mothers"]]}
               </div>
             );
-          if (subMenuState === SUBMENU_STATES.Initial)
+          if (subMenuState === SUBMENU_STATES["Initial"])
             return (
-              <li className={`${navCSS["menu-item"]}`} ref={mothersMenuRef}>
+              <button
+                className={`${navCSS["menu-item"]}`}
+                onClick={() => setSubMenuState(SUBMENU_STATES["Mothers"])}
+                ref={mothersMenuRef}
+              >
                 Mothers
-              </li>
+              </button>
             );
         })()}
         {(() => {
-          if (subMenuState === SUBMENU_STATES.Litters)
+          if (subMenuState === SUBMENU_STATES["Litters"])
             return (
               <div
-                className={`${navCSS["submenu"]} ${navCSS["litter-submenu"]}`}
+                className={`${navCSS["submenu"]} ${navCSS["litters-submenu"]}`}
               >
-                <li
+                <button
                   className={`${navCSS["menu-item"]} ${navCSS["back"]}`}
                   ref={backToMainMenuRef}
+                  onClick={() => setSubMenuState(SUBMENU_STATES["Initial"])}
                 >
                   &lt; Back
-                </li>
-                {menuData[SUBMENU_STATES.Litters]}
+                </button>
+                {menuData[SUBMENU_STATES["Litters"]]}
               </div>
             );
-          if (subMenuState === SUBMENU_STATES.Initial)
+          if (subMenuState === SUBMENU_STATES["Initial"])
             return (
-              <li className={navCSS["menu-item"]} ref={littersMenuRef}>
+              <button
+                className={navCSS["menu-item"]}
+                onClick={() => setSubMenuState(SUBMENU_STATES["Litters"])}
+                ref={littersMenuRef}
+              >
                 Recent Litters
-              </li>
+              </button>
             );
         })()}
       </menu>
