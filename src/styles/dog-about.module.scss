@@ -113,7 +113,7 @@ article.mainDog {
   border-radius: Theme.$buttonRadius;
   aspect-ratio: 4/3;
   width: 100%;
-  @include Theme.imageHover(Theme.$black);
+  @include Theme.imageHover(Theme.$lightHeadshot, Theme.$darkHeadshot);
   @include Theme.mediaQuery(Theme.$tabletViewport) {
     width: 100%;
     height: auto;
@@ -173,7 +173,7 @@ article.mainDog {
     align-items: center;
     justify-content: center;
     img:not([class^="breeder-line"]) {
-      @include Theme.imageHover(black);
+      @include Theme.imageHover(Theme.$lightHeadshot, Theme.$darkHeadshot);
     }
   }
   &Breeder {
@@ -185,13 +185,18 @@ article.mainDog {
 
 .Headshots_Lg {
   margin-top: calc(1rem + 9px);
-  box-shadow: revert;
-  &:hover {
-    transform: translateY(0);
-    box-shadow: revert;
-  }
-  &:active {
-    transform: translateY(0);
+  // Overwrite defaults so no animations take place.
+  @include Theme.imageHover(Theme.$darkHeadshot, Theme.$lightHeadshot) {
+    &:hover {
+      outline: Theme.$outlineWidth solid Theme.$darkHeadshot;
+      background-color: Theme.$lightHeadshot;
+      transform: translateY(0);
+    }
+    &:active {
+      outline: Theme.$outlineWidth solid Theme.$darkHeadshot;
+      background-color: Theme.$lightHeadshot;
+      transform: translateY(0);
+    }
   }
 }
 
@@ -200,5 +205,3 @@ article.mainDog {
     margin-top: Theme.$spaceBetweenElements;
   }
 }
-
-@include Theme.woodgrain($wide: true);

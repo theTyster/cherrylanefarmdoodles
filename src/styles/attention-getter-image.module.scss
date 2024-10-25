@@ -26,16 +26,12 @@ div.container {
 .image {
   flex: 1;
   margin: Theme.$spaceBetweenElements 0;
+  padding: Theme.$imgPad;
   border-radius: 100%;
-  @include Theme.setBoxShadow(Theme.$black);
-  &:hover {
-    scale: Theme.$scaleOnHover;
-  }
-  &:active {
-    scale: 1;
-    box-shadow: unset;
-  }
   transition-property: scale, box-shadow;
+  outline: Theme.$momOutline;
+  outline-offset: -1px;
+  @include Theme.imageHover(Theme.$darkHeadshot, Theme.$lightHeadshot);
   transition-duration: #{Theme.$transitionShort}s;
   @include Theme.mediaQuery(Theme.$tabletViewport) {
     width: 100%;

@@ -3,26 +3,19 @@
 .attention-getter-image {
   flex-direction: column;
   img {
-    box-shadow: none;
     cursor: auto;
+    background-color: transparent;
+    outline: none;
     &:hover {
       transform: none;
+      background-color: transparent;
+      outline: none;
       scale: none;
     }
     &:active {
       transform: none;
+      background-color: transparent;
+      outline: none;
     }
   }
 }
-
-//.puppy-culture {
-//  display: block;
-//  margin: 0 auto;
-//  width: 100%;
-//}
-//@media screen and (max-width: 768px) {
-//  .puppy-culture {
-//    height: auto;
-//    max-width: 400px;
-//  }
-//}

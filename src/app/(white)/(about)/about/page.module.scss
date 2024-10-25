@@ -3,14 +3,19 @@
 .attention-getter-image {
   flex-direction: column;
   img {
-    box-shadow: none;
     cursor: auto;
+    background-color: transparent;
+    outline: none;
     &:hover {
       transform: none;
+      background-color: transparent;
+      outline: none;
       scale: none;
     }
     &:active {
       transform: none;
+      background-color: transparent;
+      outline: none;
     }
   }
 }

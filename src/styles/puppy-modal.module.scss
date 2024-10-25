@@ -10,6 +10,13 @@
   display: none;
 }
 
+.dogTitle {
+  h1,
+  h2 {
+    color: Theme.$lightPrimary;
+  }
+}
+
 @include Theme.mediaQuery(Theme.$LgPhoneViewport) {
   .dogName {
     margin-bottom: calc(ParentCSS.$dogNameMarginBottom / 2);

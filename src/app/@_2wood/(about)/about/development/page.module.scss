@@ -3,8 +3,9 @@
 
 .image_gh {
   @extend .image;
-  background-color: Theme.$lightPrimary;
-  border: 0.5rem solid Theme.$lightPrimary;
+  &:hover {
+    background-color: inherit;
+  }
 }
 
 .attention-getter-image {

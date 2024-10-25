@@ -20,21 +20,24 @@ $darkTertiaryCherry: #850829;
 $lightAccentBlue: #bbe1f2;
 $accentBlue: #124559;
 
-$lightMom: $lightTertiaryCherry;
-$lightDad: $lightAccentBlue;
-$darkMom: $tertiaryCherry;
-$darkDad: $accentBlue;
+$lightHeadshot: $white;
+$darkHeadshot: $darkGray;
+$lightMom: $lightHeadshot;
+$lightDad: $lightHeadshot;
+$darkMom: $darkHeadshot;
+$darkDad: $darkHeadshot;
 
 // Outlines and Shadows
 $boxShadowX: 9; // Needs to be populated in the mixin.
 $boxShadowY: 12; // Needs to be populated in the mixin.
 $boxShadowBlur: 15; // Needs to be populated in the mixin.
-$outlineWidth: 9px;
-$momOutline: $outlineWidth solid $lightMom;
-$dadOutline: $outlineWidth solid $lightDad;
+$outlineWidth: 2px;
+$headshotOutline: $outlineWidth solid $darkHeadshot;
+$momOutline: $outlineWidth solid $darkMom;
+$dadOutline: $outlineWidth solid $darkDad;
 $unrecordedDogOutline: $outlineWidth solid $lightSecondaryGreen;
-$momShadow: 0 0 0 calc($outlineWidth * 0.667) $lightTertiaryCherry;
-$dadShadow: 0 0 0 calc($outlineWidth * 0.667) $lightAccentBlue;
+$momShadow: 0 0 0 calc($outlineWidth * 0.667) $lightMom;
+$dadShadow: 0 0 0 calc($outlineWidth * 0.667) $lightDad;
 $unrecordedDogShadow: 0 0 0 calc($outlineWidth * 0.667) $lightSecondaryGreen;
 
 // Hover Effects
@@ -54,6 +57,7 @@ $watchViewport: 200px;
 
 // Spacing
 $spaceBetweenElements: 30px;
+$imgPad: 1rem;
 
 //Etc
 $XsmallButtonRadius: 0.375rem; // 6px
@@ -110,9 +114,9 @@ $h4: calc(51px - 30px);
   border-radius: none;
   border-top: 5px solid $color;
   border-bottom: 5px solid $color;
-  @media screen and (pointer: coarse){
+  @media screen and (pointer: coarse) {
     border: 5px solid $color;
-  @content;
+    @content;
   }
 }
 
@@ -160,24 +164,25 @@ $h4: calc(51px - 30px);
   }
 }
 
-@mixin imageHover($color, $darkColor: "") {
-  background-color: none;
+@mixin imageHover($outline, $bg) {
+  padding: $imgPad;
+  background-color: $bg;
+  outline: $outlineWidth solid $outline;
 
-  transition-property: transform, background-color;
+  transition-property: transform, background-color, outline;
   transition-duration: $transitionShort;
 
   &:hover {
     transform: translateY($translateOnHover);
-    background-color: $color;
+    background-color: $outline;
+    outline: $outlineWidth solid $bg;
   }
   &:active {
     transform: translateY(calc($translateOnHover + 0.3rem));
-    box-shadow: none;
-    @if $darkColor {
-      background-color: $darkColor;
-    }
-    background-color: $color;
+    background-color: $bg;
+    outline: $outlineWidth solid $bg;
   }
+  @content
 }
 
 @mixin scaleOnHover($scale: $scaleOnHover) {
@@ -295,6 +300,7 @@ $h4: calc(51px - 30px);
   h2: $h2;
   h3: $h3;
   h4: $h4;
+  imgPad: $imgPad;
   lightAccentBlue: $lightAccentBlue;
   lightDad: $lightDad;
   lightMom: $lightMom;
