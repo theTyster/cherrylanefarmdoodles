@@ -1,8 +1,8 @@
 export const runtime = "edge";
 // Components
-import Nav from "@/components/nav/menu-items";
 import Image from "next/image";
 import Link from "next/link";
+import MainLayouts from "@/components/main-layouts/main-layouts";
 
 // Static
 import Logo from "@pub/images/cherry-lane-farm-logo--256px.png";
@@ -78,7 +78,8 @@ export default async function CLFMain({
   const menuData = await new NavMenuData(D1).getData();
   return (
     <html lang="en">
-      <body className={font.className}>
+      <body 
+        className={font.className}>
         <header>
           <Link className={css["home-button"]} href="/">
             <Image
@@ -93,25 +94,15 @@ export default async function CLFMain({
           </Link>
         </header>
         <main>
-          <Nav 
+          <MainLayouts
+            modal={modal}
+            _2wood={_2wood}
+            _3tan={_3tan}
+            css={css}
             menuData={menuData}
-          />
-          {modal}
-          <div className={css["white-layout"]}>
-            <div className={css["left-flex"]} />
-            <div className={css["content-box"]}>{children}</div>
-            <div className={css["right-flex"]} />
-          </div>
-          <div className={`${css["wood-layout"]} ${css.woodgrain}`}>
-            <div className={css["left-flex"]} />
-            <div className={css["content-box"]}>{_2wood}</div>
-            <div className={css["right-flex"]} />
-          </div>
-          <div className={css["tan-layout"]}>
-            <div className={css["left-flex"]} />
-            <div className={css["content-box"]}>{_3tan}</div>
-            <div className={css["right-flex"]} />
-          </div>
+          >
+          {children}
+          </MainLayouts>
         </main>
         <footer>
           <p style={{ margin: "unset" }}>
