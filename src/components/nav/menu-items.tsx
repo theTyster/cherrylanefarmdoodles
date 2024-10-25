@@ -12,10 +12,12 @@ import { MenuItemData, MenuDataType
 
 export const runtime = "edge";
 
-async function SubMenu({
+function SubMenu({
   menuData,
+  exitRef,
 }: {
   menuData: MenuDataType;
+  exitRef: React.RefObject<HTMLDivElement>;
 }) {
   const {
     motherData,
@@ -41,6 +43,7 @@ async function SubMenu({
           Mothers: <>{renderSubMenuOf(motherData)}</>,
           Litters: <>{renderSubMenuOf(litterData)}</>,
         }}
+        exitRef={exitRef}
       />
     );
 }
