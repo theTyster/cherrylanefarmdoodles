@@ -110,26 +110,30 @@ $h4: calc(51px - 30px);
   border-radius: none;
   border-top: 5px solid $color;
   border-bottom: 5px solid $color;
+  @media screen and (pointer: coarse){
+    border: 5px solid $color;
   @content;
+  }
 }
 
-@mixin basicButton(){
+@mixin basicButton($bg: $darkGray, $fg: $lightGray, $text: $fg) {
   padding: 0.5em;
   font-family: inherit;
   cursor: pointer;
   transition: background-color $transitionShort;
-  @include basicBorder();
-  background-color: $white;
-  color: $darkGray;
+  background-color: $bg;
+  color: $text;
   box-shadow: revert;
-  @include basicBorder();
+  @include basicBorder($color: $fg);
   &:hover {
-    background-color: $darkGray;
-    color: $lightGray;
+    background-color: $fg;
+    color: $bg;
+    @include basicBorder($color: $fg);
   }
   &:active {
-    background-color: $darkGray;;
-    color: $lightGray;
+    $lighterFg: lighten($fg, 7);
+    background-color: $lighterFg;
+    @include basicBorder($color: $lighterFg);
   }
   @content;
 }
@@ -185,23 +189,23 @@ $h4: calc(51px - 30px);
 }
 
 @mixin woodgrain($wide: false) {
-//  .woodgrain {
-//    @content;
-//    background-size: cover;
-//    background-position: center;
-//    background-image: url("~/public/images/woodgrain-dark.svg");
-//    &-light {
-//      background-image: url("~/public/images/woodgrain-light.svg");
-//      background-size: cover;
-//      background-position: center;
-//    }
-//    @if $wide {
-//      background-image: url("~/public/images/woodgrain-dark-wide.svg");
-//      &-light {
-//        background-image: url("~/public/images/woodgrain-light-wide.svg");
-//      }
-//    }
-//  }
+  //  .woodgrain {
+  //    @content;
+  //    background-size: cover;
+  //    background-position: center;
+  //    background-image: url("~/public/images/woodgrain-dark.svg");
+  //    &-light {
+  //      background-image: url("~/public/images/woodgrain-light.svg");
+  //      background-size: cover;
+  //      background-position: center;
+  //    }
+  //    @if $wide {
+  //      background-image: url("~/public/images/woodgrain-dark-wide.svg");
+  //      &-light {
+  //        background-image: url("~/public/images/woodgrain-light-wide.svg");
+  //      }
+  //    }
+  //  }
 }
 
 @include mediaQuery($tabletViewport, min) {
