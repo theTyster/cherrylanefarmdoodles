@@ -6,7 +6,7 @@ div.top {
   justify-content: space-between;
   width: 100%;
 }
-h1.heading {
+.heading {
   margin: calc(Theme.$spaceBetweenElements + Theme.$outlineWidth);
   div.goingHome {
     font-weight: 400;
@@ -27,10 +27,22 @@ div.bottom {
 }
 .momHeadshot {
   margin-bottom: calc(Theme.$spaceBetweenElements + Theme.$outlineWidth);
+  &:hover {
+    text-decoration: none;
+  }
+  img {
+    @include Theme.imageHover(Theme.$darkPrimary, Theme.$white);
+  }
 }
 
 .dadHeadshot {
   margin-bottom: calc(Theme.$spaceBetweenElements + Theme.$outlineWidth);
+  &:hover {
+    text-decoration: none;
+  }
+  img {
+    @include Theme.imageHover(Theme.$darkPrimary, Theme.$white);
+  }
 }
 
 @include Theme.mediaQuery(Theme.$tabletViewport) {
@@ -42,7 +54,7 @@ div.bottom {
   }
 }
 @include Theme.mediaQuery(Theme.$LgPhoneViewport) {
-  h1.heading {
+  .heading {
     margin: 0 0 Theme.$spaceBetweenElements 0;
   }
   div.top {

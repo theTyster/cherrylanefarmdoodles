@@ -35,10 +35,10 @@ $outlineWidth: 2px;
 $headshotOutline: $outlineWidth solid $darkHeadshot;
 $momOutline: $outlineWidth solid $darkMom;
 $dadOutline: $outlineWidth solid $darkDad;
-$unrecordedDogOutline: $outlineWidth solid $lightSecondaryGreen;
+$unrecordedDogOutline: $outlineWidth solid $lightPrimary;
 $momShadow: 0 0 0 calc($outlineWidth * 0.667) $lightMom;
 $dadShadow: 0 0 0 calc($outlineWidth * 0.667) $lightDad;
-$unrecordedDogShadow: 0 0 0 calc($outlineWidth * 0.667) $lightSecondaryGreen;
+$unrecordedDogShadow: 0 0 0 calc($outlineWidth * 0.667) $primary;
 
 // Hover Effects
 $scaleOnHover: 1.07;
