@@ -24,18 +24,20 @@ $fontSize: Theme.$h3;
 
 .submenu {
   display: flex;
+  flex-wrap: nowrap;
+  flex-direction: column;
   width: fit-content;
   position: relative;
-  top: #{$menu-height}px;
-  overflow: scroll;
+  top: calc(#{$menu-height}px / 2);
+  overflow: visible;
   overscroll-behavior: contain;
   background-color: Theme.$tertiaryCherry;
   border-radius: Theme.$buttonRadius;
   padding: 1em 1em 0.5em 1em;
-  align-items: flex-start;
   overflow: visible;
   @include Theme.mediaQuery(Theme.$LgPhoneViewport) {
     top: 0;
+    overflow: scroll;
     width: 100%;
   }
   .back {
@@ -49,12 +51,10 @@ $fontSize: Theme.$h3;
 }
 
 .litters-submenu {
-  flex-wrap: nowrap;
-  flex-direction: column;
+  align-items: flex-start;
 }
 .mothers-submenu {
-  flex-wrap: wrap;
-  flex-direction: row;
+  align-items: center;
 }
 
 button#title-menu-button {
@@ -98,11 +98,12 @@ button#title-menu-button {
   width: 0;
   height: 100%;
   justify-content: center;
-  overflow: scroll;
+  overflow: visible;
   overscroll-behavior: contain;
   background-color: Theme.$tertiaryCherry;
   z-index: 498;
   @include Theme.mediaQuery(Theme.$LgPhoneViewport) {
+    overflow: scroll;
     flex-wrap: wrap;
   }
   @media screen and (pointer: coarse) {
