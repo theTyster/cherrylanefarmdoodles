@@ -1,5 +1,5 @@
 "use client";
-import SvgDoodlePuppy from "../svg/doodle-puppy.svg";
+import SvgDoodlePuppy from "@/components/svg/doodle-puppy.svg";
 
 // Styling and animation
 import css from "@styles/adoption-banner.module.scss";
@@ -18,7 +18,7 @@ function AdoptionBanner() {
       //prettier-ignore
       const cSafe = contextSafe as ContextSafeFunc,
       initialTL:    gsap.core.Timeline | null = gsap.timeline(),
-      shineTL:      gsap.core.Timeline | null = gsap.timeline({ defaults: { duration: 0.7 }});
+      shineTL:      gsap.core.Timeline | null = gsap.timeline({ defaults: { duration: 1 }});
 
       const gsapScopedSelect = gsap.utils.selector(bannerRef.current);
 
@@ -33,20 +33,20 @@ function AdoptionBanner() {
           duration: 0,
           delay: 0,
           position: "absolute",
-          height: "102%", // accounts for shadow
+          height: "100%",
           width: "10%",
           transform: "skewX(-15deg)",
-          top: "-2%", // accounts for shadow
+          top: "0",
           left: 40,
           background: `linear-gradient(
-            to right,
-            rgba(255, 255, 255, 0.7),
-            rgba(255, 255, 255, 0.5),
-            rgba(255, 255, 255, 1)
-          )`,
+               rgba(255,255,255,0) 0%,
+               rgba(255,255,255,0.85) 15%,
+               rgba(255,255,255,1) 50%,
+               rgba(255,255,255,0.85) 85%,
+               rgba(255,255,255,0) 100%)`,
         })
         .to(gsapScopedSelect(`.${css.shine}`), {
-          left: "80%",
+          left: "100%",
           ease: "power.out(3)",
           opacity: 0,
         });
