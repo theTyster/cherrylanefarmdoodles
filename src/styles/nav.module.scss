@@ -1,12 +1,6 @@
 @use "@styles/_theme.module.scss" as Theme;
 
-// Nav{
-// Transition rules:
-// 1. img positon: absolute -> relative
-// 2. menu display: none -> flex
-// 3. logo link flex: 1 -> 0
-// 4. menu flex: 0 -> 1
-$menu-height: 135;
+$menu-height: 140;
 $menu-button-height: 60px;
 $mobile-view-reduction: 20px;
 $fontSize: Theme.$h3;
@@ -18,62 +12,79 @@ $fontSize: Theme.$h3;
   z-index: 497;
   position: fixed;
   top: 0;
-  width: 186px;
-  padding: 0 30px 0 10px;
+  width: 0;
+  padding-top: calc(Theme.$spaceBetweenElements / 2);
   contain: style size layout;
   @include Theme.mediaQuery(Theme.$LgPhoneViewport) {
-    top: auto;
-    bottom: 0;
+    top: auto; // Sets the entire nav to the bottom of the screen.
+    bottom: 0; // Better UX for mobile menus
+    height: calc(#{$menu-height}px + 3em);
   }
-  @include Theme.mediaQuery(Theme.$watchViewport) {
-    height: calc(#{$menu-height}px + 1em);
-  }
-}
-
-.back {
-  font-weight: 700;
 }
 
 .submenu {
-  /* position: absolute; */
   display: flex;
-  flex-direction: column;
   width: fit-content;
   position: relative;
-  top: 10px; //$menu-height;
+  top: #{$menu-height}px;
+  overflow: scroll;
+  overscroll-behavior: contain;
   background-color: Theme.$tertiaryCherry;
   border-radius: Theme.$buttonRadius;
   padding: 1em 1em 0.5em 1em;
   align-items: flex-start;
-  /* justify-content: left; */
-  gap: 0.5em;
   overflow: visible;
+  @include Theme.mediaQuery(Theme.$LgPhoneViewport) {
+    top: 0;
+    width: 100%;
+  }
+  .back {
+    font-weight: 700;
+    font-size: Theme.$h4;
+    border: none;
+    &:hover {
+      border: none;
+    }
+  }
+}
+
+.litters-submenu {
+  flex-wrap: nowrap;
+  flex-direction: column;
+}
+.mothers-submenu {
+  flex-wrap: wrap;
+  flex-direction: row;
 }
 
 button#title-menu-button {
-  @include Theme.basicButton();
-  @include Theme.basicBorder(Theme.$tertiaryCherry);
+  position: absolute;
+  left: 30px;
+  @include Theme.basicButton(
+    $bg: Theme.$lightTertiaryCherry,
+    $fg: Theme.$tertiaryCherry
+  );
   $marginBottom: #{calc(Theme.$boxShadowY + Theme.$boxShadowBlur / 2)}px;
   height: $menu-button-height;
   padding: 0 1em;
   margin-bottom: $marginBottom;
-  font-size: $fontSize;
   z-index: 499;
   color: Theme.$tertiaryCherry;
-  font: inherit;
+  font-family: inherit;
   font-size: $fontSize;
   cursor: pointer;
   transition: all 0.5s;
   &:hover {
-  background-color: Theme.$tertiaryCherry;
+    background-color: Theme.$tertiaryCherry;
     scale: Theme.$scaleOnHover;
-    transition: all Theme.$transitionShort;
+    transition: all #{Theme.$transitionShort}s;
   }
   &:active {
     box-shadow: none;
     scale: 1;
   }
   @include Theme.mediaQuery(Theme.$LgPhoneViewport) {
+    top: 50%;
     height: calc($menu-button-height - $mobile-view-reduction);
     font-size: calc($fontSize - $mobile-view-reduction / 2);
     border-radius: Theme.$smallButtonRadius;
@@ -81,33 +92,33 @@ button#title-menu-button {
 }
 
 .menu {
-  display: flex;
-  gap: 0.5em;
+  display: none;
+  flex-wrap: nowrap;
   width: 0;
   height: 100%;
   justify-content: center;
-  font-size: $fontSize;
-  overflow: hidden;
+  overflow: scroll;
   overscroll-behavior: contain;
   background-color: Theme.$tertiaryCherry;
   z-index: 498;
-  @include Theme.mediaQuery(Theme.$SmPhoneViewport) {
-    font-size: Theme.$h4;
-    /* flex-direction: column; */
+  @include Theme.mediaQuery(Theme.$LgPhoneViewport) {
+    flex-wrap: wrap;
   }
-  
+  @media screen and (pointer: coarse) {
+    gap: 0.5em;
+  }
 }
 
-.menu-item, .submenu-item {
+.menu-item,
+.submenu-item {
   text-align: center;
-  padding: 0.2em 0.5em;
-  border-radius: Theme.$buttonRadius;
   color: Theme.$lightTertiaryCherry;
+  font-size: Theme.$h3;
+  line-height: 1.1em;
   cursor: pointer;
   transition: all #{Theme.$transitionShort}s;
   list-style: none;
   white-space: nowrap;
-  color: Theme.$lightTertiaryCherry;
   text-decoration: none;
   &:hover {
     color: Theme.$tertiaryCherry;
@@ -123,6 +134,18 @@ button#title-menu-button {
     color: Theme.$lightTertiaryCherry;
     background-color: Theme.$darkTertiaryCherry;
     text-decoration: none;
+  }
+  @include Theme.basicButton(
+    $bg: Theme.$tertiaryCherry,
+    $fg: Theme.$lightTertiaryCherry
+  ){
+    border-bottom: none;
+    &:hover {
+      border-bottom: none;
+    }
+  };
+  @include Theme.mediaQuery(Theme.$SmPhoneViewport) {
+    font-size: Theme.$h4;
   }
 }
 
