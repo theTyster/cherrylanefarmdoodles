@@ -74,11 +74,12 @@ button#title-menu-button {
   outline: solid 2px Theme.$tertiaryCherry;
   outline-offset: -1px;
   cursor: pointer;
-  transition: all 0.5s;
+  transition: all #{Theme.$transitionShort}s;
   &:hover {
     background-color: Theme.$lightTertiaryCherry;
+    color: Theme.$tertiaryCherry;
     scale: Theme.$scaleOnHover;
-    transition: all #{Theme.$transitionShort}s;
+    outline: solid 2px Theme.$lightTertiaryCherry;
   }
   &:active {
     box-shadow: none;
@@ -97,6 +98,7 @@ button#title-menu-button {
   flex-wrap: nowrap;
   width: 0;
   height: 100%;
+  gap: 0.5em;
   justify-content: center;
   overflow: visible;
   overscroll-behavior: contain;
@@ -116,6 +118,10 @@ button#title-menu-button {
   padding: 0.5em 1em;
   text-align: center;
   color: Theme.$lightTertiaryCherry;
+  background-color: Theme.$tertiaryCherry;
+  border: none;
+  border-radius: Theme.$buttonRadius;
+  font-family: inherit;
   font-size: Theme.$h3;
   line-height: 1.1em;
   cursor: pointer;
