@@ -1,20 +1,18 @@
 import { getRequestContext } from "@cloudflare/next-on-pages";
 // KV Binding: __NEXT_ON_PAGES__KV_SUSPENSE_CACHE
 
-const CACHE_EXPIRATION_TTL = 8 * 60 * 60; // 8 hours in seconds
-
 type FetchFromDB<T> = () => Promise<T>;
 
 export default async function fetchDataWithCache<T>(
   key: string,
   fetchFromDB: FetchFromDB<T>
 ): Promise<T> {
-  if (!Object.hasOwnProperty.call(getRequestContext().env, "__NEXT_ON_PAGES__KV_SUSPENSE_CACHE")){
+  if (!Object.hasOwnProperty.call(getRequestContext().env, "woodgrain-cache")){
     console.log("KV is not available. Fetching data from the database.");
     return await fetchFromDB();
   }
 
-  const KV = getRequestContext().env.__NEXT_ON_PAGES__KV_SUSPENSE_CACHE;
+  const KV = getRequestContext().env["woodgrain-cache"]
 
   // Step 1: Check if data is already cached
   const cachedData = await KV.get(key);
@@ -29,9 +27,7 @@ export default async function fetchDataWithCache<T>(
 
   // Step 4: Cache the data in KV for 8 hours
   try {
-    await KV.put(key, JSON.stringify(data), {
-      expirationTtl: CACHE_EXPIRATION_TTL, // 8 hours TTL
-    });
+    await KV.put(key, JSON.stringify(data));
   } catch (e) {
     console.error(e);
   }

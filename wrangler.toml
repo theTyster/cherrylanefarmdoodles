@@ -7,6 +7,10 @@ account_id = "11384f4c64593ba3cde6e064d5183db5"
 binding = "__NEXT_ON_PAGES__KV_SUSPENSE_CACHE"
 id = "32b954be1e5845b5b8b11186ae8f35fd"
 
+[[kv_namespaces]]
+binding = "woodgrain-cache"
+id = "1909a450853a40f7b4b0dc3268de00ec"
+
 [[d1_databases]]
 binding = "dogsDB"
 database_name = "dogs"
