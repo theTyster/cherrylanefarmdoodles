@@ -116,6 +116,7 @@ $h4: calc(51px - 30px);
   border-bottom: 5px solid $color;
   @media screen and (pointer: coarse) {
     border: 5px solid $color;
+    border-radius: $buttonRadius;
     @content;
   }
 }
