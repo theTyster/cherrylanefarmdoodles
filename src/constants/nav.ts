@@ -10,7 +10,10 @@ export const MENU_STATES = {
 export type MenuStateTypes = (typeof MENU_STATES)[keyof typeof MENU_STATES];
 export type MenuItemData = { name: string; id: number }[];
 
-export type MenuDataType = { motherData: MenuItemData; litterData: MenuItemData };
+export type MenuDataType = {
+  motherData: MenuItemData;
+  litterData: MenuItemData;
+};
 export type D1LitterMenuData = {
   id: number;
   mother: string;
@@ -22,7 +25,6 @@ export type D1MotherMenuData = {
   adultName: string;
 };
 
-
 export default class MenuData {
   D1: D1Database;
 
@@ -31,7 +33,6 @@ export default class MenuData {
   }
 
   async #menuData(): Promise<MenuDataType> {
-
     const [motherMenuD1Data, litterMenuD1Data] = await fetchDataWithCache(
       "menu-items",
       async () =>
@@ -42,7 +43,7 @@ export default class MenuData {
             ${D1T.Adults}.${G.adultName}
           FROM
             ${D1T.Families}
-            LEFT JOIN ${D1T.Adults} ON ${D1T.Adults}.${G.id} = ${D1T.Families}.${G.mother}
+            LEFT JOIN ${D1T.Adults} ON ${D1T.Adults}.${G.id} = ${D1T.Families}.${G.mother} WHERE ${D1T.Adults}.${G.activityStatus} IS NOT 'Retired'
             GROUP BY ${D1T.Families}.${G.mother}
         `
           )
@@ -60,7 +61,7 @@ export default class MenuData {
           FROM
             ${D1T.Families}
             LEFT JOIN ${D1T.Litters} ON ${D1T.Litters}.${G.id} = ${D1T.Families}.${G.litterId}
-            LEFT JOIN ${D1T.Adults} ON ${D1T.Adults}.${G.id} = ${D1T.Families}.${G.mother}
+            LEFT JOIN ${D1T.Adults} ON ${D1T.Adults}.${G.id} = ${D1T.Families}.${G.mother} WHERE ${D1T.Adults}.${G.activityStatus} IS NOT 'Retired'
             LIMIT 10
         `
           )
@@ -72,7 +73,7 @@ export default class MenuData {
         ])
     );
 
-    return ({
+    return {
       motherData: motherMenuD1Data.map((item) => ({
         id: item.id,
         name: item.adultName,
@@ -81,7 +82,7 @@ export default class MenuData {
         id: item.id,
         name: this.concatLitterName(item),
       })),
-    }) satisfies MenuDataType;
+    } satisfies MenuDataType;
   }
 
   async getMotherMenuData(): Promise<MenuItemData> {
@@ -98,7 +99,7 @@ export default class MenuData {
     return this.#menuData();
   }
 
-  concatLitterName (item: D1LitterMenuData): string {
+  concatLitterName(item: D1LitterMenuData): string {
     const date = new DateCalculator({
       litterBirthday: item.litterBirthday
         ? new Date(item.litterBirthday)
@@ -106,7 +107,5 @@ export default class MenuData {
       dueDate: item.dueDate ? new Date(item.dueDate) : null,
     }).prettified.currentDOB;
     return `${item.mother} - (${date})`;
-  };
-
-
+  }
 }
