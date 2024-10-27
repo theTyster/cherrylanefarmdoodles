@@ -1,5 +1,6 @@
 export const runtime = "edge";
 import { getRequestContext } from "@cloudflare/next-on-pages";
+import { GlobalNameSpaces as G } from "@/constants/data";
 
 // Components
 import DogTree from "@/components/dog-tree/dog-tree";
@@ -20,41 +21,54 @@ export default async function WhiteSection() {
   const families = await DogTreeData.getCachedFamily();
   const tabbedFamilies = families.reduce(
     (
-      acc: { menuDataArr: MenuDataArr; menuNamesObj: MenuNamesObj },
-      family,
-      index
-    ): { menuDataArr: MenuDataArr; menuNamesObj: MenuNamesObj } => {
+      acc: {
+        menuDataArr: MenuDataArr;
+        menuNamesObj: MenuNamesObj;
+      },
+      family
+    ): {
+      menuDataArr: MenuDataArr;
+      menuNamesObj: MenuNamesObj;
+    } => {
+      const index = acc.menuDataArr.length;
       const menuDataArr: MenuDataArr = [
         {
           id: family.mother.adultName + index,
           title: family.mother.adultName,
-          component: <DogTree familyData={family} />
+          component: <DogTree familyData={family} />,
         },
       ];
 
       const menuNamesObj: MenuNamesObj = {
         [family.mother.adultName + index]: index,
       };
-
-      if (acc.menuDataArr.length === 0) {
+      if (
+        family.mother[G.activityStatus] === "Retired" ||
+        family.mother[G.activityStatus] === "Break"
+      )
+        return { ...acc };
+      else if (acc.menuDataArr.length === 0) {
         acc.menuDataArr = menuDataArr;
         acc.menuNamesObj = menuNamesObj;
+        return acc;
       } else {
         acc.menuDataArr = [...acc.menuDataArr, ...menuDataArr];
         acc.menuNamesObj = { ...acc.menuNamesObj, ...menuNamesObj };
+        return acc;
       }
-      return acc;
     },
-    { menuDataArr: [], menuNamesObj: {} } as {
-      menuDataArr: MenuDataArr;
-      menuNamesObj: MenuNamesObj;
-    }
+    { menuDataArr: [], menuNamesObj: {} }
   );
   // }
 
   return (
     <>
-      <svg className={css.fullText} role="heading" aria-level={1} viewBox={`0 0 249 24`}>
+      <svg
+        className={css.fullText}
+        role="heading"
+        aria-level={1}
+        viewBox={`0 0 249 24`}
+      >
         <text x="1" y="15" fontWeight={700} fill={css.darkPrimary}>
           Select a mother to see her litter
         </text>
