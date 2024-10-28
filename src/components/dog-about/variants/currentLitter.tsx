@@ -61,7 +61,7 @@ export default function CurrentLitter({
           // Case for the first time mother.
           return D.parentData.litterData[G.totalPuppies] === 0 ? (
             <>
-              <h1 className={css["litter-title"]}>
+              <h2 className={css["litter-title"]}>
                 <NextFamilyDate
                   calcInit={calcInit}
                   availablePuppies={D.parentData.litterData[G.availablePuppies]}
@@ -69,7 +69,7 @@ export default function CurrentLitter({
                     D.parentData.dogData[G.adultName]
                   }'s First Litter is \n`}
                 />
-              </h1>
+              </h2>
               <hr></hr>
               {/**
                * This will be where a subscription
@@ -78,7 +78,7 @@ export default function CurrentLitter({
             </>
           ) : (
             <>
-              <h1 className="litter-title">
+              <h2 className={css["litter-title"]}>
                 <NextFamilyDate
                   calcInit={calcInit}
                   availablePuppies={D.parentData.litterData[G.availablePuppies]}
@@ -86,7 +86,7 @@ export default function CurrentLitter({
                     D.parentData.dogData[G.adultName]
                   }'s Current Litter \n`}
                 />
-              </h1>
+              </h2>
               <hr></hr>
             </>
           );

@@ -1,17 +1,20 @@
 export const runtime = "edge";
 import { GlobalNameSpaces as G } from "@/constants/data";
 import { getRequestContext } from "@cloudflare/next-on-pages";
-import GroupPhoto from "@/components/GroupPhoto/GroupPhoto";
-import SvgFirstTimeMother from "@/components/svg/first-time-mother.svg";
 import {
   previousLittersQuery,
   type PreviousLittersQueryData as PlQ,
 } from "@/constants/queries";
-
-import { Fragment } from "react";
-
-import AdultDogData from "@/components/dog-about/constants/adult-constants";
 import { getFirstRecentFamily } from "@/components/dog-about/constants/family-constants";
+
+// Components
+import { Fragment } from "react";
+import Link from "next/link";
+import AdultDogData from "@/components/dog-about/constants/adult-constants";
+import Headshot from "@/components/Headshots/Headshots";
+import GroupPhoto from "@/components/GroupPhoto/GroupPhoto";
+import SvgFirstTimeMother from "@/components/svg/first-time-mother.svg";
+
 //export { puppiesMeta as generateMetadata } from "@/constants/meta-generators/puppies-meta";
 
 export default async function WoodSectionLitter({
@@ -33,7 +36,7 @@ export default async function WoodSectionLitter({
     justifyContent: "center",
     flexDirection: "column",
     alignItems: "center",
-  } as React.CSSProperties;;
+  } as React.CSSProperties;
 
   return (
     <>
@@ -80,6 +83,25 @@ export default async function WoodSectionLitter({
               </Fragment>
             );
         })}
+
+      </div>
+      <div>
+        <h2
+          style={{
+            marginBottom: "1em",
+          }}
+        >
+          Meet the Momma: {`${mom[G.adultName]}`}
+        </h2>
+        <Link href={`/dams/${params.litterId}`}>
+          <Headshot
+            alt={mom[G.adultName]}
+            variant={G.Headshots_Lg}
+            gender={mom[G.gender]}
+            src={mom[G.Headshots_Lg]}
+            priority
+          />
+        </Link>
       </div>
     </>
   );

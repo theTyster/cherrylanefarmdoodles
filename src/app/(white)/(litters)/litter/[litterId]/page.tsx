@@ -1,11 +1,10 @@
 export const runtime = "edge";
 import { GlobalNameSpaces as G } from "@/constants/data";
 import { getRequestContext } from "@cloudflare/next-on-pages";
+import DateCalculator from "@/constants/dates";
 
 // Components
 import DogAbout from "@/components/dog-about/dog-about";
-import Headshot from "@/components/Headshots/Headshots";
-import Link from "next/link";
 import PuppyData from "@/components/dog-about/constants/puppy-constants";
 
 import AdultDogData from "@/components/dog-about/constants/adult-constants";
@@ -45,17 +44,15 @@ export default async function WhiteSectionLitter({
     puppies,
   };
 
+  const date = new DateCalculator({
+    litterBirthday: mostRecentFamily.litterBirthday ? new Date(mostRecentFamily.litterBirthday) : undefined,
+    dueDate: mostRecentFamily.dueDate ?  new Date(mostRecentFamily.dueDate) : undefined,
+  });
+
+
   return (
     <>
-      <Link href={`/dams/${params.litterId}`}>
-        <Headshot
-          alt={parentData.dogData[G.adultName]}
-          variant={G.Headshots_Lg}
-          gender={parentData.dogData[G.gender]}
-          src={parentData.dogData[G.Headshots_Lg]}
-          priority
-        />
-      </Link>
+      <h1 style={{lineHeight: "2em"}}>{`${parentData.dogData[G.adultName]}'s Litter -  ${date.prettified.currentDOB}`}</h1>
       <DogAbout
         variantCSS={css}
         variant={"CurrentLitter"}
