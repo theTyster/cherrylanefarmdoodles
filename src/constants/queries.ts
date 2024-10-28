@@ -55,7 +55,8 @@ export const adultDogsQuery = `SELECT
   ${G.favActivities},
   ${G.weight},
   ${G.energyLevel},
-  ${G.dogId}
+  ${G.dogId},
+  ${G.certifications}
   FROM
     Adults
   WHERE id = ?` as const;
