@@ -26,7 +26,6 @@ export default function Adult({
 }) {
   if (!D.partnerData) throw new Error("No partner data provided.");
   if (!css) css = theme;
-  const dogMorF = MorF(D.dogData[G.gender]);
   const partnerMorf = MorF(D.partnerData[G.gender]);
 
   const litterBirthday = D.litterData[G.litterBirthday],
@@ -40,7 +39,7 @@ export default function Adult({
   function hasPuppies(): string {
     let hasPuppiesString: string | undefined = undefined;
     const dueDate = D.litterData[G.dueDate];
-    if (D.litterData[G.availablePuppies] === 0 && dueDate) {
+    if (D.litterData[G.availablePuppies] === 0 && dueDate && !litterBirthday) {
       hasPuppiesString = `${D.dogData[G.adultName]}'s next litter is due on ${
         calc.prettified.currentDOB
       }`;
@@ -54,11 +53,7 @@ export default function Adult({
         D.litterData[G.availablePuppies] > 1 ? "puppies" : "puppy"
       } available!` as string;
     else
-      hasPuppiesString = `${D.dogData[G.adultName]} is not a ${dogMorF(
-        "father",
-        "mother"
-      )}`;
-
+      hasPuppiesString = "";
     return hasPuppiesString;
   }
 
@@ -179,7 +174,7 @@ export default function Adult({
           if (D.partnerData[G.adultName] === "Unrecorded") return;
 
           return (
-            <div className={`${css.partnerData} ${css['woodgrain']}`}>
+            <div className={`${css.partnerData}`}>
               <div className={css.partnerVisuals}>
                 {(() => {
                   // Has litter but no available puppies.
