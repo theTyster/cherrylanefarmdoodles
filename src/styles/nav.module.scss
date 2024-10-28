@@ -20,6 +20,9 @@ $fontSize: Theme.$h3;
     bottom: 0; // Better UX for mobile menus
     height: calc(#{$menu-height}px + 3em);
   }
+  @media screen and (max-height: 250px){
+    display: none;
+  }
 }
 
 .submenu {
