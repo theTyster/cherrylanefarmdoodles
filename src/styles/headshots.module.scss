@@ -1,7 +1,7 @@
 @use "@styles/_theme.module.scss" as Theme;
 
 /*Large*/
-.lg {
+.root_lg {
   padding: Theme.$imgPad;
   aspect-ratio: 3/4 !important;
   max-width: Theme.$Headshots_Lg !important;
@@ -14,17 +14,16 @@
   transition-property: box-shadow;
   transition-duration: #{Theme.$transitionShort}s;
   @include Theme.mediaQuery(Theme.$LgPhoneViewport) {
-    width: Theme.$Headshots_Sm;
+    width: calc(Theme.$Headshots_Sm - ((Theme.$imgPad * 2) + Theme.$outlineWidth));
     height: auto;
   }
   @include Theme.mediaQuery(Theme.$SmPhoneViewport) {
-    width: 100%;
     height: auto;
   }
 }
 
 /*Small*/
-.sm {
+.root_sm {
   padding: Theme.$imgPad;
   aspect-ratio: 1/1 !important;
   max-width: Theme.$Headshots_Sm !important;
@@ -50,13 +49,13 @@
 .mom {
   outline: Theme.$momOutline;
   outline-offset: -1px;
-  @include Theme.imageHover(Theme.$lightMom, Theme.$darkMom);
+  @include Theme.imageHover(Theme.$darkMom, Theme.$lightMom);
 }
 
 .dad {
   outline: Theme.$dadOutline;
   outline-offset: -1px;
-  @include Theme.imageHover(Theme.$lightDad, Theme.$darkDad);
+  @include Theme.imageHover(Theme.$darkDad, Theme.$lightDad);
 }
 
 .unrecordedDog {

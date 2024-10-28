@@ -30,20 +30,20 @@ function Headshot({
   let defaultProps;
   if (variant === D1T.Headshots_Lg)
     defaultProps = {
-      className: `${classNameMod} ${css.lg} ${morf(css.dad, css.mom)}`,
+      className: `${classNameMod} ${css.root_lg} ${morf(css.dad, css.mom)}`,
       width: 500,
       height: 666,
     };
   else if (variant === D1T.Headshots_Sm)
     defaultProps = {
-      className: `${classNameMod} ${css.sm} ${morf(css.dad, css.mom)}`,
+      className: `${classNameMod} ${css.root_sm} ${morf(css.dad, css.mom)}`,
       width: 292,
       height: 292,
     };
   // Default to small headshot
   else
     defaultProps = {
-      className: `${classNameMod} ${css.sm} ${morf(css.dad, css.mom)}`,
+      className: `${classNameMod} ${css.root_sm} ${morf(css.dad, css.mom)}`,
       width: 292,
       height: 292,
     };
