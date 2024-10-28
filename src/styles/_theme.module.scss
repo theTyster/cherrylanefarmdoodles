@@ -20,6 +20,9 @@ $darkTertiaryCherry: #850829;
 $lightAccentBlue: #bbe1f2;
 $accentBlue: #124559;
 
+$svgYellow: #e2ac20;
+$svgGold: #6b5210;
+
 $lightHeadshot: $white;
 $darkHeadshot: $darkGray;
 $lightMom: $lightHeadshot;
@@ -183,7 +186,7 @@ $h4: calc(51px - 30px);
     background-color: $bg;
     outline: $outlineWidth solid $bg;
   }
-  @content
+  @content;
 }
 
 @mixin scaleOnHover($scale: $scaleOnHover) {
@@ -316,6 +319,8 @@ $h4: calc(51px - 30px);
   scaleOnHover: $scaleOnHover;
   secondaryGreen: $secondaryGreen;
   spaceBetweenElements: $spaceBetweenElements;
+  svgGold:$svgGold;
+  svgYellow: $svgYellow;
   tabletViewport: $tabletViewport;
   tertiaryCherry: $tertiaryCherry;
   transitionFancy: $transitionFancy;
