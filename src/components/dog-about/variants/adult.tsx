@@ -10,6 +10,7 @@ import SmallHeadshot from "@/components/Headshots/Headshots";
 import GroupPhoto from "@/components/GroupPhoto/GroupPhoto";
 import BreederLine from "@/components/breeder-line/breeder-line";
 import Link from "next/link";
+import Embark from "@/components/svg/embark.svg";
 
 // Css
 import theme from "@/styles/dog-about.module.scss";
@@ -100,6 +101,13 @@ export default function Adult({
               <col span={1} className={css.col2} />
             </colgroup>
             <thead>
+              <tr>
+                <th
+                  colSpan={2}
+                >
+                  {D.dogData[G.certifications] ? <Embark variant={D.dogData[G.certifications]!} /> : undefined}
+                </th>
+              </tr>
               <tr>
                 <th
                   colSpan={2}

@@ -2,6 +2,7 @@ import * as React from "react";
 import type { D1Vals } from "@/types/data";
 import { D1Tables as D1T, GlobalNameSpaces as G } from "@/constants/data";
 import style from "@styles/availability-icon.module.scss";
+import svgCSS from "@styles/_theme.module.scss";
 
 const SvgGuardianStar = ({
   css,
@@ -23,7 +24,7 @@ const SvgGuardianStar = ({
         y2={15.728}
         gradientUnits="userSpaceOnUse"
       >
-        <stop offset={0} stopColor="#e2ac20" />
+        <stop offset={0} stopColor={svgCSS["svgYellow"]} />
         <stop offset={1} stopColor="#6b5210" />
       </linearGradient>
     </defs>
