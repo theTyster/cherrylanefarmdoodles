@@ -47,7 +47,7 @@ div.bottom {
 
 @include Theme.mediaQuery(Theme.$tabletViewport) {
   img.puppyGroup {
-    width: 100%;
+    width: 90vw;
   }
   .dadHeadshot {
     margin-left: calc(Theme.$spaceBetweenElements + Theme.$outlineWidth);
@@ -62,7 +62,7 @@ div.bottom {
     align-items: center;
   }
   img.puppyGroup {
-    width: 100% !important;
+    width: 90vw !important;
   }
   .dadHeadshot {
     margin-left: 0;
