@@ -6,7 +6,7 @@
   align-items: center;
   justify-content: center;
   margin-bottom: Theme.$spaceBetweenElements;
-  @include Theme.mediaQuery(Theme.$LgPhoneViewport) {
+  @include Theme.mediaQuery(Theme.$tabletViewport) {
     flex-direction: column;
   }
 }

@@ -72,7 +72,9 @@ function TabMenu({
           </Fragment>
         ))}
       </menu>
-      {currentSelected.component}
+      <div>
+        {currentSelected.component}
+      </div>
     </>
   );
 }
