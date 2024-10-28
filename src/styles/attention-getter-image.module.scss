@@ -34,7 +34,7 @@ div.container {
   @include Theme.imageHover(Theme.$darkHeadshot, Theme.$lightHeadshot);
   transition-duration: #{Theme.$transitionShort}s;
   @include Theme.mediaQuery(Theme.$tabletViewport) {
-    width: 100%;
+    width: 90vw;
     height: auto;
     max-width: Theme.$Headshots_Sm;
   }
