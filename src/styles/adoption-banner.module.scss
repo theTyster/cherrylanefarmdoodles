@@ -26,7 +26,7 @@
       }
       @include Theme.mediaQuery(Theme.$LgPhoneViewport) {
         font-size: 1.8rem;
-        padding: Theme.$spaceBetweenElements / 8;
+        padding: calc(Theme.$spaceBetweenElements / 8);
       }
 
       @include Theme.mediaQuery(Theme.$SmPhoneViewport) {
