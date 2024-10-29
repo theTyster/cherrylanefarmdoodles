@@ -46,15 +46,15 @@ h1 {
   text-align: center;
   font-size: Theme.$h1;
   font-weight: 700;
-  @include Theme.mediaQuery(Theme.$tabletViewport) {
-    font-size: calc(Theme.$h1 - 10px);
-  }
-  @include Theme.mediaQuery(Theme.$LgPhoneViewport) {
-    font-size: calc(Theme.$h1 - 10px);
-  }
-  @include Theme.mediaQuery(Theme.$SmPhoneViewport) {
-    font-size: calc(Theme.$h1 - 20px);
-  }
+//  @include Theme.mediaQuery(Theme.$tabletViewport) {
+//    font-size: calc(Theme.$h1 - 10px);
+//  }
+//  @include Theme.mediaQuery(Theme.$LgPhoneViewport) {
+//    font-size: calc(Theme.$h1 - 10px);
+//  }
+//  @include Theme.mediaQuery(Theme.$SmPhoneViewport) {
+//    font-size: calc(Theme.$h1 - 20px);
+//  }
 }
 h2 {
   text-align: center;
