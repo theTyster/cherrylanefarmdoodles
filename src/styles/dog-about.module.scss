@@ -1,3 +1,4 @@
+@use "@styles/headshots.module.scss" as Headshots;
 @use "@styles/_theme.module.scss" as Theme;
 
 .dogTitle {
@@ -183,22 +184,21 @@ article.mainDog {
   }
 }
 
-.Headshots_Lg {
+@include Headshots.root-lg("Headshots_Lg") {
   margin-top: calc(1rem + 9px);
   // Overwrite defaults so no animations take place.
-  @include Theme.imageHover(Theme.$darkHeadshot, Theme.$lightHeadshot) {
-    padding: 0;
-    &:hover {
-      outline: Theme.$outlineWidth solid Theme.$darkHeadshot;
-      background-color: Theme.$lightHeadshot;
-      transform: translateY(0);
-    }
-    &:active {
-      outline: Theme.$outlineWidth solid Theme.$darkHeadshot;
-      background-color: Theme.$lightHeadshot;
-      transform: translateY(0);
-    }
-  }
+  //    padding: 0;
+  //    &:hover {
+  //      outline: Theme.$outlineWidth solid Theme.$darkHeadshot;
+  //      background-color: Theme.$lightHeadshot;
+  //      transform: translateY(0);
+  //    }
+  //    &:active {
+  //      outline: Theme.$outlineWidth solid Theme.$darkHeadshot;
+  //      background-color: Theme.$lightHeadshot;
+  //      transform: translateY(0);
+  //    }
+  //  }
 }
 
 .Headshots_Sm {

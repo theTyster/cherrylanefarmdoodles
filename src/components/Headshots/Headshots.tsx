@@ -25,25 +25,24 @@ function Headshot({
   style?: React.CSSProperties;
   [key: string]: unknown;
 }) {
-  const classNameMod = className ? className : "no-mods";
-  const morf = gender !== "U" ? MorF(gender) : () => css.unrecordedDog;
+  const classNameMod = className ? className : "";
   let defaultProps;
   if (variant === D1T.Headshots_Lg)
     defaultProps = {
-      className: `${classNameMod} ${css.root_lg} ${morf(css.dad, css.mom)}`,
+      className: `${classNameMod} ${css.root_lg}`,
       width: 500,
       height: 666,
     };
   else if (variant === D1T.Headshots_Sm)
     defaultProps = {
-      className: `${classNameMod} ${css.root_sm} ${morf(css.dad, css.mom)}`,
+      className: `${classNameMod} ${css.root_sm}`,
       width: 292,
       height: 292,
     };
   // Default to small headshot
   else
     defaultProps = {
-      className: `${classNameMod} ${css.root_sm} ${morf(css.dad, css.mom)}`,
+      className: `${classNameMod} ${css.root_sm}`,
       width: 292,
       height: 292,
     };

@@ -5,7 +5,7 @@ import { MorF } from "@/constants/Morf";
 import { GlobalNameSpaces as G, D1Tables as D1T } from "@/constants/data";
 
 // Components
-import LargeHeadshot from "@/components/Headshots/Headshots";
+import LargeHeadshot from "@/components/CLFImage/CLFImage"; // <-- Not the Headshots_Lg Component. Using a modular approach for this component to avoid css conflicts.
 import SmallHeadshot from "@/components/Headshots/Headshots";
 import GroupPhoto from "@/components/GroupPhoto/GroupPhoto";
 import BreederLine from "@/components/breeder-line/breeder-line";
@@ -88,11 +88,12 @@ export default function Adult({
       <article className={css.mainDog}>
         <div className={css.attentionGetter}>
           <LargeHeadshot
-            variant={G.Headshots_Lg}
             className={css.Headshots_Lg}
             src={D.dogData[G.Headshots_Lg]}
             alt={D.dogData[G.adultName]}
-            gender={D.dogData[G.gender]}
+            width={500}
+            height={666}
+            //gender={D.dogData[G.gender]}
             priority
           />
           <table className={css.dogInfoList}>

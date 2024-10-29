@@ -71,7 +71,6 @@ export default function Puppy({
         <div className={css.attentionGetter}>
           <LargeHeadshot
             variant={G.Headshots_Lg}
-            className={css.Headshots_Lg}
             src={D.dogData[G.Headshots_Lg]}
             alt={puppyName}
             gender={D.dogData[G.gender]}
