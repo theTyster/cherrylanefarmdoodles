@@ -1,6 +1,5 @@
 import CLFImage from "../CLFImage/CLFImage";
 import { D1Tables as D1T } from "@/constants/data";
-import { MorF } from "@/constants/Morf";
 import { type StaticImageData } from "next/image";
 
 // CSS
@@ -12,7 +11,6 @@ function Headshot({
   variant,
   src,
   alt,
-  gender,
   className,
   style,
   ...props
@@ -20,7 +18,6 @@ function Headshot({
   variant: typeof D1T.Headshots_Lg | typeof D1T.Headshots_Sm;
   src: StaticImageData | string | null;
   alt: string;
-  gender: ("M" | "F") | "U";
   className?: string;
   style?: React.CSSProperties;
   [key: string]: unknown;
