@@ -1,26 +1,33 @@
 @use "@styles/_theme.module.scss" as Theme;
 
 /*Large*/
-.root_lg {
-  padding: Theme.$imgPad;
-  aspect-ratio: 3/4 !important;
-  max-width: Theme.$Headshots_Lg !important;
-  width: Theme.$Headshots_Lg;
-  height: 666px;
-  object-fit: scale-down;
-  border-radius: Theme.$bigButtonRadius;
-  box-sizing: content-box;
-  background-color: Theme.$primary;
-  transition-property: box-shadow;
-  transition-duration: #{Theme.$transitionShort}s;
-  @include Theme.mediaQuery(Theme.$LgPhoneViewport) {
-    width: calc(Theme.$Headshots_Sm - ((Theme.$imgPad * 2) + Theme.$outlineWidth));
-    height: auto;
+@mixin root-lg($className: null) {
+  @if $className == null {
+    $className: "root_lg";
   }
-  @include Theme.mediaQuery(Theme.$SmPhoneViewport) {
+  .#{$className} {
+    aspect-ratio: 3/4 !important;
+    max-width: Theme.$Headshots_Lg !important;
+    width: 100%;
     height: auto;
+    object-fit: scale-down;
+    border-radius: Theme.$bigButtonRadius;
+    box-sizing: content-box;
+    outline: Theme.$outlineWidth solid Theme.$gray;
+    //  background-color: Theme.$primary;
+    //  transition-property: box-shadow;
+    //  transition-duration: #{Theme.$transitionShort}s;
+    //  @include Theme.mediaQuery(Theme.$LgPhoneViewport) {
+    //    width: calc(Theme.$Headshots_Sm - ((Theme.$imgPad * 2) + Theme.$outlineWidth));
+    //    height: auto;
+    //  }
+    //  @include Theme.mediaQuery(Theme.$SmPhoneViewport) {
+    //    height: auto;
+    //  }
+    @content;
   }
 }
+@include root-lg;
 
 /*Small*/
 .root_sm {

@@ -15,6 +15,9 @@ import Headshot from "@/components/Headshots/Headshots";
 import GroupPhoto from "@/components/GroupPhoto/GroupPhoto";
 import SvgFirstTimeMother from "@/components/svg/first-time-mother.svg";
 
+// Styles
+import css from "./page.module.scss";
+
 //export { puppiesMeta as generateMetadata } from "@/constants/meta-generators/puppies-meta";
 
 export default async function WoodSectionLitter({
@@ -95,6 +98,7 @@ export default async function WoodSectionLitter({
         </h2>
         <Link href={`/dams/${params.litterId}`}>
           <Headshot
+            className={css.currentLitter__momHeadshot}
             alt={mom[G.adultName]}
             variant={G.Headshots_Lg}
             gender={mom[G.gender]}

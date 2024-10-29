@@ -1,0 +1,6 @@
+@use "@styles/headshots.module.scss" as Headshots;
+@use "@styles/_theme.module.scss" as Theme;
+
+@include Headshots.root-lg("currentLitter__momHeadshot") {
+  @include Theme.imageHover(Theme.$darkHeadshot, Theme.$lightHeadshot);
+}
