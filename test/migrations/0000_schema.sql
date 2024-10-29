@@ -58,10 +58,10 @@ CREATE TABLE Adults (
     adultName text NOT NULL CHECK (LENGTH(adultName) <= 16) DEFAULT 'Adult Doodle',
     breeder text NOT NULL CHECK (LENGTH(breeder) <= 50),
     adultBirthday date,
-    eyeColor text CHECK (LENGTH(eyeColor) <= 16),
+    eyeColor text CHECK (LENGTH(eyeColor) <= 30),
     activityStatus text NOT NULL CHECK (activityStatus IN ('Active', 'Retired', 'Break')) DEFAULT 'Active',
     favActivities text CHECK (LENGTH(favActivities) <= 140),
-    weight integer CHECK (weight > 0),
+    weight integer CHECK (weight > 0 AND weight < 100),
     energyLevel text CHECK (energyLevel IN ('Low', 'Medium-low', 'Medium', 'Medium-high', 'High')),
     certifications text CHECK (certifications IN ('Embark', 'Embark-equivalent')),
     CONSTRAINT fk_adults_dog_id FOREIGN KEY (dogId) REFERENCES Dogs (id) ON DELETE CASCADE ON UPDATE CASCADE
@@ -70,7 +70,7 @@ CREATE TABLE Adults (
 CREATE TABLE Puppies (
     id integer PRIMARY KEY,
     puppyName text CHECK (LENGTH(puppyName) <= 16),
-    collarColor text CHECK (LENGTH(collarColor) <= 16),
+    collarColor text CHECK (LENGTH(collarColor) <= 30),
     availability text NOT NULL CHECK (availability IN ('Available', 'Picked', 'Adopted', 'Available Guardian')) DEFAULT 'Available',
     dogId integer,
     litterId integer,
