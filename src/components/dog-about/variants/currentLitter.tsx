@@ -39,6 +39,7 @@ export default function CurrentLitter({
         break;
       case "Available Guardian":
         message += " is going to be a new mother at Cherry Lane Farms!";
+        break;
       default:
         message += "'s availability is unknown.";
     }
