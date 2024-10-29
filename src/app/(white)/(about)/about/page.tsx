@@ -18,7 +18,7 @@ export default function WhiteSectionAbout(): React.JSX.Element | null {
           className={css["attention-getter-image"]}
           sideText={
             <>
-              <p>
+              {/*              <p>
                 My husband and I have a love for animals, plants, and farm life.
                 That&apos;s why we decided to start our hobby farm! We&apos;ve
                 had many different kinds of animals on our farm over the years.
@@ -36,7 +36,7 @@ export default function WhiteSectionAbout(): React.JSX.Element | null {
                 who have gotten our puppies are amazed at the puppy&apos;s
                 training and behavior. I remain a resource for any of our puppy
                 families long after they leave our home.
-              </p>
+              </p>*/}
             </>
           }
         />
