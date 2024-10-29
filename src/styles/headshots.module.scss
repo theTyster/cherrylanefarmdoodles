@@ -10,7 +10,7 @@
     max-width: Theme.$Headshots_Lg !important;
     width: 100%;
     height: auto;
-    object-fit: scale-down;
+    object-fit: cover;
     border-radius: Theme.$bigButtonRadius;
     box-sizing: content-box;
     outline: Theme.$outlineWidth solid Theme.$gray;
