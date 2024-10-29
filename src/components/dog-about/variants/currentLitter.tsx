@@ -60,32 +60,12 @@ export default function CurrentLitter({
             dueDate: dueDate ? new Date(dueDate) : undefined,
           };
           // Case for the first time mother.
-          return D.parentData.litterData[G.totalPuppies] === 0 ? (
+          return (
             <>
               <h2 className={css["litter-title"]}>
                 <NextFamilyDate
                   calcInit={calcInit}
                   availablePuppies={D.parentData.litterData[G.availablePuppies]}
-                  leade={`${
-                    D.parentData.dogData[G.adultName]
-                  }'s First Litter is \n`}
-                />
-              </h2>
-              <hr></hr>
-              {/**
-               * This will be where a subscription
-               * button goes
-               **/}
-            </>
-          ) : (
-            <>
-              <h2 className={css["litter-title"]}>
-                <NextFamilyDate
-                  calcInit={calcInit}
-                  availablePuppies={D.parentData.litterData[G.availablePuppies]}
-                  leade={`${
-                    D.parentData.dogData[G.adultName]
-                  }'s Current Litter \n`}
                 />
               </h2>
               <hr></hr>

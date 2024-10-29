@@ -45,14 +45,25 @@ export default async function WhiteSectionLitter({
   };
 
   const date = new DateCalculator({
-    litterBirthday: mostRecentFamily.litterBirthday ? new Date(mostRecentFamily.litterBirthday) : undefined,
-    dueDate: mostRecentFamily.dueDate ?  new Date(mostRecentFamily.dueDate) : undefined,
+    litterBirthday: mostRecentFamily.litterBirthday
+      ? new Date(mostRecentFamily.litterBirthday)
+      : undefined,
+    dueDate: mostRecentFamily.dueDate
+      ? new Date(mostRecentFamily.dueDate)
+      : undefined,
   });
-
 
   return (
     <>
-      <h1 style={{lineHeight: "2em"}}>{`${parentData.dogData[G.adultName]}'s Litter -  ${date.prettified.currentDOB}`}</h1>
+      {currentLitterData.parentData?.litterData.totalPuppies === 0 ? (
+        <h1 style={{ lineHeight: "2em" }}>
+          {`${parentData.dogData[G.adultName]}'s Litter`}{" "}
+        </h1>
+      ) : (
+        <h1 style={{ lineHeight: "2em" }}>{`${
+          parentData.dogData[G.adultName]
+        }'s Litter -  ${date.prettified.currentDOB}`}</h1>
+      )}
       <DogAbout
         variantCSS={css}
         variant={"CurrentLitter"}
