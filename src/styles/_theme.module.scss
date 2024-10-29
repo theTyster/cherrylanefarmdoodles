@@ -174,7 +174,7 @@ $h4: calc(51px - 30px);
   outline: $outlineWidth solid $outline;
 
   transition-property: transform, background-color, outline;
-  transition-duration: $transitionShort;
+  transition-duration: #{$transitionShort}s;
 
   &:hover {
     transform: translateY($translateOnHover);
