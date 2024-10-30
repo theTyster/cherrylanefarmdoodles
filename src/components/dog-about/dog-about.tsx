@@ -8,26 +8,7 @@ import Puppy from "@/components/dog-about/variants/puppy";
 import CurrentLitter from "@/components/dog-about/variants/currentLitter";
 
 // Types
-import type * as DogAboutTypes from "@/types/dog-about";
-
-/**All possible variants for this component.*/
-export const V = {
-  Parent: "Parent",
-  Puppy: "Puppy",
-  CurrentLitter: "CurrentLitter",
-} as const;
-
-export type V = typeof V;
-
-export type Variant = (typeof V)[keyof typeof V];
-
-export type VariantTypes = {
-  [V.Parent]: DogAboutTypes.ParentData;
-  [V.Puppy]: DogAboutTypes.PuppyData;
-  [V.CurrentLitter]: DogAboutTypes.CurrentLitterData;
-};
-
-type VariantDataTypes = VariantTypes[keyof VariantTypes];
+import * as DogAboutTypes from "@/types/dog-about";
 
 export default async function DogAbout({
   variant,
@@ -35,29 +16,29 @@ export default async function DogAbout({
   /**CSS imported through CSS modules.*/
   variantCSS,
 }: {
-  variant: Variant;
-  variantData: VariantDataTypes;
+  variant: DogAboutTypes.Variant;
+  variantData: DogAboutTypes.VariantDataTypes;
   variantCSS?: { [key: string]: string };
 }) {
   /**
    * Ultimately determines which variant's data will be used for this
    * component.
    **/
-  async function possibleVariants<PV extends Variant>(
+  async function possibleVariants<PV extends DogAboutTypes.Variant>(
     variantPossibility: PV
-  ): Promise<VariantTypes[PV]> {
+  ): Promise<DogAboutTypes.VariantTypes[PV]> {
     switch (variantPossibility) {
-      case V.Parent:
-        return variantData as VariantTypes[typeof V.Parent] as PV extends typeof V.Parent
-          ? VariantTypes[PV]
+      case DogAboutTypes.V.Parent:
+        return variantData as DogAboutTypes.VariantTypes[typeof DogAboutTypes.V.Parent] as PV extends typeof DogAboutTypes.V.Parent
+          ? DogAboutTypes.VariantTypes[PV]
           : never;
-      case V.Puppy:
-        return variantData as VariantTypes[typeof V.Puppy] as PV extends typeof V.Puppy
-          ? VariantTypes[PV]
+      case DogAboutTypes.V.Puppy:
+        return variantData as DogAboutTypes.VariantTypes[typeof DogAboutTypes.V.Puppy] as PV extends typeof DogAboutTypes.V.Puppy
+          ? DogAboutTypes.VariantTypes[PV]
           : never;
-      case V.CurrentLitter:
-        return variantData as VariantTypes[typeof V.CurrentLitter] as PV extends typeof V.CurrentLitter
-          ? VariantTypes[PV]
+      case DogAboutTypes.V.CurrentLitter:
+        return variantData as DogAboutTypes.VariantTypes[typeof DogAboutTypes.V.CurrentLitter] as PV extends typeof DogAboutTypes.V.CurrentLitter
+          ? DogAboutTypes.VariantTypes[PV]
           : never;
       default:
         throw new Error("Invalid variant provided: " + variantPossibility);
@@ -68,14 +49,25 @@ export default async function DogAbout({
   // write 'await' everywhere.
   // This also makes it a bit easier to ensure that data isn't fetched multiple times.
   const componentData = await possibleVariants(variant);
-  const data = function <PV extends Variant>(): VariantTypes[PV] {
-    return componentData as VariantTypes[PV];
+  const data = function <
+    PV extends DogAboutTypes.Variant
+  >(): DogAboutTypes.VariantTypes[PV] {
+    return componentData as DogAboutTypes.VariantTypes[PV];
   };
 
   const VariantComponents = {
-    [V.Parent]: <Adult D={data<V["Parent"]>()} css={variantCSS} />,
-    [V.Puppy]: <Puppy D={data<V["Puppy"]>()} css={variantCSS} />,
-    [V.CurrentLitter]: <CurrentLitter D={data<V["CurrentLitter"]>()} css={variantCSS} />,
+    [DogAboutTypes.V.Parent]: (
+      <Adult D={data<DogAboutTypes.V["Parent"]>()} css={variantCSS} />
+    ),
+    [DogAboutTypes.V.Puppy]: (
+      <Puppy D={data<DogAboutTypes.V["Puppy"]>()} css={variantCSS} />
+    ),
+    [DogAboutTypes.V.CurrentLitter]: (
+      <CurrentLitter
+        D={data<DogAboutTypes.V["CurrentLitter"]>()}
+        css={variantCSS}
+      />
+    ),
   };
 
   return VariantComponents[variant];

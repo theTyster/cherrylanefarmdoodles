@@ -14,6 +14,25 @@ export type { DQ, D1DQ, AQ, D1AQ, PQ, D1PQ, FQ, D1FQ };
 
 export type DogData = DQ & AQ;
 
+/**All possible variants for this component.*/
+export const V = {
+  Parent: "Parent",
+  Puppy: "Puppy",
+  CurrentLitter: "CurrentLitter",
+} as const;
+
+export type V = typeof V;
+
+export type Variant = (typeof V)[keyof typeof V];
+
+export type VariantTypes = {
+  [V.Parent]: ParentData;
+  [V.Puppy]: PuppyData;
+  [V.CurrentLitter]: CurrentLitterData;
+};
+
+export type VariantDataTypes = VariantTypes[keyof VariantTypes];
+
 export type LitterData = {
   readonly [G.dueDate]: FQ[typeof G.dueDate];
   readonly [G.litterBirthday]: FQ[typeof G.litterBirthday];
