@@ -1,4 +1,3 @@
-import { Buffer } from "node:buffer";
 import Image from "next/image";
 import fallback from "@pub/images/404couldnt_find_picture.webp";
 import { pawSVG } from "@/constants/base64PawURL";
@@ -23,9 +22,7 @@ function CLFImage({
       alt={alt}
       width={width}
       height={height}
-      placeholder={`data:image/svg+xml;base64,${Buffer.from(pawSVG).toString(
-        "base64"
-      )}`}
+      placeholder={`data:image/svg+xml;base64,${btoa(pawSVG).toString()}`}
       {...props}
     />
   ) : (
