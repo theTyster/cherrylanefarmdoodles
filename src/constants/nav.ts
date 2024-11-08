@@ -1,5 +1,4 @@
 import { GlobalNameSpaces as G, D1Tables as D1T } from "@/constants/data";
-import fetchDataWithCache from "@/constants/caching";
 import DateCalculator from "@/constants/dates";
 
 export const MENU_STATES = {
@@ -26,54 +25,28 @@ export type D1MotherMenuData = {
 };
 
 export default class MenuData {
-  D1: D1Database;
+  D1?: D1Database;
 
   constructor(D1: D1Database) {
     this.D1 = D1;
   }
 
   async #menuData(): Promise<MenuDataType> {
-    const [motherMenuD1Data, litterMenuD1Data] = await fetchDataWithCache(
-      "menu-items",
-      async () =>
-        await Promise.all([
-          this.D1.prepare(
-            `SELECT
-            ${D1T.Adults}.${G.dogId} as id,
-            ${D1T.Adults}.${G.adultName}
-          FROM
-            ${D1T.Families}
-            LEFT JOIN ${D1T.Adults} ON ${D1T.Adults}.${G.id} = ${D1T.Families}.${G.mother} 
-              WHERE ${D1T.Adults}.${G.activityStatus} IS NOT 'Retired'
-            GROUP BY ${D1T.Families}.${G.mother}
-        `
-          )
-            .all<D1MotherMenuData>()
-            .then((data) => {
-              if (data) return data.results;
-              throw new Error("No data found.");
-            }),
-          this.D1.prepare(
-            `SELECT
-            ${D1T.Litters}.${G.id} as id,
-            ${D1T.Adults}.${G.adultName} as mother,
-            ${D1T.Litters}.${G.litterBirthday},
-            ${D1T.Litters}.${G.dueDate}
-          FROM
-            ${D1T.Families}
-            LEFT JOIN ${D1T.Litters} ON ${D1T.Litters}.${G.id} = ${D1T.Families}.${G.litterId}
-            LEFT JOIN ${D1T.Adults} ON ${D1T.Adults}.${G.id} = ${D1T.Families}.${G.mother} 
-              WHERE ${D1T.Adults}.${G.activityStatus} IS NOT 'Retired'
-            LIMIT 10
-        `
-          )
-            .all<D1LitterMenuData>()
-            .then((data) => {
-              if (data) return data.results;
-              throw new Error("No data found.");
-            }),
-        ])
-    );
+    if (!this.D1) throw new Error("D1 not found");
+    const [motherMenuD1Data, litterMenuD1Data] = await Promise.all([
+      this.D1.prepare(this.getAdultQuery({ adult: G.mother }))
+        .all<D1MotherMenuData>()
+        .then((data) => {
+          if (data) return data.results;
+          throw new Error("No data found.");
+        }),
+      this.D1.prepare(this.getLitterQuery({ limit: 10 }))
+        .all<D1LitterMenuData>()
+        .then((data) => {
+          if (data) return data.results;
+          throw new Error("No data found.");
+        }),
+    ]);
 
     return {
       motherData: motherMenuD1Data.map((item) => ({
@@ -85,6 +58,41 @@ export default class MenuData {
         name: this.concatLitterName(item),
       })),
     } satisfies MenuDataType;
+  }
+
+  getAdultQuery(
+    opts:
+      | { adult?: (typeof G)["mother"] | (typeof G)["father"] }
+      | Record<string, unknown> = {}
+  ) {
+    return `SELECT
+            ${D1T.Adults}.${G.dogId} as id,
+            ${D1T.Adults}.${G.adultName}
+          FROM
+            ${D1T.Families}
+            LEFT JOIN ${D1T.Adults} ON ${D1T.Adults}.${G.id} = ${D1T.Families}.${opts.adult} 
+              WHERE ${D1T.Adults}.${G.activityStatus} IS NOT 'Retired'
+            GROUP BY ${D1T.Families}.${G.mother}
+        `;
+  }
+
+  getLitterQuery(opts: { limit?: number } | Record<string, unknown> = {}) {
+    return `SELECT
+            ${D1T.Litters}.${G.id} as id,
+            ${D1T.Adults}.${G.adultName} as mother,
+            ${D1T.Litters}.${G.litterBirthday},
+            ${D1T.Litters}.${G.dueDate}
+          FROM
+            ${D1T.Families}
+            LEFT JOIN ${D1T.Litters} ON ${D1T.Litters}.${G.id} = ${
+      D1T.Families
+    }.${G.litterId}
+            LEFT JOIN ${D1T.Adults} ON ${D1T.Adults}.${G.id} = ${
+      D1T.Families
+    }.${G.mother} 
+              WHERE ${D1T.Adults}.${G.activityStatus} IS NOT 'Retired'
+            ${opts.limit ? `LIMIT ${opts.limit}` : ""}
+          `;
   }
 
   async getMotherMenuData(): Promise<MenuItemData> {

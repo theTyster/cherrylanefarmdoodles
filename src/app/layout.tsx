@@ -1,4 +1,6 @@
 export const runtime = "edge";
+import fetchDataWithCache from "@/constants/caching";
+
 // Components
 import MainLayouts from "@/components/main-layouts/main-layouts";
 
@@ -70,7 +72,7 @@ export default async function CLFMain({
   modal: React.ReactNode;
 }): Promise<React.JSX.Element> {
   const D1 = getRequestContext().env.dogsDB;
-  const menuData = await new NavMenuData(D1).getData();
+  const menuData = await fetchDataWithCache('menu-items', async () => await new NavMenuData(D1).getData());
   return (
     <html lang="en">
       <body 
