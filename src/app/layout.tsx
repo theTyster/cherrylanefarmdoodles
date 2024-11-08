@@ -1,11 +1,6 @@
 export const runtime = "edge";
 // Components
-import Image from "next/image";
-import Link from "next/link";
 import MainLayouts from "@/components/main-layouts/main-layouts";
-
-// Static
-import Logo from "@pub/images/cherry-lane-farm-logo--256px.png";
 
 // Types
 import { type Metadata } from "next";
@@ -80,19 +75,6 @@ export default async function CLFMain({
     <html lang="en">
       <body 
         className={font.className}>
-        <header>
-          <Link className={css["home-button"]} href="/">
-            <Image
-              className={css["logo"]}
-              src={Logo}
-              placeholder="blur"
-              alt="Cherry Lane Farm Doodles logo"
-              width={250}
-              height={250}
-              priority
-            />
-          </Link>
-        </header>
         <main>
           <MainLayouts
             modal={modal}
