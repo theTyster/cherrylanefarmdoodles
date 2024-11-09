@@ -79,7 +79,12 @@ export type D1AdultDogsQueryData = QueryStringify<AdultDogsQueryData>;
  * the families table grows. SQL can handle this faster.
  * */
 export const familyQuery = (
-  litterId?: string /**litterId is not used in the actual query.*/
+  opts: {
+    /**Provide a litterId to only return one family.*/
+    litterId?: string;
+    /**Group the families so that only the most recent pairings of adults are returned.*/
+    onlyRecent?: boolean;
+  } = {}
 ) =>
   `SELECT
   ${G.Group_Photos},
@@ -104,8 +109,8 @@ export const familyQuery = (
       ${D1T.Puppies}
       AS Pups ON
       ${D1T.Litters}.${G.id} = Pups.${G.litterId}
-  ${litterId ? `WHERE ${D1T.Families}.${G.litterId} = ?` : ""}
-  GROUP BY ${D1T.Families}.${G.mother}
+  ${opts.litterId ? `WHERE ${D1T.Families}.${G.litterId} = ?` : ""}
+  ${opts.onlyRecent ? `GROUP BY ${D1T.Families}.${G.mother}` : ""}
   ORDER BY ${D1T.Litters}.${G.dueDate} DESC
   ` as const;
 
@@ -125,8 +130,8 @@ export type D1FamilyQueryData = QueryStringify<FamilyQueryData>;
  * Gets data for all puppies in a litter.
  * Utilizes indexes. Requires Litter ID.
  **/
-export const litterQuery = `
-  SELECT
+export const litterQuery = (opts: { litterId?: string } = {}) => 
+  `SELECT
   ${G.id} as ${G.puppyId},
   ${G.dogId},
   ${G.puppyName},
@@ -134,7 +139,7 @@ export const litterQuery = `
   ${G.availability}
   FROM
     Puppies
-  WHERE litterId = ?` as const;
+  ${opts.litterId ? "WHERE litterId = ?" : ""}` as const;
 /**Describes data in the Puppies Table after being converted to a usable type.*/
 export type LitterQueryData = Omit<
   D1Puppies,

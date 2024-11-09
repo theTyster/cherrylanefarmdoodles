@@ -62,7 +62,10 @@ export default class MenuData {
 
   getAdultQuery(
     opts:
-      | { adult?: (typeof G)["mother"] | (typeof G)["father"] }
+      | {
+          adult?: (typeof G)["mother"] | (typeof G)["father"];
+          includeRetired?: boolean;
+        }
       | Record<string, unknown> = {}
   ) {
     return `SELECT
@@ -70,13 +73,23 @@ export default class MenuData {
             ${D1T.Adults}.${G.adultName}
           FROM
             ${D1T.Families}
-            LEFT JOIN ${D1T.Adults} ON ${D1T.Adults}.${G.id} = ${D1T.Families}.${opts.adult} 
-              WHERE ${D1T.Adults}.${G.activityStatus} IS NOT 'Retired'
-            GROUP BY ${D1T.Families}.${G.mother}
+            LEFT JOIN ${D1T.Adults} ON ${D1T.Adults}.${G.id} = ${
+      D1T.Families
+    }.${opts.adult} 
+          ${
+            opts.includeRetired
+              ? `WHERE ${D1T.Adults}.${G.activityStatus} IS NOT 'Retired'`
+              : ""
+          }
+            GROUP BY ${D1T.Families}.${opts.adult}
         `;
   }
 
-  getLitterQuery(opts: { limit?: number } | Record<string, unknown> = {}) {
+  getLitterQuery(
+    opts:
+      | { limit?: number; includeRetired?: boolean }
+      | Record<string, unknown> = {}
+  ) {
     return `SELECT
             ${D1T.Litters}.${G.id} as id,
             ${D1T.Adults}.${G.adultName} as mother,
@@ -90,8 +103,12 @@ export default class MenuData {
             LEFT JOIN ${D1T.Adults} ON ${D1T.Adults}.${G.id} = ${
       D1T.Families
     }.${G.mother} 
-              WHERE ${D1T.Adults}.${G.activityStatus} IS NOT 'Retired'
-            ${opts.limit ? `LIMIT ${opts.limit}` : ""}
+          ${opts.limit ? `LIMIT ${opts.limit}` : ""}
+          ${
+            opts.includeRetired
+              ? `WHERE ${D1T.Adults}.${G.activityStatus} IS NOT 'Retired'`
+              : ""
+          }
           `;
   }
 
