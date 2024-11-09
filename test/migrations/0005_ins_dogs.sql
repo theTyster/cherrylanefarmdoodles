@@ -16,4 +16,6 @@ INSERT INTO Dogs (gender, noseColor, coat, personality, Headshots_Lg, Headshots_
 /*12             */('F', "Black", "Red", NULL, NULL, "12placeholder"),
 /*13             */('F', "Black", "Red", NULL, NULL, "13placeholder"),
 
-/*14 Unrecorded F*/('M', NULL, NULL, NULL, NULL, NULL);
+/*14 Unrecorded M*/('M', NULL, NULL, NULL, NULL, NULL),
+/*15 Unrecorded F*/('F', NULL, NULL, NULL, NULL, NULL);
+
