@@ -100,7 +100,6 @@ function Puppifications() {
                     const noBlur =
                       e.relatedTarget === submitRef.current ||
                       !!inputRef.current?.value;
-                    console.log(noBlur);
                     if (noBlur) return false;
                     else animateSub();
                   }}
