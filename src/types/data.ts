@@ -39,8 +39,8 @@ export interface D1GroupPhotos {
   readonly [G.hash]: string;
   readonly [G.alt]: string | null;
 }
-export interface D1HeadshotsSm extends D1GroupPhotos {}
-export interface D1HeadshotsLg extends D1GroupPhotos {}
+export type D1HeadshotsSm = D1GroupPhotos;
+export type D1HeadshotsLg = D1GroupPhotos;
 
 export interface D1Litters {
   readonly [G.id]: number;
