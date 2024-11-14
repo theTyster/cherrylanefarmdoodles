@@ -23,7 +23,7 @@ import css from "./page.module.scss";
 async function WoodSectionLitter({
   params,
 }: {
-  params: { litterId: string };
+  params: Promise<{ litterId: string }>;
 }): Promise<React.JSX.Element | null> {
   const D1 = getRequestContext().env.dogsDB;
   const { litterId } = await params;
@@ -50,16 +50,16 @@ async function WoodSectionLitter({
         }}
       >
         {previousLitters.map((litter) => {
-          const litterId = litter[1];
+          const previousLitterId = litter[1];
           const GroupImage = litter[0];
           // Case for the first time mother.
           if (
-            litterId &&
+            previousLitterId &&
             previousLitters.length === 1
           ) {
             return (
               <div
-                key={`FTM-${litterId}`}
+                key={`FTM-${previousLitterId}`}
                 style={{
                   ...woodSectionStyle,
                 }}
@@ -68,10 +68,10 @@ async function WoodSectionLitter({
               </div>
             );
             // Case for the current litter.
-          } else if (litterId === Number.parseFloat(litterId)) return;
+          } else if (previousLitterId === Number.parseFloat(litterId)) return;
           else
             return (
-              <Fragment key={`GP-${litterId}`}>
+              <Fragment key={`GP-${previousLitterId}`}>
                 <h2
                   style={{
                     marginBottom: "1em",
@@ -80,9 +80,9 @@ async function WoodSectionLitter({
                   Other litters from {mom[G.adultName]}
                 </h2>
                 <GroupPhoto
-                  alt={`${mom.adultName}'s Previous Litter with ID ${litterId}'`}
+                  alt={`${mom.adultName}'s Previous Litter with ID ${previousLitterId}'`}
                   src={GroupImage}
-                  litterId={litterId}
+                  litterId={previousLitterId}
                 />
               </Fragment>
             );
