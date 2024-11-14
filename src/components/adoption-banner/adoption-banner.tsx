@@ -14,7 +14,6 @@ function AdoptionBanner() {
 
   useGSAP(
     (context, contextSafe) => {
-      context;
       //prettier-ignore
       const cSafe = contextSafe as ContextSafeFunc,
       initialTL:    gsap.core.Timeline | null = gsap.timeline(),
@@ -68,7 +67,7 @@ function AdoptionBanner() {
           )
           .call(
             function () {
-              shineTL.isActive() ? undefined : shineTL.play(0);
+              if (!shineTL.isActive()) shineTL.play(0);
             },
             undefined,
             0

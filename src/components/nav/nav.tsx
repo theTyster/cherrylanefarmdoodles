@@ -167,7 +167,6 @@ function NavMenu({
               height,
               duration: navCSS["transitionLong"],
             });
-          else window.innerWidth < Number.parseFloat(navCSS["LgPhoneViewport"]);
           await this.tweenNav({
             bottom: 0,
             height,
@@ -304,7 +303,6 @@ function NavMenu({
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
     menuState: MenuStateTypes
   ) => {
-    e;
     await M.toggleMenu(menuState);
   };
 
