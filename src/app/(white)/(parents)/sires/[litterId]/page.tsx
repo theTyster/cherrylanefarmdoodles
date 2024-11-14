@@ -11,16 +11,12 @@ import { getFirstRecentFamily } from "@/components/dog-about/constants/family-co
 export default async function WhiteSectionSires({
   params,
 }: {
-  params: {
-    litterId: string;
-  };
+  params: Promise<{ litterId: string }>;
 }) {
   const D1 = getRequestContext().env.dogsDB;
+  const { litterId } = await params;
 
-  const mostRecentFamily = await getFirstRecentFamily(
-    D1,
-    params.litterId
-  );
+  const mostRecentFamily = await getFirstRecentFamily(D1, litterId);
 
   const adultId = mostRecentFamily[G.father];
 
@@ -29,17 +25,14 @@ export default async function WhiteSectionSires({
     adultId,
     "father",
     mostRecentFamily,
-    "mother",
+    "mother"
   ).getParentData();
 
   if (!parentData) throw new Error("No parent data provided.");
 
   return (
     <>
-      <DogAbout
-        variant={"Parent"}
-        variantData={parentData}
-      />
+      <DogAbout variant={"Parent"} variantData={parentData} />
     </>
   );
 }

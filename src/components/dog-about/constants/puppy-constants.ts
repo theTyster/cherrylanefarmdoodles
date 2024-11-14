@@ -34,7 +34,7 @@ export default class PuppyData {
     const puppies = await fetchDataWithCache(
       "puppy-" + this.litterId + "__litterQuery",
       async () => {
-        return await this.D1.prepare(litterQuery)
+        return await this.D1.prepare(litterQuery({litterId: litterId?.toString()}))
           .bind(litterId)
           .all<D1LQ>()
           .then((res) => res.results);

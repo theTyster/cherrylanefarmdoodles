@@ -1,14 +1,16 @@
 export const runtime = "edge";
 import PuppyModal from "@/components/puppy-modal/puppy-modal";
 
-export default function WhitePuppyModal({
+async function WhitePuppyModal({
   params,
 }: {
-  params: { puppyId: string };
-}): React.JSX.Element {
+  params: Promise<{ puppyId: string }>;
+}): Promise<React.JSX.Element> {
+  const { puppyId } = await params;
   return (
     <>
-      <PuppyModal puppyId={params.puppyId} />
+      <PuppyModal puppyId={puppyId} />
     </>
   );
 }
+export default WhitePuppyModal;

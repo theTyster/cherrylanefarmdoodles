@@ -11,12 +11,15 @@ import type { Metadata } from "next";
 export async function puppiesMeta({
   params,
 }: {
-  params: { litterId: string };
+  params: Promise<{ litterId: string }>;
 }): Promise<Metadata> {
   const D1 = getRequestContext().env.dogsDB;
+  const { litterId } = await params;
 
-  const puppy = await D1.prepare(litterQuery)
-    .bind(params.litterId)
+  const puppy = await D1.prepare(
+    litterQuery({ litterId: litterId?.toString() })
+  )
+    .bind(litterId)
     .first<D1PQ>();
 
   if (!puppy) throw new Error("Adult not found");
@@ -28,7 +31,7 @@ export async function puppiesMeta({
 
   return {
     title: {
-      default: puppy[G.puppyName] || 'New Puppy',
+      default: puppy[G.puppyName] || "New Puppy",
       template: "%s | Cherry Lane Farm",
     },
     description: dog[G.personality],
@@ -36,7 +39,7 @@ export async function puppiesMeta({
       images: [
         {
           url: dogHeadshotSm,
-          alt:  puppy[G.puppyName] || 'New Puppy',
+          alt: puppy[G.puppyName] || "New Puppy",
           width: 292,
           height: 292,
         },
@@ -46,7 +49,7 @@ export async function puppiesMeta({
       images: [
         {
           url: dogHeadshotSm,
-          alt:  puppy[G.puppyName] || 'New Puppy',
+          alt: puppy[G.puppyName] || "New Puppy",
           width: 292,
           height: 292,
         },

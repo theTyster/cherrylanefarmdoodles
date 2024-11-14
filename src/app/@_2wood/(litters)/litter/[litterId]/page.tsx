@@ -20,14 +20,15 @@ import css from "./page.module.scss";
 
 //export { puppiesMeta as generateMetadata } from "@/constants/meta-generators/puppies-meta";
 
-export default async function WoodSectionLitter({
+async function WoodSectionLitter({
   params,
 }: {
   params: { litterId: string };
 }): Promise<React.JSX.Element | null> {
   const D1 = getRequestContext().env.dogsDB;
+  const { litterId } = await params;
 
-  const mostRecentFamily = await getFirstRecentFamily(D1, params.litterId);
+  const mostRecentFamily = await getFirstRecentFamily(D1, litterId);
   const motherId = mostRecentFamily[G.mother];
   const mom = await new AdultDogData(D1, motherId, "mother").getAdultData();
   const previousLitters = await D1.prepare(previousLittersQuery)
@@ -53,7 +54,7 @@ export default async function WoodSectionLitter({
           const GroupImage = litter[0];
           // Case for the first time mother.
           if (
-            litterId === Number.parseFloat(params.litterId) &&
+            litterId &&
             previousLitters.length === 1
           ) {
             return (
@@ -67,7 +68,7 @@ export default async function WoodSectionLitter({
               </div>
             );
             // Case for the current litter.
-          } else if (litterId === Number.parseFloat(params.litterId)) return;
+          } else if (litterId === Number.parseFloat(litterId)) return;
           else
             return (
               <Fragment key={`GP-${litterId}`}>
@@ -86,7 +87,6 @@ export default async function WoodSectionLitter({
               </Fragment>
             );
         })}
-
       </div>
       <div>
         <h2
@@ -96,7 +96,7 @@ export default async function WoodSectionLitter({
         >
           Meet the Momma: {`${mom[G.adultName]}`}
         </h2>
-        <Link href={`/dams/${params.litterId}`}>
+        <Link href={`/dams/${litterId}`}>
           <Headshot
             className={css.currentLitter__momHeadshot}
             alt={mom[G.adultName]}
@@ -110,3 +110,4 @@ export default async function WoodSectionLitter({
     </>
   );
 }
+export default WoodSectionLitter;

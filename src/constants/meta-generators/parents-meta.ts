@@ -9,8 +9,9 @@ export async function parentsMeta(
   { params }: { params: { litterId: string } },
 ): Promise<Metadata> {
   const D1 = getRequestContext().env.dogsDB;
+  const {litterId} = await params;
 
-  const mostRecentFamily = await getFirstRecentFamily(D1, params.litterId);
+  const mostRecentFamily = await getFirstRecentFamily(D1, litterId);
 
   const adultId = mostRecentFamily[G.mother];
   const A = new AdultDogData(D1, adultId, G.mother);

@@ -6,11 +6,12 @@ import PuppyData from "@/components/dog-about/constants/puppy-constants";
 export default async function WhitePuppyModal({
   params,
 }: {
-  params: { puppyId: string };
+  params: Promise<{ puppyId: string }>;
 }): Promise<React.JSX.Element | null> {
   const D1 = getRequestContext().env.dogsDB;
+  const { puppyId } = await params;
   const P = new PuppyData(D1);
-  await P.getPuppyFromPuppies(params.puppyId);
+  await P.getPuppyFromPuppies(puppyId);
   const familyData = await P.getFamily();
   return (
     <>

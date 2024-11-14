@@ -17,13 +17,15 @@ import css from "@styles/currentLitter.module.scss";
 // Types
 import type { CurrentLitterData } from "@/types/dog-about";
 
-export default async function WhiteSectionLitter({
+async function WhiteSectionLitter({
   params,
 }: {
-  params: { litterId: string };
+  params: Promise<{ litterId: string }>;
 }): Promise<React.JSX.Element | null> {
   const D1 = getRequestContext().env.dogsDB;
-  const mostRecentFamily = await getFirstRecentFamily(D1, params.litterId);
+  const { litterId } = await params;
+
+  const mostRecentFamily = await getFirstRecentFamily(D1, litterId);
 
   const adultId = mostRecentFamily[G.mother];
 
@@ -37,7 +39,7 @@ export default async function WhiteSectionLitter({
 
   const P = new PuppyData(D1);
   P.mostRecentFamily = mostRecentFamily;
-  const puppies = await P.getAllPuppies(params.litterId);
+  const puppies = await P.getAllPuppies(litterId);
 
   const currentLitterData: CurrentLitterData = {
     parentData,
@@ -72,3 +74,4 @@ export default async function WhiteSectionLitter({
     </>
   );
 }
+export default WhiteSectionLitter;
