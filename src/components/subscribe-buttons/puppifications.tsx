@@ -85,7 +85,7 @@ function Puppifications() {
             inert={
               formVisible
                 ? (undefined as unknown as boolean)
-                : ("true" as unknown as boolean)
+                : (true)
             }
             className={css["form"]}
             onSubmit={handleSubmit}
@@ -137,7 +137,7 @@ function Puppifications() {
           <button
             inert={
               subscription
-                ? ("true" as unknown as boolean)
+                ? (true)
                 : (undefined as unknown as boolean)
             }
             style={subscription ? { boxShadow: "none" } : undefined}
