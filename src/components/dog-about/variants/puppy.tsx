@@ -30,7 +30,7 @@ export default function Puppy({
 
   if (!css) css = theme;
 
-  const puppyName = D.dogData[G.puppyName] ?? "Unnamed Puppy";
+  const puppyName = D.dogData[G.puppyName];
 
   function hasPuppies(): string {
     let hasPuppiesString: string | undefined = undefined;

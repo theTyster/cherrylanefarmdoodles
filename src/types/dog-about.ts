@@ -55,9 +55,9 @@ export type ParentData = {
 
 export type PuppyData = {
   readonly dogData: {
-    readonly [G.puppyName]: PQ[typeof G.puppyName];
+    readonly [G.puppyName]: Exclude<PQ[typeof G.puppyName], null> | "Unnamed Puppy";
     readonly [G.collarColor]: PQ[typeof G.collarColor];
-    readonly [G.availability]: PQ[typeof G.availability];
+    readonly availability: PQ[typeof G.availability];
     readonly [G.gender]: DQ[typeof G.gender];
     readonly [G.noseColor]: DQ[typeof G.noseColor];
     readonly [G.coat]: DQ[typeof G.coat];
