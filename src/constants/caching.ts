@@ -9,19 +9,19 @@ export default async function fetchDataWithCache<T>(
   key: string,
   fetchFromDB: FetchFromDB<T>
 ): Promise<T> {
-  if (!Object.hasOwnProperty.call(getRequestContext().env, "__NEXT_ON_PAGES__KV_SUSPENSE_CACHE")){
-    console.log("KV is not available. Fetching data from the database.");
+  try {
+    const KV = getRequestContext().env.__NEXT_ON_PAGES__KV_SUSPENSE_CACHE;
+
+    // Step 1: Check if data is already cached
+    const cachedData = await KV.get(key);
+
+    if (cachedData) {
+      // Step 2: If cached data is found, return it
+      return JSON.parse(cachedData);
+    }
+  } catch (e) {
+    console.error(e, "\nKV is not available. Fetching data from the database.");
     return await fetchFromDB();
-  }
-
-  const KV = getRequestContext().env.__NEXT_ON_PAGES__KV_SUSPENSE_CACHE;
-
-  // Step 1: Check if data is already cached
-  const cachedData = await KV.get(key);
-
-  if (cachedData) {
-    // Step 2: If cached data is found, return it
-    return JSON.parse(cachedData);
   }
 
   // Step 3: Fetch data from the database
@@ -29,11 +29,12 @@ export default async function fetchDataWithCache<T>(
 
   // Step 4: Cache the data in KV for 8 hours
   try {
+    const KV = getRequestContext().env.__NEXT_ON_PAGES__KV_SUSPENSE_CACHE;
     await KV.put(key, JSON.stringify(data), {
       expirationTtl: CACHE_EXPIRATION_TTL, // 8 hours TTL
     });
   } catch (e) {
-    console.error(e);
+    console.error(e, "\nUnable to cache data in KV.");
   }
 
   // Step 5: Return the freshly fetched data
