@@ -11,32 +11,35 @@ export default function WhiteSectionAbout(): React.JSX.Element | null {
   return (
     <>
       <div>
-        <h1>About Cherry Lane Farms</h1>
+        <h1>About Cherry Lane Farm Doodles</h1>
         <AttentionGetterImage
           imgSrc={JennyMatt}
           imgAlt="Jenny"
           className={css["attention-getter-image"]}
           sideText={
             <>
-              {/*              <p>
-                My husband and I have a love for animals, plants, and farm life.
-                That&apos;s why we decided to start our hobby farm! We&apos;ve
-                had many different kinds of animals on our farm over the years.
-                It has been such a fun experience.
+              <p>
+                In 2013, my husband and I purchased a small hobby farm in
+                Murfreesboro, Tennessee. We immediately planted a large garden,
+                an orchard, and began purchasing various animals. In the past
+                decade we have had horses, cows, pigs, sheep, goats, cats, dogs,
+                chickens, ducks, geese, turkeys, and honeybees!
               </p>
               <p>
-                My love for animals and my husbands dog breeding family planted
-                the seed of dog breeding in our heads. After several years of
-                researching genetics, canine DNA, puppy curriculums and dog
-                training we decided to take the leap into breeding
-                Goldendoodles. I am passionate about preparing our puppies to be
-                great additions to their families. To do this, I begin working
-                with the puppies at a young age teaching them to be obedient and
-                to seek attention by behaving, not acting out. Other breeders
-                who have gotten our puppies are amazed at the puppy&apos;s
-                training and behavior. I remain a resource for any of our puppy
-                families long after they leave our home.
-              </p>*/}
+                As my children started getting older and the demands on my time
+                decreased, I began looking for a hobby. I followed my passion
+                for animals, and it led me to dog breeding. I started
+                researching and studying different dog breeds, training
+                programs, and I discovered that I had a passion for the genetics
+                underlying dog breeding, specifically Golden Doodles. My
+                research taught me that to have a superior dog, you must have
+                superior genetics and superior training.
+              </p>
+              <p>
+                After a couple of years of in-depth research, I decided I was
+                ready to take the plunge into the exciting world of Golden
+                Doodles and <b>Cherry Lane Farm Doodles</b> was born!
+              </p>
             </>
           }
         />
