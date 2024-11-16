@@ -19,10 +19,10 @@ import NavMenuData from "@/constants/nav";
 
 export const metadata: Metadata = {
   title: {
-    default: "Cherry Lane Farm | Temperament Focused Dog Breeding",
-    template: "%s | Cherry Lane Farm",
+    default: "Cherry Lane Farm Doodles| Temperament Focused Dog Breeding",
+    template: "%s | Cherry Lane Farm Doodles",
   },
-  description: `Cherry Lane Farms focuses on temperament, health, and socialization to provide the best possible pet for your family. Located in Murfreesboro TN.`,
+  description: `Goldendoodle breeder focused on temperament, health, and socialization to provide the best possible pet for your family. Located in Murfreesboro TN.`,
   metadataBase: new URL("https://cherrylanefarmdoodles.com"),
   generator: "Next.js",
   applicationName: "Next.js",
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "Jenny Moffit" }],
   creator: "Tyler Davis",
-  publisher: "Cherry Lane Farms",
+  publisher: "Cherry Lane Farm Doodles",
   alternates: {
     canonical: "https://cherrylanefarmdoodles.com",
   },

@@ -1,13 +1,15 @@
 export const runtime = "edge";
+
+// Utilities
 import Link from "next/link";
-import PuppyCulture from "@/components/svg/puppy-culture-cert.svg";
-import JennyImage from "@pub/images/Jenny.jpg";
 
 // Components
 import AttentionGetterImage from "@/components/attention-getter-image/attention-getter-image";
+import PuppyCulture from "@/components/svg/puppy-culture-cert.svg";
 
-// Styles
+// Static
 import css from "./page.module.scss";
+import JennyImage from "@pub/images/Jenny.jpg";
 
 export default function WoodLayout(): React.JSX.Element | null {
   return (
@@ -21,7 +23,7 @@ export default function WoodLayout(): React.JSX.Element | null {
           <>
             <h1>Hi, I&apos;m Jenny!</h1>
             <p>
-              At Cherry Lane Farms, we focus our breeding on temperament. To
+              At Cherry Lane Farm Doodles, we focus our breeding on temperament. To
               help our puppies get the best start they can, we use the Puppy
               Culture Curriculum with each litter.
             </p>
