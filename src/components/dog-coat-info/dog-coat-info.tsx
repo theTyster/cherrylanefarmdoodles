@@ -1,10 +1,17 @@
+
+// Components
 import CLFImage from '@/components/CLFImage/CLFImage';
 
+// Types
+import type { StaticImageData } from 'next/image';
+
+// Static
 import css from '@styles/dog-coat-info.module.scss';
+import GoldenRetrieverImage from '@pub/images/golden-retriever.jpg';
 
 interface CoatType {
   name: string;
-  imageSrc: string;
+  imageSrc: string | StaticImageData;
   genotype: string;
   description: string[];
   styleClass: string;
@@ -13,32 +20,28 @@ interface CoatType {
 const coatTypes: CoatType[] = [
   {
     name: 'Curly',
-    /**@ts-expect-error  This will be changed later on implementation.*/
-    imageSrc: null,
+    imageSrc: "https://www.goldendoodleassociation.com/wp-content/uploads/2023/10/IMG_6830-768x1024.jpeg",
     genotype: 'Furnished: +/+',
     description: ['Low Allergenic Potential', 'Regular Grooming Required'],
     styleClass: css['curly'],
   },
   {
     name: 'Wavy',
-    /**@ts-expect-error  This will be changed later on implementation.*/
-    imageSrc: null, 
+    imageSrc: "https://images.squarespace-cdn.com/content/v1/5bc777e3e4afe97b84f34ca9/1613074720014-A6RJW4D0Z9X05443F02C/Teeva+8+mo.jpg", 
     genotype: 'Furnished: +/-',
     description: ['Low Allergenic Potential', 'Low Shedding'],
     styleClass: css['wavy'],
   },
   {
     name: 'Straight',
-    /**@ts-expect-error  This will be changed later on implementation.*/
-    imageSrc: null,
+    imageSrc: "https://images.squarespace-cdn.com/content/v1/5c633e877fdcb88882c06b25/1554511781614-QXQNPDE810M9M7034A49/ke17ZwdGBToddI8pDm48kB_2DV4n7QKfClMDpW9oLsF7gQa3H78H3Y0txjaiv_0fDoOvxcdMmMKkDsyUqMSsMWxHk725yiiHCCLfrh8O1z4YTzHvnKhyp6Da-NYroOW3ZGjoBKy3azqku80C789l0p4XabXLlNWpcJMv7FrN_NLngywcqSSw8I4Fjju04FCCY41Yvhp5yGH9w1eWsICZKA/m2.jpg",
     genotype: 'Furnished: -/-',
     description: ['Low Shedding'],
     styleClass: css['straight'],
   },
   {
     name: 'Flat',
-    /**@ts-expect-error  This will be changed later on implementation.*/
-    imageSrc: null,
+    imageSrc: GoldenRetrieverImage,
     genotype: 'Unfurnished',
     description: ['Allergenic', 'Moderate to High Shedding', 'Low Maintenance Coat'],
     styleClass: css['flat'],

@@ -1,4 +1,4 @@
-@use '@styles/_theme.module.scss' as Theme;
+@use "@styles/_theme.module.scss" as Theme;
 
 .dog-coat-info {
   display: flex;
@@ -6,63 +6,73 @@
   justify-content: space-around;
   padding: 20px;
   gap: 20px;
+}
 
-  .coat-type {
-    text-align: center;
-    padding: 20px;
-    flex: 1 1 22%; /* For larger screens, 4 items per row */
+.coat-type {
+  text-align: center;
+  padding: 20px;
+  flex: 1 1 22%; /* For larger screens, 4 items per row */
+  border-radius: Theme.$buttonRadius;
+
+  img {
+    max-width: 100%;
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
     border-radius: Theme.$buttonRadius;
-
-    img {
-      max-width: 100%;
-      height: auto;
-      border-radius: Theme.$buttonRadius;
-      margin-bottom: 10px;
-    }
-
-    h2 {
-      margin-bottom: 10px;
-      font-size: 1.5rem;
-    }
-
-    p {
-      margin-bottom: 10px;
-      font-weight: bold;
-    }
-
-    li {
-      margin-bottom: 5px;
-      text-align: left;
-    }
-
-    &.curly {
-      background-color: Theme.$primary;
-    }
-
-    &.wavy {
-      background-color: Theme.$secondaryGreen;
-    }
-
-    &.straight {
-      background-color: Theme.$tertiaryCherry;
-    }
-
-    &.flat {
-      background-color: Theme.$gray;
-    }
+    margin-bottom: 10px;
   }
 
-  @include Theme.mediaQuery(Theme.$tabletViewport) {
-    .coat-type {
-      flex: 1 1 45%; /* 2 items per row on tablets */
-    }
+  h2,
+  p,
+  li {
+    color: Theme.$white;
+  }
+  h2,
+  p {
+    margin-bottom: 10px;
+  }
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  p {
+    font-weight: bold;
+  }
+
+  li {
+    margin-bottom: 5px;
+    text-align: left;
+  }
+
+  &.curly {
+    background-color: Theme.$gray;
+  }
+
+  &.wavy {
+    background-color: Theme.$darkGray;
+  }
+
+  &.straight {
+    background-color: Theme.$black;
+  }
+
+  &.flat {
+    background-color: Theme.$darkTertiaryCherry;
+  }
+}
+
+@include Theme.mediaQuery(Theme.$tabletViewport) {
+  .coat-type {
+    flex: 1 1 45%; /* 2 items per row on tablets */
 
     h2 {
       font-size: 1.3rem;
     }
   }
+}
 
-  @include Theme.mediaQuery(Theme.$LgPhoneViewport) {
+@include Theme.mediaQuery(Theme.$LgPhoneViewport) {
+  .dog-coat-info {
     gap: 15px;
 
     .coat-type {
@@ -73,11 +83,11 @@
       font-size: 1.2rem;
     }
   }
+}
 
-  @include Theme.mediaQuery(Theme.$SmPhoneViewport) {
-    .coat-type {
-      padding: 15px;
-    }
+@include Theme.mediaQuery(Theme.$SmPhoneViewport) {
+  .coat-type {
+    padding: 15px;
 
     h2 {
       font-size: 1rem;
@@ -87,11 +97,11 @@
       font-size: 0.9rem;
     }
   }
+}
 
-  @include Theme.mediaQuery(Theme.$microViewport) {
-    .coat-type {
-      padding: 10px;
-    }
+@include Theme.mediaQuery(Theme.$microViewport) {
+  .coat-type {
+    padding: 10px;
 
     h2 {
       font-size: 0.9rem;
@@ -101,13 +111,15 @@
       font-size: 0.8rem;
     }
   }
+}
 
-  @include Theme.mediaQuery(Theme.$watchViewport) {
+@include Theme.mediaQuery(Theme.$watchViewport) {
+  .dog-coat-info {
     padding: 5px;
+  }
 
-    .coat-type {
-      padding: 5px;
-    }
+  .coat-type {
+    padding: 5px;
 
     img {
       max-width: 80px;
@@ -117,10 +129,9 @@
       font-size: 0.8rem;
     }
 
-    p, li {
+    p,
+    li {
       font-size: 0.7rem;
     }
   }
 }
-
-
