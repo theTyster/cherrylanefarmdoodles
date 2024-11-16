@@ -1,9 +1,6 @@
 @use "@styles/_theme.module.scss" as Theme;
 
-p.construction-doodle {
-  margin: 2rem 0;
-}
-a.construction-doodle {
+a.form-link {
   text-align: center;
   box-sizing: content-box;
   background-color: Theme.$tertiaryCherry;

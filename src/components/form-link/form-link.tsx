@@ -1,4 +1,5 @@
 import Link from "next/link";
+import css from "@/styles/form-link.module.scss";
 
 export default function FormLink({
   children,
@@ -9,7 +10,7 @@ export default function FormLink({
 }) {
   return (
     <Link
-      className={`form-link ${classnames.map((c) => c).join(" ")}`}
+      className={`${css["form-link"]} ${classnames.map((c) => c).join(" ")}`}
       href="https://apply.cherrylanefarmdoodles.com"
       rel="noreferrer noopener"
     >
