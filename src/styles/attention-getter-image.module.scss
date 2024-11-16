@@ -12,6 +12,9 @@ div.container {
 
 .side-text {
   flex: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   @include Theme.mediaQuery(Theme.$tabletViewport) {
     flex: 1;
   }
