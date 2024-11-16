@@ -15,3 +15,15 @@
 .attention-getter-image{
   border-radius: 100%;
 }
+
+.button {
+  font-size: 2rem;
+  display: block;
+  margin: Theme.$spaceBetweenElements auto;
+  transition: all #{Theme.$transitionShort}s;
+  @include Theme.basicButton($bg: Theme.$white, $fg: Theme.$primary);
+  text-decoration: none;
+  &:hover {
+    text-decoration: none;
+  }
+}

@@ -31,6 +31,7 @@ export default function WoodLayout(): React.JSX.Element | null {
               homes. That&apos;s why we offer ourselves to be a resource
               throughout your little Goldendoodles life.
             </p>
+            <Link className={css["button"]} href="/about">Read More</Link>
           </>
         }
       />
