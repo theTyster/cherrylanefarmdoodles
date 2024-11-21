@@ -8,6 +8,7 @@ import SmallHeadshot from "@/components/Headshots/Headshots";
 import GroupPhoto from "@/components/GroupPhoto/GroupPhoto";
 import BreederLine from "@/components/breeder-line/breeder-line";
 import Link from "next/link";
+import FormLink from "@/components/form-link/form-link";
 import AvailabilityIcon from "@/components/svg/availability-icon.svg";
 
 // Css
@@ -15,6 +16,7 @@ import theme from "@styles/puppy.module.scss";
 
 // Types
 import type { PuppyData } from "@/types/dog-about";
+import { PuppyAvailability } from "@/constants/data";
 
 export default function Puppy({
   D,
@@ -39,7 +41,10 @@ export default function Puppy({
     const birthday = D.litterData[G.litterBirthday];
     if (dueDate) {
       const dueDateObject = new Date(dueDate);
-      hasPuppiesString = `Due on ${normalizeEpochDate(dueDateObject, "date-only")}`;
+      hasPuppiesString = `Due on ${normalizeEpochDate(
+        dueDateObject,
+        "date-only"
+      )}`;
 
       hasPuppiesString +=
         dueDateObject.toISOString().split("T")[0] ===
@@ -85,6 +90,16 @@ export default function Puppy({
             <h2 className={css.availability}>{D.dogData[G.availability]}</h2>
           </div>
         </div>
+        {(D.dogData[G.availability] === PuppyAvailability["Available"] ||
+          D.dogData[G.availability] ===
+            PuppyAvailability["Available Guardian"]) && (
+          <FormLink>
+            <b>Apply for</b> <br />
+            <span style={{ lineHeight: "1.5em", fontSize: "1.5em" }}>
+              {puppyName}
+            </span>
+          </FormLink>
+        )}
         <div className={css.familyData}>
           <div className={css.partnerVisuals}>
             <h3 className={css.parentsLine}>
