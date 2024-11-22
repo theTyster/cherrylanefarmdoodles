@@ -22,7 +22,10 @@ export type D1Parse<T extends D1TT> = D1Schema[T];
 
 export type D1Keys<T extends D1TT> = keyof D1Schema[T];
 
-/**Provides types for all values in a provided D1Table: T*/
+/**
+ * @deprecated duplicate of D1Parse
+ * Provides types for all values in a provided D1Table: T
+ **/
 export type D1Vals<T extends D1TT, V extends D1Keys<T> = D1Keys<T>> = {
   [Key in V]: D1Schema[T][V];
 };
@@ -38,6 +41,59 @@ export type D1Schema = {
   readonly [D1T.Families]: D1Families;
   readonly [D1T.Dog_To_Group_Photos]: D1DogToGroupPhotos;
 };
+
+/**
+ * Any value possible in a Photo Table.
+ **/
+export type PossibleD1PhotoVals = D1GroupPhotos[keyof D1GroupPhotos];
+/**
+ * Any value possible in the Litter Table.
+ **/
+export type PossibleD1LitterVals = D1Litters[keyof D1Litters];
+/**
+ * Any value possible in the Dogs Table.
+ **/
+export type PossibleD1DogVals = D1Dogs[keyof D1Dogs];
+/**
+ * Any value possible in the Adults Table.
+ **/
+export type PossibleD1AdultVals = D1Adults[keyof D1Adults];
+/**
+ * Any value possible in the Puppy Table.
+ **/
+export type PossibleD1PuppyVals = D1Puppies[keyof D1Puppies];
+/**
+ * Any value possible in the Family Table.
+ **/
+export type PossibleD1FamilyVals = D1Families[keyof D1Families];
+/**
+ * Any value possible in the D1DogToGroupPhotos Table.
+ **/
+export type PossibleD1DogToGroupPhotosVals =
+  D1DogToGroupPhotos[keyof D1DogToGroupPhotos];
+/**
+ * Any value possible in the D1DogToGroupPhotos Table.
+ **/
+export type PossibleD1Vals =
+  | PossibleD1PhotoVals
+  | PossibleD1LitterVals
+  | PossibleD1DogVals
+  | PossibleD1AdultVals
+  | PossibleD1PuppyVals
+  | PossibleD1FamilyVals
+  | PossibleD1DogToGroupPhotosVals;
+
+export interface D1SchemaValTypes {
+  readonly [D1T.Group_Photos]: PossibleD1PhotoVals;
+  readonly [D1T.Headshots_Sm]: PossibleD1PhotoVals;
+  readonly [D1T.Headshots_Lg]: PossibleD1PhotoVals;
+  readonly [D1T.Litters]: PossibleD1LitterVals;
+  readonly [D1T.Dogs]: PossibleD1DogVals;
+  readonly [D1T.Adults]: PossibleD1AdultVals;
+  readonly [D1T.Puppies]: PossibleD1PuppyVals;
+  readonly [D1T.Families]: PossibleD1FamilyVals;
+  readonly [D1T.Dog_To_Group_Photos]: PossibleD1DogToGroupPhotosVals;
+}
 
 // EXPLICIT SCHEMAS FOR D1 TABLES
 export interface D1GroupPhotos {
@@ -98,7 +154,7 @@ export interface D1Litters {
  * An Array of strings that should match the keys of D1Litters.
  **/
 export const D1LittersKeys = [
-  G.litterId,
+  G.id,
   G.dueDate,
   G.litterBirthday,
   G.applicantsInQueue,
@@ -253,7 +309,6 @@ export type D1DogToGroupPhotosKeysType =
   (typeof D1DogToGroupPhotosKeys)[number] extends keyof D1DogToGroupPhotos
     ? typeof D1DogToGroupPhotosKeys
     : never;
-
 
 /**
  * An Object that maps D1Table names to an array of strings that should match the keys
