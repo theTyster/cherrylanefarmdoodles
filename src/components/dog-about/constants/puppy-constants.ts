@@ -150,7 +150,7 @@ export default class PuppyData {
   static castFromD1(pup: D1DQ & D1LQ & D1FQ): PuppyDataType {
     const puppyData = {
       dogData: {
-        [G.puppyName]: pup[G.puppyName],
+        [G.puppyName]: pup[G.puppyName] ?? "Unnamed",
         [G.collarColor]: pup[G.collarColor],
         [G.availability]: pup[G.availability] as
           | "Available"
