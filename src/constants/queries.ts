@@ -1,3 +1,8 @@
+/**
+ * TODO:
+ * Move all of this into the Statements Class.
+ **/
+
 import {
   GlobalNameSpaces as G,
   D1Tables as D1T,
@@ -130,7 +135,7 @@ export type D1FamilyQueryData = QueryStringify<FamilyQueryData>;
  * Gets data for all puppies in a litter.
  * Utilizes indexes. Requires Litter ID.
  **/
-export const litterQuery = (opts: { litterId?: string } = {}) => 
+export const litterQuery = (opts: { litterId?: string } = {}) =>
   `SELECT
   ${G.id} as ${G.puppyId},
   ${G.dogId},
