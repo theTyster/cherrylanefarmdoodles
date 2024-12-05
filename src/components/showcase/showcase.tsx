@@ -30,7 +30,7 @@ interface ShowcaseDB<T = HTMLAnchorElement> {
     className?: string;
   };
   Names: Record<string, number>;
-  Map: Map<ShowcaseDB["Names"], ShowcaseDB["Data"][]>;
+  Map: Map<ShowcaseDB["Names"], (ShowcaseDB["Data"][])>;
 }
 
 const hasLink = (s: ShowcaseDB["Data"]) => {
@@ -77,8 +77,13 @@ const hasLink = (s: ShowcaseDB["Data"]) => {
 };
 
 const Showcase = ({ db }: { db: ShowcaseDB["Map"] }) => {
-  //const showcaseNamesObj = db.keys().next().value;
-  const showcaseDataArr: ShowcaseDB["Data"][] = db.values().next().value;
+  const nextValue = db.values().next().value;
+  if (!nextValue) {
+    console.error("ShowcaseDB is empty.");
+    return <p style={{color: 'red'}}>Error</p>
+  };
+
+  const showcaseDataArr: ShowcaseDB["Data"][] = nextValue;
 
   return (
     <div key={"showcase" + Math.random()} className={css["showcase"]}>
