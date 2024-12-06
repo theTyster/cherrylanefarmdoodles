@@ -9,11 +9,13 @@ import { useRef, useState } from "react";
 import { useGSAP, type ContextSafeFunc } from "@gsap/react";
 
 function AdoptionBanner() {
-  const bannerRef = useRef() as React.MutableRefObject<HTMLDivElement>;
+  const bannerRef: React.RefObject<HTMLDivElement | null> = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
 
   useGSAP(
     (context, contextSafe) => {
+      if (!bannerRef.current) throw new Error("bannerRef is null.");
+
       //prettier-ignore
       const cSafe = contextSafe as ContextSafeFunc,
       initialTL:    gsap.core.Timeline | null = gsap.timeline(),
@@ -51,6 +53,8 @@ function AdoptionBanner() {
         });
 
       const handleMouseEnter = cSafe(function () {
+        if (!bannerRef.current) throw new Error("bannerRef is null.");
+
         bannerRef.current.addEventListener("mouseleave", handleMouseLeave, {
           once: true,
         });
@@ -87,13 +91,14 @@ function AdoptionBanner() {
       });
 
       function cleanUp() {
+        if (!bannerRef.current) throw new Error("bannerRef is null.");
         bannerRef.current.removeEventListener("mouseenter", handleMouseEnter);
         bannerRef.current.removeEventListener("mouseleave", handleMouseLeave);
       }
 
       return cleanUp;
     },
-    { scope: bannerRef.current, dependencies: [isOpen] }
+    { scope: bannerRef.current!, dependencies: [isOpen] }
   );
 
   const { contextSafe: clickAnim } = useGSAP();

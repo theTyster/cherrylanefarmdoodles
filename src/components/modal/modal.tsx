@@ -16,7 +16,7 @@ export default function Modal({
 }): React.JSX.Element {
   const router = useRouter();
   const modalRef = useRef<HTMLDialogElement>(null);
-  const modalTl = useRef<gsap.core.Timeline>();
+  const modalTl = useRef<gsap.core.Timeline>(null);
   const svgRef = useRef<SVGSVGElement>(null);
 
   useGSAP(

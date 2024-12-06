@@ -21,7 +21,7 @@ function MainLayouts({
   _3tan: React.ReactNode;
   css: Record<string, string>;
 }) {
-  const contentRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null) as React.RefObject<HTMLDivElement>;
   return (
     <>
       <Nav menuData={menuData} exitRef={contentRef} />

@@ -11,7 +11,7 @@ export type MenuNamesObj = {
 export type MenuDataArr = Array<{
   id: string;
   title: string;
-  component: JSX.Element;
+  component: React.ReactNode;
   buttonClick?: React.MouseEventHandler;
 }>;
 
@@ -23,7 +23,7 @@ function TabMenu({
   menuDataArr: MenuDataArr;
   menuNamesObj: MenuNamesObj;
   initial: string;
-}): JSX.Element {
+}): React.ReactNode {
   const [menuState, setMenuState] = useState(initial);
   const currentSelected = menuDataArr[menuNamesObj[menuState]];
 
