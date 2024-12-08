@@ -30,7 +30,7 @@ interface ShowcaseDB<T = HTMLAnchorElement> {
     className?: string;
   };
   Names: Record<string, number>;
-  Map: Map<ShowcaseDB["Names"], (ShowcaseDB["Data"][])>;
+  Map: Map<ShowcaseDB["Names"], ShowcaseDB["Data"][]>;
 }
 
 const hasLink = (s: ShowcaseDB["Data"]) => {
@@ -69,9 +69,7 @@ const hasLink = (s: ShowcaseDB["Data"]) => {
     return (
       <Fragment key={s.id}>
         {s.title ? <h3>{s.title}</h3> : ""}
-        <div className={css["showcase-item"]}>
-          {s.img}
-        </div>
+        <div className={css["showcase-item"]}>{s.img}</div>
       </Fragment>
     );
 };
@@ -80,24 +78,24 @@ const Showcase = ({ db }: { db: ShowcaseDB["Map"] }) => {
   const nextValue = db.values().next().value;
   if (!nextValue) {
     console.error("ShowcaseDB is empty.");
-    return <p style={{color: 'red'}}>Error</p>
-  };
+    return <p style={{ color: "red" }}>Error</p>;
+  }
 
   const showcaseDataArr: ShowcaseDB["Data"][] = nextValue;
 
   return (
-    <div key={"showcase" + Math.random()} className={css["showcase"]}>
+    <div className={css["showcase"]}>
       {showcaseDataArr.map((s, index) => {
         if (index === 0) {
           return (
-            <>
+            <Fragment key={s.id}>
               <div
                 key={s.id + " showcase_currently-showcased"}
                 className={css["currently-showcased"]}
               >
                 {hasLink(s)}
               </div>
-            </>
+            </Fragment>
           );
         } else {
           return hasLink(s);
