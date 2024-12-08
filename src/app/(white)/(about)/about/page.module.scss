@@ -1,5 +1,11 @@
 @use "@styles/_theme.module.scss" as Theme;
 
+.about {
+  h1 {
+    margin-top: 200px;
+  }
+}
+
 .attention-getter-image {
   flex-direction: column;
   img {
