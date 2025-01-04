@@ -1,7 +1,7 @@
 @use "@styles/_theme.module.scss" as Theme;
 
 .about {
-  h1:not(:first-child){
+  h1:not(:first-child) {
     margin-top: 200px;
   }
 }
@@ -24,4 +24,11 @@
       outline: none;
     }
   }
+}
+
+.disclaimer {
+  &:first-of-type {
+    margin-top: 3em;
+  }
+  font-size: 0.8rem;
 }
