@@ -189,6 +189,16 @@ export default function WhiteSectionAbout(): React.JSX.Element | null {
           }
         />
       </div>
+        <em className={css['disclaimer']}>
+          This page contains links to products that I use and genuinely love.
+          When you click on these links I may receive a small commission if you
+          choose to purchase products from that site.
+        </em>
+        <em className={css['disclaimer']}>
+          You do not pay a higher price by using these links, and I did not
+          choose these products because of the commission I can earn from them.
+          I really think Goldendoodle owners will love them.
+        </em>
     </>
   );
 }
