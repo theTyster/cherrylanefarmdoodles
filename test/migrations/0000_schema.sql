@@ -81,7 +81,7 @@ CREATE TABLE Puppies (
 CREATE TABLE Families (
     id integer PRIMARY KEY,
     Group_Photos text,
-    mother integer,
+    mother integer NOT NULL DEFAULT 5, -- Unrecorded Mother
     father integer NOT NULL DEFAULT 4, -- Unrecorded Father
     litterId integer,
     CONSTRAINT fk_families_group_photo_id FOREIGN KEY (Group_Photos) REFERENCES Group_Photos (transformUrl) ON DELETE NO ACTION ON UPDATE CASCADE,
