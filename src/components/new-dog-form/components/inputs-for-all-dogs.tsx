@@ -5,21 +5,28 @@ import { GlobalNameSpaces as G } from "@/constants/data";
 import { useContext } from "react";
 
 // Utilities
-import { shortLength, mediumLength, longLength } from "@/components/new-dog-form/constants/form-defaults";
+import {
+  shortLength,
+  mediumLength,
+  longLength,
+} from "@/components/new-dog-form/constants/form-defaults";
 import RequiredStar from "@/components/new-dog-form/components/required-star";
 import { FormContext } from "@/components/new-dog-form/new-dog-form";
 
-function DogInputs(){
- const { DH } = useContext(FormContext) ?? {};
+function DogInputs() {
+  const { DH } = useContext(FormContext) ?? {};
   return (
     <>
-      <label>What is the Gender? <RequiredStar /></label>
-      <select name={G.gender}
+      <label>
+        What is the Gender? <RequiredStar />
+      </label>
+      <select
+        name={G.gender}
         defaultValue={DH?.stored[G.gender] ?? ""}
         required
       >
-        <option>Male</option>
-        <option>Female</option>
+        <option value={"M"}>Male</option>
+        <option value={"F"}>Female</option>
       </select>
 
       <label>Nose color? (optional)</label>
@@ -49,7 +56,7 @@ function DogInputs(){
         maxLength={longLength}
       />
     </>
-  )
+  );
 }
 
-export default DogInputs
+export default DogInputs;
