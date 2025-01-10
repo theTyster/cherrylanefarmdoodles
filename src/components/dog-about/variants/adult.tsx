@@ -65,10 +65,10 @@ export default function Adult({
     let relevantLitterString: string | undefined = undefined;
 
     if (D.litterData[G.availablePuppies] === 0 && dueDate) {
-      relevantLitterString = `Next litter due on ${calc.prettified.currentDOB}`;
+      relevantLitterString = `Next litter due ${calc.prettified.currentDOB}`;
     }
     if (birthday) {
-      relevantLitterString = `Last litter born on ${calc.prettified.currentDOB}`;
+      relevantLitterString = `Last litter born ${calc.prettified.currentDOB}`;
     }
     if (!relevantLitterString) {
       relevantLitterString = "Currently not expecting any litters.";
