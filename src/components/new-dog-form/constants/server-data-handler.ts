@@ -4,11 +4,11 @@ import {
   familyQuery,
   type D1FamilyQueryData as D1FQ,
   litterQuery,
-  type D1LitterQueryData as D1LQ,
+  //  type D1LitterQueryData as D1LQ,
 } from "@/constants/queries";
 import { D1Schema } from "@/types/data";
-import { DogsDBTableValTypes } from "@/constants/statements";
 import IMPORT_handleFormSubmission from "@/components/new-dog-form/constants/handle-form-submission";
+import { FormState } from "@/components/new-dog-form/new-dog-form";
 
 export const ADMIN_STATES = {
   Adults: "Adults",
@@ -46,17 +46,13 @@ export const FORMDATA_STATES = {
 };
 export type FormDataState =
   (typeof FORMDATA_STATES)[keyof typeof FORMDATA_STATES];
-type HandleFormSubmission<T extends AdminState> = (
-  First: T,
-  Second: DogsDBTableValTypes<(typeof FORMDATA_STATES)[T]>
-) => Promise<T>;
 
 import MenuData, {
   type D1LitterMenuData,
   type D1MotherMenuData as D1AdultMenuData,
 } from "@/constants/nav";
 
-import Statements, { LitterUpdateType } from "@/constants/statements";
+import Statements from "@/constants/statements";
 
 type D1AdultMenuDataRawHelper = (
   data: D1AdultMenuData
@@ -64,14 +60,16 @@ type D1AdultMenuDataRawHelper = (
 
 type D1AdultMenuDataRaw = ReturnType<D1AdultMenuDataRawHelper>;
 
+type IdName = { id: number; name: string };
+
 /**Controls the overall state of the SPA Admin Panel*/
 export default class ServerAdminDataHandler extends Statements {
   D1?: D1Database;
   inputData: {
     breeders: string[];
-    litterNames: string[];
-    motherNames: string[];
-    fatherNames: string[];
+    litterNames: IdName[];
+    motherNames: IdName[];
+    fatherNames: IdName[];
   };
   DogVariants = DogVariants;
 
@@ -88,14 +86,15 @@ export default class ServerAdminDataHandler extends Statements {
 
   // This is preferred over MenuData.prototype.getAdultQuery because it
   // returns all adults not just the ones with litters.
+  // It also returns the adults Id instead of the dog Id.
   getAdultQuery = (opts: { parentRole: D1Schema["Dogs"][typeof G.gender] }) =>
     `SELECT
-          ${G.dogId} as id,
+          ${D1T.Adults}.id,
           ${G.adultName}
         FROM
           ${D1T.Adults}
-          LEFT JOIN ${D1T.Dogs} ON ${D1T.Dogs}.${G.id} = ${D1T.Adults}.${G.dogId}
-          WHERE ${D1T.Dogs}.${G.gender} = '${opts.parentRole}'
+          LEFT JOIN ${D1T.Dogs} as D ON D.${G.id} = ${D1T.Adults}.${G.dogId}
+          WHERE D.${G.gender} = '${opts.parentRole}'
           `;
   getFamiliesQuery = familyQuery;
   getLittersQuery = litterQuery;
@@ -122,8 +121,8 @@ export default class ServerAdminDataHandler extends Statements {
   }
 
   async handleFormSubmission(
-    currentAdminState: keyof typeof ADMIN_STATES,
-    formData: DogsDBTableValTypes<typeof currentAdminState>
+    currentAdminState: FormState,
+    formData: FormData
   ): Promise<void> {
     IMPORT_handleFormSubmission(currentAdminState, formData);
   }
@@ -137,36 +136,70 @@ export default class ServerAdminDataHandler extends Statements {
   }
 
   /**
-   * Gets *all* litters from the database using the same query as the menu.
-   * concatenates the litter's mother name with the birthdate or duedate.
-   **/
-  async getLitterNames(): Promise<string[]> {
-    if (!this.D1) throw new Error("D1 not found");
-
-    const queriedLitters = await this.D1.prepare(
-      this.getLitterNamesQuery({ includeRetired: true })
-    )
-      .all<D1LitterMenuData>()
-      .then((data) => data.results);
-
-    const litters = queriedLitters.map((litter) =>
-      this.concatLitterName(litter)
-    );
-
-    return litters;
+   * Overwrites the getLitterQuery method from MenuData to inclued all Litters.
+   * Not just ones that are already associated with a family.
+   *
+   * If the litter is associated with a family, the family name is concatenated.
+   *
+   * */
+  getLitterQuery() {
+    return `SELECT
+            ${D1T.Litters}.${G.id} as id,
+            ${D1T.Adults}.${G.adultName} as mother,
+            ${D1T.Litters}.${G.litterBirthday},
+            ${D1T.Litters}.${G.dueDate}
+          FROM
+            ${D1T.Litters}
+            LEFT JOIN ${D1T.Families} ON ${D1T.Families}.${G.litterId} = ${D1T.Litters}.${G.id}
+            LEFT JOIN ${D1T.Adults} ON ${D1T.Adults}.${G.id} = ${D1T.Families}.${G.mother} 
+          `;
   }
 
   /**
-   * Gets *all* adultNames from the database.
+   * Gets *all* litterNames from the database. Along with their associated
+   * Id's.  If the litter is not associated with a family, the litter name is
+   * "Litter No. {id}"
+   **/
+  async getLitterNames(): Promise<IdName[]> {
+    if (!this.D1) throw new Error("D1 not found");
+
+    const queriedLitters = await this.D1.prepare(this.getLitterQuery())
+      .all<D1LitterMenuData>()
+      .then((data) => data.results);
+
+    const formattedLitters = queriedLitters.reduce((acc: IdName[], litter) => {
+      if (litter.mother === null) {
+        litter.mother = `Litter No. ${litter.id}`;
+      }
+
+      const concattedLitter = this.concatLitterName(litter);
+
+      const litterIdName = { id: litter.id, name: concattedLitter };
+
+      acc.push(litterIdName);
+
+      return acc;
+    }, []);
+
+    return formattedLitters;
+  }
+
+  /**
+   * Gets *all* adultNames from the database. Along with their associated Id's
+   * Along with their associated Id's.
    **/
   async getAdultNames(
     parentRole: D1Schema["Dogs"][typeof G.gender]
-  ): Promise<string[]> {
+  ): Promise<IdName[]> {
     if (!this.D1) throw new Error("D1 not found");
     const parents = await this.D1.prepare(
       this.getAdultQuery({ parentRole })
     ).raw<D1AdultMenuDataRaw>();
-    return parents.map((theParent) => theParent[1] /**adultName*/);
+
+    return parents.map((theParent) => ({
+      id: theParent[0],
+      name: theParent[1],
+    }));
   }
 
   /**Gets *all* families in the database. This could be a very large set of data.*/
