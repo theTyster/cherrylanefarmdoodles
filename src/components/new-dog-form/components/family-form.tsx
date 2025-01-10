@@ -57,13 +57,15 @@ function FamilyForm() {
         ))}
       </select>
 
-      <label>Litter <RequiredStar /></label>
+      <label>
+        Litter <RequiredStar />
+      </label>
       <select name={G.litterId}>
-        {
-          inputData?.litterNames.map((litter) => (
-            <option key={litter} value={litter}>{litter}</option>
-          ))
-        }
+        {inputData?.litterNames.map((litter) => (
+          <option key={litter.id + litter.name} value={litter.id}>
+            {litter.name}
+          </option>
+        ))}
       </select>
     </>
   );
