@@ -34,41 +34,60 @@ export default function Puppy({
 
   const puppyName = D.dogData[G.puppyName];
 
-  function hasPuppies(): string {
-    let hasPuppiesString: string | undefined = undefined;
+  function hasPuppies(): string | undefined {
+    const hasPuppiesString: { descriptor: string | undefined } = {
+      descriptor: undefined,
+    };
 
     const dueDate = D.litterData[G.dueDate];
     const birthday = D.litterData[G.litterBirthday];
     if (dueDate) {
       const dueDateObject = new Date(dueDate);
-      hasPuppiesString = `Due on ${normalizeEpochDate(
+      hasPuppiesString.descriptor = `Due on ${normalizeEpochDate(
         dueDateObject,
         "date-only"
       )}`;
 
-      hasPuppiesString +=
+      hasPuppiesString.descriptor +=
         dueDateObject.toISOString().split("T")[0] ===
         new Date().toISOString().split("T")[0]
-          ? `...That's today!!`
+          ? `... that's today!!`
           : "";
+
       if (birthday) {
         const birthdayObject = new Date(birthday);
-        hasPuppiesString = `Born on ${normalizeEpochDate(
+        hasPuppiesString.descriptor = `Born on ${normalizeEpochDate(
           birthday,
           "date-only"
         )}`;
 
-        hasPuppiesString +=
+        hasPuppiesString.descriptor +=
           birthdayObject.toISOString().split("T")[0] ===
           new Date().toISOString().split("T")[0]
-            ? `...That's today!!`
+            ? `... that's today!!`
             : "";
-        return hasPuppiesString;
+        return hasPuppiesString.descriptor;
       }
 
-      return hasPuppiesString;
+      return hasPuppiesString.descriptor;
     }
-    return `is not born yet.`;
+    else if (birthday) {
+        const birthdayObject = new Date(birthday);
+        hasPuppiesString.descriptor = `Born on ${normalizeEpochDate(
+          birthday,
+          "date-only"
+        )}`;
+
+        hasPuppiesString.descriptor +=
+          birthdayObject.toISOString().split("T")[0] ===
+          new Date().toISOString().split("T")[0]
+            ? `... that's today!!`
+            : "";
+        return hasPuppiesString.descriptor;
+      }
+    else {
+      return hasPuppiesString.descriptor;
+    }
   }
   return (
     <>
