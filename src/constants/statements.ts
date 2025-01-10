@@ -96,6 +96,13 @@ export default class D1Statements {
       .map((key) => (data[key] ? `'${data[key]}'` : "NULL"))
       .join(", ");
 
-    return `INSERT OR REPLACE INTO ${table} (${columns}) VALUES (${values})`;
+    return `INSERT OR REPLACE INTO ${table} (${columns}) VALUES (${values}) RETURNING ${G.id};`;
+  }
+
+  /**
+   * Creates an SQL Delete statement for a given table using an id.
+   **/
+  makeDeleteStmt<T extends D1TT>(table: T, id: number) {
+    return `DELETE FROM ${table} WHERE ${G.id} = ${id};`;
   }
 }
