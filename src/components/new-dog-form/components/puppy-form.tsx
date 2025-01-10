@@ -10,13 +10,8 @@ import RequiredStar from "@/components/new-dog-form/components/required-star";
 import { FormContext } from "@/components/new-dog-form/new-dog-form";
 import DogInputs from "@/components/new-dog-form/components/inputs-for-all-dogs";
 function PuppyForm() {
-
- const { DH } = useContext(FormContext) ?? {};
-
-// const [litter, setLitter]: [
-//   number,
-//   React.Dispatch<React.SetStateAction<number>>
-// ] = useState(NaN);
+  const { DH } = useContext(FormContext) ?? {};
+  const { inputData } = useContext(FormContext) ?? {};
 
   return (
     <>
@@ -24,7 +19,11 @@ function PuppyForm() {
       <label>
         Availability <RequiredStar />
       </label>
-      <select name={G.availability} defaultValue={DH?.stored[G.availability]} required>
+      <select
+        name={G.availability}
+        defaultValue={DH?.stored[G.availability]}
+        required
+      >
         <option>Available</option>
         <option>Picked</option>
         <option>Adopted</option>
@@ -41,6 +40,13 @@ function PuppyForm() {
       />
 
       <label>What litter does this puppy belong to?</label>
+      <select name={G.litterId}>
+        {inputData?.litterNames.map((litter) => (
+          <option key={litter.id + litter.name} value={litter.id}>
+            {litter.name}
+          </option>
+        ))}
+      </select>
     </>
   );
 }
