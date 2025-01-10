@@ -56,7 +56,7 @@ export default function Puppy({
 
       if (birthday) {
         const birthdayObject = new Date(birthday);
-        hasPuppiesString.descriptor = `Born on ${normalizeEpochDate(
+        hasPuppiesString.descriptor = `Born ${normalizeEpochDate(
           birthday,
           "date-only"
         )}`;
@@ -73,7 +73,7 @@ export default function Puppy({
     }
     else if (birthday) {
         const birthdayObject = new Date(birthday);
-        hasPuppiesString.descriptor = `Born on ${normalizeEpochDate(
+        hasPuppiesString.descriptor = `Born ${normalizeEpochDate(
           birthday,
           "date-only"
         )}`;
