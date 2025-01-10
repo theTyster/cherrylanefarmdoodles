@@ -129,13 +129,22 @@ class DateCalculator extends Date {
    * The message provides the data the class was instantiated with and it's current values as well as which method through the error.
    * */
   private _handleError<T>(callback?: () => T) {
+
+    const stack = (() => {
+      try {
+        throw new Error();
+      }
+catch (e) {
+        return (e as { stack: string }).stack;
+      }
+    })();
     const msg =
       "\nDateCalculator was instantiated incorrectly. \n Provided: \n" +
       JSON.stringify(this._dog) +
       "\n\nWhich returned: \n" +
       this +
       "\n\n" +
-      new Error().stack;
+      stack;
     console.error(msg);
     if (callback) return callback() as T;
     else return msg as unknown as T;
