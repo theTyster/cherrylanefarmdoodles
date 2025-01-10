@@ -5,6 +5,16 @@ import { type AdminState } from "@/components/new-dog-form/constants/server-data
 
 export type OptionalFormValues = "";
 
+export type FormattedFormDataType<format = AdminState> = format extends "Adults"
+  ? [DogsDBTableValTypes<"Adults", "id">, DogsDBTableValTypes<"Dogs", "id">]
+  : format extends "Puppies"
+  ? [DogsDBTableValTypes<"Puppies", "id">, DogsDBTableValTypes<"Dogs", "id">]
+  : format extends "Families"
+  ? [DogsDBTableValTypes<"Families", "id">]
+  : format extends "Litters"
+  ? [DogsDBTableValTypes<"Litters", "id">]
+  : never;
+
 export class FormTransformer {
   /**
    * This function takes data passed into the Form and transforms it into an
@@ -13,20 +23,22 @@ export class FormTransformer {
   transform(
     format: AdminState,
     formData: FormData
-  ): DogsDBTableValTypes<typeof format, "id"> | never {
+  ): FormattedFormDataType<typeof format> {
     if (format === "Litters") {
       const litterData = this.litterFormData(formData);
 
       if (Object.keys(litterData).every((key) => key in D1SchemaKeys[format]))
         throw new Error(`Form data does not match schema`);
 
-      return litterData;
+      return [litterData];
     }
 
     if (format === "Adults") {
       const adultData = this.adultFormData(formData);
 
-      if (Object.keys(adultData).every((key) => key in D1SchemaKeys[format]))
+      if (Object.keys(adultData[0]).every((key) => key in D1SchemaKeys[format]))
+        throw new Error(`Form data does not match schema`);
+      if (Object.keys(adultData[1]).every((key) => key in D1SchemaKeys["Dogs"]))
         throw new Error(`Form data does not match schema`);
 
       return adultData;
@@ -34,7 +46,9 @@ export class FormTransformer {
     if (format === "Puppies") {
       const puppyData = this.puppyFormData(formData);
 
-      if (Object.keys(puppyData).every((key) => key in D1SchemaKeys[format]))
+      if (Object.keys(puppyData[0]).every((key) => key in D1SchemaKeys[format]))
+        throw new Error(`Form data does not match schema`);
+      if (Object.keys(puppyData[1]).every((key) => key in D1SchemaKeys["Dogs"]))
         throw new Error(`Form data does not match schema`);
 
       return puppyData;
@@ -46,7 +60,7 @@ export class FormTransformer {
       if (Object.keys(familyData).every((key) => key in D1SchemaKeys[format]))
         throw new Error(`Form data does not match schema`);
 
-      return familyData;
+      return [familyData];
     }
 
     throw new Error(
@@ -55,19 +69,80 @@ export class FormTransformer {
   }
 
   /**
-    * This function takes a key and a value and transforms it into an object
-    * that can be used to update or create data in the database.
-    * @param key - The key of the data to be transformed.
-    * @param value - The value of the data to be transformed.
-    * @returns - An object that can be used to update or create data in the database.
+   * This function takes a key and a value and transforms it into an object
+   * that can be used to update or create data in the database.
+   * @param key - The key of the data to be transformed.
+   * @param value - The value of the data to be transformed.
+   * @returns - An object that can be used to update or create data in the database.
    **/
   formdataTypeConverter<
     K extends keyof typeof G,
     V extends PossibleD1Vals,
     T = K extends OptionalFormValues ? Record<string, unknown> : Record<K, V>
   >(key: K, value: FormDataEntryValue | null): T {
-    if (key === G.id || key === G.litterId || key === null) return {} as T;
+    if (key === G.id || key === null) return {} as T;
     return { [key]: value } as T;
+  }
+
+  /**
+   * This function takes data passed into any form that uses the DogInputs component
+   * and transforms it into an object that can be used to update or create a new row
+   * in the dogs table of the database.
+   **/
+  dogFormData(formData: FormData): DogsDBTableValTypes<"Dogs", "id"> {
+    const table = D1T.Dogs;
+    const dogKeys = D1SchemaKeys[table];
+    const [
+      dogId,
+      gender,
+      noseColor,
+      coat,
+      personality,
+      Headshots_Sm,
+      Headshots_Lg,
+    ] = dogKeys;
+    type D = D1Schema["Dogs"];
+
+    const dogIdObj = this.formdataTypeConverter<typeof dogId, D[typeof dogId]>(
+      dogId,
+      formData.get(dogId)
+    );
+    const genderObj = this.formdataTypeConverter<
+      typeof gender,
+      D[typeof gender]
+    >(gender, formData.get(gender));
+    const noseColorObj = this.formdataTypeConverter<
+      typeof noseColor,
+      D[typeof noseColor]
+    >(noseColor, formData.get(noseColor));
+    const coatObj = this.formdataTypeConverter<typeof coat, D[typeof coat]>(
+      coat,
+      formData.get(coat)
+    );
+    const personalityObj = this.formdataTypeConverter<
+      typeof personality,
+      D[typeof personality]
+    >(personality, formData.get(personality));
+    const Headshots_SmObj = this.formdataTypeConverter<
+      typeof Headshots_Sm,
+      D[typeof Headshots_Sm]
+    >(Headshots_Sm, formData.get(Headshots_Sm));
+    const Headshots_LgObj = this.formdataTypeConverter<
+      typeof Headshots_Lg,
+      D[typeof Headshots_Lg]
+    >(Headshots_Lg, formData.get(Headshots_Lg));
+
+    const dogData: DogsDBTableValTypes<"Dogs", "id"> = {
+      ...dogIdObj,
+      ...genderObj,
+      ...noseColorObj,
+      ...coatObj,
+      ...personalityObj,
+      ...Headshots_SmObj,
+      ...Headshots_LgObj,
+    };
+
+    return dogData;
   }
 
   /**
@@ -112,7 +187,9 @@ export class FormTransformer {
    * into an object that can be used to update or create an adult in the
    * database.
    **/
-  adultFormData(formData: FormData): DogsDBTableValTypes<"Adults", "id"> {
+  adultFormData(
+    formData: FormData
+  ): [DogsDBTableValTypes<"Adults", "id">, DogsDBTableValTypes<"Dogs", "id">] {
     const table = D1T.Adults;
     const adultKeys = D1SchemaKeys[table];
     const [
@@ -175,6 +252,9 @@ export class FormTransformer {
         formData.get(dogId)
       );
 
+    const dogObj: DogsDBTableValTypes<"Dogs", "id"> =
+      this.dogFormData(formData);
+
     const adultData: DogsDBTableValTypes<"Adults", "id"> = {
       ...adultIdObj,
       ...adultNameObj,
@@ -189,7 +269,7 @@ export class FormTransformer {
       ...dogIdObj,
     };
 
-    return adultData;
+    return [adultData, dogObj];
   }
 
   /**
@@ -197,7 +277,9 @@ export class FormTransformer {
    * into an object that can be used to update or create a puppy in the
    * database.
    **/
-  puppyFormData(formData: FormData): DogsDBTableValTypes<"Puppies", "id"> {
+  puppyFormData(
+    formData: FormData
+  ): [DogsDBTableValTypes<"Puppies", "id">, DogsDBTableValTypes<"Dogs", "id">] {
     const table = D1T.Puppies;
     const puppyKeys = D1SchemaKeys[table];
     const [puppyId, puppyName, collarColor, availability, dogId, litterId] =
@@ -229,6 +311,9 @@ export class FormTransformer {
         P[typeof litterId]
       >(litterId, formData.get(litterId));
 
+    const dogObj: DogsDBTableValTypes<"Dogs", "id"> =
+      this.dogFormData(formData);
+
     const puppyData: DogsDBTableValTypes<"Puppies", "id"> = {
       ...puppyIdObj,
       ...puppyNameObj,
@@ -238,7 +323,7 @@ export class FormTransformer {
       ...litterIdObj,
     };
 
-    return puppyData;
+    return [puppyData, dogObj];
   }
 
   /**
@@ -250,6 +335,8 @@ export class FormTransformer {
     const table = D1T.Families;
     const familyKeys = D1SchemaKeys[table];
     const [familyId, Group_Photos, motherId, fatherId, litterId] = familyKeys;
+
+    console.log("formData:\n", formData);
 
     type F = D1Schema["Families"];
     const familyIdObj = this.formdataTypeConverter<
@@ -272,6 +359,12 @@ export class FormTransformer {
         typeof litterId,
         F[typeof litterId]
       >(litterId, formData.get(litterId));
+
+    console.log("familyIdObj:\n", familyIdObj);
+    console.log("Group_PhotosObj:\n", Group_PhotosObj);
+    console.log("motherIdObj:\n", motherIdObj);
+    console.log("fatherIdObj:\n", fatherIdObj);
+    console.log("litterIdObj:\n", litterIdObj);
 
     const familyData: DogsDBTableValTypes<"Families", "id"> = {
       ...familyIdObj,
