@@ -124,32 +124,6 @@ class DateCalculator extends Date {
     }
   }
 
-  /**
-   * Returns a callback or a message.
-   * The message provides the data the class was instantiated with and it's current values as well as which method through the error.
-   * */
-  private _handleError<T>(callback?: () => T) {
-
-    const stack = (() => {
-      try {
-        throw new Error();
-      }
-catch (e) {
-        return (e as { stack: string }).stack;
-      }
-    })();
-    const msg =
-      "\nDateCalculator was instantiated incorrectly. \n Provided: \n" +
-      JSON.stringify(this._dog) +
-      "\n\nWhich returned: \n" +
-      this +
-      "\n\n" +
-      stack;
-    console.error(msg);
-    if (callback) return callback() as T;
-    else return msg as unknown as T;
-  }
-
   private _prettify(date: Date | "Available Now") {
     let prettified: string;
     if (date === "Available Now") return date;
@@ -173,7 +147,7 @@ catch (e) {
       prettified += "nd";
     else if (prettified.endsWith("3") && !prettified.endsWith("13"))
       prettified += "rd";
-    // Case where the string ends in a year. 
+    // Case where the string ends in a year.
     else prettified += "th";
     return prettified;
   }
@@ -215,7 +189,6 @@ catch (e) {
    * If all events are in the past, this will return "Available Now".
    **/
   get nextEvent(): Date | "Available Now" {
-    const now = new Date().getTime();
     if (!!this.goHome) {
       if (this.goHome.getTime() < Date.now()) return "Available Now";
     }
@@ -223,11 +196,8 @@ catch (e) {
     if (!!this.pickDay)
       if (this.pickDay.getTime() < Date.now()) return this.goHome;
 
-    if (now < new Date(this.currentDOB).getTime()) return this.pickDay;
-    else {
-      this._handleError();
-      return this.pickDay;
-    }
+    // Default outcome
+    return this.pickDay;
   }
 }
 
