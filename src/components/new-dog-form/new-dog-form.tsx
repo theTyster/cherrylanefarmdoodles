@@ -35,7 +35,7 @@ import RequiredStar from "@/components/new-dog-form/components/required-star";
 
 export type FormContextType = {
   DH: ClientAdminDataHandler;
-  formRef: React.MutableRefObject<HTMLFormElement | null>;
+  formRef: React.RefObject<HTMLFormElement | null>;
   inputData: ServerAdminDataHandler["inputData"];
 } | null;
 export const FormContext = createContext<FormContextType>(null);
@@ -52,7 +52,7 @@ function NewDogForm({
   inputData: ServerAdminDataHandler["inputData"];
 }) {
   // Refs
-  const formRef: React.MutableRefObject<HTMLFormElement | null> = useRef(null);
+  const formRef: React.RefObject<HTMLFormElement | null> = useRef(null);
 
   // Memos
   const DH = useMemo(() => new ClientAdminDataHandler(), []);
