@@ -133,11 +133,10 @@ function NavMenu({
           this.tweenMenuButton(this.buttonOpenTween).then(
             () => (buttonRef.current!.style.display = "none")
           );
-          await this.tweenNav({
+          this.tweenNav({
             width: "100%",
-          });
+          }).then(() => (menuRef.current!.style.overflow = ""));
 
-          menuRef.current!.style.overflow = "";
           this.menuStateSetter(MENU_STATES["open"]);
           this.addListeners();
           await this.tweenMenu(this.menuOpenTween);
