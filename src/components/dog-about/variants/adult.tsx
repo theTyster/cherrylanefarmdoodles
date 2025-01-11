@@ -53,8 +53,7 @@ export default function Adult({
       } ${
         D.litterData[G.availablePuppies] > 1 ? "puppies" : "puppy"
       } available!` as string;
-    else
-      hasPuppiesString = "";
+    else hasPuppiesString = "";
     return hasPuppiesString;
   }
 
@@ -65,10 +64,10 @@ export default function Adult({
     let relevantLitterString: string | undefined = undefined;
 
     if (D.litterData[G.availablePuppies] === 0 && dueDate) {
-      relevantLitterString = `Next litter due ${calc.prettified.currentDOB}`;
+      relevantLitterString = `and their next litter is due ${calc.prettified.currentDOB}`;
     }
     if (birthday) {
-      relevantLitterString = `Last litter born ${calc.prettified.currentDOB}`;
+      relevantLitterString = `for their litter born ${calc.prettified.currentDOB}`;
     }
     if (!relevantLitterString) {
       relevantLitterString = "Currently not expecting any litters.";
@@ -103,10 +102,10 @@ export default function Adult({
             </colgroup>
             <thead>
               <tr>
-                <th
-                  colSpan={2}
-                >
-                  {D.dogData[G.certifications] ? <Embark variant={D.dogData[G.certifications]!} /> : undefined}
+                <th colSpan={2}>
+                  {D.dogData[G.certifications] ? (
+                    <Embark variant={D.dogData[G.certifications]!} />
+                  ) : undefined}
                 </th>
               </tr>
               <tr>
@@ -185,35 +184,13 @@ export default function Adult({
           return (
             <div className={`${css.partnerData}`}>
               <div className={css.partnerVisuals}>
-                {(() => {
-                  // Has litter but no available puppies.
-                  // Show who they were previously matched with.
-                  if (
-                    D.partnerData[G.adultName] !== "Unrecorded" &&
-                    D.litterData[G.litterBirthday] &&
-                    !D.litterData[G.availablePuppies]
-                  )
-                    return (
-                      <>
-                        <h3 className={css.partnerName}>
-                          {`Previously matched with ${
-                            D.partnerData[G.adultName]
-                          }.`}
-                        </h3>
-                      </>
-                    );
-                  // Has litter and available puppies. (default)
-                  else
-                    return (
-                      <>
-                        <h3 className={`${css.partnerName}`}>
-                          {`Currently matched with ${
-                            D.partnerData[G.adultName]
-                          }.`}
-                        </h3>
-                      </>
-                    );
-                })()}
+                <>
+                  <h3 className={css.partnerName}>
+                    {`${D.dogData.adultName} was matched with ${
+                      D.partnerData[G.adultName]
+                    }`}
+                  </h3>
+                </>
                 <h4 className={css.partnerLastLitter}>{relevantLitter()}</h4>
                 <GroupPhoto
                   className={css[D1T.Group_Photos]}
