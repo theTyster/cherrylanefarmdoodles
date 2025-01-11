@@ -30,7 +30,7 @@ $fontSize: Theme.$h3;
   flex-wrap: nowrap;
   flex-direction: column;
   width: fit-content;
-  position: relative;
+  position: absolute;
   top: calc(#{$menu-height}px / 2);
   overflow: visible;
   overscroll-behavior: contain;
