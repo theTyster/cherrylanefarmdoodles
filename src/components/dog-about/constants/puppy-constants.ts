@@ -1,6 +1,7 @@
 import { GlobalNameSpaces as G } from "@/constants/data";
 import { type PuppyData as PuppyDataType } from "@/types/dog-about";
-import AdultDogData from "./adult-constants";
+import AdultDogData from "@/components/dog-about/constants/adult-constants";
+import { castPuppyFromD1 } from "@/types/dog-about";
 import fetchDataWithCache from "@/constants/caching";
 
 // Constants for the constants
@@ -148,44 +149,6 @@ export default class PuppyData {
 
   /**Queries to Obtain this object can be found in adult-constants.*/
   static castFromD1(pup: D1DQ & D1LQ & D1FQ): PuppyDataType {
-    const puppyData = {
-      dogData: {
-        [G.puppyName]: pup[G.puppyName] ?? "Unnamed",
-        [G.collarColor]: pup[G.collarColor],
-        [G.availability]: pup[G.availability] as
-          | "Available"
-          | "Picked"
-          | "Adopted"
-          | "Available Guardian",
-        [G.gender]: pup[G.gender] as "M" | "F",
-        [G.noseColor]: pup[G.noseColor],
-        [G.coat]: pup[G.coat],
-        [G.personality]: pup[G.personality],
-        [G.Headshots_Lg]: pup[G.Headshots_Lg],
-        [G.Headshots_Sm]: pup[G.Headshots_Sm],
-      },
-      litterData: {
-        [G.dueDate]: pup[G.dueDate],
-        [G.litterBirthday]: pup[G.litterBirthday],
-        [G.applicantsInQueue]: pup[G.applicantsInQueue],
-        [G.availablePuppies]: pup[G.availablePuppies],
-        [G.totalPuppies]: pup[G.totalPuppies],
-      },
-      ids: {
-        [G.Group_Photos]: pup[G.Group_Photos],
-        [G.dogId]: pup[G.dogId],
-        [G.litterId]: pup[G.litterId],
-        [G.mother]: pup[G.mother],
-        [G.father]: pup[G.father],
-        [G.puppyId]: pup[G.puppyId],
-      },
-    } satisfies PuppyDataType;
-
-    Object.freeze(puppyData);
-    Object.freeze(puppyData.dogData);
-    Object.freeze(puppyData.litterData);
-    Object.freeze(puppyData.ids);
-
-    return { ...puppyData };
+    return { ...castPuppyFromD1(pup) };
   }
 }

@@ -2,6 +2,8 @@ import { GlobalNameSpaces as G } from "@/constants/data";
 import { type ParentData } from "@/types/dog-about";
 import fetchDataWithCache from "@/constants/caching";
 
+import { castParentFromD1 } from "@/types/dog-about";
+
 // Constants for the constants
 import {
   dogsQuery,
@@ -54,32 +56,7 @@ export default class AdultDogData {
 
   /**Typifies data for an adult Dog*/
   typifyParent(parentDog: ParentExtracted): ParentTypified {
-    return {
-      [G.adultName]: parentDog[
-        G.adultName
-      ] as ParentTypified[typeof G.adultName],
-      [G.breeder]: parentDog[G.breeder] as ParentTypified[typeof G.breeder],
-      [G.adultBirthday]: parentDog[G.adultBirthday],
-      [G.eyeColor]: parentDog[G.eyeColor],
-      [G.activityStatus]: parentDog[
-        G.activityStatus
-      ] as ParentTypified[typeof G.activityStatus],
-      [G.favActivities]: parentDog[G.favActivities],
-      [G.weight]: parentDog[G.weight],
-      [G.energyLevel]: parentDog[
-        G.energyLevel
-      ] as ParentTypified[typeof G.energyLevel],
-      [G.gender]: parentDog[G.gender] as ParentTypified[typeof G.gender],
-      [G.noseColor]: parentDog[G.noseColor],
-      [G.coat]: parentDog[G.coat],
-      [G.personality]: parentDog[G.personality],
-      [G.Headshots_Lg]: parentDog[G.Headshots_Lg],
-      [G.Headshots_Sm]: parentDog[G.Headshots_Sm],
-      [G.dogId]: parentDog[G.dogId],
-      [G.certifications]: parentDog[
-        G.certifications
-      ] as ParentTypified[typeof G.certifications],
-    };
+    return castParentFromD1(parentDog);
   }
 
   async adultTableQuery(adultId?: number): Promise<D1AQ> {
