@@ -10,7 +10,6 @@ import RequiredStar from "@/components/new-dog-form/components/required-star";
 import { FormContext } from "@/components/new-dog-form/new-dog-form";
 import DogInputs from "@/components/new-dog-form/components/inputs-for-all-dogs";
 function PuppyForm() {
-  const { DH } = useContext(FormContext) ?? {};
   const { inputData } = useContext(FormContext) ?? {};
 
   return (
@@ -21,7 +20,6 @@ function PuppyForm() {
       </label>
       <select
         name={G.availability}
-        defaultValue={DH?.stored[G.availability]}
         required
       >
         <option>Available</option>
@@ -33,7 +31,6 @@ function PuppyForm() {
       <label>Puppy Name (optional)</label>
       <input
         name={G.puppyName}
-        defaultValue={DH?.stored[G.puppyName]}
         type="text"
         placeholder="Puppy Name"
         maxLength={nameLength}

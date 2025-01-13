@@ -12,7 +12,7 @@ import DogInputs from "@/components/new-dog-form/components/inputs-for-all-dogs"
 
 function ParentForm() {
 
-  const { DH, inputData } = useContext(FormContext) ?? {};
+  const { inputData } = useContext(FormContext) ?? {};
 
   const [breeder, setBreeder]: [
     string,
@@ -24,7 +24,6 @@ function ParentForm() {
       <DogInputs />
       <label>Birthday (optional)</label>
       <input name={G.adultBirthday}
-        defaultValue={DH?.stored[G.adultBirthday]}
       type="date" placeholder="MM/DD/YYYY" />
 
       <label>
@@ -32,7 +31,6 @@ function ParentForm() {
       </label>
       <select
         name={G.breeder}
-        defaultValue={DH?.stored[G.breeder] ?? "Cherry Lane Farms"}
         onChange={(e) => {
           setBreeder(e.target.value);
         }}
@@ -53,7 +51,6 @@ function ParentForm() {
       </label>
       <select
         name={G.activityStatus}
-        defaultValue={DH?.stored[G.activityStatus] ?? "Active"}
         required
       >
         <option>Active</option>
@@ -64,7 +61,6 @@ function ParentForm() {
       <label>Eye Color (optional)</label>
       <input
         name={G.eyeColor}
-        defaultValue={DH?.stored[G.eyeColor] ?? ""}
         type="text"
         placeholder="Eye Color"
       />
@@ -72,7 +68,6 @@ function ParentForm() {
       <label>Parent&apos;s Name (optional)</label>
       <input
         name={G.adultName}
-        defaultValue={DH?.stored[G.adultName] ?? ""}
         type="text"
         placeholder="Dog Name"
         maxLength={nameLength}
@@ -80,7 +75,6 @@ function ParentForm() {
 
       <label>Energy level (optional)</label>
       <select name={G.energyLevel}
-        defaultValue={DH?.stored[G.energyLevel] ?? ""}
       >
         <option>Low</option>
         <option>Medium-low</option>
@@ -92,19 +86,16 @@ function ParentForm() {
       <label>Favorite activities (optional)</label>
       <input
         name={G.favActivities}
-        defaultValue={DH?.stored[G.favActivities] ?? ""}
         type="text"
         placeholder="Favorite activities"
       />
 
       <label>Weight (optional)</label>
       <input name={G.weight}
-        defaultValue={DH?.stored[G.weight] ?? ""}
         type="text" placeholder="Weight" />
 
       <label>Certifications (optional)</label>
       <input name={G.certifications}
-        defaultValue={DH?.stored[G.certifications] ?? ""}
         type="text" placeholder="Certifications" />
     </>
   );

@@ -12,14 +12,7 @@ import {
   type ParentData as ParentDataType,
 } from "@/types/dog-about";
 
-import {
-  D1DQ,
-  D1AQ,
-  D1LQ,
-  D1FQ,
-  castPuppyFromD1,
-  castParentFromD1,
-} from "@/types/dog-about";
+import { castPuppyFromD1, castParentFromD1 } from "@/types/dog-about";
 
 export const adminState = ADMIN_STATES;
 export type AdminState = AdminStateType;
@@ -43,10 +36,10 @@ export default class ClientAdminDataHandler extends ServerAdminDataHandler {
    * It should be a stringified object.
    * @see getFormAsObject
    **/
-  get stored(): Record<string, string> {
+  get stored(): AdminState {
     const stored = window.localStorage.getItem(this.storageKey);
-    if (!stored) return {};
-    else return JSON.parse(stored);
+    if (!stored) return "" as AdminState;
+    else return stored as AdminState;
   }
 
   /**
@@ -115,7 +108,7 @@ export default class ClientAdminDataHandler extends ServerAdminDataHandler {
    **/
   updateFormValues(form: HTMLFormElement): void {
     if (!this.stored) return;
-    const storedObject: Record<string, string> = this.stored;
+    const storedObject: AdminState = this.stored;
     for (const [key, value] of Object.entries(storedObject)) {
       const input = form.querySelector<HTMLInputElement>(`[name=${key}]`);
       if (input) {
@@ -148,13 +141,12 @@ export default class ClientAdminDataHandler extends ServerAdminDataHandler {
   /**
    * Converts the form values to a PuppyData object.
    **/
-  formToPuppyPreview(stored?: Record<string, string>): PuppyDataType {
+  formToPuppyPreview(stored?: AdminState): PuppyDataType {
     if (!stored) stored = this.stored;
 
     try {
-      const puppyData = castPuppyFromD1(
-        stored as unknown as D1DQ & D1LQ & D1FQ
-      );
+      // @ts-expect-error This function is not being used.
+      const puppyData = castPuppyFromD1(stored);
       return puppyData;
     } catch (e) {
       console.error(e);
@@ -165,11 +157,12 @@ export default class ClientAdminDataHandler extends ServerAdminDataHandler {
   /**
    * Converts the form values to a ParentData object.
    **/
-  formToParentPreview(stored?: Record<string, string>): ParentDataType {
+  formToParentPreview(stored?: AdminState): ParentDataType {
     if (!stored) stored = this.stored;
 
     try {
-      const parentData = castParentFromD1(stored as unknown as D1DQ & D1AQ);
+      // @ts-expect-error This function is not being used.
+      const parentData = castParentFromD1(stored);
       return {
         dogData: parentData,
         partnerData: {},

@@ -24,14 +24,14 @@ import handleFormSubmission from "@/components/new-dog-form/constants/handle-for
 import css from "@styles/new-dog-form.module.scss";
 
 // Components
-import Puppy from "@/components/dog-about/variants/puppy";
+//import Puppy from "@/components/dog-about/variants/puppy";
 import PuppyForm from "@/components/new-dog-form/components/puppy-form";
-import Adult from "@/components/dog-about/variants/adult";
+//import Adult from "@/components/dog-about/variants/adult";
 import ParentForm from "@/components/new-dog-form/components/parent-form";
 import FamilyForm from "@/components/new-dog-form/components/family-form";
 import LitterForm from "@/components/new-dog-form/components/litter-form";
 import SubmissionMsg from "@/components/new-dog-form/components/submission-message";
-import RequiredStar from "@/components/new-dog-form/components/required-star";
+//import RequiredStar from "@/components/new-dog-form/components/required-star";
 
 export type FormContextType = {
   DH: ClientAdminDataHandler;
@@ -63,10 +63,11 @@ function NewDogForm({
     React.Dispatch<React.SetStateAction<AdminState>>
   ] = useState("" as AdminState);
 
-  const [previewState, setPreviewState]: [
-    AdminState,
-    React.Dispatch<React.SetStateAction<AdminState>>
-  ] = useState("" as AdminState);
+  /**TODO: Create Previewable views of Dogs.*/
+  //  const [previewState, setPreviewState]: [
+  //    AdminState,
+  //    React.Dispatch<React.SetStateAction<AdminState>>
+  //  ] = useState("" as AdminState);
 
   const formStateInit: FormState = {
     success: false,
@@ -81,19 +82,22 @@ function NewDogForm({
   useEffect(() => {
     if (!formRef.current) return;
 
-    if (window.location.hash) {
-      DH.stored = DH.getHashAsObject();
-      setAdminState(DH.stored.formType as AdminState);
-    }
-  }, [formRef, DH, adminState]);
+    setAdminState(DH.stored);
 
-  useEffect(() => {
-    //if (!formRef.current) return;
-    //if (window.location.hash) {
-    //  DH.updateFormValues(formRef.current);
-    //  window.location.hash = "";
-    //}
-  });
+    const workWithSelect: HTMLSelectElement & Element = document.querySelector(
+      "select[name='formType']"
+    )!;
+
+    workWithSelect.value = DH.stored;
+  }, [formRef, DH.stored, adminState]);
+
+  //  useEffect(() => {
+  //    //if (!formRef.current) return;
+  //    //if (window.location.hash) {
+  //    //  DH.updateFormValues(formRef.current);
+  //    //  window.location.hash = "";
+  //    //}
+  //  });
 
   const renderForm = useCallback(() => {
     if (!formRef.current) return;
@@ -113,16 +117,16 @@ function NewDogForm({
     }
   }, [adminState, DH, formRef]);
 
-  const renderPreview = useCallback(() => {
-    switch (previewState) {
-      case "Adults":
-        return <Adult D={DH.formToParentPreview()} />;
-      case "Puppies":
-        return <Puppy D={DH.formToPuppyPreview()} />;
-      default:
-        return null;
-    }
-  }, [previewState, DH]);
+  //  const renderPreview = useCallback(() => {
+  //    switch (previewState) {
+  //      case "Adults":
+  //        return <Adult D={DH.formToParentPreview()} />;
+  //      case "Puppies":
+  //        return <Puppy D={DH.formToPuppyPreview()} />;
+  //      default:
+  //        return null;
+  //    }
+  //  }, [previewState, DH]);
 
   return (
     <>
@@ -131,19 +135,20 @@ function NewDogForm({
         <Form
           action={formAction}
           ref={formRef}
-          onChange={() => {
-            //if (!formRef.current) return;
-            //DH.stored = JSON.stringify(DH.getFormAsObject(formRef.current));
-            //DH.updateHashURL();
-          }}
+          //          onChange={() => {
+          //            if (!formRef.current) return;
+          //
+          //            DH.stored = adminState;
+          //            //DH.updateHashURL();
+          //          }}
         >
           <label>What do you want to work with?</label>
           <select
             name="formType"
             onChange={(e) => {
               if (!formRef.current) return;
+              DH.stored = e.target.value as AdminState;
               setAdminState(e.target.value as AdminState);
-              //DH.stored = JSON.stringify(DH.getFormAsObject(formRef.current));
               //DH.updateHashURL();
             }}
           >
@@ -156,18 +161,28 @@ function NewDogForm({
           <FormContext.Provider value={{ DH, formRef, inputData }}>
             {renderForm()}
           </FormContext.Provider>
+
+          {(() => {
+            const marginTop = "2em";
+            return (
+              <>
+                <hr style={{ marginTop }} />
+
+                <p style={{ marginTop }}>Be sure to check important fields.</p>
+              </>
+            );
+          })()}
           <button type="submit">Submit</button>
         </Form>
-        <p style={{fontSize: '1.3rem'}}><RequiredStar /> = denotes a form requirement that must be fulfilled to submit.</p> 
-        <button
+        {/*<button
           onClick={() =>
-            setPreviewState(DH.adminStates[DH.stored.formType as AdminState])
+            setPreviewState(DH.adminStates[DH.stored as AdminState])
           }
         >
           Preview
-        </button>
-        {renderPreview()}
-        <button
+        </button>*/}
+        {/*renderPreview()*/}
+        {/*<button
           onClick={() => {
             if (navigator.clipboard) {
               navigator.clipboard.writeText(window.location.href);
@@ -188,7 +203,7 @@ function NewDogForm({
           }}
         >
           Save Progress For Later
-        </button>
+        </button>*/}
       </div>
     </>
   );
