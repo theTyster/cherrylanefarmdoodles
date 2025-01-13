@@ -8,9 +8,11 @@ import type {
   D1PuppyQueryData as D1PQ,
   FamilyQueryData as FQ,
   D1FamilyQueryData as D1FQ,
+  LitterQueryData as LQ,
+  D1LitterQueryData as D1LQ,
 } from "@/constants/queries";
 
-export type { DQ, D1DQ, AQ, D1AQ, PQ, D1PQ, FQ, D1FQ };
+export type { DQ, D1DQ, AQ, D1AQ, PQ, D1PQ, FQ, D1FQ, LQ, D1LQ };
 
 export type DogData = DQ & AQ;
 
@@ -55,7 +57,9 @@ export type ParentData = {
 
 export type PuppyData = {
   readonly dogData: {
-    readonly [G.puppyName]: Exclude<PQ[typeof G.puppyName], null> | "Unnamed Puppy";
+    readonly [G.puppyName]:
+      | Exclude<PQ[typeof G.puppyName], null>
+      | "Unnamed Puppy";
     readonly [G.collarColor]: PQ[typeof G.collarColor];
     readonly availability: PQ[typeof G.availability];
     readonly [G.gender]: DQ[typeof G.gender];
@@ -76,4 +80,78 @@ export type PuppyData = {
 export type CurrentLitterData = {
   readonly puppies: PuppyData[];
   readonly parentData?: ParentData;
+};
+
+export const castPuppyFromD1 = (pup: D1DQ & D1LQ & D1FQ): PuppyData => {
+  const puppyData = {
+    dogData: {
+      [G.puppyName]: pup[G.puppyName] ?? "Unnamed",
+      [G.collarColor]: pup[G.collarColor],
+      [G.availability]: pup[G.availability] as
+        | "Available"
+        | "Picked"
+        | "Adopted"
+        | "Available Guardian",
+      [G.gender]: pup[G.gender] as "M" | "F",
+      [G.noseColor]: pup[G.noseColor],
+      [G.coat]: pup[G.coat],
+      [G.personality]: pup[G.personality],
+      [G.Headshots_Lg]: pup[G.Headshots_Lg],
+      [G.Headshots_Sm]: pup[G.Headshots_Sm],
+    },
+    litterData: {
+      [G.dueDate]: pup[G.dueDate],
+      [G.litterBirthday]: pup[G.litterBirthday],
+      [G.applicantsInQueue]: pup[G.applicantsInQueue],
+      [G.availablePuppies]: pup[G.availablePuppies],
+      [G.totalPuppies]: pup[G.totalPuppies],
+    },
+    ids: {
+      [G.Group_Photos]: pup[G.Group_Photos],
+      [G.dogId]: pup[G.dogId],
+      [G.litterId]: pup[G.litterId],
+      [G.mother]: pup[G.mother],
+      [G.father]: pup[G.father],
+      [G.puppyId]: pup[G.puppyId],
+    },
+  } satisfies PuppyData;
+
+  Object.freeze(puppyData);
+  Object.freeze(puppyData.dogData);
+  Object.freeze(puppyData.litterData);
+  Object.freeze(puppyData.ids);
+
+  return { ...puppyData };
+};
+
+export const castParentFromD1 = (
+  parentDog: D1DQ & D1AQ
+): ParentData['dogData'] => {
+  const parentDogsData = {
+    [G.adultName]: parentDog[G.adultName] as DogData[typeof G.adultName],
+    [G.breeder]: parentDog[G.breeder] as DogData[typeof G.breeder],
+    [G.adultBirthday]: parentDog[G.adultBirthday],
+    [G.eyeColor]: parentDog[G.eyeColor],
+    [G.activityStatus]: parentDog[
+      G.activityStatus
+    ] as DogData[typeof G.activityStatus],
+    [G.favActivities]: parentDog[G.favActivities],
+    [G.weight]: parentDog[G.weight],
+    [G.energyLevel]: parentDog[
+      G.energyLevel
+    ] as DogData[typeof G.energyLevel],
+    [G.gender]: parentDog[G.gender] as DogData[typeof G.gender],
+    [G.noseColor]: parentDog[G.noseColor],
+    [G.coat]: parentDog[G.coat],
+    [G.personality]: parentDog[G.personality],
+    [G.Headshots_Lg]: parentDog[G.Headshots_Lg],
+    [G.Headshots_Sm]: parentDog[G.Headshots_Sm],
+    [G.dogId]: parentDog[G.dogId],
+    [G.certifications]: parentDog[
+      G.certifications
+    ] as DogData[typeof G.certifications],
+  };
+
+  return parentDogsData;
+
 };
