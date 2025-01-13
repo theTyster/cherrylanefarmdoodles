@@ -8,12 +8,17 @@ import ServerAdminDataHandler, {
 } from "@/components/new-dog-form/constants/server-data-handler";
 
 import {
-  //castPuppyData,
-  type PuppyData,
-  //type PuppyExtracted,
-  //castParent,
-  type ParentData,
-  //type ParentExtracted,
+  type PuppyData as PuppyDataType,
+  type ParentData as ParentDataType,
+} from "@/types/dog-about";
+
+import {
+  D1DQ,
+  D1AQ,
+  D1LQ,
+  D1FQ,
+  castPuppyFromD1,
+  castParentFromD1,
 } from "@/types/dog-about";
 
 export const adminState = ADMIN_STATES;
@@ -143,35 +148,37 @@ export default class ClientAdminDataHandler extends ServerAdminDataHandler {
   /**
    * Converts the form values to a PuppyData object.
    **/
-  formToPuppyPreview(stored?: Record<string, string>): PuppyData {
+  formToPuppyPreview(stored?: Record<string, string>): PuppyDataType {
     if (!stored) stored = this.stored;
 
     try {
-      const puppyData = castPuppyData(stored as unknown as PuppyExtracted);
+      const puppyData = castPuppyFromD1(
+        stored as unknown as D1DQ & D1LQ & D1FQ
+      );
       return puppyData;
     } catch (e) {
       console.error(e);
-      return "Error" as unknown as PuppyData;
+      return "Error" as unknown as PuppyDataType;
     }
   }
 
   /**
    * Converts the form values to a ParentData object.
    **/
-  formToParentPreview(stored?: Record<string, string>): ParentData {
+  formToParentPreview(stored?: Record<string, string>): ParentDataType {
     if (!stored) stored = this.stored;
 
     try {
-      const parentData = castParent(stored as unknown as ParentExtracted);
+      const parentData = castParentFromD1(stored as unknown as D1DQ & D1AQ);
       return {
         dogData: parentData,
         partnerData: {},
         litterData: {},
         ids: {},
-      } as ParentData;
+      } as ParentDataType;
     } catch (e) {
       console.error(e);
-      return "Error" as unknown as ParentData;
+      return "Error" as unknown as ParentDataType;
     }
   }
 }
