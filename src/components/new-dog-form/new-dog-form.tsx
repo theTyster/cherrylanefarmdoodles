@@ -9,7 +9,6 @@ import {
   useMemo,
   useCallback,
   createContext,
-  useEffect,
   useActionState,
 } from "react";
 
@@ -31,7 +30,6 @@ import ParentForm from "@/components/new-dog-form/components/parent-form";
 import FamilyForm from "@/components/new-dog-form/components/family-form";
 import LitterForm from "@/components/new-dog-form/components/litter-form";
 import SubmissionMsg from "@/components/new-dog-form/components/submission-message";
-//import RequiredStar from "@/components/new-dog-form/components/required-star";
 
 export type FormContextType = {
   DH: ClientAdminDataHandler;
@@ -79,29 +77,8 @@ function NewDogForm({
     formStateInit
   );
 
-  useEffect(() => {
-    if (!formRef.current) return;
-
-    setAdminState(DH.stored);
-
-    const workWithSelect: HTMLSelectElement & Element = document.querySelector(
-      "select[name='formType']"
-    )!;
-
-    workWithSelect.value = DH.stored;
-  }, [formRef, DH, adminState]);
-
-  //  useEffect(() => {
-  //    //if (!formRef.current) return;
-  //    //if (window.location.hash) {
-  //    //  DH.updateFormValues(formRef.current);
-  //    //  window.location.hash = "";
-  //    //}
-  //  });
-
   const renderForm = useCallback(() => {
     if (!formRef.current) return;
-    //DH.updateFormValues(formRef.current);
 
     switch (adminState) {
       case DH?.adminStates["Adults"]:
@@ -135,12 +112,6 @@ function NewDogForm({
         <Form
           action={formAction}
           ref={formRef}
-          //          onChange={() => {
-          //            if (!formRef.current) return;
-          //
-          //            DH.stored = adminState;
-          //            //DH.updateHashURL();
-          //          }}
         >
           <label>What do you want to work with?</label>
           <select
@@ -149,7 +120,6 @@ function NewDogForm({
               if (!formRef.current) return;
               DH.stored = e.target.value as AdminState;
               setAdminState(e.target.value as AdminState);
-              //DH.updateHashURL();
             }}
           >
             <option>--</option>
@@ -174,36 +144,6 @@ function NewDogForm({
           })()}
           <button type="submit">Submit</button>
         </Form>
-        {/*<button
-          onClick={() =>
-            setPreviewState(DH.adminStates[DH.stored as AdminState])
-          }
-        >
-          Preview
-        </button>*/}
-        {/*renderPreview()*/}
-        {/*<button
-          onClick={() => {
-            if (navigator.clipboard) {
-              navigator.clipboard.writeText(window.location.href);
-            } else {
-              // Works even if the user has disabled clipboard access in the browser.
-              const textArea = document.createElement("textarea");
-              textArea.value = window.location.href;
-              document.body.appendChild(textArea);
-              textArea.focus();
-              textArea.select();
-              document.execCommand("copy");
-              document.body.removeChild(textArea);
-            }
-
-            alert(
-              "URL Copied to Clipboard. Your progress is saved in the URL."
-            );
-          }}
-        >
-          Save Progress For Later
-        </button>*/}
       </div>
     </>
   );
