@@ -16,7 +16,9 @@ import {
 import ClientAdminDataHandler, {
   type AdminState,
 } from "@/components/new-dog-form/constants/client-data-handler";
-import ServerAdminDataHandler from "@/components/new-dog-form/constants/server-data-handler";
+import ServerAdminDataHandler, {
+  ADMIN_STATES,
+} from "@/components/new-dog-form/constants/server-data-handler";
 import handleFormSubmission from "@/components/new-dog-form/constants/handle-form-submission";
 
 // Style
@@ -59,7 +61,7 @@ function NewDogForm({
   const [adminState, setAdminState]: [
     AdminState,
     React.Dispatch<React.SetStateAction<AdminState>>
-  ] = useState("" as AdminState);
+  ] = useState(ADMIN_STATES["Litters"] as AdminState);
 
   /**TODO: Create Previewable views of Dogs.*/
   //  const [previewState, setPreviewState]: [
@@ -78,8 +80,6 @@ function NewDogForm({
   );
 
   const renderForm = useCallback(() => {
-    if (!formRef.current) return;
-
     switch (adminState) {
       case DH?.adminStates["Adults"]:
         return <ParentForm />;
@@ -90,9 +90,9 @@ function NewDogForm({
       case DH?.adminStates["Families"]:
         return <FamilyForm />;
       default:
-        return null;
+        return <LitterForm />;
     }
-  }, [adminState, DH, formRef]);
+  }, [adminState, DH]);
 
   //  const renderPreview = useCallback(() => {
   //    switch (previewState) {
@@ -109,10 +109,7 @@ function NewDogForm({
     <>
       <div className={css["form"]}>
         <SubmissionMsg success={formState.success} message={formState.error} />
-        <Form
-          action={formAction}
-          ref={formRef}
-        >
+        <Form action={formAction} ref={formRef}>
           <label>What do you want to work with?</label>
           <select
             name="formType"
@@ -122,10 +119,24 @@ function NewDogForm({
               setAdminState(e.target.value as AdminState);
             }}
           >
-            <option>--</option>
-            {Object.values(DH.adminStates).map((state) => (
-              <option key={state}>{state}</option>
-            ))}
+            {/**
+             * Could have looped over an array. Just didn't want to.
+             * Feels safer to have the values hardcoded.
+             * Also, this way I have more control on the order of the options, 
+             * which will help UX.
+             **/}
+            <option value={DH.adminStates["Litters"]}>
+              {DH.adminStates["Litters"]}
+            </option>
+            <option value={DH.adminStates["Puppies"]}>
+              {DH.adminStates["Puppies"]}
+            </option>
+            <option value={DH.adminStates["Adults"]}>
+              {DH.adminStates["Adults"]}
+            </option>
+            <option value={DH.adminStates["Families"]}>
+              {DH.adminStates["Families"]}
+            </option>
           </select>
 
           <FormContext.Provider value={{ DH, formRef, inputData }}>
