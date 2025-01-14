@@ -89,7 +89,7 @@ function NewDogForm({
     )!;
 
     workWithSelect.value = DH.stored;
-  }, [formRef, DH.stored, adminState]);
+  }, [formRef, DH, adminState]);
 
   //  useEffect(() => {
   //    //if (!formRef.current) return;
