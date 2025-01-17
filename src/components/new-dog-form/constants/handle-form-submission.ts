@@ -1,6 +1,9 @@
 "use server";
 import { type FormState } from "@/components/new-dog-form/new-dog-form";
-import { type AdminState } from "@/components/new-dog-form/constants/server-data-handler";
+import {
+  type AdminState,
+  ADMIN_STATES,
+} from "@/components/new-dog-form/constants/server-data-handler";
 import { getRequestContext } from "@cloudflare/next-on-pages";
 import D1Statements, { DogsDBTableValTypes } from "@/constants/statements";
 import { FormTransformer } from "@/components/new-dog-form/constants/form-data-transformer";
@@ -16,18 +19,33 @@ export default async function handleFormSubmission(
   currentFormState: FormState,
   formData?: FormData
 ): Promise<typeof currentFormState> {
+  function findNextState(currentState: AdminState): AdminState {
+    switch (currentState) {
+      case "Litters":
+        return ADMIN_STATES["Puppies"];
+      case "Puppies":
+        return ADMIN_STATES["Puppies"];
+      case "Adults":
+        return ADMIN_STATES["Adults"];
+      case "Families":
+        return ADMIN_STATES["Litters"];
+      default:
+        return currentState;
+    }
+  }
+
+  const nextFormState: FormState = {
+    success: false,
+    error: "No form data was provided.",
+    state: currentFormState.state,
+  };
+
   if (!formData) {
-    return {
-      success: false,
-      error: "No form data was provided.",
-    };
+    console.error("No form data was provided.");
+    return nextFormState;
   }
 
   const D1 = getRequestContext().env.dogsDB;
-  let nextFormState: FormState = {
-    success: false,
-    error: "No form data was provided.",
-  };
 
   const adminState = formData.get("formType") as AdminState;
 
@@ -71,7 +89,6 @@ export default async function handleFormSubmission(
           pupOrAdultRows
         );
 
-
         /**
          * Insert the Adult or Puppy as a dog into the dog table second.
          **/
@@ -89,14 +106,21 @@ export default async function handleFormSubmission(
           dogsDBResults.push(
             {
               id: dogInsertResults[0].results[0].id,
-              msg: "The Adult has been added,\n",
+              msg: `The ${adminState
+                .replace("ies", "y")
+                .replace("s", "")} was added to the ${adminState
+                .replace("ies", "y")
+                .replace("s", "")} table correctly.`,
             },
             {
               id: dogInsertResults[1].results[0].id,
-              msg: "The dog has been added,\n",
+              msg: `The ${adminState
+                .replace("ies", "y")
+                .replace("s", "")} was added to the Dogs table correctly.`,
             }
           );
         } catch (e) {
+          console.error(e);
           dogsDBResults.push({
             id: -1,
             msg: "The dog could not be added,\n" + e,
@@ -120,20 +144,31 @@ export default async function handleFormSubmission(
           dogsDBResults[0].id
         );
 
-
         try {
           // Update the Adult or Puppy with the new dog id.
           await D1.prepare(pupOrAdultUpdateStmt).run<Record<string, never>>();
 
           dogsDBResults.push({
             id: 0,
-            msg: "and the Adult or Puppy was updated with the correct dogId. ",
+            msg: `The ${adminState
+              .replace("ies", "y")
+              .replace("s", "")} was updated with the correct dogId: {${
+              dogIdObj.dogId
+            }}. `,
           });
         } catch (e) {
+          console.error(e);
           dogsDBResults.push({
             id: -1,
             msg:
-              `but the Adult or Puppy could not be updated with the correct dogId: ${dogIdObj.dogId}` +
+              `but the ${adminState
+                .replace("ies", "y")
+                .replace(
+                  "s",
+                  ""
+                )} could not be updated with the correct dogId: {${
+                dogIdObj.dogId
+              }}. ` +
               e +
               "\n",
           });
@@ -162,7 +197,6 @@ export default async function handleFormSubmission(
          **/
         const insertStmt = Statements.makeInsertStatement(adminState, data[0]);
 
-
         try {
           const results = await D1.prepare(insertStmt).run<{ id: number }>();
           dogsDBResults.push({
@@ -170,6 +204,7 @@ export default async function handleFormSubmission(
             msg: "The data was inserted.\n",
           });
         } catch (e) {
+          console.error(e);
           dogsDBResults.push({
             id: -1,
             msg: "The data could not be inserted.\n\n" + e,
@@ -177,22 +212,21 @@ export default async function handleFormSubmission(
         }
       }
 
-
       const submissionResults: {
         success?: boolean;
-        msg?: string;
+        msg: string;
       } = {
         success: undefined,
-        msg: undefined,
+        msg: "",
       };
 
       // If any of the results have an id of -1, then a submission failed.
       if (dogsDBResults.some((result) => result.id === -1)) {
-        submissionResults.msg = dogsDBResults
-          .filter((result) => result.msg)
+        submissionResults.msg =
+          "The attempted changes have been or will be undone. All is well. Please, try whatever you just did again. \nIf this error persists, contact Ty.\n\n Error Message: ";
+        submissionResults.msg += dogsDBResults
+          .map((result) => `{{{{${result.msg}}}}}\n`)
           .join("\n");
-        submissionResults.msg +=
-          "\n\nThe Changes made have been cleared from the database. Please, try again. If this error persists, contact Ty.";
         submissionResults.success = false;
       } else {
         const resultantMessages = dogsDBResults.map((result) => result.msg);
@@ -200,21 +234,21 @@ export default async function handleFormSubmission(
         submissionResults.msg = resultantMessages.join("\n ");
 
         submissionResults.msg +=
-          "You should see the changes reflect on the website in the next 8 hours.";
+          "\nYou should see the changes reflect on the website in the next 8 hours.";
         submissionResults.success = true;
       }
 
-      nextFormState = {
-        success: submissionResults.success,
-        error: submissionResults.msg,
-      };
+      nextFormState.success = submissionResults.success;
+      nextFormState.error = submissionResults.msg;
+      nextFormState.state = findNextState(currentFormState.state);
 
       return nextFormState;
     } catch (e) {
-      nextFormState = {
-        success: false,
-        error: `D1 was unable to execute the SQL statement. Please, try again. If this error persists, contact Ty. \n Error: ${e}`,
-      };
+      console.error(e);
+      nextFormState.success = false;
+      nextFormState.error = `D1 was unable to execute the SQL statement. Please, try whatever you just did again. \nIf this error persists, contact Ty. \n Error: ${e}`;
+      nextFormState.state = findNextState(currentFormState.state);
+
       return nextFormState;
     }
   }

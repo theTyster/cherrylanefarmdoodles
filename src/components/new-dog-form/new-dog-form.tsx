@@ -7,7 +7,7 @@ import {
   useState,
   useRef,
   useMemo,
-  useCallback,
+  useEffect,
   createContext,
   useActionState,
 } from "react";
@@ -43,6 +43,7 @@ export const FormContext = createContext<FormContextType>(null);
 export type FormState = {
   success: boolean;
   error?: string | null;
+  state: AdminState;
 };
 
 function NewDogForm({
@@ -53,16 +54,12 @@ function NewDogForm({
 }) {
   // Refs
   const formRef: React.RefObject<HTMLFormElement | null> = useRef(null);
+  const formTypeRef: React.RefObject<HTMLSelectElement | null> = useRef(null);
 
   // Memos
   const DH = useMemo(() => new ClientAdminDataHandler(), []);
 
   // States
-  const [adminState, setAdminState]: [
-    AdminState,
-    React.Dispatch<React.SetStateAction<AdminState>>
-  ] = useState(ADMIN_STATES["Litters"] as AdminState);
-
   /**TODO: Create Previewable views of Dogs.*/
   //  const [previewState, setPreviewState]: [
   //    AdminState,
@@ -72,6 +69,7 @@ function NewDogForm({
   const formStateInit: FormState = {
     success: false,
     error: null,
+    state: ADMIN_STATES["Litters"],
   };
 
   const [formState, formAction] = useActionState(
@@ -79,20 +77,33 @@ function NewDogForm({
     formStateInit
   );
 
-  const renderForm = useCallback(() => {
-    switch (adminState) {
-      case DH?.adminStates["Adults"]:
-        return <ParentForm />;
-      case DH?.adminStates["Puppies"]:
-        return <PuppyForm />;
-      case DH?.adminStates["Litters"]:
-        return <LitterForm />;
-      case DH?.adminStates["Families"]:
-        return <FamilyForm />;
-      default:
-        return <LitterForm />;
-    }
-  }, [adminState, DH]);
+  const [adminState, setAdminState]: [
+    AdminState,
+    React.Dispatch<React.SetStateAction<AdminState>>
+  ] = useState(ADMIN_STATES["Litters"] as AdminState);
+
+  type StatStateType = {
+    Litters: number;
+    Puppies: number;
+    Adults: number;
+    Families: number;
+  };
+
+  const statInit: StatStateType = {
+    Litters: 0,
+    Puppies: 0,
+    Adults: 0,
+    Families: 0,
+  };
+  const [statState, setStatState]: [
+    StatStateType,
+    React.Dispatch<React.SetStateAction<StatStateType>>
+  ] = useState(statInit);
+
+  useEffect(() => {
+    if (formTypeRef.current) formTypeRef.current.value = formState.state;
+    setAdminState(formState.state);
+  }, [formState.state]);
 
   //  const renderPreview = useCallback(() => {
   //    switch (previewState) {
@@ -109,38 +120,73 @@ function NewDogForm({
     <>
       <div className={css["form"]}>
         <SubmissionMsg success={formState.success} message={formState.error} />
-        <Form action={formAction} ref={formRef}>
-          <label>What do you want to work with?</label>
-          <select
-            name="formType"
-            onChange={(e) => {
-              if (!formRef.current) return;
-              DH.stored = e.target.value as AdminState;
-              setAdminState(e.target.value as AdminState);
-            }}
-          >
-            {/**
-             * Could have looped over an array. Just didn't want to.
-             * Feels safer to have the values hardcoded.
-             * Also, this way I have more control on the order of the options, 
-             * which will help UX.
-             **/}
-            <option value={DH.adminStates["Litters"]}>
-              {DH.adminStates["Litters"]}
-            </option>
-            <option value={DH.adminStates["Puppies"]}>
-              {DH.adminStates["Puppies"]}
-            </option>
-            <option value={DH.adminStates["Adults"]}>
-              {DH.adminStates["Adults"]}
-            </option>
-            <option value={DH.adminStates["Families"]}>
-              {DH.adminStates["Families"]}
-            </option>
-          </select>
+        <label>What do you want to work with?</label>
+        <select
+          ref={formTypeRef}
+          onChange={(e) => {
+            setAdminState(e.target.value as AdminState);
+            formState.state = e.target.value as AdminState;
+          }}
+          defaultValue={adminState}
+        >
+          {/**
+           * Could have looped over an array. Just didn't want to.
+           * Feels safer to have the values hardcoded.
+           * Also, this way I have more control on the order of the options,
+           * which will help UX.
+           **/}
+          <option value={DH.adminStates["Litters"]}>
+            {DH.adminStates["Litters"]}
+          </option>
+          <option value={DH.adminStates["Puppies"]}>
+            {DH.adminStates["Puppies"]}
+          </option>
+          <option value={DH.adminStates["Adults"]}>
+            {DH.adminStates["Adults"]}
+          </option>
+          <option value={DH.adminStates["Families"]}>
+            {DH.adminStates["Families"]}
+          </option>
+        </select>
+        <div className={css["stats"]}>
+          <h4>Session Stats</h4>
+          <p>You have submitted:</p>
+          <ul>
+            <li>{statState.Litters} Litters</li>
+            <li>{statState.Puppies} Puppies</li>
+            <li>{statState.Adults} Adults</li>
+            <li>{statState.Families} Families</li>
+            <button onClick={() => setStatState(statInit)}>Clear Stats</button>
+          </ul>
+        </div>
+        <h3>{formState.state}</h3>
+        <Form
+          action={formAction}
+          ref={formRef}
+          onSubmitCapture={() => {
+            const updatedValue = statState[adminState] + 1;
+            const newState = { ...statState, [adminState]: updatedValue };
+
+            setStatState(newState);
+          }}
+        >
+          <input name="formType" type="hidden" value={adminState} />
 
           <FormContext.Provider value={{ DH, formRef, inputData }}>
-            {renderForm()}
+            {(() => {
+              switch (adminState) {
+                case DH?.adminStates["Adults"]:
+                  return <ParentForm />;
+                case DH?.adminStates["Puppies"]:
+                  return <PuppyForm />;
+                case DH?.adminStates["Litters"]:
+                  return <LitterForm />;
+                case DH?.adminStates["Families"]:
+                  return <FamilyForm />;
+                default:
+                  return <LitterForm />;
+              }
+            })()}
           </FormContext.Provider>
 
           {(() => {
