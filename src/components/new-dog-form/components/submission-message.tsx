@@ -9,13 +9,22 @@ function SubmissionMsg({
     <div>
       {success ? (
         <div>
+          <hr />
           <h2 style={{ color: "green" }}>Success!</h2>
-          <p>{message}</p>
+          {message.split("\n").map((msg, i) => (
+            <p key={i + msg}>{msg}</p>
+          ))}
+          <hr />
         </div>
       ) : (
         <div>
+          <hr style={{ backgroundColor: "red" }} />
           <h2 style={{ color: "red" }}>Failed!</h2>
+          <h4 style={{ textAlign: "center" }}>
+            Don&apos;t panic. Everything is probably ok. Probably.
+          </h4>
           <p>{message}</p>
+          <hr style={{ backgroundColor: "red" }} />
         </div>
       )}
     </div>
