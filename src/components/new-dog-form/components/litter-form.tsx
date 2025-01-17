@@ -15,8 +15,8 @@ function LitterForm() {
   const [hasBirthday, setHasBirthday] = useState(false);
   return (
     <>
-      <h4 style={{ marginTop: "2em" }}>
-        <RequiredStar /> At least one of the following two must be provided. <RequiredStar />
+      <h4>
+        <RequiredStar />: at least one of the following two must be provided.
       </h4>
 
       <label>Birthday</label>
@@ -64,6 +64,7 @@ function LitterForm() {
       <input
         name={G.applicantsInQueue}
         type="number"
+        defaultValue={0}
         required
       />
     </>
