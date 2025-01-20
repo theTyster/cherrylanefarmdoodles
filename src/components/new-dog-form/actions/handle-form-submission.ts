@@ -3,10 +3,10 @@ import { type FormState } from "@/components/new-dog-form/new-dog-form";
 import {
   type AdminState,
   ADMIN_STATES,
-} from "@/components/new-dog-form/constants/server-data-handler";
+} from "@/components/new-dog-form/actions/server-data-handler";
 import { getRequestContext } from "@cloudflare/next-on-pages";
 import D1Statements, { DogsDBTableValTypes } from "@/constants/statements";
-import { FormTransformer } from "@/components/new-dog-form/constants/form-data-transformer";
+import { FormTransformer } from "@/components/new-dog-form/actions/form-data-transformer";
 
 export type FormattedDogsFormDataType = DogsDBTableValTypes<"Dogs", "id"> &
   (DogsDBTableValTypes<"Puppies", "id"> | DogsDBTableValTypes<"Adults", "id">);

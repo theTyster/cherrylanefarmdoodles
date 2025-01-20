@@ -1,7 +1,7 @@
 import { GlobalNameSpaces as G, D1Tables as D1T } from "@/constants/data";
 import { DogsDBTableValTypes } from "@/constants/statements";
 import { D1SchemaKeys, type PossibleD1Vals, type D1Schema } from "@/types/data";
-import { type AdminState } from "@/components/new-dog-form/constants/server-data-handler";
+import { type AdminState } from "@/components/new-dog-form/actions/server-data-handler";
 
 export type OptionalFormValues = "";
 
@@ -336,8 +336,6 @@ export class FormTransformer {
     const familyKeys = D1SchemaKeys[table];
     const [familyId, Group_Photos, motherId, fatherId, litterId] = familyKeys;
 
-    console.log("formData:\n", formData);
-
     type F = D1Schema["Families"];
     const familyIdObj = this.formdataTypeConverter<
         typeof familyId,
@@ -360,11 +358,6 @@ export class FormTransformer {
         F[typeof litterId]
       >(litterId, formData.get(litterId));
 
-    console.log("familyIdObj:\n", familyIdObj);
-    console.log("Group_PhotosObj:\n", Group_PhotosObj);
-    console.log("motherIdObj:\n", motherIdObj);
-    console.log("fatherIdObj:\n", fatherIdObj);
-    console.log("litterIdObj:\n", litterIdObj);
 
     const familyData: DogsDBTableValTypes<"Families", "id"> = {
       ...familyIdObj,

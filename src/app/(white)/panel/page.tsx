@@ -1,7 +1,7 @@
 export const runtime = "edge";
 
 import { getRequestContext } from "@cloudflare/next-on-pages";
-import AdminDataHandler from "@/components/new-dog-form/constants/server-data-handler";
+import AdminDataHandler from "@/components/new-dog-form/actions/server-data-handler";
 
 // Components
 import NewDogForm from "@/components/new-dog-form/new-dog-form";

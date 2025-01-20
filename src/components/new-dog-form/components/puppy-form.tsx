@@ -9,6 +9,7 @@ import { nameLength } from "@/components/new-dog-form/constants/form-defaults";
 import RequiredStar from "@/components/new-dog-form/components/required-star";
 import { FormContext } from "@/components/new-dog-form/new-dog-form";
 import DogInputs from "@/components/new-dog-form/components/inputs-for-all-dogs";
+import synchronizeInputData from "@/components/new-dog-form/actions/synchronize-input-data";
 function PuppyForm() {
   const { inputData } = useContext(FormContext) ?? {};
 

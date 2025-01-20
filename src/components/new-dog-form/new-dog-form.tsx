@@ -15,11 +15,11 @@ import {
 // Utilities
 import ClientAdminDataHandler, {
   type AdminState,
-} from "@/components/new-dog-form/constants/client-data-handler";
+} from "@/components/new-dog-form/actions/client-data-handler";
 import ServerAdminDataHandler, {
   ADMIN_STATES,
-} from "@/components/new-dog-form/constants/server-data-handler";
-import handleFormSubmission from "@/components/new-dog-form/constants/handle-form-submission";
+} from "@/components/new-dog-form/actions/server-data-handler";
+import handleFormSubmission from "@/components/new-dog-form/actions/handle-form-submission";
 
 // Style
 import css from "@styles/new-dog-form.module.scss";

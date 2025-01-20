@@ -5,7 +5,7 @@ import ServerAdminDataHandler, {
   type FormDataState as FormDataStateType,
   PREVIEW_STATES,
   type PreviewState as PreviewStateType,
-} from "@/components/new-dog-form/constants/server-data-handler";
+} from "@/components/new-dog-form/actions/server-data-handler";
 
 export const adminState = ADMIN_STATES;
 export type AdminState = AdminStateType;
