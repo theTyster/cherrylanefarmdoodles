@@ -6,8 +6,26 @@
   align-items: center;
   justify-content: center;
   margin-bottom: Theme.$spaceBetweenElements;
+  td {
+    border: Theme.$border solid Theme.$darkPrimary;
+    border-left: 0;
+    &:first-child {
+      border-left: Theme.$border solid Theme.$darkPrimary;
+    }
+  }
   @include Theme.mediaQuery(Theme.$tabletViewport) {
-    flex-direction: column;
+    tr {
+      display: flex;
+      align-items: stretch;
+      flex-direction: column;
+      td {
+        border: Theme.$border solid Theme.$darkPrimary;
+        border-top: 0;
+        &:first-child {
+          border-top: Theme.$border solid Theme.$darkPrimary;
+        }
+      }
+    }
   }
 }
 .selectorButton,
@@ -26,20 +44,20 @@
     $bg: Theme.$lightPrimary,
     $fg: Theme.$darkPrimary
   ) {
-    border: 5px solid Theme.$darkPrimary;
+    border: none;
     background-color: Theme.$white;
     &:hover {
       background-color: Theme.$darkPrimary;
       color: Theme.$lightPrimary;
-      border: 5px solid Theme.$darkPrimary;
+      border: none;
       &:active {
         background-color: Theme.$primary;
-        border: 5px solid Theme.$primary;
+        border: none;
       }
     }
     &:active {
       background-color: Theme.$primary;
-      border: 5px solid Theme.$primary;
+      border: none;
     }
   }
   &:hover {
@@ -55,9 +73,12 @@
     $fg: Theme.$darkPrimary,
     $text: Theme.$lightPrimary
   ) {
+    border: none;
     &:hover {
+      border: none;
       background-color: Theme.$darkPrimary;
       color: Theme.$lightPrimary;
     }
   }
+  cursor: default;
 }

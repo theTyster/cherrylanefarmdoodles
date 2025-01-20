@@ -55,25 +55,28 @@ function TabMenu({
   return (
     <>
       <menu className={css.container} onClick={handleTabMenuClick}>
-        {menuDataArr.map((item, index) => (
-          <Fragment key={`${item.id}`}>
-            <button
-              aria-label={item.title}
-              data-tabmenu-item-id={item.id}
-              className={`${css.selectorButton} ${
-                item === currentSelected ? css["selected"] : ""
-              }`}
-              style={
-                index !== 0 && index !== menuDataArr.length - 1
-                  ? { backgroundSize: "800px", borderTop: 0, borderBottom: 0 }
-                  : { backgroundSize: "800px" }
-              }
-              onClick={item.buttonClick ? item.buttonClick : undefined}
-            >
-              {item.title}
-            </button>
-          </Fragment>
-        ))}
+        <table>
+          <tbody>
+            <tr>
+              {menuDataArr.map((item) => (
+                <Fragment key={`${item.id}`}>
+                  <td>
+                    <button
+                      aria-label={item.title}
+                      data-tabmenu-item-id={item.id}
+                      className={`${css.selectorButton} ${
+                        item === currentSelected ? css["selected"] : ""
+                      }`}
+                      onClick={item.buttonClick ? item.buttonClick : undefined}
+                    >
+                      {item.title}
+                    </button>
+                  </td>
+                </Fragment>
+              ))}
+            </tr>
+          </tbody>
+        </table>
       </menu>
       <div>{currentSelected.component}</div>
     </>
