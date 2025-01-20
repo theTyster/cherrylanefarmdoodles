@@ -7,7 +7,7 @@ import FamilyOption from "@/components/new-dog-form/components/refreshable-optio
 function FamilyForm() {
   return (
     <>
-      <h3>Creating A New Family</h3>
+      <h4>Creating A New Family</h4>
       <p>
         For the sake of this site, families consist of a mother, father and
         litter of puppies.

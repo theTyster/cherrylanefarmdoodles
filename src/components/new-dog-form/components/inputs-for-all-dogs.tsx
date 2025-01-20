@@ -10,44 +10,51 @@ import {
   longLength,
 } from "@/components/new-dog-form/constants/form-defaults";
 import RequiredStar from "@/components/new-dog-form/components/required-star";
+import FormInput from "@/components/new-dog-form/components/form-input";
 
 function DogInputs() {
   return (
     <>
-      <label>
-        What is the Gender? <RequiredStar />
-      </label>
-      <select
-        name={G.gender}
-        required
+      <FormInput
+        label={
+          <>
+            What is the Gender? <RequiredStar />
+          </>
+        }
       >
-        <option value={"M"}>Male</option>
-        <option value={"F"}>Female</option>
-      </select>
+        <select name={G.gender} required>
+          <option value={"M"}>Male</option>
+          <option value={"F"}>Female</option>
+        </select>
+      </FormInput>
 
-      <label>Nose color? (optional)</label>
-      <input
-        name={G.noseColor}
-        type="text"
-        placeholder="Nose color"
-        maxLength={shortLength}
-      />
+      <FormInput label="Nose color? (optional)" >
+        <input
+          name={G.noseColor}
+          type="text"
+          placeholder="Nose color"
+          maxLength={shortLength}
+        />
+      </FormInput>
 
-      <label>Coat color? (optional)</label>
-      <input
-        name={G.coat}
-        type="text"
-        placeholder="Coat color"
-        maxLength={mediumLength}
-      />
+      <FormInput label="Coat color? (optional)" >
+        <input
+          name={G.coat}
+          type="text"
+          placeholder="Coat color"
+          maxLength={mediumLength}
+        />
+      </FormInput>
 
-      <label>Personality? (optional)</label>
-      <input
-        name={G.personality}
-        type="text"
-        placeholder="Personality"
-        maxLength={longLength}
-      />
+      <label></label>
+      <FormInput label="Personality? (optional)" >
+        <input
+          name={G.personality}
+          type="text"
+          placeholder="Personality"
+          maxLength={longLength}
+        />
+      </FormInput>
     </>
   );
 }

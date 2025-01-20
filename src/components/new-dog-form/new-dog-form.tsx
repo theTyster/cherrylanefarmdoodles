@@ -118,46 +118,56 @@ function NewDogForm({
 
   return (
     <>
-      <div className={css["form"]}>
+      <div className={css["main"]}>
         <SubmissionMsg success={formState.success} message={formState.error} />
-        <label>What do you want to work with?</label>
-        <select
-          ref={formTypeRef}
-          onChange={(e) => {
-            setAdminState(e.target.value as AdminState);
-            formState.state = e.target.value as AdminState;
-          }}
-          defaultValue={adminState}
-        >
-          {/**
-           * Could have looped over an array. Just didn't want to.
-           * Feels safer to have the values hardcoded.
-           * Also, this way I have more control on the order of the options,
-           * which will help UX.
-           **/}
-          <option value={DH.adminStates["Litters"]}>
-            {DH.adminStates["Litters"]}
-          </option>
-          <option value={DH.adminStates["Puppies"]}>
-            {DH.adminStates["Puppies"]}
-          </option>
-          <option value={DH.adminStates["Adults"]}>
-            {DH.adminStates["Adults"]}
-          </option>
-          <option value={DH.adminStates["Families"]}>
-            {DH.adminStates["Families"]}
-          </option>
-        </select>
+        <div id={css["what-to-work"]}>
+          <label>What do you want to work with?</label>
+          <select
+            ref={formTypeRef}
+            onChange={(e) => {
+              setAdminState(e.target.value as AdminState);
+              formState.state = e.target.value as AdminState;
+            }}
+            defaultValue={adminState}
+          >
+            {/**
+             * Could have looped over an array. Just didn't want to.
+             * Feels safer to have the values hardcoded.
+             * Also, this way I have more control on the order of the options,
+             * which will help UX.
+             **/}
+            <option value={DH.adminStates["Litters"]}>
+              {DH.adminStates["Litters"]}
+            </option>
+            <option value={DH.adminStates["Puppies"]}>
+              {DH.adminStates["Puppies"]}
+            </option>
+            <option value={DH.adminStates["Adults"]}>
+              {DH.adminStates["Adults"]}
+            </option>
+            <option value={DH.adminStates["Families"]}>
+              {DH.adminStates["Families"]}
+            </option>
+          </select>
+        </div>
         <div className={css["stats"]}>
           <h4>Session Stats</h4>
           <p>You have submitted:</p>
           <ul>
-            <li>{statState.Litters} Litters</li>
-            <li>{statState.Puppies} Puppies</li>
-            <li>{statState.Adults} Adults</li>
-            <li>{statState.Families} Families</li>
-            <button onClick={() => setStatState(statInit)}>Clear Stats</button>
+            <li>
+              <strong>{statState.Litters}</strong> Litters
+            </li>
+            <li>
+              <strong>{statState.Puppies}</strong> Puppies
+            </li>
+            <li>
+              <strong>{statState.Adults}</strong> Adults
+            </li>
+            <li>
+              <strong>{statState.Families}</strong> Families
+            </li>
           </ul>
+          <button onClick={() => setStatState(statInit)}>Clear Stats</button>
         </div>
         <h3>{formState.state}</h3>
         <Form
@@ -189,16 +199,9 @@ function NewDogForm({
             })()}
           </FormContext.Provider>
 
-          {(() => {
-            const marginTop = "2em";
-            return (
-              <>
-                <hr style={{ marginTop }} />
-
-                <p style={{ marginTop }}>Be sure to check important fields.</p>
-              </>
-            );
-          })()}
+          <p style={{ marginTop: "2rem", textAlign: "center" }}>
+            Be sure to check important fields.
+          </p>
           <button type="submit">Submit</button>
         </Form>
       </div>

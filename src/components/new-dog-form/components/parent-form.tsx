@@ -9,68 +9,77 @@ import DogInputs from "@/components/new-dog-form/components/inputs-for-all-dogs"
 
 //Components
 import BreederOptions from "@/components/new-dog-form/components/refreshable-options";
+import FormInput from "@/components/new-dog-form/components/form-input";
+
+// Static
+import css from "@styles/new-dog-form.module.scss";
 
 function ParentForm() {
   return (
     <>
       <DogInputs />
-      <label>Birthday (optional)</label>
-      <input name={G.adultBirthday}
-      type="date" placeholder="MM/DD/YYYY" />
+      <FormInput label="Birthday (optional)">
+        <input name={G.adultBirthday} type="date" placeholder="MM/DD/YYYY" />
+      </FormInput>
 
       <BreederOptions whichOptions="breeders" />
 
-      <label>
-        Activity Status <RequiredStar />
-      </label>
-      <select
-        name={G.activityStatus}
-        required
+      <FormInput
+        label={
+          <>
+            Activity Status <RequiredStar />
+          </>
+        }
       >
-        <option>Active</option>
-        <option>Retired</option>
-        <option>On a break</option>
-      </select>
+        <select name={G.activityStatus} required>
+          <option>Active</option>
+          <option>Retired</option>
+          <option>On a break</option>
+        </select>
+      </FormInput>
 
-      <label>Eye Color (optional)</label>
-      <input
-        name={G.eyeColor}
-        type="text"
-        placeholder="Eye Color"
-      />
+      <FormInput label="Eye Color (optional)">
+        <input name={G.eyeColor} type="text" placeholder="Eye Color" />
+      </FormInput>
 
-      <label>Parent&apos;s Name (optional)</label>
-      <input
-        name={G.adultName}
-        type="text"
-        placeholder="Dog Name"
-        maxLength={nameLength}
-      />
+      <FormInput label="Parent's Name (optional)">
+        <input
+          name={G.adultName}
+          type="text"
+          placeholder="Dog Name"
+          maxLength={nameLength}
+        />
+      </FormInput>
 
-      <label>Energy level (optional)</label>
-      <select name={G.energyLevel}
-      >
-        <option>Low</option>
-        <option>Medium-low</option>
-        <option>Medium</option>
-        <option>Medium-high</option>
-        <option>High</option>
-      </select>
+      <FormInput label="Energy level (optional)">
+        <select name={G.energyLevel}>
+          <option>Low</option>
+          <option>Medium-low</option>
+          <option>Medium</option>
+          <option>Medium-high</option>
+          <option>High</option>
+        </select>
+      </FormInput>
 
-      <label>Favorite activities (optional)</label>
-      <input
-        name={G.favActivities}
-        type="text"
-        placeholder="Favorite activities"
-      />
+      <FormInput label="Favorite activities (optional)">
+        <input
+          name={G.favActivities}
+          type="text"
+          placeholder="Favorite activities"
+        />
+      </FormInput>
 
-      <label>Weight (optional)</label>
-      <input name={G.weight}
-        type="text" placeholder="Weight" />
+      <FormInput label="Weight (optional)">
+        <input name={G.weight} type="text" placeholder="Weight" />
+      </FormInput>
 
-      <label>Certifications (optional)</label>
-      <input name={G.certifications}
-        type="text" placeholder="Certifications" />
+      <FormInput label="Certifications (optional)">
+        <input
+          name={G.certifications}
+          type="text"
+          placeholder="Certifications"
+        />
+      </FormInput>
     </>
   );
 }
