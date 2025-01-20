@@ -60,7 +60,7 @@ type D1AdultMenuDataRawHelper = (
 
 type D1AdultMenuDataRaw = ReturnType<D1AdultMenuDataRawHelper>;
 
-type IdName = { id: number; name: string };
+export type IdName = { id: number; name: string };
 
 /**Controls the overall state of the SPA Admin Panel*/
 export default class ServerAdminDataHandler extends Statements {

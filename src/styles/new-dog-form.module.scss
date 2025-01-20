@@ -25,7 +25,6 @@
 
   label {
     font-size: 1rem;
-    margin-top: 10px;
   }
 
   select {
@@ -47,4 +46,12 @@
   margin: 2em;
   border: 3px solid #333;
   padding: 1em;
+}
+
+.input-with-button {
+  display: flex;
+}
+
+.form-input:nth-of-type(odd) {
+  background-color: pink;
 }

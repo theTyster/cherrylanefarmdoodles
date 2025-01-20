@@ -1,15 +1,10 @@
 "use client";
 export const runtime = "edge";
 
-import { GlobalNameSpaces as G } from "@/constants/data";
-import { useContext } from "react";
-
 // Utilities
-import RequiredStar from "@/components/new-dog-form/components/required-star";
-import { FormContext } from "@/components/new-dog-form/new-dog-form";
+import FamilyOption from "@/components/new-dog-form/components/refreshable-options";
 
 function FamilyForm() {
-  const { inputData } = useContext(FormContext) ?? {};
   return (
     <>
       <h3>Creating A New Family</h3>
@@ -35,38 +30,11 @@ function FamilyForm() {
         This way you, are able to announce new litters when they are still in
         the planning stages.
       </p>
-      <label>
-        Mother <RequiredStar />
-      </label>
-      <select name={G.mother}>
-        {inputData?.motherNames.map((mother) => (
-          <option key={mother.id + mother.name} value={mother.id}>
-            {mother.name}
-          </option>
-        ))}
-      </select>
 
-      <label>
-        Father <RequiredStar />
-      </label>
-      <select name={G.father}>
-        {inputData?.fatherNames.map((father) => (
-          <option key={father.id + father.name} value={father.id}>
-            {father.name}
-          </option>
-        ))}
-      </select>
+      <FamilyOption whichOptions='parents' />
 
-      <label>
-        Litter <RequiredStar />
-      </label>
-      <select name={G.litterId}>
-        {inputData?.litterNames.map((litter) => (
-          <option key={litter.id + litter.name} value={litter.id}>
-            {litter.name}
-          </option>
-        ))}
-      </select>
+      <FamilyOption whichOptions='litters' />
+
     </>
   );
 }

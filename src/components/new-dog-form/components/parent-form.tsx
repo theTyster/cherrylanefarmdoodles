@@ -1,24 +1,16 @@
-"use client";
 export const runtime = "edge";
 
 import { GlobalNameSpaces as G } from "@/constants/data";
-import { useState, useContext } from "react";
 
 // Utilities
 import { nameLength } from "@/components/new-dog-form/constants/form-defaults";
 import RequiredStar from "@/components/new-dog-form/components/required-star";
-import { FormContext } from "@/components/new-dog-form/new-dog-form";
 import DogInputs from "@/components/new-dog-form/components/inputs-for-all-dogs";
 
+//Components
+import BreederOptions from "@/components/new-dog-form/components/refreshable-options";
+
 function ParentForm() {
-
-  const { inputData } = useContext(FormContext) ?? {};
-
-  const [breeder, setBreeder]: [
-    string,
-    React.Dispatch<React.SetStateAction<string>>
-  ] = useState("Cherry Lane Farms");
-
   return (
     <>
       <DogInputs />
@@ -26,25 +18,7 @@ function ParentForm() {
       <input name={G.adultBirthday}
       type="date" placeholder="MM/DD/YYYY" />
 
-      <label>
-        Breeder name <RequiredStar />
-      </label>
-      <select
-        name={G.breeder}
-        onChange={(e) => {
-          setBreeder(e.target.value);
-        }}
-        required
-      >
-        {inputData?.breeders.map((b) => (
-          <option key={b}>{b}</option>
-        ))}
-        <option>Other</option>
-      </select>
-
-      {breeder === "Other" ? (
-        <input name={G.breeder} type="text" placeholder="Add the new breeder" />
-      ) : null}
+      <BreederOptions whichOptions="breeders" />
 
       <label>
         Activity Status <RequiredStar />

@@ -58,9 +58,7 @@ function LitterForm() {
         clear
       </button>
 
-      <label>
-        How many potential buyers are currently in the pick queue?
-      </label>
+      <label>How many potential buyers are currently in the pick queue?</label>
       <input
         name={G.applicantsInQueue}
         type="number"
