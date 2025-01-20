@@ -54,15 +54,16 @@ export default function DogTree({ familyData }: { familyData: DogTreeData }) {
     <>
       <div className={css.top}>
         {mother[G.adultName] === "Unrecorded" ? (
-          <div className={css.momHeadshot}>
+          <div className={css.unrecordedDog}>
             <MomHeadshot
               variant={D1T[G.Headshots_Sm]}
-              src={mother[G.Headshots_Sm]}
+              src={unrecordedDogIMG}
               alt="Mother Dog"
-              gender="F"
+              gender="U"
+              style={{ cursor: "default" }}
               priority
             />
-            <h2>Unknown</h2>
+            <h2>Mother TBA</h2>
           </div>
         ) : (
           <Link className={css.momHeadshot} href={"dams/" + ids[G.litterId]}>
@@ -90,8 +91,10 @@ export default function DogTree({ familyData }: { familyData: DogTreeData }) {
               src={unrecordedDogIMG}
               alt="Father Dog"
               gender="U"
+              style={{ cursor: "default" }}
+              priority
             />
-            <h2>Unknown</h2>
+            <h2>Father TBA</h2>
           </div>
         ) : (
           <Link className={css.dadHeadshot} href={"sires/" + ids[G.litterId]}>
@@ -100,6 +103,7 @@ export default function DogTree({ familyData }: { familyData: DogTreeData }) {
               src={father[G.Headshots_Sm]}
               alt="Father Dog"
               gender="M"
+              priority
             />
             <h2>{father["adultName"]}</h2>
           </Link>
@@ -122,6 +126,7 @@ export default function DogTree({ familyData }: { familyData: DogTreeData }) {
                 alt="Puppies"
                 litterId={ids[G.litterId]}
                 puppiesLeft={puppiesLeft}
+                priority
               />
             );
           else {

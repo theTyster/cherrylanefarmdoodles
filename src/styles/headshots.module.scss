@@ -68,7 +68,7 @@
 .unrecordedDog {
   outline: Theme.$unrecordedDogOutline;
   outline-offset: -1px;
-  cursor: auto;
+  cursor: default;
   box-shadow: none;
   &:active {
     box-shadow: none;
