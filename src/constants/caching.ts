@@ -9,6 +9,12 @@ export default async function fetchDataWithCache<T>(
   key: string,
   fetchFromDB: FetchFromDB<T>
 ): Promise<T> {
+
+  // If we are in development, don't cache data
+  if (process?.env?.NODE_ENV === "development") {
+    return await fetchFromDB();
+  }
+
   try {
     const KV = getRequestContext().env.__NEXT_ON_PAGES__KV_SUSPENSE_CACHE;
 
