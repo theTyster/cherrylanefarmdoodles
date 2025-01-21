@@ -299,7 +299,6 @@ function NavMenu({
   );
 
   const buttonEventHandler = async (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
     menuState: MenuStateTypes
   ) => {
     await M.toggleMenu(menuState);
@@ -308,7 +307,7 @@ function NavMenu({
   return (
     <nav className={navCSS["nav"]} ref={navRef}>
       <button
-        onClick={(e) => buttonEventHandler(e, menuState)}
+        onClick={() => buttonEventHandler(menuState)}
         id={navCSS["title-menu-button"]}
         ref={buttonRef}
         tabIndex={0}
