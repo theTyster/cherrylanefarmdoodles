@@ -173,14 +173,22 @@ export type D1LitterQueryData = QueryStringify<PuppyQueryData>;
 export const previousLittersQuery = `
   SELECT
   ${G.Group_Photos},
-  ${G.litterId}
+  ${D1T.Families}.${G.litterId},
+  ${D1T.Litters}.${G.litterBirthday},
+  ${D1T.Litters}.${G.dueDate}
   FROM
     ${D1T.Families}
-  WHERE ${G.mother} = ?` as const;
+    Left JOIN ${D1T.Litters}
+      ON ${D1T.Litters}.${G.id} = ${D1T.Families}.${G.litterId}
+  WHERE ${G.mother} = ?
+    ` as const;
+
 /**Describes data in the Families Table after being converted to a usable type.*/
 export type PreviousLittersQueryData = [
   D1Families[typeof G.Group_Photos],
-  D1Families[typeof G.litterId]
+  D1Families[typeof G.litterId],
+  D1Litters[typeof G.litterBirthday],
+  D1Litters[typeof G.dueDate]
 ];
 
 /**

@@ -6,6 +6,7 @@ import {
   type PreviousLittersQueryData as PlQ,
 } from "@/constants/queries";
 import { getFirstRecentFamily } from "@/components/dog-about/constants/family-constants";
+import DateCalculator from "@/constants/dates";
 
 // Components
 import { Fragment } from "react";
@@ -34,68 +35,74 @@ async function WoodSectionLitter({
   const previousLitters = await D1.prepare(previousLittersQuery)
     .bind(motherId)
     .raw<PlQ>();
-  const woodSectionStyle = {
-    display: "flex",
-    width: "100%",
-    justifyContent: "center",
-    flexDirection: "column",
-    alignItems: "center",
-  } as React.CSSProperties;
 
   return (
     <>
-      <div
-        style={{
-          ...woodSectionStyle,
-        }}
-      >
-        {previousLitters.map((litter) => {
-          const previousLitterId = litter[1];
-          const GroupImage = litter[0];
-          // Case for the first time mother.
-          if (
-            previousLitterId &&
-            previousLitters.length === 1
-          ) {
+      <div className={css["litter-woodSection"]}>
+        {previousLitters.length ? (
+          <h1>Other litters from {mom[G.adultName]}</h1>
+        ) : (
+          ""
+        )}
+        {(() => {
+          const id = previousLitters[0][1]; /** <--Litter Id*/
+          if (id && previousLitters.length === 1) {
             return (
-              <div
-                key={`FTM-${previousLitterId}`}
-                style={{
-                  ...woodSectionStyle,
-                }}
-              >
+              <div key={`FTM-${id}`} className={css["litter-woodsection"]}>
+                <h2>This is {mom.adultName}&apos;s first litter!</h2>
                 <SvgFirstTimeMother style={{ maxWidth: "700px" }} />
               </div>
             );
-            // Case for the current litter.
-          } else if (previousLitterId === Number.parseFloat(litterId)) return;
-          else
-            return (
-              <Fragment key={`GP-${previousLitterId}`}>
-                <h2
-                  style={{
-                    marginBottom: "1em",
-                  }}
-                >
-                  Other litters from {mom[G.adultName]}
-                </h2>
-                <GroupPhoto
-                  alt={`${mom.adultName}'s Previous Litter with ID ${previousLitterId}'`}
-                  src={GroupImage}
-                  litterId={previousLitterId}
-                />
-              </Fragment>
-            );
-        })}
+            // Skip displaying the litter for the current page here.
+          }
+        })()}
+        <hr />
+        <div className={css["previous-litters"]}>
+          {previousLitters.map((litter) => {
+            const [GroupImage, id, birthday, dueDate] = litter;
+
+            const date = new DateCalculator({
+              litterBirthday: birthday ? new Date(birthday) : null,
+              dueDate: dueDate ? new Date(dueDate) : null,
+            });
+
+            // Case for the first time mother.
+            if (id === Number.parseFloat(litterId)) return;
+            else
+              return (
+                <Fragment key={`GP-${id}`}>
+                  <div className={css['litter-group']}>
+                    {(() => {
+                      switch (date.nextEvent.type) {
+                        case "born":
+                          return <h2>Born {date.prettified.nextEvent}</h2>;
+                        case "due":
+                          return <h2>Due {date.prettified.nextEvent}</h2>;
+                        case "pickDay":
+                          return (
+                            <h2>
+                              Available for picks {date.prettified.nextEvent}
+                            </h2>
+                          );
+                        case "goHome":
+                          return (
+                            <h2>Going home {date.prettified.nextEvent}</h2>
+                          );
+                      }
+                    })()}
+                    <GroupPhoto
+                      alt={`${mom.adultName}'s Previous Litter with ID ${id}'`}
+                      src={GroupImage}
+                      litterId={id}
+                    />
+                  </div>
+                </Fragment>
+              );
+          })}
+        </div>
       </div>
-      <div>
-        <h2
-          style={{
-            marginBottom: "1em",
-          }}
-        >
-          Meet the Momma: {`${mom[G.adultName]}`}
-        </h2>
+      <div className={css['litter-woodSection']}>
+        <h2>Meet the Momma: {`${mom[G.adultName]}`}</h2>
         <Link href={`/dams/${litterId}`}>
           <Headshot
             className={css.currentLitter__momHeadshot}
