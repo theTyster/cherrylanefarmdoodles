@@ -46,9 +46,7 @@ function MainLayouts({
           <div className={css["right-flex"]} />
         </div>
         <div className={`${css["wood-layout"]}`}>
-          <div className={css["left-flex"]} />
           <div className={css["content-box"]}>{_2wood}</div>
-          <div className={css["right-flex"]} />
         </div>
         <div className={css["tan-layout"]}>
           <div className={css["left-flex"]} />

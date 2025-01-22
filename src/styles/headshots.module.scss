@@ -12,8 +12,8 @@
     height: auto;
     object-fit: cover;
     border-radius: Theme.$bigButtonRadius;
-    box-sizing: content-box;
     outline: Theme.$outlineWidth solid Theme.$gray;
+    // box-sizing: content-box; <-- no. bad.
     //  background-color: Theme.$primary;
     //  transition-property: box-shadow;
     //  transition-duration: #{Theme.$transitionShort}s;
