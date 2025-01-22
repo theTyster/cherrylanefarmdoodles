@@ -144,7 +144,7 @@ class DateCalculator extends Date {
     pickDay: this._prettify(this.pickDay),
     goHome: this._prettify(this.goHome),
     currentDOB: this._prettify(this.currentDOB),
-    nextEvent: this._prettify(this.nextEvent as Date),
+    nextEvent: this._prettify(this.nextEvent.date),
   };
 
   /**The Date 7 weeks after the litter's birthday.*/
@@ -171,16 +171,21 @@ class DateCalculator extends Date {
    * The date of the next event that buyers should be aware of.
    * If all events are in the past, this will return "Available Now".
    **/
-  get nextEvent(): Date | "Available Now" {
-    if (!!this.goHome) {
-      if (this.goHome.getTime() < Date.now()) return "Available Now";
-    }
-
-    if (!!this.pickDay)
-      if (this.pickDay.getTime() < Date.now()) return this.goHome;
-
-    // Default outcome
-    return this.pickDay;
+  get nextEvent(): {
+    type: "due" | "pickDay" | "goHome" | "born";
+    date: Date;
+  } {
+    // The dog is not yet born.
+    if (this.currentDOB.getTime() > Date.now())
+      return { type: "due", date: this.currentDOB };
+    // The dog is not available for picks yet.
+    else if (this.pickDay.getTime() > Date.now())
+      return { type: "pickDay", date: this.pickDay };
+    // The Dog is not Available to go home yet.
+    else if (this.goHome.getTime() > Date.now())
+      return { type: "goHome", date: this.goHome };
+    // The dog is available now.
+    else return { type: "born", date: this.currentDOB};
   }
 }
 

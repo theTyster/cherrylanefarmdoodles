@@ -3,6 +3,10 @@
 // Constants
 import DateCalculator from "@/constants/dates";
 
+/**
+ * @deprecated This component should be replaced with the date calculator's
+ * nextEvent property.
+ **/
 function NextFamilyDate({
   leade,
   calcInit,
@@ -36,7 +40,7 @@ function NextFamilyDate({
     );
   // If the litter is born and the pick date is in the future, it should
   // display the pick date which is 7 weeks after the birthdate.
-  else if (now <= new Date(calc.nextEvent).getTime())
+  else if (now <= new Date(calc.nextEvent.date).getTime())
     return (
       <>
         <div style={style} className={className}>
@@ -47,7 +51,7 @@ function NextFamilyDate({
     );
   // If the litter is born, and the pick date has passed, it should display
   // the going home date which is 8 weeks after the birthdate.
-  else if (now <= new Date(calc.nextEvent).getTime())
+  else if (now <= new Date(calc.nextEvent.date).getTime())
     return (
       <>
         <div style={style} className={className}>
