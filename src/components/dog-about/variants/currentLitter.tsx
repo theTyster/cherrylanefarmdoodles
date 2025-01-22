@@ -51,13 +51,11 @@ export default function CurrentLitter({
         {(() => {
           if (!D.parentData) return null;
 
-          const litterBirthday = D.parentData.litterData[G.litterBirthday],
-            dueDate = D.parentData.litterData[G.dueDate];
+          const mostRecentDate = D.parentData.litterData[G.mostRecentDate];
+              
+
           const calcInit = {
-            litterBirthday: litterBirthday
-              ? new Date(litterBirthday)
-              : undefined,
-            dueDate: dueDate ? new Date(dueDate) : undefined,
+            mostRecentDate: new Date(mostRecentDate),
           };
           // Case for the first time mother.
           return (

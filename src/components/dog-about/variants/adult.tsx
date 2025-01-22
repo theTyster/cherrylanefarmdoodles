@@ -30,11 +30,10 @@ export default function Adult({
   const partnerMorf = MorF(D.partnerData[G.gender]);
 
   const litterBirthday = D.litterData[G.litterBirthday],
-    dueDate = D.litterData[G.dueDate];
+    mostRecentDate = D.litterData[G.mostRecentDate];
 
   const calc = new DateCalculator({
-    litterBirthday: litterBirthday ? new Date(litterBirthday) : undefined,
-    dueDate: dueDate ? new Date(dueDate) : undefined,
+    mostRecentDate: new Date(mostRecentDate)
   });
   /**Returns a string containing information about available puppies.*/
   function hasPuppies(): string {

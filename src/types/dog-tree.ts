@@ -27,6 +27,7 @@ export interface DogTreeData {
   litterData: {
     [G.dueDate]: FQ[typeof G.dueDate];
     [G.litterBirthday]: FQ[typeof G.litterBirthday];
+    [G.mostRecentDate]: FQ[typeof G.mostRecentDate];
     [G.applicantsInQueue]: FQ[typeof G.applicantsInQueue];
     [G.availablePuppies]: number;
     [G.totalPuppies]: number;

@@ -117,6 +117,7 @@ export default class DogTreeDataClass {
         litterData: {
           [G.dueDate]: familyTableData[G.dueDate],
           [G.litterBirthday]: familyTableData[G.litterBirthday],
+          [G.mostRecentDate]: familyTableData[G.mostRecentDate],
           [G.applicantsInQueue]: familyTableData[G.applicantsInQueue],
           [G.availablePuppies]: familyTableData[G.availablePuppies],
           [G.totalPuppies]: familyTableData[G.totalPuppies],

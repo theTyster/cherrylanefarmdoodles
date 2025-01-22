@@ -11,9 +11,6 @@ import DogInputs from "@/components/new-dog-form/components/inputs-for-all-dogs"
 import BreederOptions from "@/components/new-dog-form/components/refreshable-options";
 import FormInput from "@/components/new-dog-form/components/form-input";
 
-// Static
-import css from "@styles/new-dog-form.module.scss";
-
 function ParentForm() {
   return (
     <>

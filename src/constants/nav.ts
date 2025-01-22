@@ -16,8 +16,7 @@ export type MenuDataType = {
 export type D1LitterMenuData = {
   id: number;
   mother: string;
-  litterBirthday: string | null;
-  dueDate: string | null;
+  mostRecentDate: string;
 };
 export type D1MotherMenuData = {
   id: number;
@@ -43,6 +42,7 @@ export default class MenuData {
       this.D1.prepare(this.getLitterQuery({ limit: 10 }))
         .all<D1LitterMenuData>()
         .then((data) => {
+          console.log('litterData', data.results)
           if (data) return data.results;
           throw new Error("No data found.");
         }),
@@ -69,7 +69,7 @@ export default class MenuData {
       | Record<string, unknown> = {}
   ) {
     return `SELECT
-            ${D1T.Adults}.${G.dogId} as id,
+            ${D1T.Adults}.${G.dogId} AS id,
             ${D1T.Adults}.${G.adultName}
           FROM
             ${D1T.Families}
@@ -91,24 +91,39 @@ export default class MenuData {
       | Record<string, unknown> = {}
   ) {
     return `SELECT
-            ${D1T.Litters}.${G.id} as id,
-            ${D1T.Adults}.${G.adultName} as mother,
+            ${D1T.Litters}.${G.id} AS id,
+            ${D1T.Adults}.${G.adultName} AS mother,
             ${D1T.Litters}.${G.litterBirthday},
-            ${D1T.Litters}.${G.dueDate}
-          FROM
-            ${D1T.Families}
-            LEFT JOIN ${D1T.Litters} ON ${D1T.Litters}.${G.id} = ${
-      D1T.Families
-    }.${G.litterId}
-            LEFT JOIN ${D1T.Adults} ON ${D1T.Adults}.${G.id} = ${
-      D1T.Families
-    }.${G.mother} 
-          ${opts.limit ? `LIMIT ${opts.limit}` : ""}
-          ${
-            opts.includeRetired
-              ? `WHERE ${D1T.Adults}.${G.activityStatus} IS NOT 'Retired'`
+            ${D1T.Litters}.${G.dueDate},
+            CASE
+              WHEN 
+                COALESCE(${D1T.Litters}.${G.litterBirthday}, 1970-01-01) > 
+                COALESCE(${D1T.Litters}.${G.dueDate}, 1970-01-01) 
+                AND
+                SUM(CASE WHEN 
+                    Pups.${
+                  G.availability
+                } LIKE '%Available%' THEN 1 ELSE 0 END) > 0
+                THEN 
+                COALESCE(${D1T.Litters}.${G.litterBirthday}, 1970-01-01)
+                ELSE
+                COALESCE(${D1T.Litters}.${G.dueDate}, 1970-01-01)
+              END AS mostRecentDate
+            FROM
+              ${D1T.Families}
+              LEFT JOIN ${D1T.Litters}
+                ON ${D1T.Litters}.${G.id} = ${D1T.Families}.${G.litterId}
+              LEFT JOIN ${D1T.Puppies}
+                AS Pups ON ${D1T.Litters}.${G.id} = Pups.${G.litterId}
+              LEFT JOIN ${D1T.Adults}
+                ON ${D1T.Adults}.${G.id} = ${D1T.Families}.${G.mother} 
+            ${opts.includeRetired
+              ? `AND ${D1T.Adults}.${G.activityStatus} IS NOT 'Retired'`
               : ""
-          }
+            }
+            GROUP BY ${D1T.Families}.${G.mother}
+            ORDER BY mostRecentDate ASC
+            ${opts.limit ? `LIMIT ${opts.limit}` : ""}
           `;
   }
 
@@ -128,10 +143,7 @@ export default class MenuData {
 
   concatLitterName(item: D1LitterMenuData): string {
     const date = new DateCalculator({
-      litterBirthday: item.litterBirthday
-        ? new Date(item.litterBirthday)
-        : null,
-      dueDate: item.dueDate ? new Date(item.dueDate) : null,
+      mostRecentDate: new Date(item.mostRecentDate),
     }).prettified.currentDOB;
     return `${item.mother} - (${date})`;
   }

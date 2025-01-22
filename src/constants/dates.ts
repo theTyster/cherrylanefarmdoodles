@@ -6,6 +6,7 @@ const DOG_NAMESPACES = {
   [G.adultBirthday]: G.adultBirthday,
   [G.litterBirthday]: G.litterBirthday,
   [G.dueDate]: G.dueDate,
+  [G.mostRecentDate]: G.mostRecentDate,
 } as const;
 
 /**
@@ -24,12 +25,14 @@ const DOG = {
   [G.adultBirthday]: DOG_NAMESPACES[G.adultBirthday],
   [G.litterBirthday]: DOG_NAMESPACES[G.litterBirthday],
   [G.dueDate]: DOG_NAMESPACES[G.dueDate],
+  [G.mostRecentDate]: G.mostRecentDate,
 } as const;
 
 type DogDates = {
   readonly [DOG.adultBirthday]?: Date | null;
   readonly [DOG.litterBirthday]?: Date | null;
   readonly [DOG.dueDate]?: Date | null;
+  readonly [DOG.mostRecentDate]?: Date | null;
 };
 
 /**
@@ -48,12 +51,10 @@ type DogDates = {
  **/
 class DateCalculator extends Date {
   /**Should only be used by this class*/
-  private _dog!: DogDates;
   date!: Date;
 
   constructor(dog: DogDates | ConstructorParameters<typeof Date>[number]) {
     let dateInit: Date;
-    let dogInit: DogDates;
     let superInit: ConstructorParameters<typeof Date>[number];
     if (typeof dog === "string") {
       superInit = dog;
@@ -68,58 +69,40 @@ class DateCalculator extends Date {
       const adult = dog[DOG.adultBirthday];
       const litter = dog[DOG.litterBirthday];
       const due = dog[DOG.dueDate];
+      const mostRecent = dog[DOG.mostRecentDate];
 
       // If the litter is born, the birthday is the most relevant date.
       if (litter && due) {
         superInit = litter;
         dateInit = new Date(litter);
-        dogInit = dog;
       } else if (due) {
         superInit = due;
         dateInit = new Date(due);
-        dogInit = dog;
       } else if (adult) {
         superInit = adult;
         dateInit = new Date(adult);
-        dogInit = dog;
       } else if (litter) {
         superInit = litter;
         dateInit = new Date(litter);
-        dogInit = dog;
       } else {
-        if (!adult && !litter && !due)
-          throw new Error(
-            "Must have a birthday or due date to calculate dates. Provided: " +
-              JSON.stringify(dog)
-          );
+        if (!(adult || litter || due || mostRecent)) {
+          throw new Error("No values were provided" + JSON.stringify(dog));
+        }
 
-        if (!adult && !due)
-          throw new Error(
-            "Must have a birthday or due date to calculate dates. Provided: " +
-              JSON.stringify(dog)
-          );
-
-        if (adult && litter)
+        // If an adult dog parametr is combined with any of the puppy
+        // parameters, throw.  ┻━┻ ヽ(°□°ヽ)
+        if ((adult && litter) || (adult && due) || (adult && mostRecent))
           throw new Error(
             "Will not calculate dates for both an adult and puppies simultaneously. Provided: " +
               JSON.stringify(dog)
           );
 
-        if (adult && due)
-          throw new Error(
-            "Will not calculate dates for both an adult and puppies simultaneously. Provided: " +
-              JSON.stringify(dog)
-          );
-
-        dogInit = dog;
-        dateInit = new Date((litter ?? due ?? adult)!);
+        dateInit = new Date((mostRecent ?? litter ?? due ?? adult)!);
         superInit = dateInit;
       }
-      dogInit = dog;
-      dateInit = new Date((litter ?? due ?? adult)!);
+      dateInit = new Date((mostRecent ?? litter ?? due ?? adult)!);
       superInit = dateInit;
       super(superInit);
-      this._dog = dogInit;
       this.date = dateInit;
     }
   }

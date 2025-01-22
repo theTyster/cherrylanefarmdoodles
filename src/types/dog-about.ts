@@ -38,6 +38,7 @@ export type VariantDataTypes = VariantTypes[keyof VariantTypes];
 export type LitterData = {
   readonly [G.dueDate]: FQ[typeof G.dueDate];
   readonly [G.litterBirthday]: FQ[typeof G.litterBirthday];
+  readonly [G.mostRecentDate]: FQ[typeof G.mostRecentDate];
   readonly [G.applicantsInQueue]: FQ[typeof G.applicantsInQueue];
   readonly [G.availablePuppies]: FQ[typeof G.availablePuppies];
   readonly [G.totalPuppies]: FQ[typeof G.totalPuppies];
@@ -102,6 +103,7 @@ export const castPuppyFromD1 = (pup: D1DQ & D1LQ & D1FQ): PuppyData => {
     litterData: {
       [G.dueDate]: pup[G.dueDate],
       [G.litterBirthday]: pup[G.litterBirthday],
+      [G.mostRecentDate]: pup[G.mostRecentDate],
       [G.applicantsInQueue]: pup[G.applicantsInQueue],
       [G.availablePuppies]: pup[G.availablePuppies],
       [G.totalPuppies]: pup[G.totalPuppies],

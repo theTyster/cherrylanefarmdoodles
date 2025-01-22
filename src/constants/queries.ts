@@ -95,7 +95,7 @@ export const familyQuery = (
   ${G.Group_Photos},
   ${G.mother},
   ${G.father},
-  ${D1T.Families}.${G.litterId} as ${G.litterId},
+  ${D1T.Families}.${G.litterId} AS ${G.litterId},
   ${G.dueDate},
   ${G.litterBirthday},
   ${G.applicantsInQueue},
@@ -103,20 +103,30 @@ export const familyQuery = (
   SUM(CASE WHEN Pups.${
     G.availability
   } LIKE '%Available%' THEN 1 ELSE 0 END) AS ${G.availablePuppies},
-   COUNT(Pups.${G.id}) as ${G.totalPuppies}
+  COUNT(Pups.${G.id}) AS ${G.totalPuppies},
+  CASE
+    WHEN 
+      COALESCE(${D1T.Litters}.${G.litterBirthday}, 1970-01-01) > 
+      COALESCE(${D1T.Litters}.${G.dueDate}, 1970-01-01) 
+      AND
+      SUM(CASE WHEN 
+          Pups.${
+        G.availability
+      } LIKE '%Available%' THEN 1 ELSE 0 END) > 0
+      THEN 
+      COALESCE(${D1T.Litters}.${G.litterBirthday}, 1970-01-01)
+      ELSE
+      COALESCE(${D1T.Litters}.${G.dueDate}, 1970-01-01)
+    END AS mostRecentDate
   FROM
     ${D1T.Families}
-    Left JOIN
-      ${D1T.Litters}
-      ON
-      ${D1T.Families}.${G.litterId} = ${D1T.Litters}.${G.id}
-    LEFT JOIN
-      ${D1T.Puppies}
-      AS Pups ON
-      ${D1T.Litters}.${G.id} = Pups.${G.litterId}
+    Left JOIN ${D1T.Litters}
+      ON ${D1T.Litters}.${G.id} = ${D1T.Families}.${G.litterId}
+    LEFT JOIN ${D1T.Puppies}
+      AS Pups ON ${D1T.Litters}.${G.id} = Pups.${G.litterId}
   ${opts.litterId ? `WHERE ${D1T.Families}.${G.litterId} = ?` : ""}
   ${opts.onlyRecent ? `GROUP BY ${D1T.Families}.${G.mother}` : ""}
-  ORDER BY ${D1T.Litters}.${G.dueDate} DESC
+  ORDER BY mostRecentDate ASC
   ` as const;
 
 /**Describes Data in D1 After being converted to a usable type.*/

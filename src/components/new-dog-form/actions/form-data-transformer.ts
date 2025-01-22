@@ -5,14 +5,20 @@ import { type AdminState } from "@/components/new-dog-form/actions/server-data-h
 
 export type OptionalFormValues = "";
 
+type AdultFormType = DogsDBTableValTypes<"Adults", "id">;
+type PuppyFormType = DogsDBTableValTypes<"Puppies", "id">;
+type FamilyFormType = DogsDBTableValTypes<"Families", "id">;
+type LitterFormType = DogsDBTableValTypes<"Litters", "id" | "mostRecentDate">;
+type DogsFormType = DogsDBTableValTypes<"Dogs", "id">;
+
 export type FormattedFormDataType<format = AdminState> = format extends "Adults"
-  ? [DogsDBTableValTypes<"Adults", "id">, DogsDBTableValTypes<"Dogs", "id">]
+  ? [AdultFormType, DogsFormType]
   : format extends "Puppies"
-  ? [DogsDBTableValTypes<"Puppies", "id">, DogsDBTableValTypes<"Dogs", "id">]
+  ? [PuppyFormType, DogsFormType]
   : format extends "Families"
-  ? [DogsDBTableValTypes<"Families", "id">]
+  ? [FamilyFormType]
   : format extends "Litters"
-  ? [DogsDBTableValTypes<"Litters", "id">]
+  ? [LitterFormType]
   : never;
 
 export class FormTransformer {
@@ -89,7 +95,7 @@ export class FormTransformer {
    * and transforms it into an object that can be used to update or create a new row
    * in the dogs table of the database.
    **/
-  dogFormData(formData: FormData): DogsDBTableValTypes<"Dogs", "id"> {
+  dogFormData(formData: FormData): DogsFormType {
     const table = D1T.Dogs;
     const dogKeys = D1SchemaKeys[table];
     const [
@@ -132,7 +138,7 @@ export class FormTransformer {
       D[typeof Headshots_Lg]
     >(Headshots_Lg, formData.get(Headshots_Lg));
 
-    const dogData: DogsDBTableValTypes<"Dogs", "id"> = {
+    const dogData: DogsFormType = {
       ...dogIdObj,
       ...genderObj,
       ...noseColorObj,
@@ -150,7 +156,7 @@ export class FormTransformer {
    * into an object that can be used to update or create a litter in the
    * database.
    **/
-  litterFormData(formData: FormData): DogsDBTableValTypes<"Litters", "id"> {
+  litterFormData(formData: FormData): LitterFormType {
     const table = D1T.Litters;
     const litterKeys = D1SchemaKeys[table];
     const [litterId, dueDate, litterBirthday, applicantsInQueue] = litterKeys;
@@ -172,7 +178,7 @@ export class FormTransformer {
       L[typeof applicantsInQueue]
     >(applicantsInQueue, formData.get(applicantsInQueue));
 
-    const litterData: DogsDBTableValTypes<"Litters", "id"> = {
+    const litterData: LitterFormType = {
       ...litterIdObj,
       ...dueDateObj,
       ...litterBirthdayObj,
@@ -187,9 +193,7 @@ export class FormTransformer {
    * into an object that can be used to update or create an adult in the
    * database.
    **/
-  adultFormData(
-    formData: FormData
-  ): [DogsDBTableValTypes<"Adults", "id">, DogsDBTableValTypes<"Dogs", "id">] {
+  adultFormData(formData: FormData): [AdultFormType, DogsFormType] {
     const table = D1T.Adults;
     const adultKeys = D1SchemaKeys[table];
     const [
@@ -252,10 +256,9 @@ export class FormTransformer {
         formData.get(dogId)
       );
 
-    const dogObj: DogsDBTableValTypes<"Dogs", "id"> =
-      this.dogFormData(formData);
+    const dogObj: DogsFormType = this.dogFormData(formData);
 
-    const adultData: DogsDBTableValTypes<"Adults", "id"> = {
+    const adultData: AdultFormType = {
       ...adultIdObj,
       ...adultNameObj,
       ...breederObj,
@@ -277,9 +280,7 @@ export class FormTransformer {
    * into an object that can be used to update or create a puppy in the
    * database.
    **/
-  puppyFormData(
-    formData: FormData
-  ): [DogsDBTableValTypes<"Puppies", "id">, DogsDBTableValTypes<"Dogs", "id">] {
+  puppyFormData(formData: FormData): [PuppyFormType, DogsFormType] {
     const table = D1T.Puppies;
     const puppyKeys = D1SchemaKeys[table];
     const [puppyId, puppyName, collarColor, availability, dogId, litterId] =
@@ -311,10 +312,9 @@ export class FormTransformer {
         P[typeof litterId]
       >(litterId, formData.get(litterId));
 
-    const dogObj: DogsDBTableValTypes<"Dogs", "id"> =
-      this.dogFormData(formData);
+    const dogObj: DogsFormType = this.dogFormData(formData);
 
-    const puppyData: DogsDBTableValTypes<"Puppies", "id"> = {
+    const puppyData: PuppyFormType = {
       ...puppyIdObj,
       ...puppyNameObj,
       ...collarColorObj,
@@ -331,7 +331,7 @@ export class FormTransformer {
    * into an object that can be used to update or create a family in the
    * database.
    **/
-  familyFormData(formData: FormData): DogsDBTableValTypes<"Families", "id"> {
+  familyFormData(formData: FormData): FamilyFormType {
     const table = D1T.Families;
     const familyKeys = D1SchemaKeys[table];
     const [familyId, Group_Photos, motherId, fatherId, litterId] = familyKeys;
@@ -358,8 +358,7 @@ export class FormTransformer {
         F[typeof litterId]
       >(litterId, formData.get(litterId));
 
-
-    const familyData: DogsDBTableValTypes<"Families", "id"> = {
+    const familyData: FamilyFormType = {
       ...familyIdObj,
       ...Group_PhotosObj,
       ...motherIdObj,

@@ -193,6 +193,7 @@ export default class AdultDogData {
       litterData: {
         [G.dueDate]: mostRecentFamily[G.dueDate],
         [G.litterBirthday]: mostRecentFamily[G.litterBirthday],
+        [G.mostRecentDate]: mostRecentFamily[G.mostRecentDate],
         [G.applicantsInQueue]: mostRecentFamily[G.applicantsInQueue],
         [G.availablePuppies]: mostRecentFamily[G.availablePuppies],
         [G.totalPuppies]: mostRecentFamily[G.totalPuppies],

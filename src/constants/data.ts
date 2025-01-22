@@ -40,6 +40,8 @@ export const GlobalNameSpaces = {
   litterBirthday: "litterBirthday",
   /**Primarily used in D1 Litters*/
   applicantsInQueue: "applicantsInQueue",
+  /**Primarily used in D1 Litters*/
+  mostRecentDate: "mostRecentDate",
 
   /**Primarily used in D1 Dogs*/
   gender: "gender",

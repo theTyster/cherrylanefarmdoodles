@@ -47,12 +47,7 @@ async function WhiteSectionLitter({
   };
 
   const date = new DateCalculator({
-    litterBirthday: mostRecentFamily.litterBirthday
-      ? new Date(mostRecentFamily.litterBirthday)
-      : undefined,
-    dueDate: mostRecentFamily.dueDate
-      ? new Date(mostRecentFamily.dueDate)
-      : undefined,
+    mostRecentDate: new Date(mostRecentFamily.mostRecentDate),
   });
 
   return (

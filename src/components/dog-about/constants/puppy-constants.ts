@@ -112,6 +112,7 @@ export default class PuppyData {
         ...this.pup.ids,
         [G.litterBirthday]: this.pup.litterData[G.litterBirthday],
         [G.dueDate]: this.pup.litterData[G.dueDate],
+        [G.mostRecentDate]: this.pup.litterData[G.mostRecentDate],
         [G.applicantsInQueue]: this.pup.litterData[G.applicantsInQueue],
         [G.availablePuppies]: this.pup.litterData[G.availablePuppies],
         [G.totalPuppies]: this.pup.litterData[G.totalPuppies],

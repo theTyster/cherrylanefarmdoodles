@@ -149,6 +149,8 @@ export interface D1Litters {
   /**If Birthday is not provided, dueDate should be.*/
   readonly [G.litterBirthday]: string | null;
   readonly [G.applicantsInQueue]: number;
+  /**always returns either dueDate or litterBirthday*/
+  readonly [G.mostRecentDate]: string;
 }
 /**
  * An Array of strings that should match the keys of D1Litters.
@@ -158,6 +160,7 @@ export const D1LittersKeys = [
   G.dueDate,
   G.litterBirthday,
   G.applicantsInQueue,
+  G.mostRecentDate,
 ] as const;
 /**
  * Keys typed for D1Litters as though they were accessed with Object.keys()
@@ -336,7 +339,8 @@ export type D1LittersRaw =
     number, //id
     string | null, //dueDate
     string | null, //litterBirthday
-    number //applicantsInQueue
+    number, //applicantsInQueue
+    string //mostRecentDate
   ];
 export type D1DogsRaw = [
   number, //id

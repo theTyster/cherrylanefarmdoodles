@@ -44,11 +44,9 @@ export default function DogTree({ familyData }: { familyData: DogTreeData }) {
     totalPuppies: litterData[G.totalPuppies],
   };
 
-  const litterBirthday = litterData[G.litterBirthday],
-    dueDate = litterData[G.dueDate];
+  const mostRecentDate = litterData[G.mostRecentDate];
   const calcInit = {
-    litterBirthday: litterBirthday ? new Date(litterBirthday) : undefined,
-    dueDate: dueDate ? new Date(dueDate) : undefined,
+    mostRecentDate: new Date(mostRecentDate)
   };
   return (
     <>
