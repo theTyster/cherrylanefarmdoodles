@@ -10,7 +10,7 @@ export type MenuNamesObj = {
 
 export type MenuDataArr = Array<{
   id: string;
-  title: string;
+  title: { string: string; icon: React.ReactNode };
   component: React.ReactNode;
   buttonClick?: React.MouseEventHandler;
 }>;
@@ -62,14 +62,14 @@ function TabMenu({
                 <Fragment key={`${item.id}`}>
                   <td>
                     <button
-                      aria-label={item.title}
+                      aria-label={item.title.string}
                       data-tabmenu-item-id={item.id}
                       className={`${css.selectorButton} ${
                         item === currentSelected ? css["selected"] : ""
                       }`}
                       onClick={item.buttonClick ? item.buttonClick : undefined}
                     >
-                      {item.title}
+                      {item.title.icon}
                     </button>
                   </td>
                 </Fragment>

@@ -1,0 +1,12 @@
+@use "@styles/_theme.module.scss" as Theme;
+
+.icon-text {
+  img {
+    display: inline-block;
+    vertical-align: sub;
+    border-radius: 100%;
+    height: 1em;
+    width: 1em;
+    margin-right: .3ch;
+  }
+}

@@ -4,6 +4,7 @@ import { GlobalNameSpaces as G } from "@/constants/data";
 
 // Components
 import DogTree from "@/components/dog-tree/dog-tree";
+import DogNames from "@/components/dog-names/dog-names";
 import TabMenu, {
   type MenuDataArr,
   type MenuNamesObj,
@@ -34,7 +35,16 @@ export default async function WhiteSection() {
       const menuDataArr: MenuDataArr = [
         {
           id: family.mother.adultName + index,
-          title: family.mother.adultName,
+          title: {
+            string: family.mother.adultName,
+            icon: (
+              <DogNames
+                src={family.mother.Headshots_Sm!}
+                name={family.mother.adultName}
+                priority
+              />
+            ),
+          },
           component: <DogTree familyData={family} />,
         },
       ];
