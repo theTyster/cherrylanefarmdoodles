@@ -7,36 +7,26 @@
   justify-content: center;
   margin-bottom: Theme.$spaceBetweenElements;
   td {
-    border: Theme.$border solid Theme.$darkPrimary;
-    border-left: 0;
-    &:first-child {
-      border-left: Theme.$border solid Theme.$darkPrimary;
-    }
+    border-top: Theme.$border solid Theme.$darkPrimary;
   }
   @include Theme.mediaQuery(Theme.$tabletViewport) {
     tr {
       display: flex;
       align-items: stretch;
       flex-direction: column;
-      td {
-        border: Theme.$border solid Theme.$darkPrimary;
-        border-top: 0;
-        &:first-child {
-          border-top: Theme.$border solid Theme.$darkPrimary;
-        }
-      }
+    }
+    tr:last-child td:last-child {
+      border-bottom: Theme.$border solid Theme.$darkPrimary;
     }
   }
 }
 .selectorButton,
 .selected {
-  z-index: 1;
   width: 100%;
   flex: auto;
   cursor: pointer;
   color: Theme.$darkPrimary;
-  font-family: inherit;
-  font-size: Theme.$h3;
+  font-size: Theme.$h2;
   font-weight: 400;
   transition-duration: #{Theme.$transitionShort}s;
   transition-property: background-color, border;
@@ -64,10 +54,12 @@
     background-color: Theme.$darkPrimary;
     color: Theme.$lightPrimary;
   }
+  @include Theme.mediaQuery(Theme.$LgPhoneViewport) {
+    font-size: Theme.$h3;
+  }
 }
 .selected {
   background-color: Theme.$darkPrimary;
-  z-index: 0;
   @include Theme.basicButton(
     $bg: Theme.$darkPrimary,
     $fg: Theme.$darkPrimary,

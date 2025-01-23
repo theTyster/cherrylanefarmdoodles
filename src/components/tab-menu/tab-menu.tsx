@@ -57,24 +57,71 @@ function TabMenu({
       <menu className={css.container} onClick={handleTabMenuClick}>
         <table>
           <tbody>
-            <tr>
-              {menuDataArr.map((item) => (
-                <Fragment key={`${item.id}`}>
-                  <td>
-                    <button
-                      aria-label={item.title.string}
-                      data-tabmenu-item-id={item.id}
-                      className={`${css.selectorButton} ${
-                        item === currentSelected ? css["selected"] : ""
-                      }`}
-                      onClick={item.buttonClick ? item.buttonClick : undefined}
-                    >
-                      {item.title.icon}
-                    </button>
-                  </td>
+            {menuDataArr.map(function (...args) {
+              const index = args[1];
+              return (
+                <Fragment key={`${menuDataArr[index].id}`}>
+                  {index % 3 === 0 && (
+                    <tr>
+                      <td>
+                        <button
+                          aria-label={menuDataArr[index].title.string}
+                          data-tabmenu-item-id={menuDataArr[index].id}
+                          className={`${css.selectorButton} ${
+                            menuDataArr[index] === currentSelected
+                              ? css["selected"]
+                              : ""
+                          }`}
+                          onClick={
+                            menuDataArr[index].buttonClick
+                              ? menuDataArr[index].buttonClick
+                              : undefined
+                          }
+                        >
+                          {menuDataArr[index].title.icon}
+                        </button>
+                      </td>
+                      <td>
+                        <button
+                          aria-label={menuDataArr[index + 1].title.string}
+                          data-tabmenu-item-id={menuDataArr[index + 1].id}
+                          className={`${css.selectorButton} ${
+                            menuDataArr[index + 1] === currentSelected
+                              ? css["selected"]
+                              : ""
+                          }`}
+                          onClick={
+                            menuDataArr[index + 1].buttonClick
+                              ? menuDataArr[index + 1].buttonClick
+                              : undefined
+                          }
+                        >
+                          {menuDataArr[index + 1].title.icon}
+                        </button>
+                      </td>
+                      <td>
+                        <button
+                          aria-label={menuDataArr[index + 2].title.string}
+                          data-tabmenu-item-id={menuDataArr[index + 2].id}
+                          className={`${css.selectorButton} ${
+                            menuDataArr[index + 2] === currentSelected
+                              ? css["selected"]
+                              : ""
+                          }`}
+                          onClick={
+                            menuDataArr[index + 2].buttonClick
+                              ? menuDataArr[index + 2].buttonClick
+                              : undefined
+                          }
+                        >
+                          {menuDataArr[index + 2].title.icon}
+                        </button>
+                      </td>
+                    </tr>
+                  )}
                 </Fragment>
-              ))}
-            </tr>
+              );
+            })}
           </tbody>
         </table>
       </menu>
