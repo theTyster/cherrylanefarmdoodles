@@ -7,7 +7,7 @@ export const MENU_STATES = {
   Litters: "Litters",
 } as const;
 export type MenuStateTypes = (typeof MENU_STATES)[keyof typeof MENU_STATES];
-export type MenuItemData = { name: string; id: number }[];
+export type MenuItemData = { name: string; id: number; Headshots_Sm: string }[];
 
 export type MenuDataType = {
   motherData: MenuItemData;
@@ -16,11 +16,13 @@ export type MenuDataType = {
 export type D1LitterMenuData = {
   id: number;
   mother: string;
+  Headshots_Sm: string;
   mostRecentDate: string;
 };
 export type D1MotherMenuData = {
   id: number;
   adultName: string;
+  Headshots_Sm: string;
 };
 
 export default class MenuData {
@@ -42,7 +44,7 @@ export default class MenuData {
       this.D1.prepare(this.getLitterQuery({ limit: 10 }))
         .all<D1LitterMenuData>()
         .then((data) => {
-          console.log('litterData', data.results)
+          console.log("litterData", data.results);
           if (data) return data.results;
           throw new Error("No data found.");
         }),
@@ -52,10 +54,13 @@ export default class MenuData {
       motherData: motherMenuD1Data.map((item) => ({
         id: item.id,
         name: item.adultName,
+        Headshots_Sm: item.Headshots_Sm,
       })),
       litterData: litterMenuD1Data.map((item) => ({
         id: item.id,
         name: this.concatLitterName(item),
+        Headshots_Sm: item.Headshots_Sm,
+        mostRecentDate: item.mostRecentDate,
       })),
     } satisfies MenuDataType;
   }
@@ -70,17 +75,21 @@ export default class MenuData {
   ) {
     return `SELECT
             ${D1T.Adults}.${G.dogId} AS id,
-            ${D1T.Adults}.${G.adultName}
+            ${D1T.Adults}.${G.adultName},
+            ${D1T.Dogs}.${G.Headshots_Sm}
           FROM
             ${D1T.Families}
             LEFT JOIN ${D1T.Adults} ON ${D1T.Adults}.${G.id} = ${
       D1T.Families
     }.${opts.adult} 
-          ${
-            opts.includeRetired
-              ? `WHERE ${D1T.Adults}.${G.activityStatus} IS NOT 'Retired'`
-              : ""
-          }
+            LEFT JOIN ${D1T.Dogs} ON ${D1T.Dogs}.${G.id} = ${D1T.Adults}.${
+      G.dogId
+    }
+            ${
+              opts.includeRetired
+                ? `WHERE ${D1T.Adults}.${G.activityStatus} IS NOT 'Retired'`
+                : ""
+            }
             GROUP BY ${D1T.Families}.${opts.adult}
         `;
   }
@@ -95,6 +104,7 @@ export default class MenuData {
             ${D1T.Adults}.${G.adultName} AS mother,
             ${D1T.Litters}.${G.litterBirthday},
             ${D1T.Litters}.${G.dueDate},
+            ${D1T.Dogs}.${G.Headshots_Sm},
             CASE
               WHEN 
                 COALESCE(${D1T.Litters}.${G.litterBirthday}, 1970-01-01) > 
@@ -102,8 +112,8 @@ export default class MenuData {
                 AND
                 SUM(CASE WHEN 
                     Pups.${
-                  G.availability
-                } LIKE '%Available%' THEN 1 ELSE 0 END) > 0
+                      G.availability
+                    } LIKE '%Available%' THEN 1 ELSE 0 END) > 0
                 THEN 
                 COALESCE(${D1T.Litters}.${G.litterBirthday}, 1970-01-01)
                 ELSE
@@ -117,9 +127,13 @@ export default class MenuData {
                 AS Pups ON ${D1T.Litters}.${G.id} = Pups.${G.litterId}
               LEFT JOIN ${D1T.Adults}
                 ON ${D1T.Adults}.${G.id} = ${D1T.Families}.${G.mother} 
-            ${opts.includeRetired
-              ? `AND ${D1T.Adults}.${G.activityStatus} IS NOT 'Retired'`
-              : ""
+              LEFT JOIN ${D1T.Dogs} ON ${D1T.Dogs}.${G.id} = ${D1T.Adults}.${
+      G.dogId
+    }
+            ${
+              opts.includeRetired
+                ? `AND ${D1T.Adults}.${G.activityStatus} IS NOT 'Retired'`
+                : ""
             }
             GROUP BY ${D1T.Families}.${G.mother}
             ORDER BY mostRecentDate ASC

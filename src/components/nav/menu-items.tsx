@@ -1,6 +1,7 @@
 // Components
 import Link from "next/link";
 import NavMenu from "@/components/nav/nav";
+import DogNames from "@/components/dog-names/dog-names";
 
 // Styles
 import navCSS from "@styles/nav.module.scss";
@@ -24,7 +25,7 @@ function SubMenu({
 
   function renderSubMenuOf(
     menuItemCollection: typeof motherData | typeof litterData,
-    linkPrefix: string
+    linkPrefix: "dams" | "litter"
   ) {
     return menuItemCollection.map((item) => (
       <Link
@@ -32,7 +33,7 @@ function SubMenu({
         href={`/${linkPrefix}/${item.id}`}
         className={navCSS["submenu-item"]}
       >
-        {item.name}
+        <DogNames src={item.Headshots_Sm} name={item.name} />
       </Link>
     ));
   }
