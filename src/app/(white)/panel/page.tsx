@@ -31,13 +31,19 @@ async function Page() {
   const menuDataArr: MenuDataArr = [
     {
       id: "create",
-      title: "Create New",
-      component: <NewDogForm inputData={inputData} />,
+      title: {
+        string: "Create New",
+        component: "Create New",
+      },
+      tabContent: <NewDogForm inputData={inputData} />,
     },
     {
       id: "edit",
-      title: "Edit Existing",
-      component: <EditExisting inputData={inputData} />,
+      title:{
+        string: "Edit Existing",
+        component: "Edit Existing" 
+      },
+      tabContent: <EditExisting inputData={inputData} />,
     },
   ];
 

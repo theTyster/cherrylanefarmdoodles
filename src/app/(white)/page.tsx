@@ -37,7 +37,7 @@ export default async function WhiteSection() {
           id: family.mother.adultName + index,
           title: {
             string: family.mother.adultName,
-            icon: (
+            component: (
               <DogNames
                 src={family.mother.Headshots_Sm!}
                 name={family.mother.adultName}
@@ -45,7 +45,7 @@ export default async function WhiteSection() {
               />
             ),
           },
-          component: <DogTree familyData={family} />,
+          tabContent: <DogTree familyData={family} />,
         },
       ];
 
