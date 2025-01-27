@@ -80,7 +80,7 @@ function NewDogForm({
   const [adminState, setAdminState]: [
     AdminState,
     React.Dispatch<React.SetStateAction<AdminState>>
-  ] = useState(ADMIN_STATES["Litters"] as AdminState);
+  ] = useState(null as unknown as AdminState);
 
   type StatStateType = {
     Litters: number;
@@ -101,6 +101,7 @@ function NewDogForm({
   ] = useState(statInit);
 
   useEffect(() => {
+    if (!formTypeRef.current) return;
     if (formTypeRef.current) formTypeRef.current.value = formState.state;
     setAdminState(formState.state);
   }, [formState.state]);
@@ -116,60 +117,100 @@ function NewDogForm({
   //    }
   //  }, [previewState, DH]);
 
-  return (
+  function WhatToWork({
+    workingRef,
+  }: {
+    workingRef?: React.RefObject<HTMLSelectElement | null>;
+  }) {
+    return (
+      <div id={css["what-to-work"]}>
+        <select
+          ref={workingRef}
+          onChange={(e) => {
+            setAdminState(e.target.value as AdminState);
+            formState.state = e.target.value as AdminState;
+          }}
+          style={adminState ? {fontSize: css['h2']} : { fontSize: css['h3'] }}
+        >
+          {/**
+           * Could have looped over an array. Just didn't want to.
+           * Feels safer to have the values hardcoded.
+           * Also, this way I have more control on the order of the options,
+           * which will help UX.
+           **/}
+          {!adminState && <option>Select One:</option>}
+          <option value={DH.adminStates["Litters"]}>
+            {DH.adminStates["Litters"]}
+          </option>
+          <option value={DH.adminStates["Puppies"]}>
+            {DH.adminStates["Puppies"]}
+          </option>
+          <option value={DH.adminStates["Adults"]}>
+            {DH.adminStates["Adults"]}
+          </option>
+          <option value={DH.adminStates["Families"]}>
+            {DH.adminStates["Families"]}
+          </option>
+        </select>
+      </div>
+    );
+  }
+
+  return adminState === null ? (
+    <>
+      <div className={css["main"]}>
+        <label
+          style={{fontSize: css['h2']}}
+        >What do you want to work with?</label>
+        <WhatToWork />
+      </div>
+    </>
+  ) : (
     <>
       <div className={css["main"]}>
         <SubmissionMsg success={formState.success} message={formState.error} />
-        <div id={css["what-to-work"]}>
-          <label>What do you want to work with?</label>
-          <select
-            ref={formTypeRef}
-            onChange={(e) => {
-              setAdminState(e.target.value as AdminState);
-              formState.state = e.target.value as AdminState;
-            }}
-            defaultValue={adminState}
-          >
-            {/**
-             * Could have looped over an array. Just didn't want to.
-             * Feels safer to have the values hardcoded.
-             * Also, this way I have more control on the order of the options,
-             * which will help UX.
-             **/}
-            <option value={DH.adminStates["Litters"]}>
-              {DH.adminStates["Litters"]}
-            </option>
-            <option value={DH.adminStates["Puppies"]}>
-              {DH.adminStates["Puppies"]}
-            </option>
-            <option value={DH.adminStates["Adults"]}>
-              {DH.adminStates["Adults"]}
-            </option>
-            <option value={DH.adminStates["Families"]}>
-              {DH.adminStates["Families"]}
-            </option>
-          </select>
-        </div>
         <div className={css["stats"]}>
           <h4>Session Stats</h4>
-          <p>You have submitted:</p>
+          {Object.values(statState).every((value) => value === 0) ? (
+            <p>
+              You haven&apos;t submitted any new information in this session.
+            </p>
+          ) : (
+            <p>You have submitted:</p>
+          )}
           <ul>
-            <li>
-              <strong>{statState.Litters}</strong> Litters
-            </li>
-            <li>
-              <strong>{statState.Puppies}</strong> Puppies
-            </li>
-            <li>
-              <strong>{statState.Adults}</strong> Adults
-            </li>
-            <li>
-              <strong>{statState.Families}</strong> Families
-            </li>
+            {statState.Litters > 0 && (
+              <li>
+                <strong>{statState.Litters}</strong>{" "}
+                {statState.Litters > 1 ? "Litters" : "Litter"}
+              </li>
+            )}
+            {statState.Puppies > 0 && (
+              <li>
+                <strong>{statState.Puppies}</strong>{" "}
+                {statState.Puppies > 1 ? "Puppies" : "Puppy"}
+              </li>
+            )}
+            {statState.Adults > 0 && (
+              <li>
+                <strong>{statState.Adults}</strong>{" "}
+                {statState.Adults > 1 ? "Adults" : "Adult"}
+              </li>
+            )}
+            {statState.Families > 0 && (
+              <li>
+                <strong>{statState.Families}</strong>{" "}
+                {statState.Families > 1 ? "Families" : "Family"}
+              </li>
+            )}
           </ul>
-          <button onClick={() => setStatState(statInit)}>Clear Stats</button>
+          {Object.values(statState).every((value) => value === 0) || (
+            <button onClick={() => setStatState(statInit)}>Clear Stats</button>
+          )}
         </div>
-        <h3>{formState.state}</h3>
+        <h3>
+          <WhatToWork workingRef={formTypeRef} />
+        </h3>
         <Form
           action={formAction}
           ref={formRef}
