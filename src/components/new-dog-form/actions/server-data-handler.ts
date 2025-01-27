@@ -48,7 +48,6 @@ export type FormDataState =
   (typeof FORMDATA_STATES)[keyof typeof FORMDATA_STATES];
 
 import MenuData, {
-  type D1LitterMenuData,
   type D1MotherMenuData as D1AdultMenuData,
 } from "@/constants/nav";
 
@@ -67,6 +66,7 @@ export default class ServerAdminDataHandler extends Statements {
   D1?: D1Database;
   inputData: {
     breeders: string[];
+    certificateNames: string[];
     litterNames: IdName[];
     motherNames: IdName[];
     fatherNames: IdName[];
@@ -104,6 +104,7 @@ export default class ServerAdminDataHandler extends Statements {
     this.D1 = D1;
     this.inputData = {
       breeders: [],
+      certificateNames: [],
       litterNames: [],
       motherNames: [],
       fatherNames: [],
@@ -113,6 +114,7 @@ export default class ServerAdminDataHandler extends Statements {
   async getInputData(): Promise<ServerAdminDataHandler["inputData"]> {
     this.inputData = {
       breeders: await this.getBreeders(),
+      certificateNames: await this.getCertificateNames(),
       litterNames: await this.getLitterNames(),
       motherNames: await this.getAdultNames("F"),
       fatherNames: await this.getAdultNames("M"),
@@ -130,9 +132,28 @@ export default class ServerAdminDataHandler extends Statements {
   async getBreeders(): Promise<string[]> {
     if (!this.D1) throw new Error("D1 not found");
     const breeders = await this.D1.prepare(
-      `SELECT breeder from Adults Group by breeder`
-    ).raw<string>();
-    return breeders;
+      `SELECT breeder FROM Adults GROUP BY breeder`
+    ).raw<[string]>();
+    return breeders.flat();
+  }
+
+  async getCertificateNames(): Promise<string[]> {
+    if (!this.D1) throw new Error("D1 not found");
+    const certificateNames = await this.D1.prepare(
+      `SELECT certifications FROM Adults WHERE certifications IS NOT NULL GROUP BY certifications `
+    ).raw<[string]>();
+    const equivocalCerts = new Set<string>();
+
+    // Ensures that each certificate has a corresponding equivalent as an option.
+    certificateNames.flat().forEach((cert) => {
+      const equivalent = cert.replace("-equivalent", "");
+      equivocalCerts.add(equivalent);
+      equivocalCerts.add(equivalent + "-equivalent");
+    });
+
+    const certs = Array.from(equivocalCerts);
+
+    return certs;
   }
 
   /**
@@ -144,8 +165,8 @@ export default class ServerAdminDataHandler extends Statements {
    * */
   getLitterQuery() {
     return `SELECT
-            ${D1T.Litters}.${G.id} as id,
-            ${D1T.Adults}.${G.adultName} as mother,
+            ${D1T.Litters}.${G.id} AS id,
+            ${D1T.Adults}.${G.adultName} AS mother,
             ${D1T.Litters}.${G.litterBirthday},
             ${D1T.Litters}.${G.dueDate}
           FROM

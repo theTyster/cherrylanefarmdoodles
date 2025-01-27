@@ -10,6 +10,7 @@ import DogInputs from "@/components/new-dog-form/components/inputs-for-all-dogs"
 //Components
 import BreederOptions from "@/components/new-dog-form/components/refreshable-options";
 import FormInput from "@/components/new-dog-form/components/form-input";
+import Certifications from "@/components/new-dog-form/components/refreshable-options";
 
 function ParentForm() {
   return (
@@ -70,13 +71,7 @@ function ParentForm() {
         <input name={G.weight} type="text" placeholder="Weight" />
       </FormInput>
 
-      <FormInput label="Certifications (optional)">
-        <input
-          name={G.certifications}
-          type="text"
-          placeholder="Certifications"
-        />
-      </FormInput>
+      <Certifications whichOptions="certifications" />
     </>
   );
 }

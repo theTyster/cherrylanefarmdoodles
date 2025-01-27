@@ -25,7 +25,7 @@ import FormInput from "@/components/new-dog-form/components/form-input";
 //Static
 import css from "@styles/new-dog-form.module.scss";
 
-type WhichOptionsType = "litters" | "parents" | "breeders";
+type WhichOptionsType = "litters" | "parents" | "breeders" | "certifications";
 
 function UpdatedOptions({ whichOptions }: { whichOptions: WhichOptionsType }) {
   const { inputData } = useContext(FormContext) ?? {};
@@ -46,6 +46,8 @@ function UpdatedOptions({ whichOptions }: { whichOptions: WhichOptionsType }) {
         return [inputs.motherNames, inputs.fatherNames];
       case "breeders":
         return inputs.breeders;
+      case "certifications":
+        return inputs.certificateNames;
       default:
         return [];
     }
@@ -55,9 +57,13 @@ function UpdatedOptions({ whichOptions }: { whichOptions: WhichOptionsType }) {
 
   const breederRefInput = useRef<HTMLInputElement>(null);
 
+  const certificationRefInput = useRef<HTMLInputElement>(null);
+
   const [inputDataState, setInputDataState] = useState(options);
 
   const [breeder, setBreeder] = useState("Cherry Lane Farms");
+
+  const [certification, setCertification] = useState("Embark");
 
   const getInputs = useCallback(async () => {
     const inputs = await synchronizeInputData();
@@ -180,6 +186,36 @@ function UpdatedOptions({ whichOptions }: { whichOptions: WhichOptionsType }) {
             required
           />
           <button type="button" onClick={() => setBreeder("Cherry Lane Farms")}>
+            Select From List Instead
+          </button>
+        </>
+      )}
+    </FormInput>
+  ) : whichOptions === "certifications" ? (
+    <FormInput
+      label="Certifications"
+    >
+      {certification !== "New" ? (
+        <div className={css["input-with-button"]}>
+          <select name={G.certifications} required>
+            {(inputDataState as string[]).map((b, i) => (
+              <option key={b + i}>{b}</option>
+            ))}
+            <option onClick={() => setCertification("New")}>+ Add New</option>
+          </select>
+          <RefreshButton />
+        </div>
+      ) : (
+        <>
+          <input
+            name={G.certifications}
+            ref={certificationRefInput}
+            type="text"
+            placeholder="Add the new certification"
+            autoFocus={true}
+            required
+          />
+          <button type="button" onClick={() => setCertification("Embark")}>
             Select From List Instead
           </button>
         </>

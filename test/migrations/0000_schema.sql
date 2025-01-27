@@ -63,7 +63,7 @@ CREATE TABLE Adults (
     favActivities text CHECK (LENGTH(favActivities) <= 140),
     weight integer CHECK (weight > 0 AND weight < 100),
     energyLevel text CHECK (energyLevel IN ('Low', 'Medium-low', 'Medium', 'Medium-high', 'High')),
-    certifications text CHECK (certifications IN ('Embark', 'Embark-equivalent')),
+    certifications text,
     CONSTRAINT fk_adults_dog_id FOREIGN KEY (dogId) REFERENCES Dogs (id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
