@@ -175,12 +175,20 @@ export const previousLittersQuery = `
   ${G.Group_Photos},
   ${D1T.Families}.${G.litterId},
   ${D1T.Litters}.${G.litterBirthday},
-  ${D1T.Litters}.${G.dueDate}
+  ${D1T.Litters}.${G.dueDate},
+  ${G.applicantsInQueue},
+  SUM(CASE WHEN Pups.${
+    G.availability
+  } LIKE '%Available%' THEN 1 ELSE 0 END) AS ${G.availablePuppies},
+  COUNT(Pups.${G.id}) AS ${G.totalPuppies}
   FROM
     ${D1T.Families}
     Left JOIN ${D1T.Litters}
       ON ${D1T.Litters}.${G.id} = ${D1T.Families}.${G.litterId}
+    LEFT JOIN ${D1T.Puppies}
+      AS Pups ON ${D1T.Litters}.${G.id} = Pups.${G.litterId}
   WHERE ${G.mother} = ?
+  GROUP BY ${D1T.Families}.${G.litterId}
     ` as const;
 
 /**Describes data in the Families Table after being converted to a usable type.*/
@@ -188,7 +196,10 @@ export type PreviousLittersQueryData = [
   D1Families[typeof G.Group_Photos],
   D1Families[typeof G.litterId],
   D1Litters[typeof G.litterBirthday],
-  D1Litters[typeof G.dueDate]
+  D1Litters[typeof G.dueDate],
+  D1Litters[typeof G.applicantsInQueue],
+  number,
+  number,
 ];
 
 /**

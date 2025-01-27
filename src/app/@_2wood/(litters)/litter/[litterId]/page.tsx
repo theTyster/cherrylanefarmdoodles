@@ -58,7 +58,15 @@ async function WoodSectionLitter({
         <hr />
         <div className={css["previous-litters"]}>
           {previousLitters.map((litter) => {
-            const [GroupImage, id, birthday, dueDate] = litter;
+            const [
+              GroupImage,
+              id,
+              birthday,
+              dueDate,
+              applicantsInQueue,
+              availablePuppies,
+              totalPuppies,
+            ] = litter;
 
             const date = new DateCalculator({
               litterBirthday: birthday ? new Date(birthday) : null,
@@ -70,7 +78,7 @@ async function WoodSectionLitter({
             else
               return (
                 <Fragment key={`GP-${id}`}>
-                  <div className={css['litter-group']}>
+                  <div className={css["litter-group"]}>
                     {(() => {
                       switch (date.nextEvent.type) {
                         case "born":
@@ -93,6 +101,11 @@ async function WoodSectionLitter({
                       alt={`${mom.adultName}'s Previous Litter with ID ${id}'`}
                       src={GroupImage}
                       litterId={id}
+                      puppiesLeft={{
+                        availablePuppies,
+                        totalPuppies,
+                        applicantsInQueue,
+                      }}
                     />
                   </div>
                 </Fragment>
@@ -100,7 +113,7 @@ async function WoodSectionLitter({
           })}
         </div>
       </div>
-      <div className={css['litter-woodSection']}>
+      <div className={css["litter-woodSection"]}>
         <h2>Meet the Momma: {`${mom[G.adultName]}`}</h2>
         <Link href={`/dams/${litterId}`}>
           <Headshot
