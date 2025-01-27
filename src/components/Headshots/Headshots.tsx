@@ -1,4 +1,4 @@
-import CLFImage from "../CLFImage/CLFImage";
+import CLFImage from "@/components/CLFImage/CLFImage";
 import { D1Tables as D1T } from "@/constants/data";
 import { type StaticImageData } from "next/image";
 
