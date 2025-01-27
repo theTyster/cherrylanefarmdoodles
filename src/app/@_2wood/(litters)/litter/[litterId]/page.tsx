@@ -53,7 +53,6 @@ async function WoodSectionLitter({
                 <SvgFirstTimeMother style={{ maxWidth: "700px" }} />
               </div>
             );
-            // Skip displaying the litter for the current page here.
           }
         })()}
         <hr />

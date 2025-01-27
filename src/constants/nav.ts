@@ -44,7 +44,6 @@ export default class MenuData {
       this.D1.prepare(this.getLitterQuery({ limit: 10 }))
         .all<D1LitterMenuData>()
         .then((data) => {
-          console.log("litterData", data.results);
           if (data) return data.results;
           throw new Error("No data found.");
         }),
