@@ -4,11 +4,12 @@ import {
   familyQuery,
   type D1FamilyQueryData as D1FQ,
   litterQuery,
-  //  type D1LitterQueryData as D1LQ,
+  type D1LitterQueryData as D1LQ,
 } from "@/constants/queries";
 import { D1Schema } from "@/types/data";
 import IMPORT_handleFormSubmission from "@/components/new-dog-form/actions/handle-form-submission";
 import { FormState } from "@/components/new-dog-form/new-dog-form";
+import DateCalculator from "@/constants/dates";
 
 export const ADMIN_STATES = {
   Adults: "Adults",
@@ -185,15 +186,33 @@ export default class ServerAdminDataHandler extends Statements {
     if (!this.D1) throw new Error("D1 not found");
 
     const queriedLitters = await this.D1.prepare(this.getLitterQuery())
-      .all<D1LitterMenuData>()
+      .all<{
+        id: number;
+        mother: string;
+        litterBirthday: string;
+        dueDate: string;
+      }>()
       .then((data) => data.results);
 
     const formattedLitters = queriedLitters.reduce((acc: IdName[], litter) => {
-      if (litter.mother === null) {
-        litter.mother = `Litter No. ${litter.id}`;
+      let mother: string | number = litter.mother;
+      if (mother === null) {
+        mother = `Litter No. ${litter.id}`;
       }
 
-      const concattedLitter = this.concatLitterName(litter);
+      const dates = new DateCalculator({
+        litterBirthday: litter.litterBirthday
+          ? new Date(litter.litterBirthday)
+          : null,
+        dueDate: litter.dueDate ? new Date(litter.dueDate) : null,
+      });
+
+      const concattedLitter = this.concatLitterName({
+        id: litter.id,
+        mother,
+        mostRecentDate: dates.nextEvent.date.toString(),
+        Headshots_Sm: "",
+      });
 
       const litterIdName = { id: litter.id, name: concattedLitter };
 
@@ -229,11 +248,9 @@ export default class ServerAdminDataHandler extends Statements {
     return await this.D1.prepare(this.getFamiliesQuery()).raw<D1FQ>();
   }
 
-  /**Gets *all* litters in the database. This could be a very large set of data.*/
-  async getLitters(): Promise<D1LitterMenuData[]> {
+  /**Gets *all* puppies in the database. This could be a very large set of data.*/
+  async getLitters(): Promise<D1LQ[]> {
     if (!this.D1) throw new Error("D1 not found");
-    return await this.D1.prepare(
-      this.getLittersQuery()
-    ).raw<D1LitterMenuData>();
+    return await this.D1.prepare(this.getLittersQuery()).raw<D1LQ>();
   }
 }
