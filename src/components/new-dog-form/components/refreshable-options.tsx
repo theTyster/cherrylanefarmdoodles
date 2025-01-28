@@ -198,6 +198,7 @@ function UpdatedOptions({ whichOptions }: { whichOptions: WhichOptionsType }) {
       {certification !== "New" ? (
         <div className={css["input-with-button"]}>
           <select name={G.certifications} required>
+            <option value={undefined}>None</option>
             {(inputDataState as string[]).map((b, i) => (
               <option key={b + i}>{b}</option>
             ))}
