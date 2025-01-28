@@ -13,10 +13,10 @@ function Puppifications() {
   const submitRef = useRef<HTMLButtonElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
 
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!inputRef.current) throw new Error("Puppfication input element not found.");
+    if (!inputRef.current)
+      throw new Error("Puppfication input element not found.");
     const email = inputRef.current.value;
 
     if (!email) {
@@ -82,11 +82,7 @@ function Puppifications() {
           />
           <form
             ref={formRef}
-            inert={
-              formVisible
-                ? (undefined as unknown as boolean)
-                : (true)
-            }
+            inert={formVisible ? (undefined as unknown as boolean) : true}
             className={css["form"]}
             onSubmit={handleSubmit}
           >
@@ -134,19 +130,13 @@ function Puppifications() {
             }
           `}</style>
           <button
-            inert={
-              subscription
-                ? (true)
-                : (undefined as unknown as boolean)
-            }
+            inert={subscription ? true : (undefined as unknown as boolean)}
             style={subscription ? { boxShadow: "none" } : undefined}
             className={`${css["button"]} ${css["puppifications"]} ${css["woodgrain-light"]}`}
             onClick={subscription ? () => undefined : animateSub}
             ref={buttonRef}
           >
-            {`${
-              subscription ? subscription : "Enable Puppifications"
-            }`}
+            {`${subscription ? subscription : "Enable Puppifications"}`}
           </button>
         </div>
       </div>
