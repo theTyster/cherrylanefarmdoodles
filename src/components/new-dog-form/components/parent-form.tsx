@@ -69,9 +69,8 @@ function ParentForm() {
       </FormInput>
 
       <FormInput label="Weight (optional)">
-        <input name={G.weight} type="text" placeholder="Weight" />
+        <input name={G.weight} type="number" placeholder="Weight" />
       </FormInput>
-
       <Certifications whichOptions="certifications" />
 
       <ImageUpload variant='small'/>
