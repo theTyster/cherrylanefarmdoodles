@@ -145,7 +145,7 @@ export default async function handleFormSubmission(
             D1.prepare(pupOrAdultInsertStmt).run<{ id: number }>(),
 
             //Insert into the Dogs Table.
-            D1.prepare(dogInsertStmt).run<{ id: number } & { hash: string }>(),
+            D1.prepare(dogInsertStmt).run<{ id: number }>(),
           ]);
 
           dogsDBResults.push(

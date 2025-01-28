@@ -1,3 +1,4 @@
+"use server";
 import { GlobalNameSpaces as G } from "@/constants/data";
 import { getRequestContext } from "@cloudflare/next-on-pages";
 import CripToe from "criptoe";
@@ -6,7 +7,6 @@ import Statements from "@/constants/statements";
 export type DogImageData = {
   id: number;
   table: "Group_Photos" | "Headshots_Sm" | "Headshots_Lg";
-  hash: string;
   transformUrl: string;
 };
 
@@ -26,18 +26,13 @@ export default async function AddImages(
   const R2 = getRequestContext().env.dogImages;
   const secretWrappingKey = getRequestContext().env.wrappingKey;
 
-  const hasher = new CripToe("hash");
-  const fileHash = await hasher.sha256(file.name);
-
   // Collect all the properties that we already have.
   data.id = dogId;
-  data.hash = fileHash;
   data.table = variant;
 
   // Create the unencrypted transform URL.
   const params = new URLSearchParams();
   const paramNames = ["src", "d1table", "v"] as const;
-  params.set(paramNames[0], data.hash);
   params.set(paramNames[2], data.table);
 
   // get the wrapped encryption Key.
@@ -75,12 +70,11 @@ export default async function AddImages(
       typeof variant,
       "alt"
     >(variant, {
-      hash: data.hash,
       transformUrl: data.transformUrl,
     });
 
     const fileBody = await file.arrayBuffer();
-    await R2.put(data.hash, fileBody, {
+    await R2.put(data.transformUrl, fileBody, {
       httpMetadata: {
         contentType: file.type,
       },

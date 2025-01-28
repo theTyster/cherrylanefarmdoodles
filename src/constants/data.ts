@@ -29,8 +29,8 @@ export const GlobalNameSpaces = {
 
   /**Primarily used in D1 Image Tables*/
   transformUrl: "transformUrl",
-  /**Primarily used in D1 Image Tables*/
-  hash: "hash",
+  /**@deprecated use transformUrl*/
+  hash: "transformUrl",
   /**Only available in D1 Group_Photos*/
   alt: "alt",
 

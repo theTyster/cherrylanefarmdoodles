@@ -79,7 +79,7 @@ export default class D1Statements {
       SET ${keys
         .map((key) => `${String(key)} = '${data[key]}'`)
         .join(", ")} WHERE ${
-      !this.imageTables.some((val) => table === val) ? G.id : G.hash
+      !this.imageTables.some((val) => table === val) ? G.id : G.transformUrl
     } = ${id}`;
   }
 
@@ -104,7 +104,7 @@ export default class D1Statements {
       .join(", ");
 
     return `INSERT OR REPLACE INTO ${table} (${columns}) VALUES (${values}) RETURNING ${
-      !this.imageTables.some((val) => table === val) ? G.id : G.hash
+      !this.imageTables.some((val) => table === val) ? G.id : G.transformUrl
     };`;
   }
 

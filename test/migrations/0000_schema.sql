@@ -18,18 +18,15 @@ DROP TABLE IF EXISTS Group_Photos;
 
 CREATE TABLE Group_Photos (
     transformUrl text PRIMARY KEY CHECK (LENGTH(transformUrl) <= 2000),
-    hash text NOT NULL UNIQUE,
     alt text CHECK (LENGTH(alt) <= 140)
 );
 
 CREATE TABLE Headshots_Sm (
-    transformUrl text PRIMARY KEY CHECK (LENGTH(transformUrl) <= 2000),
-    hash text NOT NULL UNIQUE
+    transformUrl text PRIMARY KEY CHECK (LENGTH(transformUrl) <= 2000)
 );
 
 CREATE TABLE Headshots_Lg (
-    transformUrl text PRIMARY KEY CHECK (LENGTH(transformUrl) <= 2000),
-    hash text NOT NULL UNIQUE
+    transformUrl text PRIMARY KEY CHECK (LENGTH(transformUrl) <= 2000)
 );
 
 CREATE TABLE Litters (
