@@ -19,7 +19,7 @@ a.home-button {
     scale: calc($max-scale - 0.1);
   }
   @include Theme.mediaQuery(Theme.$SmPhoneViewport) {
-    .logo {
+    .logo{
       width: 100%;
       height: auto;
     }
@@ -80,40 +80,10 @@ $spaceBetweenLayouts: 100px;
 
 .wood-layout {
   @include all-layouts;
-  flex-basis: none;
-  width: 100%;
-  justify-content: center;
-  .content-box, .content-box > * {
-    flex: none;
+  flex: 1 1;
+  padding: Theme.$spaceBetweenElements 0 $spaceBetweenLayouts 0;
+  .content-box > * {
     padding: 200px 0;
-  }
-
-  .content-box {
-    width: 100%;
-  }
-  @include Theme.mediaQuery(Theme.$tabletViewport) {
-    .content-box {
-      flex: none;
-      max-width: none;
-    }
-  }
-
-  @include Theme.mediaQuery(Theme.$LgPhoneViewport) {
-    .content-box {
-      flex: none;
-      max-width: none;
-    }
-  }
-
-  @include Theme.mediaQuery(Theme.$SmPhoneViewport) {
-    display: block;
-    width: 100%;
-  }
-  @include Theme.mediaQuery(Theme.$microViewport) {
-    @include Theme.setImageValues() {
-      width: 100%;
-      height: auto;
-    }
   }
 }
 
