@@ -11,10 +11,20 @@ import FormInput from "@/components/new-dog-form/components/form-input";
 import RequiredStar from "@/components/new-dog-form/components/required-star";
 import DogInputs from "@/components/new-dog-form/components/inputs-for-all-dogs";
 import LitterOptions from "@/components/new-dog-form/components/refreshable-options";
+import ImageUpload from "@/components/new-dog-form/components/image-upload";
 
 function PuppyForm() {
   return (
     <>
+      <FormInput label="Puppy Name (optional)">
+        <input
+          name={G.puppyName}
+          type="text"
+          placeholder="Puppy Name"
+          maxLength={nameLength}
+        />
+      </FormInput>
+
       <DogInputs />
       <FormInput
         label={
@@ -29,15 +39,6 @@ function PuppyForm() {
           <option>Adopted</option>
           <option>Held Back</option>
         </select>
-      </FormInput>
-
-      <FormInput label="Puppy Name (optional)">
-        <input
-          name={G.puppyName}
-          type="text"
-          placeholder="Puppy Name"
-          maxLength={nameLength}
-        />
       </FormInput>
 
       <LitterOptions whichOptions="litters" />

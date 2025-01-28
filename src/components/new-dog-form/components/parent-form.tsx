@@ -11,10 +11,20 @@ import DogInputs from "@/components/new-dog-form/components/inputs-for-all-dogs"
 import BreederOptions from "@/components/new-dog-form/components/refreshable-options";
 import FormInput from "@/components/new-dog-form/components/form-input";
 import Certifications from "@/components/new-dog-form/components/refreshable-options";
+import ImageUpload from "@/components/new-dog-form/components/image-upload";
 
 function ParentForm() {
   return (
     <>
+
+      <FormInput label="Parent's Name (optional)">
+        <input
+          name={G.adultName}
+          type="text"
+          placeholder="Dog Name"
+          maxLength={nameLength}
+        />
+      </FormInput>
       <DogInputs />
       <FormInput label="Birthday (optional)">
         <input name={G.adultBirthday} type="date" placeholder="MM/DD/YYYY" />
@@ -38,15 +48,6 @@ function ParentForm() {
 
       <FormInput label="Eye Color (optional)">
         <input name={G.eyeColor} type="text" placeholder="Eye Color" />
-      </FormInput>
-
-      <FormInput label="Parent's Name (optional)">
-        <input
-          name={G.adultName}
-          type="text"
-          placeholder="Dog Name"
-          maxLength={nameLength}
-        />
       </FormInput>
 
       <FormInput label="Energy level (optional)">
