@@ -117,55 +117,7 @@ function NewDogForm({
   //    }
   //  }, [previewState, DH]);
 
-  function WhatToWork({
-    workingRef,
-  }: {
-    workingRef?: React.RefObject<HTMLSelectElement | null>;
-  }) {
-    return (
-      <div id={css["what-to-work"]}>
-        <select
-          ref={workingRef}
-          onChange={(e) => {
-            setAdminState(e.target.value as AdminState);
-            formState.state = e.target.value as AdminState;
-          }}
-          style={adminState ? {fontSize: css['h2']} : { fontSize: css['h3'] }}
-        >
-          {/**
-           * Could have looped over an array. Just didn't want to.
-           * Feels safer to have the values hardcoded.
-           * Also, this way I have more control on the order of the options,
-           * which will help UX.
-           **/}
-          {!adminState && <option>Select One:</option>}
-          <option value={DH.adminStates["Litters"]}>
-            {DH.adminStates["Litters"]}
-          </option>
-          <option value={DH.adminStates["Puppies"]}>
-            {DH.adminStates["Puppies"]}
-          </option>
-          <option value={DH.adminStates["Adults"]}>
-            {DH.adminStates["Adults"]}
-          </option>
-          <option value={DH.adminStates["Families"]}>
-            {DH.adminStates["Families"]}
-          </option>
-        </select>
-      </div>
-    );
-  }
-
-  return adminState === null ? (
-    <>
-      <div className={css["main"]}>
-        <label
-          style={{fontSize: css['h2']}}
-        >What do you want to work with?</label>
-        <WhatToWork />
-      </div>
-    </>
-  ) : (
+  return (
     <>
       <div className={css["main"]}>
         <SubmissionMsg success={formState.success} message={formState.error} />
@@ -209,7 +161,34 @@ function NewDogForm({
           )}
         </div>
         <h3>
-          <WhatToWork workingRef={formTypeRef} />
+          <div id={css["what-to-work"]}>
+            <select
+              ref={formTypeRef}
+              onChange={(e) => {
+                setAdminState(e.target.value as AdminState);
+                formState.state = e.target.value as AdminState;
+              }}
+            >
+              {/**
+               * Could have looped over an array. Just didn't want to.
+               * Feels safer to have the values hardcoded.
+               * Also, this way I have more control on the order of the options,
+               * which will help UX.
+               **/}
+              <option value={DH.adminStates["Litters"]}>
+                {DH.adminStates["Litters"]}
+              </option>
+              <option value={DH.adminStates["Puppies"]}>
+                {DH.adminStates["Puppies"]}
+              </option>
+              <option value={DH.adminStates["Adults"]}>
+                {DH.adminStates["Adults"]}
+              </option>
+              <option value={DH.adminStates["Families"]}>
+                {DH.adminStates["Families"]}
+              </option>
+            </select>
+          </div>
         </h3>
         <Form
           action={formAction}
@@ -221,7 +200,7 @@ function NewDogForm({
             setStatState(newState);
           }}
         >
-          <input name="formType" type="hidden" value={adminState} />
+          <input name="formType" type="hidden" value={formState.state} />
 
           <FormContext.Provider value={{ DH, formRef, inputData }}>
             {(() => {
