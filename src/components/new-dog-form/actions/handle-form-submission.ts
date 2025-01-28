@@ -4,9 +4,11 @@ import {
   type AdminState,
   ADMIN_STATES,
 } from "@/components/new-dog-form/actions/server-data-handler";
+import { GlobalNameSpaces as G } from "@/constants/data";
 import { getRequestContext } from "@cloudflare/next-on-pages";
 import D1Statements, { DogsDBTableValTypes } from "@/constants/statements";
 import { FormTransformer } from "@/components/new-dog-form/actions/form-data-transformer";
+import AddImages from "@/components/new-dog-form/actions/add-image-to-r2";
 
 export type FormattedDogsFormDataType = DogsDBTableValTypes<"Dogs", "id"> &
   (DogsDBTableValTypes<"Puppies", "id"> | DogsDBTableValTypes<"Adults", "id">);
@@ -76,10 +78,53 @@ export default async function handleFormSubmission(
          * The rows that will be inserted into the Adult or Puppy table.
          **/
         const pupOrAdultRows = data[0];
+
+        const sm = formData.get(G["Headshots_Sm"]) as File | null;
+        const lg = formData.get(G["Headshots_Lg"]) as File | null;
+
+        type HeadshotsType = {
+          Headshots_Sm: string | null;
+          Headshots_Lg: string | null;
+        };
+        const headshots: HeadshotsType = {
+          Headshots_Sm: null,
+          Headshots_Lg: null,
+        };
+        if (sm?.size)
+          /**
+           * Get the encrypted urls of the headshots, if any.
+           **/
+          try {
+            const smHeadshotUrl = await AddImages(
+              sm,
+              pupOrAdultRows.dogId,
+              G["Headshots_Sm"]
+            );
+            headshots[G["Headshots_Sm"]] = smHeadshotUrl;
+          } catch (e) {
+            console.error("there was an error with the small headshot: " + e);
+          }
+
+        if (lg?.size)
+          try {
+            const lgHeadshotUrl = await AddImages(
+              lg,
+              pupOrAdultRows.dogId,
+              G["Headshots_Lg"]
+            );
+            headshots[G["Headshots_Lg"]] = lgHeadshotUrl;
+          } catch (e) {
+            console.error("there was an error with the large headshot: " + e);
+          }
+
         /**
          * The rows that will be inserted into the dog table.
          **/
-        const dogRows = data[1];
+        const dogRows: (typeof data)[1] = {
+          ...data[1],
+          Headshots_Lg: headshots[G["Headshots_Lg"]],
+          Headshots_Sm: headshots[G["Headshots_Sm"]],
+        };
 
         /**
          * Insert the Adult or Puppy first.
@@ -100,7 +145,7 @@ export default async function handleFormSubmission(
             D1.prepare(pupOrAdultInsertStmt).run<{ id: number }>(),
 
             //Insert into the Dogs Table.
-            D1.prepare(dogInsertStmt).run<{ id: number }>(),
+            D1.prepare(dogInsertStmt).run<{ id: number } & { hash: string }>(),
           ]);
 
           dogsDBResults.push(

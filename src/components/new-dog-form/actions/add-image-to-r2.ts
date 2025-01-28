@@ -1,0 +1,94 @@
+import { GlobalNameSpaces as G } from "@/constants/data";
+import { getRequestContext } from "@cloudflare/next-on-pages";
+import CripToe from "criptoe";
+import Statements from "@/constants/statements";
+
+export type DogImageData = {
+  id: number;
+  table: "Group_Photos" | "Headshots_Sm" | "Headshots_Lg";
+  hash: string;
+  transformUrl: string;
+};
+
+export default async function AddImages(
+  file: File | null,
+  dogId: number,
+  variant:
+    | (typeof G)["Headshots_Sm"]
+    | (typeof G)["Headshots_Lg"]
+    | (typeof G)["Group_Photos"]
+): Promise<string | null> {
+  if (!file) return null;
+
+  const data: DogImageData = {} as DogImageData;
+
+  const D1 = getRequestContext().env.dogsDB;
+  const R2 = getRequestContext().env.dogImages;
+  const secretWrappingKey = getRequestContext().env.wrappingKey;
+
+  const hasher = new CripToe("hash");
+  const fileHash = await hasher.sha256(file.name);
+
+  // Collect all the properties that we already have.
+  data.id = dogId;
+  data.hash = fileHash;
+  data.table = variant;
+
+  // Create the unencrypted transform URL.
+  const params = new URLSearchParams();
+  const paramNames = ["src", "d1table", "v"] as const;
+  params.set(paramNames[0], data.hash);
+  params.set(paramNames[2], data.table);
+
+  // get the wrapped encryption Key.
+  const criptoe = new CripToe(params.toString());
+  const { wrappedKey } = await criptoe.wrapKey(
+    { export: true, safeURL: true, toBase64: false },
+    secretWrappingKey
+  );
+
+  // Attach the transformation params to the root url.
+  const mediaUrl = new URL("https://media.cherrylanefarmdoodles.com/");
+  mediaUrl.search = params.toString();
+
+  // Encrypt the transformation url.
+  const { cipher, initVector } = (await criptoe.encrypt({
+    safeURL: true,
+  })) as { cipher: string; initVector: string };
+
+  // Remove the unencrypted params.
+  mediaUrl.searchParams.delete("src");
+  mediaUrl.searchParams.delete("d1table");
+  mediaUrl.searchParams.delete("v");
+
+  // Append the encrypted params.
+  mediaUrl.pathname = cipher;
+  mediaUrl.searchParams.set("iv", initVector);
+  mediaUrl.searchParams.set("k", wrappedKey);
+
+  // Attach the encrypted transform url to the data.
+  data.transformUrl = mediaUrl.toString();
+
+  // Insert the image into the R2 bucket and D1
+  if (variant !== G["Group_Photos"]) {
+    const insertStatement = new Statements().makeInsertStatement<
+      typeof variant,
+      "alt"
+    >(variant, {
+      hash: data.hash,
+      transformUrl: data.transformUrl,
+    });
+
+    const fileBody = await file.arrayBuffer();
+    await R2.put(data.hash, fileBody, {
+      httpMetadata: {
+        contentType: file.type,
+      },
+    });
+
+    await D1.prepare(insertStatement).run();
+
+    return data.transformUrl;
+  }
+  return null;
+}

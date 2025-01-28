@@ -72,6 +72,9 @@ function ParentForm() {
       </FormInput>
 
       <Certifications whichOptions="certifications" />
+
+      <ImageUpload variant='small'/>
+      <ImageUpload variant='large'/>
     </>
   );
 }

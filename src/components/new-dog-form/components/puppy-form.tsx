@@ -41,6 +41,9 @@ function PuppyForm() {
       </FormInput>
 
       <LitterOptions whichOptions="litters" />
+
+      <ImageUpload variant='small'/>
+      <ImageUpload variant='large'/>
     </>
   );
 }
