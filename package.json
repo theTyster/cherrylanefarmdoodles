@@ -12,12 +12,13 @@
     "kv-clear-local": "rm -fdr .wrangler/state/v3/kv",
     "pages:build": "npx @cloudflare/next-on-pages --outdir .vercel/output/static",
     "preview": "npm run pages:build && npx wrangler pages dev .vercel/output/static",
+    "preview-remote": "npm run pages:build && npx wrangler --log-level='debug' pages dev .vercel/output/static",
     "deploy": "npm run pages:build && npx wrangler pages deploy .vercel/output/static",
     "cf-typegen": "wrangler types --env-interface CloudflareEnv env.d.ts"
   },
   "dependencies": {
     "criptoe": "^1.1.4-0",
-    "gsap": "^3.12.5",
+    "gsap": "^3.12.7",
     "next": "^15.0.4",
     "react": "^19",
     "react-dom": "^19",
@@ -25,24 +26,24 @@
     "thetyster-utils": "^2.1.1"
   },
   "devDependencies": {
-    "@cloudflare/next-on-pages": "^1.13.6",
-    "@cloudflare/vitest-pool-workers": "^0.5.34",
-    "@cloudflare/workers-types": "^4.20241205.0",
-    "@gsap/react": "^2.1.1",
+    "@cloudflare/next-on-pages": "^1.13.7",
+    "@cloudflare/vitest-pool-workers": "^0.6.8",
+    "@cloudflare/workers-types": "^4.20250129.0",
+    "@gsap/react": "^2.1.2",
     "@svgr/cli": "^8.1.0",
-    "@types/node": "^22.10.1",
-    "@types/react": "^19.0.1",
-    "@types/react-dom": "^19.0.1",
-    "@typescript-eslint/eslint-plugin": "^8.17.0",
-    "@typescript-eslint/parser": "^8.17.0",
+    "@types/node": "^22.12.0",
+    "@types/react": "^19.0.8",
+    "@types/react-dom": "^19.0.3",
+    "@typescript-eslint/eslint-plugin": "^8.22.0",
+    "@typescript-eslint/parser": "^8.22.0",
     "eslint": ">=8 <9",
-    "eslint-config-next": "^15.0.4",
-    "eslint-plugin-next-on-pages": "^1.13.6",
-    "gsap": "^3.12.5",
-    "sass": "^1.82.0",
+    "eslint-config-next": "^15.1.6",
+    "eslint-plugin-next-on-pages": "^1.13.7",
+    "gsap": "^3.12.7",
+    "sass": "^1.83.4",
     "typescript": "^5",
     "vercel": "^32.3.0",
     "vitest": "2.0.5",
-    "wrangler": "^3.93.0"
+    "wrangler": "^3.106.0"
   }
 }
