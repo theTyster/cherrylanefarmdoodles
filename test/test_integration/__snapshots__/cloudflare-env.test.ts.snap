@@ -8,8 +8,6 @@ exports[`Cloudflare Environment > D1 should contain Dogs 1`] = `"Dogs"`;
 
 exports[`Cloudflare Environment > D1 should contain Families 1`] = `"Families"`;
 
-exports[`Cloudflare Environment > D1 should contain Group_Photos 1`] = `"Group_Photos"`;
-
 exports[`Cloudflare Environment > D1 should contain Headshots_Lg 1`] = `"Headshots_Lg"`;
 
 exports[`Cloudflare Environment > D1 should contain Headshots_Sm 1`] = `"Headshots_Sm"`;
