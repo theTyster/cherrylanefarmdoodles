@@ -18,7 +18,7 @@
     "wdio": "wdio run ./wdio.conf.ts"
   },
   "dependencies": {
-    "criptoe": "^1.1.4-0",
+    "criptoe": "^2.0.0",
     "gsap": "^3.12.7",
     "next": "^15.0.4",
     "react": "^19",
