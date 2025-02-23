@@ -1,84 +1,61 @@
-import { GlobalNameSpaces as G } from "@/constants/data";
+"use client";
+import {  D1Tables as D1T } from "@/constants/data";
 import { useState } from "react";
-import Image from "next/image";
 import FormInput from "@/components/new-dog-form/components/form-input";
+import Headshot from "@/components/Headshots/Headshots";
+import GroupPhoto from "@/components/GroupPhoto/GroupPhoto";
 
-export default function ImageUpload({
-  variant,
-}: {
-  variant: "small" | "large" | "group";
-}) {
+const VariantKeys = ["small", "large", "group"] as const;
+const VARIANTS = {
+  [VariantKeys[0]]: D1T["Headshots_Sm"],
+  [VariantKeys[1]]: D1T["Headshots_Lg"],
+  [VariantKeys[2]]: D1T["Group_Photos"],
+} as const;
+
+type VariantKeysType = (typeof VariantKeys)[number];
+
+export default function ImageUpload({ variant }: { variant: VariantKeysType }) {
   const [preview, setPreview] = useState<string | null>(null);
 
   return (
-    <FormInput
-      label={
-        <>
-          {variant === "small" && (
-            <>
-              Upload a <b>small</b> headshot (optional)
-            </>
-          )}
-          {variant === "large" && (
-            <>
-              Upload a <b>large</b> headshot (optional)
-            </>
-          )}
-          {variant === "group" && "Upload a group image (optional)"}
-        </>
-      }
-    >
-      <input
-        name={
-          variant === "small"
-            ? G["Headshots_Sm"]
-            : variant === "large"
-            ? G["Headshots_Lg"]
-            : G["Group_Photos"]
+    <>
+      <FormInput
+        label={
+          <>
+            Upload a <b>{variant}</b> image
+          </>
         }
-        type="file"
-        accept="image/*"
-        onChange={(event) => {
-          if (event.target.files && event.target.files.length > 0) {
-            const objectUrl = URL.createObjectURL(event.target.files[0]);
-            setPreview(objectUrl);
-          }
-        }}
-      />
+      >
+        <input
+          name={VARIANTS[variant]}
+          type="file"
+          accept="image/*"
+          onChange={(event) => {
+            if (event.target.files && event.target.files.length > 0) {
+              const objectUrl = URL.createObjectURL(event.target.files[0]);
+              setPreview(objectUrl);
+            }
+          }}
+        />
 
-      {preview && variant === "small" ? (
-        <Image
-          src={preview}
-          alt="Preview"
-          height={292}
-          width={292}
-          style={{
-            objectFit: "cover",
-          }}
-        />
-      ) : preview && variant === "large" ? (
-        <Image
-          src={preview}
-          alt="Preview"
-          width={500}
-          height={666}
-          style={{
-            objectFit: "cover",
-          }}
-        />
-      ) : (
-        preview && (
-          <Image
-            src={preview}
-            alt="Preview"
-            width={433}
-            height={615}
-            style={{
-              objectFit: "cover",
-            }}
-          />
-        )
-      )}
-    </FormInput>
+        {preview &&
+          (variant === VariantKeys[0] || variant === VariantKeys[1] ? (
+            <>
+              <Headshot
+                src={preview}
+                alt="Preview"
+                variant={VARIANTS[variant]}
+                style={{ marginTop: "1rem" }}
+              />
+            </>
+          ) : (
+            <GroupPhoto
+              src={preview}
+              alt="Preview"
+              variant={VARIANTS[variant]}
+            />
+          ))}
+      </FormInput>
+    </>
   );
 }
