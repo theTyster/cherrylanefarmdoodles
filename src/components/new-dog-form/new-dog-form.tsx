@@ -47,7 +47,6 @@ export type FormState = {
 };
 
 function NewDogForm({
-  /**Consider using context or forwardRef for this instead of prop drilling.*/
   inputData,
 }: {
   inputData: ServerAdminDataHandler["inputData"];

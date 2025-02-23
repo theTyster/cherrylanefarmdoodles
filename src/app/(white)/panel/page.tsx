@@ -9,14 +9,8 @@ import TabMenu, {
   type MenuDataArr,
   type MenuNamesObj,
 } from "@/components/tab-menu/tab-menu";
+import EditExisting from "@/components/edit-dog-form/edit-dog-form";
 
-function EditExisting({
-  inputData,
-}: {
-  inputData: AdminDataHandler["inputData"];
-}) {
-  return JSON.stringify(inputData);
-}
 
 async function Page() {
   const D1 = getRequestContext().env.dogsDB;
@@ -43,7 +37,7 @@ async function Page() {
         string: "Edit Existing",
         component: "Edit Existing" 
       },
-      tabContent: <EditExisting inputData={inputData} />,
+      tabContent: <EditExisting />,
     },
   ];
 
