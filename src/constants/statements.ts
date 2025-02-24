@@ -70,7 +70,7 @@ export default class D1Statements {
   makeUpdateStmt<T extends D1TT, O extends string = "id">(
     table: T,
     data: DogsDBTableValTypes<T, O>,
-    id: number
+    id: string | number
   ) {
     type K = keyof typeof data;
     const keys = Object.keys(data) as unknown as K[];
@@ -111,7 +111,7 @@ export default class D1Statements {
   /**
    * Creates an SQL Delete statement for a given table using an id.
    **/
-  makeDeleteStmt<T extends D1TT>(table: T, id: number) {
+  makeDeleteStmt<T extends D1TT>(table: T, id: string | number) {
     return `DELETE FROM ${table} WHERE ${G.id} = ${id};`;
   }
 }
