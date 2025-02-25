@@ -8,9 +8,9 @@ import {
   shortLength,
   mediumLength,
   longLength,
-} from "@/components/new-dog-form/constants/form-defaults";
-import RequiredStar from "@/components/new-dog-form/components/required-star";
-import FormInput from "@/components/new-dog-form/components/form-input";
+} from "@/components/dog-data-panel/constants/form-defaults";
+import RequiredStar from "@/components/dog-data-panel/components/required-star";
+import FormInput from "@/components/dog-data-panel/components/form-input";
 
 function DogInputs() {
   return (

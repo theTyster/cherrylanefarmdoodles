@@ -5,7 +5,7 @@ import CripToe from "criptoe";
 import Statements from "@/constants/statements";
 
 export type DogImageData = {
-  id: number;
+  dogId: number;
   table: "Group_Photos" | "Headshots_Sm" | "Headshots_Lg";
   transformUrl: string;
 };
@@ -27,7 +27,7 @@ export default async function AddImages(
   const secretWrappingKey = getRequestContext().env.wrappingKey;
 
   // Collect all the properties that we already have.
-  data.id = dogId;
+  data.dogId = dogId;
   data.table = variant;
 
   // Create the unencrypted transform URL.
@@ -70,7 +70,7 @@ export default async function AddImages(
       typeof variant,
       "alt"
     >(variant, {
-      transformUrl: data.transformUrl,
+      [G.id]: data.transformUrl,
     });
 
     const fileBody = await file.arrayBuffer();

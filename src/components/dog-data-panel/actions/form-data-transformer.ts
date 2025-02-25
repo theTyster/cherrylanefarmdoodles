@@ -1,7 +1,7 @@
 import { GlobalNameSpaces as G, D1Tables as D1T } from "@/constants/data";
 import { DogsDBTableValTypes } from "@/constants/statements";
 import { D1SchemaKeys, type PossibleD1Vals, type D1Schema } from "@/types/data";
-import { type AdminState } from "@/components/new-dog-form/actions/server-data-handler";
+import { type AdminState } from "@/components/dog-data-panel/actions/server-data-handler";
 
 export type OptionalFormValues = "";
 

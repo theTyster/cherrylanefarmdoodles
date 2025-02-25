@@ -15,23 +15,23 @@ import {
 // Utilities
 import ClientAdminDataHandler, {
   type AdminState,
-} from "@/components/new-dog-form/actions/client-data-handler";
+} from "@/components/dog-data-panel/actions/client-data-handler";
 import ServerAdminDataHandler, {
   ADMIN_STATES,
-} from "@/components/new-dog-form/actions/server-data-handler";
-import handleFormSubmission from "@/components/new-dog-form/actions/handle-form-submission";
+} from "@/components/dog-data-panel/actions/server-data-handler";
+import handleFormSubmission from "@/components/dog-data-panel/actions/handle-form-submission";
 
 // Style
-import css from "@styles/new-dog-form.module.scss";
+import css from "@styles/dog-data-panel.module.scss";
 
 // Components
 //import Puppy from "@/components/dog-about/variants/puppy";
-import PuppyForm from "@/components/new-dog-form/components/puppy-form";
+import PuppyForm from "@/components/dog-data-panel/components/puppy-form";
 //import Adult from "@/components/dog-about/variants/adult";
-import ParentForm from "@/components/new-dog-form/components/parent-form";
-import FamilyForm from "@/components/new-dog-form/components/family-form";
-import LitterForm from "@/components/new-dog-form/components/litter-form";
-import SubmissionMsg from "@/components/new-dog-form/components/submission-message";
+import ParentForm from "@/components/dog-data-panel/components/parent-form";
+import FamilyForm from "@/components/dog-data-panel/components/family-form";
+import LitterForm from "@/components/dog-data-panel/components/litter-form";
+import SubmissionMsg from "@/components/dog-data-panel/components/submission-message";
 
 export type FormContextType = {
   DH: ClientAdminDataHandler;
@@ -46,7 +46,7 @@ export type FormState = {
   state: AdminState;
 };
 
-function NewDogForm({
+function DogDataPanel({
   inputData,
 }: {
   inputData: ServerAdminDataHandler["inputData"];
@@ -228,4 +228,4 @@ function NewDogForm({
   );
 }
 
-export default NewDogForm;
+export default DogDataPanel;

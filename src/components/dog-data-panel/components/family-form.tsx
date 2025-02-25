@@ -2,7 +2,7 @@
 export const runtime = "edge";
 
 // Utilities
-import FamilyOption from "@/components/new-dog-form/components/refreshable-options";
+import FamilyOption from "@/components/dog-data-panel/components/refreshable-options";
 
 function FamilyForm() {
   return (

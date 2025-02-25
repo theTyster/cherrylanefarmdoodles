@@ -1,14 +1,14 @@
 "use server";
-import { type FormState } from "@/components/new-dog-form/new-dog-form";
+import { type FormState } from "@/components/dog-data-panel/dog-data-panel";
 import {
   type AdminState,
   ADMIN_STATES,
-} from "@/components/new-dog-form/actions/server-data-handler";
+} from "@/components/dog-data-panel/actions/server-data-handler";
 import { GlobalNameSpaces as G } from "@/constants/data";
 import { getRequestContext } from "@cloudflare/next-on-pages";
 import D1Statements, { DogsDBTableValTypes } from "@/constants/statements";
-import { FormTransformer } from "@/components/new-dog-form/actions/form-data-transformer";
-import AddImages from "@/components/new-dog-form/actions/add-image-to-r2";
+import { FormTransformer } from "@/components/dog-data-panel/actions/form-data-transformer";
+import AddImages from "@/components/dog-data-panel/actions/add-image-to-r2";
 
 export type FormattedDogsFormDataType = DogsDBTableValTypes<"Dogs", "id"> &
   (DogsDBTableValTypes<"Puppies", "id"> | DogsDBTableValTypes<"Adults", "id">);

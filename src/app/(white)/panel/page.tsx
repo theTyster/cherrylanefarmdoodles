@@ -1,15 +1,14 @@
 export const runtime = "edge";
 
 import { getRequestContext } from "@cloudflare/next-on-pages";
-import AdminDataHandler from "@/components/new-dog-form/actions/server-data-handler";
+import AdminDataHandler from "@/components/dog-data-panel/actions/server-data-handler";
 
 // Components
-import NewDogForm from "@/components/new-dog-form/new-dog-form";
+import DogDataPanel from "@/components/dog-data-panel/dog-data-panel";
 import TabMenu, {
   type MenuDataArr,
   type MenuNamesObj,
 } from "@/components/tab-menu/tab-menu";
-import EditExisting from "@/components/edit-dog-form/edit-dog-form";
 
 
 async function Page() {
@@ -29,7 +28,7 @@ async function Page() {
         string: "Create New",
         component: "Create New",
       },
-      tabContent: <NewDogForm inputData={inputData} />,
+      tabContent: <DogDataPanel inputData={inputData} />,
     },
     {
       id: "edit",
@@ -37,7 +36,7 @@ async function Page() {
         string: "Edit Existing",
         component: "Edit Existing" 
       },
-      tabContent: <EditExisting />,
+      tabContent: <DogDataPanel inputData={inputData} />,
     },
   ];
 

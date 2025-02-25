@@ -5,11 +5,11 @@ import { GlobalNameSpaces as G } from "@/constants/data";
 import { useRef, useState } from "react";
 
 // Components
-import RequiredStar from "@/components/new-dog-form/components/required-star";
-import FormInput from "@/components/new-dog-form/components/form-input";
+import RequiredStar from "@/components/dog-data-panel/components/required-star";
+import FormInput from "@/components/dog-data-panel/components/form-input";
 
 // Static
-import css from "@styles/new-dog-form.module.scss";
+import css from "@styles/dog-data-panel.module.scss";
 
 function LitterForm() {
   const birthdayRef = useRef<HTMLInputElement>(null);

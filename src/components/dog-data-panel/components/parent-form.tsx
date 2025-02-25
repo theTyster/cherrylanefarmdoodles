@@ -3,15 +3,15 @@ export const runtime = "edge";
 import { GlobalNameSpaces as G } from "@/constants/data";
 
 // Utilities
-import { nameLength } from "@/components/new-dog-form/constants/form-defaults";
-import RequiredStar from "@/components/new-dog-form/components/required-star";
-import DogInputs from "@/components/new-dog-form/components/inputs-for-all-dogs";
+import { nameLength } from "@/components/dog-data-panel/constants/form-defaults";
+import RequiredStar from "@/components/dog-data-panel/components/required-star";
+import DogInputs from "@/components/dog-data-panel/components/inputs-for-all-dogs";
 
 //Components
-import BreederOptions from "@/components/new-dog-form/components/refreshable-options";
-import FormInput from "@/components/new-dog-form/components/form-input";
-import Certifications from "@/components/new-dog-form/components/refreshable-options";
-import ImageUpload from "@/components/new-dog-form/components/image-upload";
+import BreederOptions from "@/components/dog-data-panel/components/refreshable-options";
+import FormInput from "@/components/dog-data-panel/components/form-input";
+import Certifications from "@/components/dog-data-panel/components/refreshable-options";
+import ImageUpload from "@/components/dog-data-panel/components/image-upload";
 
 function ParentForm() {
   return (

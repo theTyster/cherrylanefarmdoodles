@@ -7,8 +7,8 @@ import {
   type D1LitterQueryData as D1LQ,
 } from "@/constants/queries";
 import { D1Schema } from "@/types/data";
-import IMPORT_handleFormSubmission from "@/components/new-dog-form/actions/handle-form-submission";
-import { FormState } from "@/components/new-dog-form/new-dog-form";
+import IMPORT_handleFormSubmission from "@/components/dog-data-panel/actions/handle-form-submission";
+import { FormState } from "@/components/dog-data-panel/dog-data-panel";
 import DateCalculator from "@/constants/dates";
 
 export const ADMIN_STATES = {

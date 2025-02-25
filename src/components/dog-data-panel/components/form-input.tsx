@@ -1,5 +1,5 @@
 //Static
-import css from "@styles/new-dog-form.module.scss";
+import css from "@styles/dog-data-panel.module.scss";
 
 export default function FormInput({
   label,

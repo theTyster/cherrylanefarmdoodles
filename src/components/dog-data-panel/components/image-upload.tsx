@@ -1,7 +1,7 @@
 "use client";
 import {  D1Tables as D1T } from "@/constants/data";
 import { useState } from "react";
-import FormInput from "@/components/new-dog-form/components/form-input";
+import FormInput from "@/components/dog-data-panel/components/form-input";
 import Headshot from "@/components/Headshots/Headshots";
 import GroupPhoto from "@/components/GroupPhoto/GroupPhoto";
 

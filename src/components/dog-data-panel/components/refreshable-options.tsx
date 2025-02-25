@@ -12,18 +12,18 @@ import {
 } from "react";
 
 // Utilities
-import { FormContext } from "@/components/new-dog-form/new-dog-form";
-import synchronizeInputData from "@/components/new-dog-form/actions/synchronize-input-data";
+import { FormContext } from "@/components/dog-data-panel/dog-data-panel";
+import synchronizeInputData from "@/components/dog-data-panel/actions/synchronize-input-data";
 import ServerAdminDataHandler, {
   type IdName,
-} from "@/components/new-dog-form//actions/server-data-handler";
+} from "@/components/dog-data-panel//actions/server-data-handler";
 
 // Components
-import RequiredStar from "@/components/new-dog-form/components/required-star";
-import FormInput from "@/components/new-dog-form/components/form-input";
+import RequiredStar from "@/components/dog-data-panel/components/required-star";
+import FormInput from "@/components/dog-data-panel/components/form-input";
 
 //Static
-import css from "@styles/new-dog-form.module.scss";
+import css from "@styles/dog-data-panel.module.scss";
 
 type WhichOptionsType = "litters" | "parents" | "breeders" | "certifications";
 
