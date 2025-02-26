@@ -18,8 +18,11 @@ export default class DogTreeDataClass {
   entryPoint?: D1FQ[];
   puppyData?: PuppyData[];
 
-  constructor(D1: D1Database) {
+  constructor(D1: D1Database, entryPoint?: D1FQ[]) {
     this.D1 = D1;
+    if (entryPoint) {
+      this.entryPoint = entryPoint;
+    }
   }
 
   async getCachedFamily() {
@@ -28,7 +31,9 @@ export default class DogTreeDataClass {
 
   async getFamily() {
     const puppyData = new PupData(this.D1);
-    this.entryPoint = await getAllRecentFamilies(this.D1);
+    this.entryPoint = this.entryPoint
+      ? this.entryPoint
+      : await getAllRecentFamilies(this.D1);
     // Data Collection for the Dogtree component {
     // Reversed so that the most recent litters are displayed first.
     this.entryPoint.reverse();
