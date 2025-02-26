@@ -1,0 +1,83 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`tabMenu > should render correctly 1`] = `
+{
+  "$$typeof": Symbol(react.transitional.element),
+  "_owner": null,
+  "_store": {},
+  "key": null,
+  "props": {
+    "initial": "initial",
+    "menuItems": Map {
+      {
+        "0": "jobHistory",
+        "1": "initial",
+        "2": "contributions",
+        "3": "hobbies",
+        "contributions": 2,
+        "hobbies": 3,
+        "initial": 1,
+        "jobHistory": 0,
+      } => [
+        {
+          "component": {
+            "$$typeof": Symbol(react.transitional.element),
+            "_owner": null,
+            "_store": {},
+            "key": null,
+            "props": {
+              "children": "jobHistory",
+            },
+            "type": "div",
+          },
+          "id": 0,
+          "title": "jobHistory",
+        },
+        {
+          "component": {
+            "$$typeof": Symbol(react.transitional.element),
+            "_owner": null,
+            "_store": {},
+            "key": null,
+            "props": {
+              "children": "initial",
+            },
+            "type": "div",
+          },
+          "id": 1,
+          "title": "initial",
+        },
+        {
+          "component": {
+            "$$typeof": Symbol(react.transitional.element),
+            "_owner": null,
+            "_store": {},
+            "key": null,
+            "props": {
+              "children": "contributions",
+            },
+            "type": "div",
+          },
+          "id": 2,
+          "title": "contributions",
+        },
+        {
+          "component": {
+            "$$typeof": Symbol(react.transitional.element),
+            "_owner": null,
+            "_store": {},
+            "key": null,
+            "props": {
+              "children": "hobbies",
+            },
+            "type": "div",
+          },
+          "id": 3,
+          "title": "hobbies",
+        },
+      ],
+    },
+  },
+  "type": [Function],
+}
+`;
