@@ -1,7 +1,7 @@
 export const runtime = "edge";
 
 import { getRequestContext } from "@cloudflare/next-on-pages";
-import AdminDataHandler from "@/components/dog-data-panel/actions/server-data-handler";
+import AdminDataHandler from "@/components/dog-data-panel/actions/admin-data-handler";
 
 // Components
 import DogDataPanel from "@/components/dog-data-panel/dog-data-panel";
