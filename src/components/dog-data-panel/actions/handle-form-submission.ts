@@ -3,7 +3,7 @@ import { type FormState } from "@/components/dog-data-panel/dog-data-panel";
 import {
   type AdminState,
   ADMIN_STATES,
-} from "@/components/dog-data-panel/actions/server-data-handler";
+} from "@/components/dog-data-panel/actions/admin-data-handler";
 import { GlobalNameSpaces as G } from "@/constants/data";
 import { getRequestContext } from "@cloudflare/next-on-pages";
 import D1Statements, { DogsDBTableValTypes } from "@/constants/statements";

@@ -16,7 +16,7 @@ import { PanelContext } from "@/components/dog-data-panel/dog-data-panel";
 import synchronizeInputData from "@/components/dog-data-panel/actions/synchronize-input-data";
 import ServerAdminDataHandler, {
   type IdName,
-} from "@/components/dog-data-panel//actions/server-data-handler";
+} from "@/components/dog-data-panel//actions/admin-data-handler";
 
 // Components
 import RequiredStar from "@/components/dog-data-panel/components/required-star";

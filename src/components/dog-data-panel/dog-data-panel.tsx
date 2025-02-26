@@ -15,7 +15,7 @@ import {
 import ServerAdminDataHandler, {
   ADMIN_STATES,
   type AdminState,
-} from "@/components/dog-data-panel/actions/server-data-handler";
+} from "@/components/dog-data-panel/actions/admin-data-handler";
 import handleFormSubmission from "@/components/dog-data-panel/actions/handle-form-submission";
 
 // Style
