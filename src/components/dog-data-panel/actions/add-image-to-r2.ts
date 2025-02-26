@@ -7,7 +7,7 @@ import Statements from "@/constants/statements";
 export type DogImageData = {
   dogId: number;
   table: "Group_Photos" | "Headshots_Sm" | "Headshots_Lg";
-  transformUrl: string;
+  id: string;
 };
 
 export default async function AddImages(
@@ -62,7 +62,7 @@ export default async function AddImages(
   mediaUrl.searchParams.set("k", wrappedKey);
 
   // Attach the encrypted transform url to the data.
-  data.transformUrl = mediaUrl.toString();
+  data.id = mediaUrl.toString();
 
   // Insert the image into the R2 bucket and D1
   if (variant !== G["Group_Photos"]) {
@@ -70,11 +70,11 @@ export default async function AddImages(
       typeof variant,
       "alt"
     >(variant, {
-      [G.id]: data.transformUrl,
+      [G.id]: data.id,
     });
 
     const fileBody = await file.arrayBuffer();
-    await R2.put(data.transformUrl, fileBody, {
+    await R2.put(data.id, fileBody, {
       httpMetadata: {
         contentType: file.type,
       },
@@ -82,7 +82,7 @@ export default async function AddImages(
 
     await D1.prepare(insertStatement).run();
 
-    return data.transformUrl;
+    return data.id;
   }
   return null;
 }

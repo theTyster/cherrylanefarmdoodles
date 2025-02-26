@@ -27,10 +27,10 @@ export const GlobalNameSpaces = {
   /**@deprecated use 'activityStatus'*/
   isRetired: "activityStatus",
 
-  /**Primarily used in D1 Image Tables*/
-  transformUrl: "transformUrl",
-  /**@deprecated use transformUrl*/
-  hash: "transformUrl",
+  /**@deprecated use Id*/
+  transformUrl: "id",
+  /**@deprecated use id*/
+  hash: "id",
   /**Only available in D1 Group_Photos*/
   alt: "alt",
 

@@ -1,5 +1,5 @@
 INSERT
-    OR REPLACE INTO Group_Photos (alt, transformUrl)
+    OR REPLACE INTO Group_Photos (alt, id)
         VALUES
         ("No Group Photo", NULL),
         ("Daphne and Francesca riding in a wagon.", "https://media.cherrylanefarmdoodles.com/dzegD159TJNHOvHfFIRc0F3R4BLYI1F81KH1EFpgVC5AbkPladpgpNAxJ1e2VI7GNt_GzUeVvdMO8JGdZvD9QrjlhvLrZqA7PAkHhfI2UcvlC8xtEKVM4tyJRwbArZlsHTnV?iv=s4U6IvjH030bgPgF&k=6mf53DxgAsyMs48VDIJ6_57dpoiq8SHj3BIhxC_O-_1ysQQwjzpgC3cRQdpVAfuyXodJir84W8E1iTm-gSUbPuBjjLksO2vDC4nY5YSs_WnF4-3Xx7DCAENn7oUOSDNud9pQhw1a39sgYbd8eKPIO8TUDXH77tIrGlm00NQnjdGJQC_ZdPPi6g"),

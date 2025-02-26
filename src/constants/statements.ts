@@ -78,9 +78,7 @@ export default class D1Statements {
     return `UPDATE ${table} 
       SET ${keys
         .map((key) => `${String(key)} = '${data[key]}'`)
-        .join(", ")} WHERE ${
-      !this.imageTables.some((val) => table === val) ? G.id : G.transformUrl
-    } = ${id}`;
+        .join(", ")} WHERE ${G.id} = ${id}`;
   }
 
   /**
@@ -103,9 +101,7 @@ export default class D1Statements {
       .map((key) => (data[key] ? `'${data[key]}'` : "NULL"))
       .join(", ");
 
-    return `INSERT OR REPLACE INTO ${table} (${columns}) VALUES (${values}) RETURNING ${
-      !this.imageTables.some((val) => table === val) ? G.id : G.transformUrl
-    };`;
+    return `INSERT OR REPLACE INTO ${table} (${columns}) VALUES (${values}) RETURNING ${G.id};`;
   }
 
   /**

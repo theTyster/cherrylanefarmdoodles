@@ -157,7 +157,7 @@ describe("Backend Systems", async () => {
             ).toStrictEqual(expect.any(String));
             expect(
               D1.Headshots_Lg.some(
-                (headshot) => headshot.transformUrl === Headshots_Lg
+                (headshot) => headshot.id === Headshots_Lg
               ),
               "Large Headshot should be found in Headshots_Lg."
             ).toBe(true);
@@ -255,12 +255,12 @@ describe("Backend Systems", async () => {
 
     describe("Headshots Data", () => {
       describe.each(D1.Headshots_Lg)("Headshot %d", (lg) => {
-        const { transformUrl } = lg;
+        const { id } = lg;
         test(`Type Checks`, () => {
-          if (transformUrl)
+          if (id)
             expect(
-              transformUrl,
-              "transformUrl should be a string."
+              id,
+              "id should be a string."
             ).toStrictEqual(expect.any(String));
         });
       });
@@ -338,7 +338,7 @@ describe("Backend Systems", async () => {
         //              `R2 doesn't contain an image for ${Group_Photos}.`
         //            ).toContain(
         //              D1.Group_Photos.find(
-        //                (photo) => photo.transformUrl === Group_Photos
+        //                (photo) => photo.id === Group_Photos
         //              )
         //            );
         //          }
@@ -406,9 +406,9 @@ describe("Backend Systems", async () => {
         test("Updating Headshots Should also update Dogs.", async () => {
           const updated = await env.dogsDB
             .prepare(
-              "UPDATE Headshots_Lg SET transformUrl = 'new' WHERE transformUrl = ?"
+              "UPDATE Headshots_Lg SET id = 'new' WHERE id = ?"
             )
-            .bind(D1.Headshots_Lg[7].transformUrl)
+            .bind(D1.Headshots_Lg[7].id)
             .all();
 
           const newHeadshotsLg = await D1QueryAll("Headshots_Lg");

@@ -1,5 +1,5 @@
 INSERT
-    OR REPLACE INTO Headshots_Lg (transformUrl)
+    OR REPLACE INTO Headshots_Lg (id)
         VALUES
         (NULL),
         ("01placeholder"),

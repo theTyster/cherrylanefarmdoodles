@@ -97,14 +97,13 @@ export interface D1SchemaValTypes {
 
 // EXPLICIT SCHEMAS FOR D1 TABLES
 export interface D1GroupPhotos {
-  readonly [G.transformUrl]: string;
-  readonly [G.hash]: string;
+  readonly [G.id]: string;
   readonly [G.alt]: string | null;
 }
 /**
  * An Array of strings that should match the keys of D1GroupPhotos.
  **/
-export const D1GroupPhotosKeys = [G.transformUrl, G.hash, G.alt] as const;
+export const D1GroupPhotosKeys = [G.id, G.alt] as const;
 /**
  * Keys typed for D1GroupPhotos as though they were accessed with Object.keys()
  * after retrieving them from the database.
@@ -118,7 +117,7 @@ export type D1HeadshotsSm = D1GroupPhotos;
 /**
  * An Array of strings that should match the keys of D1HeadshotsSm.
  **/
-export const D1HeadshotsSmKeys = [G.transformUrl, G.hash] as const;
+export const D1HeadshotsSmKeys = [G.id] as const;
 /**
  * Keys typed for D1HeadshotsSm as though they were accessed with Object.keys()
  * after retrieving them from the database.
@@ -132,7 +131,7 @@ export type D1HeadshotsLg = D1GroupPhotos;
 /**
  * An Array of strings that should match the keys of D1HeadshotsLg.
  **/
-export const D1HeadshotsLgKeys = [G.transformUrl, G.hash] as const;
+export const D1HeadshotsLgKeys = [G.id] as const;
 /**
  * Keys typed for D1HeadshotsLg as though they were accessed with Object.keys()
  * after retrieving them from the database.
@@ -328,7 +327,7 @@ export const D1SchemaKeys = {
   [D1T.Families]: D1FamiliesKeys,
   [D1T.Dog_To_Group_Photos]: D1DogToGroupPhotosKeys,
 } as const;
-export type D1SchemaKeysType = typeof D1SchemaKeys;
+export type D1SchemaKeyTypes = typeof D1SchemaKeys[D1TT][number];
 
 // TYPES FOR RAW DATA
 export type D1HeadshotsSmRaw = [string, string];
