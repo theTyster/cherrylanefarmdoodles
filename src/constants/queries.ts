@@ -1,6 +1,7 @@
 /**
  * TODO:
  * Move all of this into the Statements Class.
+ * This file will become type declarations.
  **/
 
 import {
@@ -48,6 +49,7 @@ export type DogsQueryData = Omit<D1Dogs, typeof G.id>;
 export type D1DogsQueryData = QueryStringify<DogsQueryData>;
 
 /**
+ * @deprecated use Statements Class
  * Get all info about a specified Adult Dog.
  * utilizes indexes. Requires Adult ID.
  **/
@@ -72,6 +74,7 @@ export type AdultDogsQueryData = Omit<D1Adults, typeof G.id>;
 export type D1AdultDogsQueryData = QueryStringify<AdultDogsQueryData>;
 
 /**
+ * @deprecated Use Statements Object.
  * Gets all information about a grouping of Dogs (a family).
  * Utilizes indexes. Can use Litter ID.
  *
@@ -142,6 +145,7 @@ export type FamilyQueryData = Omit<D1Families, typeof G.id> &
 export type D1FamilyQueryData = QueryStringify<FamilyQueryData>;
 
 /**
+ * @deprecated use Statements Class
  * Gets data for all puppies in a litter.
  * Utilizes indexes. Requires Litter ID.
  **/

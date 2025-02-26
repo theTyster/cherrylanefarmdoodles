@@ -1,11 +1,11 @@
 import { V as DogVariants } from "@/types/dog-about";
 import { GlobalNameSpaces as G, D1Tables as D1T } from "@/constants/data";
-import {
-  familyQuery,
-  type D1FamilyQueryData as D1FQ,
-  litterQuery,
-  type D1LitterQueryData as D1LQ,
-} from "@/constants/queries";
+import Statements, {
+  type D1FQ,
+  type D1LQ,
+  type D1AQ,
+  type D1PQ,
+} from "@/constants/statements";
 import { D1Schema } from "@/types/data";
 import IMPORT_handleFormSubmission from "@/components/dog-data-panel/actions/handle-form-submission";
 import { FormState } from "@/components/dog-data-panel/dog-data-panel";
@@ -52,8 +52,6 @@ import MenuData, {
   type D1MotherMenuData as D1AdultMenuData,
 } from "@/constants/nav";
 
-import Statements from "@/constants/statements";
-
 type D1AdultMenuDataRawHelper = (
   data: D1AdultMenuData
 ) => [(typeof data)[typeof G.id], (typeof data)[typeof G.adultName]];
@@ -97,8 +95,6 @@ export default class ServerAdminDataHandler extends Statements {
           LEFT JOIN ${D1T.Dogs} as D ON D.${G.id} = ${D1T.Adults}.${G.dogId}
           WHERE D.${G.gender} = '${opts.parentRole}'
           `;
-  getFamiliesQuery = familyQuery;
-  getLittersQuery = litterQuery;
 
   constructor(D1?: D1Database) {
     super();
@@ -245,12 +241,18 @@ export default class ServerAdminDataHandler extends Statements {
   /**Gets *all* families in the database. This could be a very large set of data.*/
   async getFamilies(): Promise<D1FQ[]> {
     if (!this.D1) throw new Error("D1 not found");
-    return await this.D1.prepare(this.getFamiliesQuery()).raw<D1FQ>();
+    return await this.D1.prepare(super.familyQuery()).raw<D1FQ>();
   }
 
   /**Gets *all* puppies in the database. This could be a very large set of data.*/
   async getLitters(): Promise<D1LQ[]> {
     if (!this.D1) throw new Error("D1 not found");
-    return await this.D1.prepare(this.getLittersQuery()).raw<D1LQ>();
+    return await this.D1.prepare(super.litterQuery()).raw<D1LQ>();
+  }
+
+  /**Gets *all* Adults in the database. This could be a very large set of data.*/
+  async getAdults(): Promise<D1AQ[]> {
+    if (!this.D1) throw new Error("D1 not found");
+    return await this.D1.prepare(super.adultDogsQuery).raw<D1AQ>();
   }
 }

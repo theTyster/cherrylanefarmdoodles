@@ -1,8 +1,5 @@
 // Constants for the constants
-import {
-  familyQuery,
-  type D1FamilyQueryData as D1FQ,
-} from "@/constants/queries";
+import  D1Statements,{ type D1FQ} from "@/constants/statements";
 import fetchDataWithCache from "@/constants/caching";
 
 /**
@@ -24,10 +21,11 @@ import fetchDataWithCache from "@/constants/caching";
  * @param litterId The ID of the litter to get data for.
  **/
 export async function getAllRecentFamilies(D1: D1Database) {
+  const stmt = new D1Statements();
   return await fetchDataWithCache(
     "all-families__familyQuery",
     async () =>
-      await D1.prepare(familyQuery({onlyRecent: true}))
+      await D1.prepare(stmt.familyQuery({onlyRecent: true}))
         .bind()
         .all<D1FQ>()
         .then((res) => {
@@ -52,10 +50,11 @@ export async function getAllRecentFamilies(D1: D1Database) {
  * @param litterId The ID of the litter to get data for.
  **/
 export async function getFirstRecentFamily(D1: D1Database, litterId: string) {
+  const stmt = new D1Statements();
   return fetchDataWithCache(
     "first-family_" + litterId + "__familyQuery",
     async () => {
-      return await D1.prepare(familyQuery({litterId}))
+      return await D1.prepare(stmt.familyQuery({litterId}))
         .bind(litterId)
         .first<D1FQ>()
         .then((res) => {
