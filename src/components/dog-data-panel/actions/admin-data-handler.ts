@@ -61,9 +61,9 @@ type D1AdultMenuDataRaw = ReturnType<D1AdultMenuDataRawHelper>;
 export type IdName = { id: number; name: string };
 
 /**Controls the overall state of the SPA Admin Panel*/
-export default class ServerAdminDataHandler extends Statements {
+export default class AdminDataHandler extends Statements {
   D1?: D1Database;
-  inputData: {
+  currentData: {
     breeders: string[];
     certificateNames: string[];
     litterNames: IdName[];
@@ -99,7 +99,7 @@ export default class ServerAdminDataHandler extends Statements {
   constructor(D1?: D1Database) {
     super();
     this.D1 = D1;
-    this.inputData = {
+    this.currentData = {
       breeders: [],
       certificateNames: [],
       litterNames: [],
@@ -108,15 +108,15 @@ export default class ServerAdminDataHandler extends Statements {
     };
   }
 
-  async getInputData(): Promise<ServerAdminDataHandler["inputData"]> {
-    this.inputData = {
+  async getCurrentData(): Promise<AdminDataHandler["currentData"]> {
+    this.currentData = {
       breeders: await this.getBreeders(),
       certificateNames: await this.getCertificateNames(),
       litterNames: await this.getLitterNames(),
       motherNames: await this.getAdultNames("F"),
       fatherNames: await this.getAdultNames("M"),
     };
-    return this.inputData;
+    return this.currentData;
   }
 
   async handleFormSubmission(

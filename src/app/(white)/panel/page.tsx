@@ -10,11 +10,10 @@ import TabMenu, {
   type MenuNamesObj,
 } from "@/components/tab-menu/tab-menu";
 
-
 async function Page() {
   const D1 = getRequestContext().env.dogsDB;
   const DH = new AdminDataHandler(D1);
-  const inputData = await DH.getInputData();
+  const currentData = await DH.getCurrentData();
 
   const menuNamesObj: MenuNamesObj = {
     create: 0,
@@ -28,15 +27,15 @@ async function Page() {
         string: "Create New",
         component: "Create New",
       },
-      tabContent: <DogDataPanel inputData={inputData} />,
+      tabContent: <DogDataPanel variant={"create"} currentData={currentData} />,
     },
     {
       id: "edit",
-      title:{
+      title: {
         string: "Edit Existing",
-        component: "Edit Existing" 
+        component: "Edit Existing",
       },
-      tabContent: <DogDataPanel inputData={inputData} />,
+      tabContent: <DogDataPanel variant={"change"} currentData={currentData} />,
     },
   ];
 

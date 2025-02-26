@@ -13,8 +13,8 @@ import {
 
 // Utilities
 import { PanelContext } from "@/components/dog-data-panel/dog-data-panel";
-import synchronizeInputData from "@/components/dog-data-panel/actions/synchronize-input-data";
-import ServerAdminDataHandler, {
+import synchronizeCurrentData from "@/components/dog-data-panel/actions/synchronize-current-data";
+import AdminDataHandler, {
   type IdName,
 } from "@/components/dog-data-panel//actions/admin-data-handler";
 
@@ -28,14 +28,14 @@ import css from "@styles/dog-data-panel.module.scss";
 type WhichOptionsType = "litters" | "parents" | "breeders" | "certifications";
 
 function UpdatedOptions({ whichOptions }: { whichOptions: WhichOptionsType }) {
-  const { inputData } = useContext(PanelContext) ?? {};
+  const { currentData } = useContext(PanelContext) ?? {};
 
   function getWhichOptions(
     theseOptions: WhichOptionsType,
-    inputs: ServerAdminDataHandler["inputData"] | undefined
+    inputs: AdminDataHandler["currentData"] | undefined
   ): IdName[] | string[] | [IdName[], IdName[]] {
     if (!inputs) {
-      console.error("No input data found");
+        console.error("No data found requesting it again.");
       return [];
     }
 
@@ -53,22 +53,22 @@ function UpdatedOptions({ whichOptions }: { whichOptions: WhichOptionsType }) {
     }
   }
 
-  const options = getWhichOptions(whichOptions, inputData);
+  const options = getWhichOptions(whichOptions, currentData);
 
   const breederRefInput = useRef<HTMLInputElement>(null);
 
   const certificationRefInput = useRef<HTMLInputElement>(null);
 
-  const [inputDataState, setInputDataState] = useState(options);
+  const [curentDataState, setCurrentDataState] = useState(options);
 
   const [breeder, setBreeder] = useState("Cherry Lane Farms");
 
   const [certification, setCertification] = useState("Embark");
 
   const getInputs = useCallback(async () => {
-    const inputs = await synchronizeInputData();
+    const inputs = await synchronizeCurrentData();
     const options = getWhichOptions(whichOptions, inputs);
-    setInputDataState(options);
+    setCurrentDataState(options);
   }, [whichOptions]);
 
   useEffect(() => {
@@ -103,7 +103,7 @@ function UpdatedOptions({ whichOptions }: { whichOptions: WhichOptionsType }) {
       <FormInput label="What litter does this puppy belong to?">
         <div className={css["input-with-button"]}>
           <select name={G.litterId}>
-            {(inputDataState as IdName[]).map((litter) => (
+            {(curentDataState as IdName[]).map((litter) => (
               <option key={litter.id + litter.name} value={litter.id}>
                 {litter.name}
               </option>
@@ -125,7 +125,7 @@ function UpdatedOptions({ whichOptions }: { whichOptions: WhichOptionsType }) {
         >
           <div className={css["input-with-button"]}>
             <select name={G.mother}>
-              {(inputDataState as [IdName[], IdName[]])[0].map((mother) => (
+              {(curentDataState as [IdName[], IdName[]])[0].map((mother) => (
                 <option key={mother.id + mother.name} value={mother.id}>
                   {mother.name}
                 </option>
@@ -146,7 +146,7 @@ function UpdatedOptions({ whichOptions }: { whichOptions: WhichOptionsType }) {
         >
           <div className={css["input-with-button"]}>
             <select name={G.father}>
-              {(inputDataState as [IdName[], IdName[]])[1].map((father) => (
+              {(curentDataState as [IdName[], IdName[]])[1].map((father) => (
                 <option key={father.id + father.name} value={father.id}>
                   {father.name}
                 </option>
@@ -168,7 +168,7 @@ function UpdatedOptions({ whichOptions }: { whichOptions: WhichOptionsType }) {
       {breeder !== "New" ? (
         <div className={css["input-with-button"]}>
           <select name={G.breeder} required>
-            {(inputDataState as string[]).map((b, i) => (
+            {(curentDataState as string[]).map((b, i) => (
               <option key={b + i}>{b}</option>
             ))}
             <option onClick={() => setBreeder("New")}>+ Add New</option>
@@ -199,7 +199,7 @@ function UpdatedOptions({ whichOptions }: { whichOptions: WhichOptionsType }) {
         <div className={css["input-with-button"]}>
           <select name={G.certifications} required>
             <option value={undefined}>None</option>
-            {(inputDataState as string[]).map((b, i) => (
+            {(curentDataState as string[]).map((b, i) => (
               <option key={b + i}>{b}</option>
             ))}
             <option onClick={() => setCertification("New")}>+ Add New</option>

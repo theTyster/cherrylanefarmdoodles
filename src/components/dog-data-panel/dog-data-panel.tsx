@@ -12,7 +12,7 @@ import {
 } from "react";
 
 // Utilities
-import ServerAdminDataHandler, {
+import AdminDataHandler, {
   ADMIN_STATES,
   type AdminState,
 } from "@/components/dog-data-panel/actions/admin-data-handler";
@@ -51,9 +51,9 @@ export const statInit: StatStateType = {
 };
 
 export type PanelContextType = {
-  DH: ServerAdminDataHandler;
+  DH: AdminDataHandler;
   formRef: React.RefObject<HTMLFormElement | null>;
-  inputData: ServerAdminDataHandler["inputData"];
+  currentData: AdminDataHandler["currentData"];
   usedStatStates: UsedStatStatesType;
   variant: DogDataPanelVariantsType;
 } | null;
@@ -76,7 +76,7 @@ function DogDataPanel({
   currentData,
   variant,
 }: {
-  currentData: ServerAdminDataHandler;
+  currentData: AdminDataHandler;
   variant: DogDataPanelVariantsType;
 }) {
   // Refs
@@ -128,7 +128,7 @@ function DogDataPanel({
   //  }, [previewState, DH]);
 
   return (
-    <PanelContext.Provider value={{ formRef, inputData: currentData.inputData, usedStatStates, variant }}>
+    <PanelContext.Provider value={{ formRef, currentData: currentData.currentData, usedStatStates, variant }}>
       <div className={css["main"]}>
         <SubmissionMsg success={formState.success} message={formState.error} />
         <Stats />
