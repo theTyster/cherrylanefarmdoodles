@@ -45,12 +45,12 @@ import {
 } from "@cloudflare/vitest-pool-workers/config";
 
 export default defineWorkersConfig(async () => {
-  const migrationsPath = join(__dirname, "test/migrations");
+  const migrationsPath = join(__dirname, "test/test_integration/migrations");
   const migrations = await readD1Migrations(migrationsPath);
   const r2TestFileDirectoryPaths = [
-    join(__dirname, "test/placeholders/Group_Photos"),
-    join(__dirname, "test/placeholders/Headshots_Lg"),
-    join(__dirname, "test/placeholders/Headshots_Sm"),
+    join(__dirname, "test/test_integration/placeholders/Group_Photos"),
+    join(__dirname, "test/test_integration/placeholders/Headshots_Lg"),
+    join(__dirname, "test/test_integration/placeholders/Headshots_Sm"),
   ];
 
   const r2TestFilePaths = await Promise.all(
@@ -80,10 +80,11 @@ export default defineWorkersConfig(async () => {
 
   const R2Uploads = r2TestFilePathsFlat.reduce(
     (acc: Record<string, string>, path, index) => {
-      if (!path) return acc; // Skip other directories like Miniflare's node_modules
+      if (!path)
+        return acc; // Skip other directories like Miniflare's node_modules
       else {
-        let keys = path.split('/placeholders/')[1];
-        keys = keys.split('/')[1];
+        let keys = path.split("/placeholders/")[1];
+        keys = keys.split("/")[1];
         acc[keys] = r2TestFileContents[index];
         return acc;
       }
@@ -93,7 +94,8 @@ export default defineWorkersConfig(async () => {
 
   return {
     test: {
-      setupFiles: ["./test/migrateDB.ts"],
+      include: ["./test/test_integration/**.test.ts"],
+      setupFiles: ["./test/test_integration/migrateDB.ts"],
       poolOptions: {
         workers: {
           singleWorker: true,
@@ -113,7 +115,15 @@ export default defineWorkersConfig(async () => {
     resolve: {
       alias: {
         "@": resolve(__dirname, "src"),
+        "@pub": resolve(__dirname, "public"),
+        "@styles": resolve(__dirname, "src/styles"),
         //"@test": path.resolve(__dirname, "test"),
+      },
+      preserveSymlinks: true,
+    },
+    optimizeDeps: {
+      esbuildOptions: {
+        tsconfig: resolve(__dirname, "tsconfig.json"),
       },
     },
   };
