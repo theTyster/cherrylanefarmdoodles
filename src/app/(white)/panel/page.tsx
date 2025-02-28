@@ -12,8 +12,8 @@ import TabMenu, {
 
 async function Page() {
   const D1 = getRequestContext().env.dogsDB;
-  const DH = new AdminDataHandler(D1);
-  const currentData = await DH.getCurrentData();
+  const DH = new AdminDataHandler();
+  await DH.getCurrentData(D1);
 
   const menuNamesObj: MenuNamesObj = {
     create: 0,
@@ -27,7 +27,7 @@ async function Page() {
         string: "Create New",
         component: "Create New",
       },
-      tabContent: <DogDataPanel variant={"create"} currentData={currentData} />,
+      tabContent: <DogDataPanel variant={"create"} currentData={DH.currentData} />,
     },
     {
       id: "edit",
@@ -35,7 +35,7 @@ async function Page() {
         string: "Edit Existing",
         component: "Edit Existing",
       },
-      tabContent: <DogDataPanel variant={"change"} currentData={currentData} />,
+      tabContent: <DogDataPanel variant={"change"} currentData={DH.currentData} />,
     },
   ];
 
