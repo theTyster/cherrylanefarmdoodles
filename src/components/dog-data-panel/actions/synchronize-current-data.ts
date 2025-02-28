@@ -1,10 +1,17 @@
 "use server";
 import { getRequestContext } from "@cloudflare/next-on-pages";
-import AdminDataHandler from "@/components/dog-data-panel/actions/admin-data-handler";
+import AdminDataHandler, {
+  type CurrentDataKeys,
+  type CurrentData,
+  type IdName
+} from "@/components/dog-data-panel/actions/admin-data-handler";
 
-export default async function synchronizeInputData() {
+export default async function synchronizeInputData(
+  whichOptions: CurrentDataKeys
+): Promise<IdName[]> {
   const D1 = getRequestContext().env.dogsDB;
-  const DH = new AdminDataHandler(D1);
-  const currentData = await DH.getCurrentData();
+  const DH = new AdminDataHandler();
+  const data = await DH.getCurrentData(D1);
+  const currentData = data[whichOptions] as CurrentData[typeof whichOptions];
   return currentData;
 }

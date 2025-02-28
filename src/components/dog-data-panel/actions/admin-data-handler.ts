@@ -58,18 +58,29 @@ type D1AdultMenuDataRawHelper = (
 
 type D1AdultMenuDataRaw = ReturnType<D1AdultMenuDataRawHelper>;
 
-export type IdName = { id: number; name: string };
+export interface CurrentData {
+  breeders: IdName[];
+  certificateNames: IdName[];
+  litterNames: IdName[];
+  motherNames: IdName[];
+  fatherNames: IdName[];
+}
+
+export const CURRENT_DATA = {
+  breeders: "breeders",
+  litterNames: "litterNames",
+  certificateNames: "certificateNames",
+  motherNames: "motherNames",
+  fatherNames: "fatherNames",
+} as const;
+
+export type CurrentDataKeys = keyof typeof CURRENT_DATA; // Keys in the `CURRENT_DATA`
+
+export type IdName = { id?: number; name: string };
 
 /**Controls the overall state of the SPA Admin Panel*/
 export default class AdminDataHandler extends Statements {
-  D1?: D1Database;
-  currentData: {
-    breeders: string[];
-    certificateNames: string[];
-    litterNames: IdName[];
-    motherNames: IdName[];
-    fatherNames: IdName[];
-  };
+  currentData: CurrentData;
   DogVariants = DogVariants;
 
   /**Controls the overall state of the SPA Admin Panel*/
@@ -96,9 +107,8 @@ export default class AdminDataHandler extends Statements {
           WHERE D.${G.gender} = '${opts.parentRole}'
           `;
 
-  constructor(D1?: D1Database) {
-    super();
-    this.D1 = D1;
+  constructor() {
+    super()
     this.currentData = {
       breeders: [],
       certificateNames: [],
@@ -108,13 +118,15 @@ export default class AdminDataHandler extends Statements {
     };
   }
 
-  async getCurrentData(): Promise<AdminDataHandler["currentData"]> {
+  async getCurrentData(
+    D1: D1Database
+  ): Promise<AdminDataHandler["currentData"]> {
     this.currentData = {
-      breeders: await this.getBreeders(),
-      certificateNames: await this.getCertificateNames(),
-      litterNames: await this.getLitterNames(),
-      motherNames: await this.getAdultNames("F"),
-      fatherNames: await this.getAdultNames("M"),
+      breeders: await this.getBreeders(D1),
+      certificateNames: await this.getCertificateNames(D1),
+      litterNames: await this.getLitterNames(D1),
+      motherNames: await this.getAdultNames(D1, "F"),
+      fatherNames: await this.getAdultNames(D1, "M"),
     };
     return this.currentData;
   }
@@ -126,17 +138,15 @@ export default class AdminDataHandler extends Statements {
     IMPORT_handleFormSubmission(currentAdminState, formData);
   }
 
-  async getBreeders(): Promise<string[]> {
-    if (!this.D1) throw new Error("D1 not found");
-    const breeders = await this.D1.prepare(
+  async getBreeders(D1: D1Database): Promise<string[]> {
+    const breeders = await D1.prepare(
       `SELECT breeder FROM Adults GROUP BY breeder`
     ).raw<[string]>();
     return breeders.flat();
   }
 
-  async getCertificateNames(): Promise<string[]> {
-    if (!this.D1) throw new Error("D1 not found");
-    const certificateNames = await this.D1.prepare(
+  async getCertificateNames(D1: D1Database): Promise<string[]> {
+    const certificateNames = await D1.prepare(
       `SELECT certifications FROM Adults WHERE certifications IS NOT NULL GROUP BY certifications `
     ).raw<[string]>();
     const equivocalCerts = new Set<string>();
@@ -178,10 +188,8 @@ export default class AdminDataHandler extends Statements {
    * Id's.  If the litter is not associated with a family, the litter name is
    * "Litter No. {id}"
    **/
-  async getLitterNames(): Promise<IdName[]> {
-    if (!this.D1) throw new Error("D1 not found");
-
-    const queriedLitters = await this.D1.prepare(this.getLitterQuery())
+  async getLitterNames(D1: D1Database): Promise<IdName[]> {
+    const queriedLitters = await D1.prepare(this.getLitterQuery())
       .all<{
         id: number;
         mother: string;
@@ -225,10 +233,10 @@ export default class AdminDataHandler extends Statements {
    * Along with their associated Id's.
    **/
   async getAdultNames(
+    D1: D1Database,
     parentRole: D1Schema["Dogs"][typeof G.gender]
   ): Promise<IdName[]> {
-    if (!this.D1) throw new Error("D1 not found");
-    const parents = await this.D1.prepare(
+    const parents = await D1.prepare(
       this.getAdultQuery({ parentRole })
     ).raw<D1AdultMenuDataRaw>();
 
@@ -239,20 +247,17 @@ export default class AdminDataHandler extends Statements {
   }
 
   /**Gets *all* families in the database. This could be a very large set of data.*/
-  async getFamilies(): Promise<D1FQ[]> {
-    if (!this.D1) throw new Error("D1 not found");
-    return await this.D1.prepare(super.familyQuery()).raw<D1FQ>();
+  async getFamilies(D1: D1Database): Promise<D1FQ[]> {
+    return await D1.prepare(this.familyQuery()).raw<D1FQ>();
   }
 
   /**Gets *all* puppies in the database. This could be a very large set of data.*/
-  async getLitters(): Promise<D1LQ[]> {
-    if (!this.D1) throw new Error("D1 not found");
-    return await this.D1.prepare(super.litterQuery()).raw<D1LQ>();
+  async getLitters(D1: D1Database): Promise<D1LQ[]> {
+    return await D1.prepare(this.litterQuery()).raw<D1LQ>();
   }
 
   /**Gets *all* Adults in the database. This could be a very large set of data.*/
-  async getAdults(): Promise<D1AQ[]> {
-    if (!this.D1) throw new Error("D1 not found");
-    return await this.D1.prepare(super.adultDogsQuery).raw<D1AQ>();
+  async getAdults(D1: D1Database): Promise<D1AQ[]> {
+    return await D1.prepare(this.adultDogsQuery).raw<D1AQ>();
   }
 }
