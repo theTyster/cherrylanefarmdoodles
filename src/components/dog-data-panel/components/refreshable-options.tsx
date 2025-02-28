@@ -12,7 +12,7 @@ import {
 } from "react";
 
 // Utilities
-import { FormContext } from "@/components/dog-data-panel/dog-data-panel";
+import { PanelContext } from "@/components/dog-data-panel/dog-data-panel";
 import synchronizeInputData from "@/components/dog-data-panel/actions/synchronize-input-data";
 import ServerAdminDataHandler, {
   type IdName,
@@ -28,7 +28,7 @@ import css from "@styles/dog-data-panel.module.scss";
 type WhichOptionsType = "litters" | "parents" | "breeders" | "certifications";
 
 function UpdatedOptions({ whichOptions }: { whichOptions: WhichOptionsType }) {
-  const { inputData } = useContext(FormContext) ?? {};
+  const { inputData } = useContext(PanelContext) ?? {};
 
   function getWhichOptions(
     theseOptions: WhichOptionsType,

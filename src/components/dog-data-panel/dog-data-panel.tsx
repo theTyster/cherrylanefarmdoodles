@@ -21,27 +21,56 @@ import handleFormSubmission from "@/components/dog-data-panel/actions/handle-for
 // Style
 import css from "@styles/dog-data-panel.module.scss";
 
-// Components
-//import Puppy from "@/components/dog-about/variants/puppy";
+// External Components
 import PuppyForm from "@/components/dog-data-panel/components/puppy-form";
-//import Adult from "@/components/dog-about/variants/adult";
 import ParentForm from "@/components/dog-data-panel/components/parent-form";
 import FamilyForm from "@/components/dog-data-panel/components/family-form";
 import LitterForm from "@/components/dog-data-panel/components/litter-form";
+
+// Local Components
 import SubmissionMsg from "@/components/dog-data-panel/components/submission-message";
+import Stats from "@/components/dog-data-panel/components/stats";
+
+export type StatStateType = {
+  Litters: number;
+  Puppies: number;
+  Adults: number;
+  Families: number;
+};
+
+export type UsedStatStatesType = [
+  StatStateType,
+  React.Dispatch<React.SetStateAction<StatStateType>>
+];
+
+export const statInit: StatStateType = {
+  Litters: 0,
+  Puppies: 0,
+  Adults: 0,
+  Families: 0,
+};
 
 export type PanelContextType = {
   DH: ServerAdminDataHandler;
   formRef: React.RefObject<HTMLFormElement | null>;
   inputData: ServerAdminDataHandler["inputData"];
+  usedStatStates: UsedStatStatesType;
+  variant: DogDataPanelVariantsType;
 } | null;
-export const FormContext = createContext<FormContextType>(null);
+export const PanelContext = createContext<PanelContextType>(null);
 
 export type FormState = {
   success: boolean;
   error?: string | null;
   state: AdminState;
 };
+
+export const DogDataPanelVARIANTS = {
+  create: "create",
+  change: "change",
+} as const;
+
+export type DogDataPanelVariantsType = keyof typeof DogDataPanelVARIANTS;
 
 function DogDataPanel({
   currentData,
@@ -77,23 +106,9 @@ function DogDataPanel({
     React.Dispatch<React.SetStateAction<AdminState>>
   ] = useState(null as unknown as AdminState);
 
-  type StatStateType = {
-    Litters: number;
-    Puppies: number;
-    Adults: number;
-    Families: number;
-  };
+  const usedStatStates: UsedStatStatesType = useState(statInit);
 
-  const statInit: StatStateType = {
-    Litters: 0,
-    Puppies: 0,
-    Adults: 0,
-    Families: 0,
-  };
-  const [statState, setStatState]: [
-    StatStateType,
-    React.Dispatch<React.SetStateAction<StatStateType>>
-  ] = useState(statInit);
+  const [statState, setStatState] = usedStatStates;
 
   useEffect(() => {
     if (!formTypeRef.current) return;
@@ -113,48 +128,10 @@ function DogDataPanel({
   //  }, [previewState, DH]);
 
   return (
-    <>
+    <PanelContext.Provider value={{ formRef, inputData: currentData.inputData, usedStatStates, variant }}>
       <div className={css["main"]}>
         <SubmissionMsg success={formState.success} message={formState.error} />
-        <div className={css["stats"]}>
-          <h4>Session Stats</h4>
-          {Object.values(statState).every((value) => value === 0) ? (
-            <p>
-              You haven&apos;t submitted any new information in this session.
-            </p>
-          ) : (
-            <p>You have submitted:</p>
-          )}
-          <ul>
-            {statState.Litters > 0 && (
-              <li>
-                <strong>{statState.Litters}</strong>{" "}
-                {statState.Litters > 1 ? "Litters" : "Litter"}
-              </li>
-            )}
-            {statState.Puppies > 0 && (
-              <li>
-                <strong>{statState.Puppies}</strong>{" "}
-                {statState.Puppies > 1 ? "Puppies" : "Puppy"}
-              </li>
-            )}
-            {statState.Adults > 0 && (
-              <li>
-                <strong>{statState.Adults}</strong>{" "}
-                {statState.Adults > 1 ? "Adults" : "Adult"}
-              </li>
-            )}
-            {statState.Families > 0 && (
-              <li>
-                <strong>{statState.Families}</strong>{" "}
-                {statState.Families > 1 ? "Families" : "Family"}
-              </li>
-            )}
-          </ul>
-          {Object.values(statState).every((value) => value === 0) || (
-            <button onClick={() => setStatState(statInit)}>Clear Stats</button>
-          )}
-        </div>
+        <Stats />
         <h3>
           <div id={css["what-to-work"]}>
             <select
@@ -170,17 +147,17 @@ function DogDataPanel({
                * Also, this way I have more control on the order of the options,
                * which will help UX.
                **/}
-              <option value={DH.adminStates["Litters"]}>
-                {DH.adminStates["Litters"]}
+              <option value={ADMIN_STATES["Litters"]}>
+                {ADMIN_STATES["Litters"]}
               </option>
-              <option value={DH.adminStates["Puppies"]}>
-                {DH.adminStates["Puppies"]}
+              <option value={ADMIN_STATES["Puppies"]}>
+                {ADMIN_STATES["Puppies"]}
               </option>
-              <option value={DH.adminStates["Adults"]}>
-                {DH.adminStates["Adults"]}
+              <option value={ADMIN_STATES["Adults"]}>
+                {ADMIN_STATES["Adults"]}
               </option>
-              <option value={DH.adminStates["Families"]}>
-                {DH.adminStates["Families"]}
+              <option value={ADMIN_STATES["Families"]}>
+                {ADMIN_STATES["Families"]}
               </option>
             </select>
           </div>
@@ -191,28 +168,25 @@ function DogDataPanel({
           onSubmitCapture={() => {
             const updatedValue = statState[adminState] + 1;
             const newState = { ...statState, [adminState]: updatedValue };
-
             setStatState(newState);
           }}
         >
           <input name="formType" type="hidden" value={formState.state} />
 
-          <FormContext.Provider value={{ DH, formRef, inputData }}>
-            {(() => {
-              switch (adminState) {
-                case DH?.adminStates["Adults"]:
-                  return <ParentForm />;
-                case DH?.adminStates["Puppies"]:
-                  return <PuppyForm />;
-                case DH?.adminStates["Litters"]:
-                  return <LitterForm />;
-                case DH?.adminStates["Families"]:
-                  return <FamilyForm />;
-                default:
-                  return <LitterForm />;
-              }
-            })()}
-          </FormContext.Provider>
+          {(() => {
+            switch (adminState) {
+              case ADMIN_STATES["Adults"]:
+                return <ParentForm />;
+              case ADMIN_STATES["Puppies"]:
+                return <PuppyForm />;
+              case ADMIN_STATES["Litters"]:
+                return <LitterForm />;
+              case ADMIN_STATES["Families"]:
+                return <FamilyForm />;
+              default:
+                return <LitterForm />;
+            }
+          })()}
 
           <p style={{ marginTop: "2rem", textAlign: "center" }}>
             Be sure to check important fields.
@@ -220,7 +194,7 @@ function DogDataPanel({
           <button type="submit">Submit</button>
         </Form>
       </div>
-    </>
+    </PanelContext.Provider>
   );
 }
 
