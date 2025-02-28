@@ -1,0 +1,11 @@
+// cypress
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "types": ["cypress"],
+    "lib": ["esnext"],
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "moduleResolution": "bundler"
+  },
+}
