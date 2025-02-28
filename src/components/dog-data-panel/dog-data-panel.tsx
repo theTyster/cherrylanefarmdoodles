@@ -6,18 +6,15 @@ import Form from "next/form";
 import {
   useState,
   useRef,
-  useMemo,
   useEffect,
   createContext,
   useActionState,
 } from "react";
 
 // Utilities
-import ClientAdminDataHandler, {
-  type AdminState,
-} from "@/components/dog-data-panel/actions/client-data-handler";
 import ServerAdminDataHandler, {
   ADMIN_STATES,
+  type AdminState,
 } from "@/components/dog-data-panel/actions/server-data-handler";
 import handleFormSubmission from "@/components/dog-data-panel/actions/handle-form-submission";
 
@@ -33,8 +30,8 @@ import FamilyForm from "@/components/dog-data-panel/components/family-form";
 import LitterForm from "@/components/dog-data-panel/components/litter-form";
 import SubmissionMsg from "@/components/dog-data-panel/components/submission-message";
 
-export type FormContextType = {
-  DH: ClientAdminDataHandler;
+export type PanelContextType = {
+  DH: ServerAdminDataHandler;
   formRef: React.RefObject<HTMLFormElement | null>;
   inputData: ServerAdminDataHandler["inputData"];
 } | null;
@@ -47,16 +44,15 @@ export type FormState = {
 };
 
 function DogDataPanel({
-  inputData,
+  currentData,
+  variant,
 }: {
-  inputData: ServerAdminDataHandler["inputData"];
+  currentData: ServerAdminDataHandler;
+  variant: DogDataPanelVariantsType;
 }) {
   // Refs
   const formRef: React.RefObject<HTMLFormElement | null> = useRef(null);
   const formTypeRef: React.RefObject<HTMLSelectElement | null> = useRef(null);
-
-  // Memos
-  const DH = useMemo(() => new ClientAdminDataHandler(), []);
 
   // States
   /**TODO: Create Previewable views of Dogs.*/
