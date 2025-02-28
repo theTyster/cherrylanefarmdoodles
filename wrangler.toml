@@ -11,7 +11,7 @@ id = "32b954be1e5845b5b8b11186ae8f35fd"
 binding = "dogsDB"
 database_name = "dogs"
 database_id = "d2d75c27-4175-4ac1-81e4-c6412970e2fb"
-migrations_dir = "test/migrations"
+migrations_dir = "test/test_integration/migrations"
 
 [[r2_buckets]]
 binding = "dogImages"

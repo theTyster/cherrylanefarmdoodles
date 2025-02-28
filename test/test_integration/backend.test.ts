@@ -1,7 +1,7 @@
 import { env } from "cloudflare:test";
 import { describe, test, expect } from "vitest";
-import { D1Tables as D1T } from "../../src/constants/data";
-import type { D1Schema } from "../../src/types/data";
+import { D1Tables as D1T } from "@/constants/data";
+import type { D1Schema } from "@/types/data";
 
 type D1_TABLES<T> = T extends typeof D1T.Group_Photos
   ? D1Schema[typeof D1T.Group_Photos]

@@ -1,16 +1,40 @@
+// Test
 {
-  "extends": "../tsconfig.json",
   "compilerOptions": {
-    "types": [
-      "@cloudflare/workers-types",
-      "@cloudflare/vitest-pool-workers",
-      "node"
-    ],
-    "lib": ["esnext"],
+    "target": "esnext",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
     "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true,
     "esModuleInterop": true,
-    "moduleResolution": "bundler"
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "baseUrl": "../",
+    "paths": {
+      "@/*": ["src/*"],
+      "@pub/*": ["public/*"],
+      "@styles/*": ["src/styles/*"]
+    },
+    "types": ["@cloudflare/workers-types/2023-07-01"],
+    "checkJs": false /* Enable error reporting in type-checked JavaScript files. */,
+    "forceConsistentCasingInFileNames": true /* Ensure that casing is correct in imports. */
   },
-  "include": ["./**/*.ts", "../env.d.ts", "../src/types/*.d.ts"],
-  "exclude": []
+  "include": [
+    "env.d.ts",
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts"
+  ],
+  "exclude": ["node_modules", "reference"]
 }
