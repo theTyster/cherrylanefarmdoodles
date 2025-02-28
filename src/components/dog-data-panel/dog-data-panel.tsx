@@ -51,7 +51,6 @@ export const statInit: StatStateType = {
 };
 
 export type PanelContextType = {
-  DH: AdminDataHandler;
   formRef: React.RefObject<HTMLFormElement | null>;
   currentData: AdminDataHandler["currentData"];
   usedStatStates: UsedStatStatesType;
@@ -76,7 +75,7 @@ function DogDataPanel({
   currentData,
   variant,
 }: {
-  currentData: AdminDataHandler;
+  currentData: AdminDataHandler['currentData'];
   variant: DogDataPanelVariantsType;
 }) {
   // Refs
@@ -128,7 +127,7 @@ function DogDataPanel({
   //  }, [previewState, DH]);
 
   return (
-    <PanelContext.Provider value={{ formRef, currentData: currentData.currentData, usedStatStates, variant }}>
+    <PanelContext.Provider value={{ formRef, currentData,  usedStatStates, variant }}>
       <div className={css["main"]}>
         <SubmissionMsg success={formState.success} message={formState.error} />
         <Stats />
