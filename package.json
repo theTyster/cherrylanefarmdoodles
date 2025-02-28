@@ -14,8 +14,9 @@
     "preview": "npm run pages:build && npx wrangler pages dev .vercel/output/static",
     "preview-remote": "npm run pages:build && npx wrangler --log-level='debug' pages dev .vercel/output/static",
     "deploy": "npm run pages:build && npx wrangler pages deploy .vercel/output/static",
-    "cf-typegen": "wrangler types --env-interface CloudflareEnv env.d.ts",
-    "wdio": "wdio run ./wdio.conf.ts"
+    "cf-typegen": "for i in  env.d.ts test/env.d.ts; do wrangler types --env-interface CloudflareEnv $i; done;",
+    "cy": "npm run dev & npx cypress run",
+    "cy-gui": "npm run dev & npx cypress open"
   },
   "dependencies": {
     "criptoe": "^2.0.0",
@@ -41,10 +42,8 @@
     "@typescript-eslint/eslint-plugin": "^8.22.0",
     "@typescript-eslint/parser": "^8.22.0",
     "@vitejs/plugin-react": "^4.3.4",
-    "@wdio/browser-runner": "^9.8.0",
-    "@wdio/cli": "^9.8.0",
-    "@wdio/mocha-framework": "^9.7.3",
-    "@wdio/spec-reporter": "^9.8.0",
+    "@vitest/coverage-v8": "^2.0.5",
+    "cypress": "^14.1.0",
     "eslint": ">=8 <9",
     "eslint-config-next": "^15.1.6",
     "eslint-plugin-next-on-pages": "^1.13.7",
@@ -54,7 +53,6 @@
     "typescript": "^5",
     "vercel": "^32.3.0",
     "vitest": "2.0.5",
-    "wdio-wait-for": "^3.1.0",
     "wrangler": "^3.106.0"
   }
 }

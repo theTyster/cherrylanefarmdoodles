@@ -1,3 +1,4 @@
+// Root
 {
   "compilerOptions": {
     "target": "esnext",
@@ -24,7 +25,7 @@
       "@pub/*": ["public/*"],
       "@styles/*": ["src/styles/*"]
     },
-    "types": ["@cloudflare/workers-types/2023-07-01", "mocha"],
+    "types": ["@cloudflare/workers-types/2023-07-01"],
     "checkJs": false /* Enable error reporting in type-checked JavaScript files. */,
     "forceConsistentCasingInFileNames": true /* Ensure that casing is correct in imports. */
   },
