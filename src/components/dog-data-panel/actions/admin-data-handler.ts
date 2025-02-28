@@ -4,7 +4,6 @@ import Statements, {
   type D1FQ,
   type D1LQ,
   type D1AQ,
-  type D1PQ,
 } from "@/constants/statements";
 import { D1Schema } from "@/types/data";
 import IMPORT_handleFormSubmission from "@/components/dog-data-panel/actions/handle-form-submission";
