@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "ci:setup": "./scripts/ci-setup",
+    "ci:test": "./env/bin/act --secret-file ./env/actions.secrets",
     "e2e:local": "npx cypress open --config baseUrl='http://localhost:3000'",
     "dev": "rm -fdr .next/ && next dev",
     "build": "next build",

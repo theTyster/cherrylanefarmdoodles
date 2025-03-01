@@ -1,0 +1,79 @@
+name: Test Cherry Lane Farms
+
+on:
+  push:
+    branches: [ preview/test ]
+
+jobs:
+  test-deployment:
+    runs-on: ubuntu-latest
+    env:
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_PAGES_PROJECT: ${{ secrets.CLOUDFLARE_PAGES_PROJECT }}
+    outputs:
+      preview_url: ${{ steps.get-deployment.outputs.preview_url }}
+      deployment_id: ${{ steps.get-deployment.outputs.deployment_id }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20.18.1'
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libnss3 libxss1 libasound2 libxtst6 xauth xvfb
+          npm ci
+
+      - name: Deploy project
+        run: npm run deploy
+
+      - name: Run Cypress tests on preview URL
+        run: |
+          npx cypress run --config baseUrl=https://preview-test.${{ secrets.CLOUDFLARE_PAGES_PROJECT }}.pages.dev -p 443
+
+      - name: Get Deployment ID
+        id: get-deployment
+        run: |
+          printf "#################################### CURLING ####################################\n"
+          RESPONSE=$(curl "https://api.cloudflare.com/client/v4/accounts/${{ secrets.CLOUDFLARE_ACCOUNT_ID }}/pages/projects/${{ secrets.CLOUDFLARE_PAGES_PROJECT }}/deployments?env=preview" \
+            -H "Authorization: Bearer ${{ secrets.CLOUDFLARE_API_TOKEN }}")
+          printf "#################################################################################\n\n"
+          printf "############### RESPONSE ###############\n"
+          echo "$RESPONSE" | jq
+          printf "########################################\n\n"
+          DEPLOYMENT_ID=$(echo "$RESPONSE" | jq -r '.result[0].id')
+          PREVIEW_URL=$(echo "$RESPONSE" | jq -r '.result[0].url')
+          TRIGGER_BRANCH=$(echo "$RESPONSE" | jq -r '.result[0].deployment_trigger.metadata.branch')
+
+          # Handle empty deployments
+          if [ "$DEPLOYMENT_ID" == "null" ] || [ -z "$DEPLOYMENT_ID" ]; then
+            printf "\e[91m::FAILED::\e[0m: No deployments found.\n\n"
+            exit 1
+          fi
+          echo "Preview URL: $PREVIEW_URL"
+          echo "Deployment ID: $DEPLOYMENT_ID"
+          echo "Trigger Branch: $TRIGGER_BRANCH"
+
+          # Case-insensitive branch check
+          TRIGGER_BRANCH_LOWER=$(echo "$TRIGGER_BRANCH" | tr '[:upper:]' '[:lower:]')
+          if [ "$TRIGGER_BRANCH_LOWER" = "preview/test" ]; then
+            exit 0
+          else
+            echo "::error::Cannot run tests on branch '$TRIGGER_BRANCH'"
+            printf "\e[91mFAILED\e[0m: Cannot run accurate tests on $TRIGGER_BRANCH.\n\n"
+            exit 1
+          fi
+
+      - name: Delete Testing Deployment
+        run: |
+          # Delete the specified Deployment With ID $DEPLOYMENT_ID
+          DELRESPONSE=$(curl "https://api.cloudflare.com/client/v4/accounts/${{ secrets.CLOUDFLARE_ACCOUNT_ID }}/pages/projects/${{ secrets.CLOUDFLARE_PAGES_PROJECT }}/deployments/${{ steps.get-deployment.outputs.deployment_id }}?force=true"  \
+            -X DELETE \
+            -H "X-Auth-Email: ${{ secrets.CLOUDFLARE_EMAIL }}" \
+            -H "X-Auth-Key: ${{ secrets.CLOUDFLARE_API_TOKEN }}")
+          echo "$DELRESPONSE" | jq
