@@ -57,25 +57,25 @@ type D1AdultMenuDataRawHelper = (
 
 type D1AdultMenuDataRaw = ReturnType<D1AdultMenuDataRawHelper>;
 
+export type IdName = { id?: number; name: string };
+
 export interface CurrentData {
-  breeders: IdName[];
-  certificateNames: IdName[];
-  litterNames: IdName[];
-  motherNames: IdName[];
-  fatherNames: IdName[];
+  breederIdNames: IdName[];
+  certificateIdNames: IdName[];
+  litterIdNames: IdName[];
+  motherIdNames: IdName[];
+  fatherIdNames: IdName[];
 }
 
 export const CURRENT_DATA = {
-  breeders: "breeders",
-  litterNames: "litterNames",
-  certificateNames: "certificateNames",
-  motherNames: "motherNames",
-  fatherNames: "fatherNames",
+  breederIdNames: "breederIdNames",
+  litterIdNames: "litterIdNames",
+  certificateIdNames: "certificateIdNames",
+  motherIdNames: "motherIdNames",
+  fatherIdNames: "fatherIdNames",
 } as const;
 
 export type CurrentDataKeys = keyof typeof CURRENT_DATA; // Keys in the `CURRENT_DATA`
-
-export type IdName = { id?: number; name: string };
 
 /**Controls the overall state of the SPA Admin Panel*/
 export default class AdminDataHandler extends Statements {
@@ -107,13 +107,13 @@ export default class AdminDataHandler extends Statements {
           `;
 
   constructor() {
-    super()
+    super();
     this.currentData = {
-      breeders: [],
-      certificateNames: [],
-      litterNames: [],
-      motherNames: [],
-      fatherNames: [],
+      breederIdNames: [],
+      certificateIdNames: [],
+      litterIdNames: [],
+      motherIdNames: [],
+      fatherIdNames: [],
     };
   }
 
@@ -121,11 +121,11 @@ export default class AdminDataHandler extends Statements {
     D1: D1Database
   ): Promise<AdminDataHandler["currentData"]> {
     this.currentData = {
-      breeders: await this.getBreeders(D1),
-      certificateNames: await this.getCertificateNames(D1),
-      litterNames: await this.getLitterNames(D1),
-      motherNames: await this.getAdultNames(D1, "F"),
-      fatherNames: await this.getAdultNames(D1, "M"),
+      breederIdNames: await this.getBreederIdNames(D1),
+      certificateIdNames: await this.getCertificateIdNames(D1),
+      litterIdNames: await this.getLitterIdNames(D1),
+      motherIdNames: await this.getAdultIdNames(D1, "F"),
+      fatherIdNames: await this.getAdultIdNames(D1, "M"),
     };
     return this.currentData;
   }
@@ -137,29 +137,48 @@ export default class AdminDataHandler extends Statements {
     IMPORT_handleFormSubmission(currentAdminState, formData);
   }
 
-  async getBreeders(D1: D1Database): Promise<string[]> {
-    const breeders = await D1.prepare(
-      `SELECT breeder FROM Adults GROUP BY breeder`
-    ).raw<[string]>();
-    return breeders.flat();
+  /**
+   * Returns IdName's for breeders.
+   * NOTE: In this case the Id refers to an adult dog that is owned by the breeder.
+   **/
+  async getBreederIdNames(D1: D1Database): Promise<IdName[]> {
+    const breederIdNames = await D1.prepare(
+      `SELECT ${G.breeder}, ${G.id} FROM ${D1T.Adults} GROUP BY ${G.breeder}`
+    )
+      .all<IdName>()
+      .catch(() => {
+        throw new Error("Failed to collect breeder IdNames");
+      })
+      .then((res) => res.results);
+    return breederIdNames;
   }
 
-  async getCertificateNames(D1: D1Database): Promise<string[]> {
-    const certificateNames = await D1.prepare(
-      `SELECT certifications FROM Adults WHERE certifications IS NOT NULL GROUP BY certifications `
-    ).raw<[string]>();
+  /**
+   * Returns IdName's for certificates.
+   * NOTE: In this case the id is always undefined.
+   **/
+  async getCertificateIdNames(D1: D1Database): Promise<IdName[]> {
+    const certificateIdNames = await D1.prepare(
+      `SELECT ${G.certifications} as name FROM ${D1T.Adults} WHERE ${G.certifications} IS NOT NULL GROUP BY ${G.certifications} `
+    )
+      .all<{name: string}>()
+      .catch(() => {
+        throw new Error("Failed to collect certificate IdNames");
+      })
+      .then((res) => res.results);
+
     const equivocalCerts = new Set<string>();
 
     // Ensures that each certificate has a corresponding equivalent as an option.
-    certificateNames.flat().forEach((cert) => {
-      const equivalent = cert.replace("-equivalent", "");
+    certificateIdNames.map((cert) => {
+      const equivalent = cert.name.replace("-equivalent", "");
       equivocalCerts.add(equivalent);
       equivocalCerts.add(equivalent + "-equivalent");
     });
 
     const certs = Array.from(equivocalCerts);
 
-    return certs;
+    return certs.map(cert => ({name: cert}))
   }
 
   /**
@@ -183,11 +202,11 @@ export default class AdminDataHandler extends Statements {
   }
 
   /**
-   * Gets *all* litterNames from the database. Along with their associated
+   * Gets *all* litterIdNames from the database. Along with their associated
    * Id's.  If the litter is not associated with a family, the litter name is
    * "Litter No. {id}"
    **/
-  async getLitterNames(D1: D1Database): Promise<IdName[]> {
+  async getLitterIdNames(D1: D1Database): Promise<IdName[]> {
     const queriedLitters = await D1.prepare(this.getLitterQuery())
       .all<{
         id: number;
@@ -228,10 +247,10 @@ export default class AdminDataHandler extends Statements {
   }
 
   /**
-   * Gets *all* adultNames from the database. Along with their associated Id's
+   * Gets *all* adultIdNames from the database. Along with their associated Id's
    * Along with their associated Id's.
    **/
-  async getAdultNames(
+  async getAdultIdNames(
     D1: D1Database,
     parentRole: D1Schema["Dogs"][typeof G.gender]
   ): Promise<IdName[]> {
