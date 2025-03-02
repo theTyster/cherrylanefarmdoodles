@@ -4,6 +4,10 @@ export const runtime = "edge";
 // Utilities
 import FamilyOption from "@/components/dog-data-panel/components/refreshable-options";
 
+// Components
+import FormInput from "@/components/dog-data-panel/components/form-input";
+import { LitterSelect } from "@/components/dog-data-panel/components/unstableData-select";
+
 function FamilyForm() {
   return (
     <>
@@ -31,10 +35,16 @@ function FamilyForm() {
         the planning stages.
       </p>
 
-      <FamilyOption whichOptions='parents' />
+      <FormInput label={"Mother"}>
+        <FamilyOption whichOptions={"motherIdNames"} />
+      </FormInput>
+      <FormInput label={"Father"}>
+        <FamilyOption whichOptions={"fatherIdNames"} />
+      </FormInput>
 
-      <FamilyOption whichOptions='litters' />
-
+      <FormInput label={"Litter"}>
+        <LitterSelect />
+      </FormInput>
     </>
   );
 }
