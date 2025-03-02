@@ -21,7 +21,7 @@ function LitterForm() {
   const [hasDueDate, setHasDueDate] = useState(false);
   const [hasBirthday, setHasBirthday] = useState(false);
 
-  const whichOptions = CURRENT_DATA['litterNames'];
+  const whichOptions = CURRENT_DATA['litterIdNames'];
   return (
     <>
       <h3>Select a litter to modify.</h3>
