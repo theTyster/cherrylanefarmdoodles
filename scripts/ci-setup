@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+function envsetup {
+if ! [ -e "env/bin/act" ]; then
+  curl --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/nektos/act/master/install.sh | sudo bash
+  sudo chown -R "$USER":"$USER" bin
+  if ! [ -e "env" ]; then
+    mkdir env
+    touch actions.secrets;
+      { 
+        echo "CLOUDFLARE_API_TOKEN:"; 
+        echo "CLOUDFLARE_ACCOUNT_ID:"; 
+        echo "CLOUDFLARE_PAGES_PROJECT:"; 
+      } >> actions.secrets;
+  fi
+  mv bin "env"
+fi
+}
+
+envsetup;
