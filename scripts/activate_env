@@ -1,0 +1,62 @@
+#!/usr/bin/env bash
+
+function wr {
+  npx wrangler "$@";
+}
+
+######
+# D1 #
+######
+
+function d1 {
+  npx wrangler d1 "$@";
+}
+
+function d1l {
+  npx wrangler d1 execute "$2" -e "$1" --local --command="$*";
+}
+
+function d1r {
+  npx wrangler d1 execute "$2" -e "$1" --remote --command="$*";
+}
+
+function migrate {
+  npx wrangler d1 execute "$2" -e "$1" --local --command="DROP TABLE IF EXISTS d1_migrations";
+  npx wrangler d1 migrations apply "$2" --local;
+  npm run kv-clear-local;
+}
+
+function migrate-remote {
+  npx wrangler d1 execute "$2" -e "$1" --remote --command="DROP TABLE IF EXISTS d1_migrations";
+  npx wrangler d1 migrations apply "$2" --remote;
+  npm run kv-clear;
+  npm run kv-clear-local;
+}
+
+######
+# R2 #
+######
+
+function r2 {
+  npx wrangler r2 "$@";
+}
+
+function r2o {
+  npx wrangler r2 object "$1" cherrylanefarmpics-prev/"$*";
+}
+
+function r2lg {
+  npx wrangler r2 object get --local -p cherrylanefarmpics-prev/"$*";
+}
+
+function r2lp {
+  npx wrangler r2 object put --local cherrylanefarmpics-prev/"$1" --cl 'en-us' --file="$1";
+}
+
+function r2rg {
+  npx wrangler r2 object get -p cherrylanefarmpics-prev/"$*";
+}
+
+function r2rp {
+  npx wrangler r2 object put cherrylanefarmpics-prev/"$1" --cl 'en-us' --file="$1";
+}
