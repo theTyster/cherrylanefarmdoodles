@@ -23,11 +23,19 @@ jobs:
         with:
           node-version: '20.18.1'
 
-      - name: Install dependencies
+      - name: Install Ubuntu Dependencies
         run: |
+          RELEASE=$( lsb_release -rs | cut -d '.' -f1 )
           sudo apt-get update
-          sudo apt-get install -y libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libnss3 libxss1 libasound2 libxtst6 xauth xvfb
-          npm ci
+          if [ "$RELEASE" -gt 23 ];
+            then
+            sudo apt-get install -y libgtk2.0-0t64 libgtk-3-0t64 libgbm-dev libnotify-dev libnss3 libxss1 libasound2t64 libxtst6 xauth xvfb
+            else
+            sudo apt-get install -y libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libnss3 libxss1 libasound2 libxtst6 xauth xvfb
+          fi
+
+      - name: Clean Install the Project
+        run: npm ci
 
       - name: Deploy project
         run: npm run deploy
