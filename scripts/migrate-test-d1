@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# Ensure that this script allows for testing with the isolated
+# testing database both locally and in the github actions
+# environment.
+npx wrangler d1 execute "dogsDB" -e "preview" --local --command="DROP TABLE IF EXISTS d1_migrations";
+npx wrangler d1 migrations apply "dogsDB" --local;
+npm run kv-clear-local;
