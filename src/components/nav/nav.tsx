@@ -164,7 +164,7 @@ function NavMenu({
             await this.tweenNav({
               top: 0,
               height,
-              duration: navCSS["transitionLong"],
+              duration: navCSS["transitionFancy"],
             });
           await this.tweenNav({
             bottom: 0,
